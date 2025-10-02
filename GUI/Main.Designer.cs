@@ -34,7 +34,11 @@
             this.tpReport = new System.Windows.Forms.TabPage();
             this.tpSystem = new System.Windows.Forms.TabPage();
             this.pnContent = new Guna.UI2.WinForms.Guna2Panel();
+            this.btnCapNhatTTNV = new Guna.UI2.WinForms.Guna2Button();
+            this.btnTaoKyLuat = new Guna.UI2.WinForms.Guna2Button();
+            this.btnTaoDanhGiaHieuSuat = new Guna.UI2.WinForms.Guna2Button();
             this.tcMenu.SuspendLayout();
+            this.tpHome.SuspendLayout();
             this.SuspendLayout();
             // 
             // tcMenu
@@ -72,6 +76,9 @@
             // tpHome
             // 
             this.tpHome.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+            this.tpHome.Controls.Add(this.btnTaoDanhGiaHieuSuat);
+            this.tpHome.Controls.Add(this.btnTaoKyLuat);
+            this.tpHome.Controls.Add(this.btnCapNhatTTNV);
             this.tpHome.ForeColor = System.Drawing.Color.Black;
             this.tpHome.Location = new System.Drawing.Point(4, 34);
             this.tpHome.Name = "tpHome";
@@ -119,6 +126,51 @@
             this.pnContent.Size = new System.Drawing.Size(800, 327);
             this.pnContent.TabIndex = 1;
             // 
+            // btnCapNhatTTNV
+            // 
+            this.btnCapNhatTTNV.DisabledState.BorderColor = System.Drawing.Color.DarkGray;
+            this.btnCapNhatTTNV.DisabledState.CustomBorderColor = System.Drawing.Color.DarkGray;
+            this.btnCapNhatTTNV.DisabledState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(169)))), ((int)(((byte)(169)))), ((int)(((byte)(169)))));
+            this.btnCapNhatTTNV.DisabledState.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(141)))), ((int)(((byte)(141)))), ((int)(((byte)(141)))));
+            this.btnCapNhatTTNV.Font = new System.Drawing.Font("Segoe UI", 9F);
+            this.btnCapNhatTTNV.ForeColor = System.Drawing.Color.White;
+            this.btnCapNhatTTNV.Location = new System.Drawing.Point(19, 17);
+            this.btnCapNhatTTNV.Name = "btnCapNhatTTNV";
+            this.btnCapNhatTTNV.Size = new System.Drawing.Size(133, 45);
+            this.btnCapNhatTTNV.TabIndex = 0;
+            this.btnCapNhatTTNV.Text = "Cập nhật Thông Tin Nhân Viên";
+            this.btnCapNhatTTNV.Click += new System.EventHandler(this.btnCapNhatTTNV_Click);
+            // 
+            // btnTaoKyLuat
+            // 
+            this.btnTaoKyLuat.DisabledState.BorderColor = System.Drawing.Color.DarkGray;
+            this.btnTaoKyLuat.DisabledState.CustomBorderColor = System.Drawing.Color.DarkGray;
+            this.btnTaoKyLuat.DisabledState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(169)))), ((int)(((byte)(169)))), ((int)(((byte)(169)))));
+            this.btnTaoKyLuat.DisabledState.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(141)))), ((int)(((byte)(141)))), ((int)(((byte)(141)))));
+            this.btnTaoKyLuat.Font = new System.Drawing.Font("Segoe UI", 9F);
+            this.btnTaoKyLuat.ForeColor = System.Drawing.Color.White;
+            this.btnTaoKyLuat.Location = new System.Drawing.Point(317, 17);
+            this.btnTaoKyLuat.Name = "btnTaoKyLuat";
+            this.btnTaoKyLuat.Size = new System.Drawing.Size(133, 45);
+            this.btnTaoKyLuat.TabIndex = 1;
+            this.btnTaoKyLuat.Text = "Tạo kỷ luật";
+            this.btnTaoKyLuat.Click += new System.EventHandler(this.btnTaoKyLuat_Click);
+            // 
+            // btnTaoDanhGiaHieuSuat
+            // 
+            this.btnTaoDanhGiaHieuSuat.DisabledState.BorderColor = System.Drawing.Color.DarkGray;
+            this.btnTaoDanhGiaHieuSuat.DisabledState.CustomBorderColor = System.Drawing.Color.DarkGray;
+            this.btnTaoDanhGiaHieuSuat.DisabledState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(169)))), ((int)(((byte)(169)))), ((int)(((byte)(169)))));
+            this.btnTaoDanhGiaHieuSuat.DisabledState.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(141)))), ((int)(((byte)(141)))), ((int)(((byte)(141)))));
+            this.btnTaoDanhGiaHieuSuat.Font = new System.Drawing.Font("Segoe UI", 9F);
+            this.btnTaoDanhGiaHieuSuat.ForeColor = System.Drawing.Color.White;
+            this.btnTaoDanhGiaHieuSuat.Location = new System.Drawing.Point(168, 17);
+            this.btnTaoDanhGiaHieuSuat.Name = "btnTaoDanhGiaHieuSuat";
+            this.btnTaoDanhGiaHieuSuat.Size = new System.Drawing.Size(133, 45);
+            this.btnTaoDanhGiaHieuSuat.TabIndex = 2;
+            this.btnTaoDanhGiaHieuSuat.Text = "Tao đánh giá hiệu suất";
+            this.btnTaoDanhGiaHieuSuat.Click += new System.EventHandler(this.btnTaoDanhGiaHieuSuat_Click);
+            // 
             // Main
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -131,6 +183,7 @@
             this.Text = "Phần mềm quản lý nhân sự";
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             this.tcMenu.ResumeLayout(false);
+            this.tpHome.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -143,6 +196,9 @@
         private System.Windows.Forms.TabPage tpReport;
         private System.Windows.Forms.TabPage tpSystem;
         private Guna.UI2.WinForms.Guna2Panel pnContent;
+        private Guna.UI2.WinForms.Guna2Button btnCapNhatTTNV;
+        private Guna.UI2.WinForms.Guna2Button btnTaoDanhGiaHieuSuat;
+        private Guna.UI2.WinForms.Guna2Button btnTaoKyLuat;
     }
 }
 

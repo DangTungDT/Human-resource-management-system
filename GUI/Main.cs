@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Guna.UI2.WinForms;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -15,6 +16,28 @@ namespace GUI
         public Main()
         {
             InitializeComponent();
+        }
+
+        private void LoadControl(UserControl uc)
+        {
+            pnContent.Controls.Clear();   // xóa control cũ
+            uc.Dock = DockStyle.Fill;     // cho UserControl chiếm hết panel
+            pnContent.Controls.Add(uc);   // thêm control mới
+        }
+
+        private void btnCapNhatTTNV_Click(object sender, EventArgs e)
+        {
+            LoadControl(new CapNhatThongTinNV());
+        }
+
+        private void btnTaoDanhGiaHieuSuat_Click(object sender, EventArgs e)
+        {
+            LoadControl(new TaoDanhGiaHieuSuat());
+        }
+
+        private void btnTaoKyLuat_Click(object sender, EventArgs e)
+        {
+            LoadControl(new TaoKyLuat());
         }
     }
 }

@@ -52,6 +52,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CapNhatThongTinNV.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="CapNhatThongTinNV.Designer.cs">
+      <DependentUpon>CapNhatThongTinNV.cs</DependentUpon>
+    </Compile>
     <Compile Include="Main.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -60,6 +66,21 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TaoDanhGiaHieuSuat.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="TaoDanhGiaHieuSuat.Designer.cs">
+      <DependentUpon>TaoDanhGiaHieuSuat.cs</DependentUpon>
+    </Compile>
+    <Compile Include="TaoKyLuat.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="TaoKyLuat.Designer.cs">
+      <DependentUpon>TaoKyLuat.cs</DependentUpon>
+    </Compile>
+    <EmbeddedResource Include="CapNhatThongTinNV.resx">
+      <DependentUpon>CapNhatThongTinNV.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Main.resx">
       <DependentUpon>Main.cs</DependentUpon>
     </EmbeddedResource>
@@ -72,6 +93,9 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="TaoDanhGiaHieuSuat.resx">
+      <DependentUpon>TaoDanhGiaHieuSuat.cs</DependentUpon>
+    </EmbeddedResource>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>

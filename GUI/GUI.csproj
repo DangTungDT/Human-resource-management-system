@@ -39,6 +39,7 @@
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Design" />
+    <Reference Include="System.DirectoryServices" />
     <Reference Include="System.Management" />
     <Reference Include="System.Web" />
     <Reference Include="System.Xml.Linq" />
@@ -52,16 +53,52 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ButtonFeatureHomeComponent.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="ButtonFeatureHomeComponent.Designer.cs">
+      <DependentUpon>ButtonFeatureHomeComponent.cs</DependentUpon>
+    </Compile>
+    <Compile Include="CapNhatMatkhau.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="CapNhatMatkhau.Designer.cs">
+      <DependentUpon>CapNhatMatkhau.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DuyetNghiPhep.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="DuyetNghiPhep.Designer.cs">
+      <DependentUpon>DuyetNghiPhep.cs</DependentUpon>
+    </Compile>
     <Compile Include="Main.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Main.Designer.cs">
       <DependentUpon>Main.cs</DependentUpon>
     </Compile>
+    <Compile Include="NghiPhep.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="NghiPhep.Designer.cs">
+      <DependentUpon>NghiPhep.cs</DependentUpon>
+    </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="ButtonFeatureHomeComponent.resx">
+      <DependentUpon>ButtonFeatureHomeComponent.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CapNhatMatkhau.resx">
+      <DependentUpon>CapNhatMatkhau.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DuyetNghiPhep.resx">
+      <DependentUpon>DuyetNghiPhep.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Main.resx">
       <DependentUpon>Main.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="NghiPhep.resx">
+      <DependentUpon>NghiPhep.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -71,6 +108,7 @@
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
     </Compile>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
@@ -95,6 +133,12 @@
       <Project>{8399077e-d08d-4538-b02b-e04cbc462b4a}</Project>
       <Name>DTO</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="image\paper.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="image\key.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

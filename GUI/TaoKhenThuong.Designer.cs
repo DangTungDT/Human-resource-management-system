@@ -1,6 +1,6 @@
 ﻿namespace GUI
 {
-    partial class CapNhatThongTinNV
+    partial class TaoKhenThuong
     {
         /// <summary> 
         /// Required designer variable.
@@ -28,17 +28,8 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.SuspendLayout();
-            // 
-            // CapNhatThongTinNV
-            // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            components = new System.ComponentModel.Container();
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
-            this.Name = "CapNhatThongTinNV";
-            this.Size = new System.Drawing.Size(600, 266);
-            this.ResumeLayout(false);
-
         }
 
         #endregion

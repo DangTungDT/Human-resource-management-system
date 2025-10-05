@@ -13,7 +13,13 @@ namespace GUI
 {
     public partial class TaoKyLuat : UserControl
     {
-        private Guna2DataGridView dgv;
+        // ===== BIẾN TOÀN CỤC =====
+        private Guna2ComboBox cbEmployee, cbType;
+        private Guna2TextBox txtReason;
+        private Guna2DateTimePicker dtDiscipline;
+        private Guna2Button btnSave;
+        private Guna2DataGridView dgv; // Bảng hiển thị kỷ luật
+
         public TaoKyLuat()
         {
             InitializeComponent();
@@ -24,60 +30,74 @@ namespace GUI
         {
             this.Dock = DockStyle.Fill;
 
+            // ===== TIÊU ĐỀ =====
             Label lblTitle = new Label()
             {
                 Text = "Kỷ luật nhân viên",
-                Font = new System.Drawing.Font("Segoe UI", 14, System.Drawing.FontStyle.Bold),
+                Font = new Font("Segoe UI", 14, FontStyle.Bold),
                 Dock = DockStyle.Top,
                 ForeColor = Color.DarkBlue,
                 AutoSize = true
             };
 
-            // Input control
-            var cbEmployee = new Guna2ComboBox() { Dock = DockStyle.Fill, DropDownStyle = ComboBoxStyle.DropDownList };
+            // ===== INPUT CONTROL =====
+            cbEmployee = new Guna2ComboBox() { Dock = DockStyle.Fill, DropDownStyle = ComboBoxStyle.DropDownList };
             cbEmployee.Items.AddRange(new object[] { "NV001 - Nguyễn Văn A", "NV002 - Trần Thị B" });
 
-            var dtDiscipline = new Guna2DateTimePicker()
+            dtDiscipline = new Guna2DateTimePicker()
             {
                 Format = DateTimePickerFormat.Custom,
                 CustomFormat = "dd/MM/yyyy",
-                Dock = DockStyle.Fill
+                Dock = DockStyle.Fill,
+                //FillColor = Color.White,                 // nền trắng
+                //ForeColor = Color.LightSkyBlue,         // chữ xanh biển nhạt
+                //BorderColor = Color.Black,          // viền nhạt hơn
+                //BorderRadius = 5
             };
 
-            var cbType = new Guna2ComboBox() { Dock = DockStyle.Fill, DropDownStyle = ComboBoxStyle.DropDownList };
+            cbType = new Guna2ComboBox() { Dock = DockStyle.Fill, DropDownStyle = ComboBoxStyle.DropDownList };
             cbType.Items.AddRange(new object[] { "Khiển trách", "Cảnh cáo", "Đình chỉ", "Sa thải" });
             cbType.SelectedIndex = 0;
 
-            var txtReason = new Guna2TextBox() { PlaceholderText = "Lý do", Dock = DockStyle.Fill };
+            txtReason = new Guna2TextBox() { PlaceholderText = "Lý do", Dock = DockStyle.Fill };
 
-            var btnSave = new Guna2Button() { Text = "Lưu kỷ luật", Dock = DockStyle.Right, Width = 150 };
+            btnSave = new Guna2Button() { Text = "Lưu kỷ luật", Width = 150, Anchor = AnchorStyles.Right };
+            btnSave.Click += BtnSave_Click;
 
-            var dgv = new Guna2DataGridView()
+            // ===== DATAGRIDVIEW =====
+            dgv = new Guna2DataGridView()
             {
                 Dock = DockStyle.Fill,
-                AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill
+                AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill,
+                SelectionMode = DataGridViewSelectionMode.FullRowSelect,
+                MultiSelect = false
             };
             dgv.Columns.Add("Employee", "Nhân viên");
             dgv.Columns.Add("Date", "Ngày");
             dgv.Columns.Add("Type", "Hình thức");
             dgv.Columns.Add("Reason", "Lý do");
 
-            btnSave.Click += (s, e) =>
-            {
-                dgv.Rows.Add(cbEmployee.Text, dtDiscipline.Value.ToShortDateString(), cbType.Text, txtReason.Text);
-            };
+            // commit: thêm cột nút xóa
+            DataGridViewButtonColumn btnDelete = new DataGridViewButtonColumn();
+            btnDelete.HeaderText = "Xóa";
+            btnDelete.Text = "Xóa";
+            btnDelete.UseColumnTextForButtonValue = true;
+            dgv.Columns.Add(btnDelete);
 
-            // TableLayoutPanel cho form nhập
+            dgv.CellClick += Dgv_CellClick; // commit: click row để load dữ liệu hoặc xóa
+
+            // ===== TABLE LAYOUT FORM NHẬP =====
             TableLayoutPanel formLayout = new TableLayoutPanel()
             {
                 Dock = DockStyle.Fill,
                 ColumnCount = 3,
                 RowCount = 5,
-                Padding = new Padding(20)
+                Padding = new Padding(10, 10, 0, 90),
+                AutoScroll = true
             };
-            formLayout.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 10));
-            formLayout.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 90));
-            formLayout.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 20));
+            formLayout.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 07));
+            formLayout.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 80));
+            formLayout.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 13));
 
             formLayout.Controls.Add(new Label() { Text = "Nhân viên:", Anchor = AnchorStyles.Left, AutoSize = true, ForeColor = Color.DarkBlue }, 0, 0);
             formLayout.Controls.Add(cbEmployee, 1, 0);
@@ -93,7 +113,7 @@ namespace GUI
 
             formLayout.Controls.Add(btnSave, 1, 4);
 
-            // Layout tổng
+            // ===== LAYOUT TỔNG =====
             TableLayoutPanel layout = new TableLayoutPanel()
             {
                 Dock = DockStyle.Fill,
@@ -109,5 +129,61 @@ namespace GUI
             this.Controls.Add(layout);
             this.Controls.Add(lblTitle);
         }
+
+        // ===== SỰ KIỆN LƯU =====
+        private void BtnSave_Click(object sender, EventArgs e)
+        {
+            if (dgv.SelectedRows.Count > 0) // commit: nếu đã chọn row -> cập nhật
+            {
+                DataGridViewRow row = dgv.SelectedRows[0];
+                row.Cells["Employee"].Value = cbEmployee.Text;
+                row.Cells["Date"].Value = dtDiscipline.Value.ToShortDateString();
+                row.Cells["Type"].Value = cbType.Text;
+                row.Cells["Reason"].Value = txtReason.Text;
+                MessageBox.Show("Đã cập nhật thông tin kỷ luật!");
+            }
+            else // commit: thêm mới
+            {
+                dgv.Rows.Add(cbEmployee.Text, dtDiscipline.Value.ToShortDateString(), cbType.Text, txtReason.Text);
+                MessageBox.Show("Đã lưu thông tin kỷ luật!");
+            }
+
+            ClearForm(); // commit: xóa form sau khi lưu
+        }
+
+        // ===== CLICK VÀO DGV =====
+        private void Dgv_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex >= 0)
+            {
+                if (dgv.Columns[e.ColumnIndex] is DataGridViewButtonColumn) // commit: xóa row
+                {
+                    if (MessageBox.Show("Bạn có chắc muốn xóa kỷ luật này?", "Xác nhận", MessageBoxButtons.YesNo) == DialogResult.Yes)
+                    {
+                        dgv.Rows.RemoveAt(e.RowIndex);
+                        ClearForm();
+                    }
+                    return;
+                }
+
+                // commit: click row -> load dữ liệu lên form để sửa
+                DataGridViewRow row = dgv.Rows[e.RowIndex];
+                cbEmployee.Text = row.Cells["Employee"].Value?.ToString();
+                dtDiscipline.Value = DateTime.TryParse(row.Cells["Date"].Value?.ToString(), out DateTime dt) ? dt : DateTime.Now;
+                cbType.Text = row.Cells["Type"].Value?.ToString();
+                txtReason.Text = row.Cells["Reason"].Value?.ToString();
+            }
+        }
+
+        // ===== HÀM XÓA FORM =====
+        private void ClearForm()
+        {
+            cbEmployee.SelectedIndex = -1;
+            dtDiscipline.Value = DateTime.Now;
+            cbType.SelectedIndex = 0;
+            txtReason.Clear();
+            dgv.ClearSelection(); // commit: bỏ chọn row
+        }
     }
 }
+

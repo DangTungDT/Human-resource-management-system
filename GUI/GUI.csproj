@@ -72,6 +72,12 @@
     <Compile Include="TaoDanhGiaHieuSuat.Designer.cs">
       <DependentUpon>TaoDanhGiaHieuSuat.cs</DependentUpon>
     </Compile>
+    <Compile Include="TaoKhenThuong.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="TaoKhenThuong.Designer.cs">
+      <DependentUpon>TaoKhenThuong.cs</DependentUpon>
+    </Compile>
     <Compile Include="TaoKyLuat.cs">
       <SubType>UserControl</SubType>
     </Compile>

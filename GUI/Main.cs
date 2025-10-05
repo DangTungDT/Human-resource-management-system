@@ -39,5 +39,10 @@ namespace GUI
         {
             LoadControl(new TaoKyLuat());
         }
+
+        private void btnTaoKhenThuong_Click(object sender, EventArgs e)
+        {
+            LoadControl(new TaoKhenThuong());
+        }
     }
 }

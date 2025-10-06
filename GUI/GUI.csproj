@@ -52,6 +52,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CapNhatThongTinRieng.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="CapNhatThongTinRieng.Designer.cs">
+      <DependentUpon>CapNhatThongTinRieng.cs</DependentUpon>
+    </Compile>
     <Compile Include="CapNhatThongTinNV.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -84,6 +90,21 @@
     <Compile Include="TaoKyLuat.Designer.cs">
       <DependentUpon>TaoKyLuat.cs</DependentUpon>
     </Compile>
+    <Compile Include="XemNghiPhep.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="XemNghiPhep.Designer.cs">
+      <DependentUpon>XemNghiPhep.cs</DependentUpon>
+    </Compile>
+    <Compile Include="XemThongTinCaNhan.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="XemThongTinCaNhan.Designer.cs">
+      <DependentUpon>XemThongTinCaNhan.cs</DependentUpon>
+    </Compile>
+    <EmbeddedResource Include="CapNhatThongTinRieng.resx">
+      <DependentUpon>CapNhatThongTinRieng.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="CapNhatThongTinNV.resx">
       <DependentUpon>CapNhatThongTinNV.cs</DependentUpon>
     </EmbeddedResource>
@@ -98,6 +119,7 @@
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
     </Compile>
     <EmbeddedResource Include="TaoDanhGiaHieuSuat.resx">
       <DependentUpon>TaoDanhGiaHieuSuat.cs</DependentUpon>
@@ -125,6 +147,21 @@
       <Project>{8399077e-d08d-4538-b02b-e04cbc462b4a}</Project>
       <Name>DTO</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\delete.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\trash.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\reset.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\arrow.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\user.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

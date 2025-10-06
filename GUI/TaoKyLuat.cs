@@ -8,6 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Xml.Linq;
 
 namespace GUI
 {
@@ -77,14 +78,26 @@ namespace GUI
             dgv.Columns.Add("Type", "Hình thức");
             dgv.Columns.Add("Reason", "Lý do");
 
-            // commit: thêm cột nút xóa
-            DataGridViewButtonColumn btnDelete = new DataGridViewButtonColumn();
-            btnDelete.HeaderText = "Xóa";
-            btnDelete.Text = "Xóa";
-            btnDelete.UseColumnTextForButtonValue = true;
-            dgv.Columns.Add(btnDelete);
+            //// commit: thêm cột nút xóa
+            //DataGridViewButtonColumn btnDelete = new DataGridViewButtonColumn();
+            //btnDelete.Name = "Xoa";
+            //btnDelete.HeaderText = "Xóa";
+            //btnDelete.Text = "Xóa";
+            //btnDelete.UseColumnTextForButtonValue = true;
+            //dgv.Columns.Add(btnDelete);
+            //dgv.CellClick += Dgv_CellClick;     //bắt sự kiện click
 
-            dgv.CellClick += Dgv_CellClick; // commit: click row để load dữ liệu hoặc xóa
+            // ===== CỘT ICON XÓA =====
+            DataGridViewImageColumn colDelete = new DataGridViewImageColumn();
+            colDelete.Name = "Xoa";                     // 👈 BẮT BUỘC
+            colDelete.HeaderText = "Xóa";
+            colDelete.Image = Properties.Resources.delete;
+            colDelete.ImageLayout = DataGridViewImageCellLayout.Zoom;
+            colDelete.Width = 50;
+            dgv.Columns.Add(colDelete);
+            dgv.CellClick += DgvReward_CellClick;     //bắt sự kiện click
+            dgv.CellMouseEnter += dgvReward_CellMouseEnter;  //bắt sự kiện hover
+            dgv.CellMouseLeave += dgvReward_CellMouseLeave;
 
             // ===== TABLE LAYOUT FORM NHẬP =====
             TableLayoutPanel formLayout = new TableLayoutPanel()
@@ -152,26 +165,71 @@ namespace GUI
         }
 
         // ===== CLICK VÀO DGV =====
-        private void Dgv_CellClick(object sender, DataGridViewCellEventArgs e)
-        {
-            if (e.RowIndex >= 0)
-            {
-                if (dgv.Columns[e.ColumnIndex] is DataGridViewButtonColumn) // commit: xóa row
-                {
-                    if (MessageBox.Show("Bạn có chắc muốn xóa kỷ luật này?", "Xác nhận", MessageBoxButtons.YesNo) == DialogResult.Yes)
-                    {
-                        dgv.Rows.RemoveAt(e.RowIndex);
-                        ClearForm();
-                    }
-                    return;
-                }
+        //private void Dgv_CellClick(object sender, DataGridViewCellEventArgs e)
+        //{
+        //    if (e.RowIndex >= 0)
+        //    {
+        //        if (dgv.Columns[e.ColumnIndex] is DataGridViewButtonColumn) // commit: xóa row
+        //        {
+        //            if (MessageBox.Show("Bạn có chắc muốn xóa kỷ luật này?", "Xác nhận", MessageBoxButtons.YesNo) == DialogResult.Yes)
+        //            {
+        //                dgv.Rows.RemoveAt(e.RowIndex);
+        //                ClearForm();
+        //            }
+        //            return;
+        //        }
 
-                // commit: click row -> load dữ liệu lên form để sửa
-                DataGridViewRow row = dgv.Rows[e.RowIndex];
-                cbEmployee.Text = row.Cells["Employee"].Value?.ToString();
-                dtDiscipline.Value = DateTime.TryParse(row.Cells["Date"].Value?.ToString(), out DateTime dt) ? dt : DateTime.Now;
-                cbType.Text = row.Cells["Type"].Value?.ToString();
-                txtReason.Text = row.Cells["Reason"].Value?.ToString();
+        //        // commit: click row -> load dữ liệu lên form để sửa
+        //        DataGridViewRow row = dgv.Rows[e.RowIndex];
+        //        cbEmployee.Text = row.Cells["Employee"].Value?.ToString();
+        //        dtDiscipline.Value = DateTime.TryParse(row.Cells["Date"].Value?.ToString(), out DateTime dt) ? dt : DateTime.Now;
+        //        cbType.Text = row.Cells["Type"].Value?.ToString();
+        //        txtReason.Text = row.Cells["Reason"].Value?.ToString();
+        //    }
+        //}
+
+        private void DgvReward_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            // Bỏ qua header hoặc click ngoài vùng dữ liệu
+            if (e.RowIndex < 0 || e.ColumnIndex < 0)
+                return;
+
+            // Xác định có phải click vào cột icon Xóa không
+            var column = dgv.Columns[e.ColumnIndex];
+            if (column is DataGridViewImageColumn && column.Name == "Xoa")
+            {
+                // Hiện hộp thoại xác nhận
+                var confirm = MessageBox.Show("Bạn có chắc muốn xóa dòng này?", "Xác nhận", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                if (confirm == DialogResult.Yes)
+                {
+                    dgv.Rows.RemoveAt(e.RowIndex);
+                }
+            }
+
+            // commit: click row -> load dữ liệu lên form
+            DataGridViewRow row = dgv.Rows[e.RowIndex];
+            cbEmployee.Text = row.Cells["Employee"].Value?.ToString();
+            dtDiscipline.Value = DateTime.TryParse(row.Cells["Date"].Value?.ToString(), out DateTime dt) ? dt : DateTime.Now;
+            cbType.Text = row.Cells["Type"].Value?.ToString();
+            txtReason.Text = row.Cells["Reason"].Value?.ToString();
+        }
+
+        //icon “đổi màu” khi rê chuột
+        private void dgvReward_CellMouseEnter(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex >= 0 && e.ColumnIndex >= 0 && dgv.Columns[e.ColumnIndex].Name == "Xoa")
+            {
+                dgv.Cursor = Cursors.Hand;
+                dgv.Rows[e.RowIndex].Cells[e.ColumnIndex].Value = Properties.Resources.trash; // icon khi hover
+            }
+        }
+
+        private void dgvReward_CellMouseLeave(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex >= 0 && e.ColumnIndex >= 0 && dgv.Columns[e.ColumnIndex].Name == "Xoa")
+            {
+                dgv.Cursor = Cursors.Default;
+                dgv.Rows[e.RowIndex].Cells[e.ColumnIndex].Value = Properties.Resources.delete; // icon bình thường
             }
         }
 

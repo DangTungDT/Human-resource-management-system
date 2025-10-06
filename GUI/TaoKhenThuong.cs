@@ -67,7 +67,7 @@ namespace GUI
                 ColumnCount = 3,
                 RowCount = 5,
                 Padding = new Padding(10, 10, 0, 90),
-                AutoScroll = true0.
+                AutoScroll = true
             };
             formLayout.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 07));
             formLayout.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 80));
@@ -99,13 +99,26 @@ namespace GUI
             dgvReward.Columns.Add("RewardDate", "Ngày thưởng");
             dgvReward.Columns.Add("Reason", "Lý do");
 
-            // commit: Thêm nút Xóa
-            DataGridViewButtonColumn btnDelete = new DataGridViewButtonColumn();
-            btnDelete.HeaderText = "Xóa";
-            btnDelete.Text = "Xóa";
-            btnDelete.UseColumnTextForButtonValue = true;
-            dgvReward.Columns.Add(btnDelete);
-            dgvReward.CellClick += DgvReward_CellClick;
+            //// commit: Thêm nút Xóa
+            //DataGridViewButtonColumn btnDelete = new DataGridViewButtonColumn();
+            //btnDelete.Name = "Xoa";
+            //btnDelete.HeaderText = "Xóa";
+            //btnDelete.Text = "Xóa";
+            //btnDelete.UseColumnTextForButtonValue = true;
+            //dgvReward.Columns.Add(btnDelete);
+            //dgvReward.CellClick += DgvReward_CellClick; //bắt sự kiện click
+
+            // ===== CỘT ICON XÓA =====
+            DataGridViewImageColumn colDelete = new DataGridViewImageColumn();
+            colDelete.Name = "Xoa";                     // 👈 BẮT BUỘC
+            colDelete.HeaderText = "Xóa";
+            colDelete.Image = Properties.Resources.delete;
+            colDelete.ImageLayout = DataGridViewImageCellLayout.Zoom;
+            colDelete.Width = 50;
+            dgvReward.Columns.Add(colDelete);
+            dgvReward.CellClick += DgvReward_CellClick;     //bắt sự kiện click
+            dgvReward.CellMouseEnter += dgvReward_CellMouseEnter;  //bắt sự kiện hover
+            dgvReward.CellMouseLeave += dgvReward_CellMouseLeave;
 
             // ===== LAYOUT TỔNG CHIA 2 =====
             TableLayoutPanel mainLayout = new TableLayoutPanel()
@@ -149,16 +162,62 @@ namespace GUI
         }
 
         // ===== XỬ LÝ NÚT XÓA TRONG DATAGRIDVIEW =====
+        //private void DgvReward_CellClick(object sender, DataGridViewCellEventArgs e)
+        //{
+        //    if (e.RowIndex >= 0 && e.ColumnIndex == dgvReward.Columns["Xoa"].Index)
+        //    {
+        //        if (MessageBox.Show("Bạn có chắc muốn xóa dòng này?", "Xác nhận", MessageBoxButtons.YesNo) == DialogResult.Yes)
+        //        {
+        //            dgvReward.Rows.RemoveAt(e.RowIndex);
+        //        }
+        //    }
+
+        //    //cách 2 : không phụ thuộc vào tên cột
+        //    //if (e.RowIndex >= 0 && dgvReward.Columns[e.ColumnIndex] is DataGridViewButtonColumn)
+        //    //{
+        //    //    dgvReward.Rows.RemoveAt(e.RowIndex);
+        //    //}
+        //}
+
+        // ===== XỬ LÝ NÚT XÓA ICON TRONG DATAGRIDVIEW =====
         private void DgvReward_CellClick(object sender, DataGridViewCellEventArgs e)
         {
-            if (e.RowIndex >= 0 && e.ColumnIndex == dgvReward.Columns["Xóa"].Index)
+            // Bỏ qua header hoặc click ngoài vùng dữ liệu
+            if (e.RowIndex < 0 || e.ColumnIndex < 0)
+                return;
+
+            // Xác định có phải click vào cột icon Xóa không
+            var column = dgvReward.Columns[e.ColumnIndex];
+            if (column is DataGridViewImageColumn && column.Name == "Xoa")
             {
-                if (MessageBox.Show("Bạn có chắc muốn xóa dòng này?", "Xác nhận", MessageBoxButtons.YesNo) == DialogResult.Yes)
+                // Hiện hộp thoại xác nhận
+                var confirm = MessageBox.Show("Bạn có chắc muốn xóa dòng này?", "Xác nhận", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                if (confirm == DialogResult.Yes)
                 {
                     dgvReward.Rows.RemoveAt(e.RowIndex);
                 }
             }
         }
+
+        //icon “đổi màu” khi rê chuột
+        private void dgvReward_CellMouseEnter(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex >= 0 && e.ColumnIndex >= 0 && dgvReward.Columns[e.ColumnIndex].Name == "Xoa")
+            {
+                dgvReward.Cursor = Cursors.Hand;
+                dgvReward.Rows[e.RowIndex].Cells[e.ColumnIndex].Value = Properties.Resources.trash; // icon khi hover
+            }
+        }
+
+        private void dgvReward_CellMouseLeave(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex >= 0 && e.ColumnIndex >= 0 && dgvReward.Columns[e.ColumnIndex].Name == "Xoa")
+            {
+                dgvReward.Cursor = Cursors.Default;
+                dgvReward.Rows[e.RowIndex].Cells[e.ColumnIndex].Value = Properties.Resources.delete; // icon bình thường
+            }
+        }
+
     }
 
 }

@@ -13,6 +13,7 @@ namespace GUI
 {
     public partial class Main : Form
     {
+        string idNV = "GD00000001";
         public Main()
         {
             InitializeComponent();
@@ -43,6 +44,21 @@ namespace GUI
         private void btnTaoKhenThuong_Click(object sender, EventArgs e)
         {
             LoadControl(new TaoKhenThuong());
+        }
+
+        private void btnXemNghiPhep_Click(object sender, EventArgs e)
+        {
+            LoadControl(new XemNghiPhep());
+        }
+
+        private void btnXemThongTinCaNhan_Click(object sender, EventArgs e)
+        {
+            LoadControl(new XemThongTinCaNhan(idNV));
+        }
+
+        private void guna2Button1_Click(object sender, EventArgs e)
+        {
+            LoadControl(new CapNhatThongTinRieng(idNV));
         }
     }
 }

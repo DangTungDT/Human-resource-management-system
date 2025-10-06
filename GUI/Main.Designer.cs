@@ -130,6 +130,7 @@
             this.Name = "Main";
             this.Text = "Phần mềm quản lý nhân sự";
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
+            this.Load += new System.EventHandler(this.Main_Load);
             this.tcMenu.ResumeLayout(false);
             this.ResumeLayout(false);
 

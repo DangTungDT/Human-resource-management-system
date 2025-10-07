@@ -28,7 +28,7 @@ namespace GUI
 
         private void Main_Load(object sender, EventArgs e)
         {
-            OpenChildControl(new ucDuyenTuyenDung());
+            OpenChildControl(new ucChiTietLuong());
         }
     }
 }

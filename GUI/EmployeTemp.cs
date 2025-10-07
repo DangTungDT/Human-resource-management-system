@@ -18,4 +18,18 @@ namespace GUI
         public string Title { get; set; }
         public string Status { get; set; }
     }
+
+    public class PayPeriod
+    {
+        public DateTime StartDate { get; set; }
+        public DateTime EndDate { get; set; }
+        public string Status { get; set;}
+    }
+
+    public class SalaryDetail
+    {
+        public DateTime PayPeriod { get; set; }
+        public string NameEmployee {  get; set; }
+        public string Status { get; set; }
+    }
 }

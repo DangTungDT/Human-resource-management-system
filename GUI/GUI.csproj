@@ -73,11 +73,23 @@
     <Compile Include="ucChamCongQuanLy.Designer.cs">
       <DependentUpon>ucChamCongQuanLy.cs</DependentUpon>
     </Compile>
+    <Compile Include="ucChiTietLuong.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="ucChiTietLuong.Designer.cs">
+      <DependentUpon>ucChiTietLuong.cs</DependentUpon>
+    </Compile>
     <Compile Include="ucDuyenTuyenDung.cs">
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="ucDuyenTuyenDung.Designer.cs">
       <DependentUpon>ucDuyenTuyenDung.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ucKyLuong.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="ucKyLuong.Designer.cs">
+      <DependentUpon>ucKyLuong.cs</DependentUpon>
     </Compile>
     <Compile Include="ucTaoTuyenDung.cs">
       <SubType>UserControl</SubType>
@@ -103,8 +115,14 @@
     <EmbeddedResource Include="ucChamCongQuanLy.resx">
       <DependentUpon>ucChamCongQuanLy.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="ucChiTietLuong.resx">
+      <DependentUpon>ucChiTietLuong.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="ucDuyenTuyenDung.resx">
       <DependentUpon>ucDuyenTuyenDung.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ucKyLuong.resx">
+      <DependentUpon>ucKyLuong.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="ucTaoTuyenDung.resx">
       <DependentUpon>ucTaoTuyenDung.cs</DependentUpon>

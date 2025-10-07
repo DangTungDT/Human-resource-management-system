@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Guna.UI2.WinForms;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -14,6 +15,7 @@ namespace GUI
     {
         private Dictionary<string, UserControl> _userControls = new Dictionary<string, UserControl>();
 
+        string idNV = "GD00000001";
         public Main()
         {
             InitializeComponent();
@@ -49,8 +51,8 @@ namespace GUI
 
         public void ChildFormMain(UserControl user)
         {
-            pnMain.Controls.Clear();
-            pnMain.Controls.Add(user);
+            pnContent.Controls.Clear();
+            pnContent.Controls.Add(user);
 
             user.BringToFront();
             user.Dock = DockStyle.Fill;
@@ -70,12 +72,12 @@ namespace GUI
             _userControls["ButtonFeatureHomeComponent"] = new ButtonFeatureHomeComponent(tpHome);
             _userControls["ButtonFeatureViewComponent"] = new ButtonFeatureViewComponent(tpView);
 
-            // Them tat ca UserControl vao pnMain nhung an di
+            // Them tat ca UserControl vao pnContent nhung an di
             foreach (var control in _userControls.Values)
             {
                 control.Visible = false;
                 control.Dock = DockStyle.Fill;
-                pnMain.Controls.Add(control);
+                pnContent.Controls.Add(control);
             }
 
             ShowUserControl("ButtonFeatureHomeComponent");
@@ -85,7 +87,7 @@ namespace GUI
         // Chỉ khởi tạo khi cần
         public void ShowUserControl(string controlName)
         {
-            pnMain.SuspendLayout();
+            pnContent.SuspendLayout();
             try
             {
                 if (!_userControls.ContainsKey(controlName))
@@ -129,7 +131,7 @@ namespace GUI
                     {
                         user.Dock = DockStyle.Fill;
                         _userControls[controlName] = user;
-                        pnMain.Controls.Add(user);
+                        pnContent.Controls.Add(user);
                     }
                 }
 
@@ -146,7 +148,7 @@ namespace GUI
             }
             finally
             {
-                pnMain.ResumeLayout();
+                pnContent.ResumeLayout();
 
             }
         }
@@ -174,6 +176,85 @@ namespace GUI
             ChildFormComponent(tpHome, "ButtonFeatureHomeComponent");
             ChildFormComponent(tpView, "ButtonFeatureViewComponent");
 
+        }
+
+        private void LoadControl(UserControl uc)
+        {
+            pnContent.Controls.Clear();   // xóa control cũ
+            uc.Dock = DockStyle.Fill;     // cho UserControl chiếm hết panel
+            pnContent.Controls.Add(uc);   // thêm control mới
+        }
+
+        private void btnCapNhatTTNV_Click(object sender, EventArgs e)
+        {
+            LoadControl(new CapNhatThongTinNV());
+        }
+
+        private void btnTaoDanhGiaHieuSuat_Click(object sender, EventArgs e)
+        {
+            LoadControl(new TaoDanhGiaHieuSuat());
+        }
+
+        private void btnTaoKyLuat_Click(object sender, EventArgs e)
+        {
+            LoadControl(new TaoKyLuat());
+        }
+
+        private void btnTaoKhenThuong_Click(object sender, EventArgs e)
+        {
+            LoadControl(new TaoKhenThuong());
+        }
+
+        private void btnXemNghiPhep_Click(object sender, EventArgs e)
+        {
+            LoadControl(new XemNghiPhep());
+        }
+
+        private void btnXemThongTinCaNhan_Click(object sender, EventArgs e)
+        {
+            LoadControl(new XemThongTinCaNhan(idNV));
+        }
+
+        private void guna2Button1_Click(object sender, EventArgs e)
+        {
+            LoadControl(new CapNhatThongTinRieng(idNV));
+        }
+
+        private void btnTaoHDLD_Click(object sender, EventArgs e)
+        {
+            LoadControl(new BaoCaoHopDong());
+        }
+
+        private void btnCRUDTaiKhoan_Click(object sender, EventArgs e)
+        {
+            LoadControl(new CRUDTaiKhoan());
+        }
+
+        private void btnCRUDPhongBan_Click(object sender, EventArgs e)
+        {
+            LoadControl(new CRUDPhongban());
+        }
+
+        private void btnCRUDChucVu_Click(object sender, EventArgs e)
+        {
+            LoadControl(new CRUDChucVu());
+        }
+
+        private void btnBaoCaoKhenThuong_Click(object sender, EventArgs e)
+        {
+            LoadControl(new BaoCaoKhenThuong());
+        private void OpenChildControl(UserControl uc)
+        {
+            pnContent.Padding = new Padding(0, 10, 0, 0);
+            pnContent.Controls.Clear();
+            uc.Dock = DockStyle.Fill;
+            pnContent.Controls.Add(uc);
+            uc.BringToFront();
+        }
+
+        private void Main_Load(object sender, EventArgs e)
+        {
+            OpenChildControl(new ucXemTuyenDung());
         }
     }
 }

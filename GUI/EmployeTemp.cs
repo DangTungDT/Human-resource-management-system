@@ -12,4 +12,10 @@ namespace GUI
         public string Email { get; set; }
         public bool TrangThaiChamCong { get; set; }
     }
+
+    public class Recruitment
+    {
+        public string Title { get; set; }
+        public string Status { get; set; }
+    }
 }

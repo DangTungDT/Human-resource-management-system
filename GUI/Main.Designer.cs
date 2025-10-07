@@ -127,6 +127,8 @@
             this.Controls.Add(this.pnContent);
             this.Controls.Add(this.tcMenu);
             this.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.MaximizeBox = false;
             this.Name = "Main";
             this.Text = "Phần mềm quản lý nhân sự";
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;

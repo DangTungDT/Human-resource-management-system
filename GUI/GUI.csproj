@@ -67,6 +67,12 @@
     <Compile Include="ucChamCongQuanLy.Designer.cs">
       <DependentUpon>ucChamCongQuanLy.cs</DependentUpon>
     </Compile>
+    <Compile Include="ucTaoTuyenDung.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="ucTaoTuyenDung.Designer.cs">
+      <DependentUpon>ucTaoTuyenDung.cs</DependentUpon>
+    </Compile>
     <EmbeddedResource Include="Main.resx">
       <DependentUpon>Main.cs</DependentUpon>
     </EmbeddedResource>
@@ -81,6 +87,9 @@
     </Compile>
     <EmbeddedResource Include="ucChamCongQuanLy.resx">
       <DependentUpon>ucChamCongQuanLy.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ucTaoTuyenDung.resx">
+      <DependentUpon>ucTaoTuyenDung.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">

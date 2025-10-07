@@ -97,6 +97,12 @@
     <Compile Include="ucTaoTuyenDung.Designer.cs">
       <DependentUpon>ucTaoTuyenDung.cs</DependentUpon>
     </Compile>
+    <Compile Include="ucUngVien.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="ucUngVien.Designer.cs">
+      <DependentUpon>ucUngVien.cs</DependentUpon>
+    </Compile>
     <EmbeddedResource Include="FormLogin.resx">
       <DependentUpon>FormLogin.cs</DependentUpon>
     </EmbeddedResource>
@@ -126,6 +132,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="ucTaoTuyenDung.resx">
       <DependentUpon>ucTaoTuyenDung.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ucUngVien.resx">
+      <DependentUpon>ucUngVien.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">

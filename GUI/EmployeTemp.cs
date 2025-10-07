@@ -32,4 +32,11 @@ namespace GUI
         public string NameEmployee {  get; set; }
         public string Status { get; set; }
     }
+
+    public class Candidate
+    {
+        public DateTime AppliCationDate { get; set; }
+        public string Name { get; set; }
+        public string Status { get; set; }
+    }
 }

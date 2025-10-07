@@ -45,7 +45,7 @@
             this.btnBaoCaoKhenThuong = new Guna.UI2.WinForms.Guna2Button();
             this.btnTaoHDLD = new Guna.UI2.WinForms.Guna2Button();
             this.tpSystem = new System.Windows.Forms.TabPage();
-            this.pnContent = new Guna.UI2.WinForms.Guna2Panel();
+            this.pnMain = new Guna.UI2.WinForms.Guna2CustomGradientPanel();
             this.tcMenu.SuspendLayout();
             this.tpHome.SuspendLayout();
             this.tpView.SuspendLayout();
@@ -61,6 +61,7 @@
             this.tcMenu.Dock = System.Windows.Forms.DockStyle.Top;
             this.tcMenu.ItemSize = new System.Drawing.Size(180, 30);
             this.tcMenu.Location = new System.Drawing.Point(0, 0);
+            this.tcMenu.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.tcMenu.Name = "tcMenu";
             this.tcMenu.SelectedIndex = 0;
             this.tcMenu.Size = new System.Drawing.Size(1414, 123);
@@ -83,6 +84,8 @@
             this.tcMenu.TabIndex = 0;
             this.tcMenu.TabMenuBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
             this.tcMenu.TabMenuOrientation = Guna.UI2.WinForms.TabMenuOrientation.HorizontalTop;
+            this.tcMenu.TabIndexChanged += new System.EventHandler(this.tpHome_Click);
+            this.tcMenu.Click += new System.EventHandler(this.tcMenu_Click);
             // 
             // tpHome
             // 
@@ -97,11 +100,13 @@
             this.tpHome.Controls.Add(this.btnCapNhatTTNV);
             this.tpHome.ForeColor = System.Drawing.Color.Black;
             this.tpHome.Location = new System.Drawing.Point(4, 34);
+            this.tpHome.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.tpHome.Name = "tpHome";
             this.tpHome.Padding = new System.Windows.Forms.Padding(3);
             this.tpHome.Size = new System.Drawing.Size(1406, 85);
             this.tpHome.TabIndex = 0;
             this.tpHome.Text = "Trang chủ";
+            this.tpHome.Click += new System.EventHandler(this.tpHome_Click);
             // 
             // btnCRUDChucVu
             // 
@@ -230,11 +235,13 @@
             this.tpView.Controls.Add(this.btnXemNghiPhep);
             this.tpView.ForeColor = System.Drawing.Color.Black;
             this.tpView.Location = new System.Drawing.Point(4, 34);
+            this.tpView.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.tpView.Name = "tpView";
             this.tpView.Padding = new System.Windows.Forms.Padding(3);
             this.tpView.Size = new System.Drawing.Size(1406, 85);
             this.tpView.TabIndex = 1;
-            this.tpView.Text = "Hiện thị";
+            this.tpView.Text = "Hiển thị";
+            this.tpView.Click += new System.EventHandler(this.tpView_Click);
             // 
             // btnXemThongTinCaNhan
             // 
@@ -273,6 +280,7 @@
             this.tpReport.Controls.Add(this.btnTaoHDLD);
             this.tpReport.ForeColor = System.Drawing.Color.Black;
             this.tpReport.Location = new System.Drawing.Point(4, 34);
+            this.tpReport.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.tpReport.Name = "tpReport";
             this.tpReport.Size = new System.Drawing.Size(1406, 85);
             this.tpReport.TabIndex = 3;
@@ -313,12 +321,13 @@
             this.tpSystem.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
             this.tpSystem.ForeColor = System.Drawing.Color.Black;
             this.tpSystem.Location = new System.Drawing.Point(4, 34);
+            this.tpSystem.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.tpSystem.Name = "tpSystem";
             this.tpSystem.Size = new System.Drawing.Size(1406, 85);
             this.tpSystem.TabIndex = 2;
             this.tpSystem.Text = "Hệ thống";
             // 
-            // pnContent
+            // pnMain
             // 
             this.pnContent.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pnContent.Location = new System.Drawing.Point(0, 123);
@@ -328,7 +337,7 @@
             // 
             // Main
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1414, 450);
             this.Controls.Add(this.pnContent);
@@ -337,6 +346,7 @@
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.MaximizeBox = false;
             this.Name = "Main";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Phần mềm quản lý nhân sự";
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             this.Load += new System.EventHandler(this.Main_Load);
@@ -351,7 +361,6 @@
         #endregion
 
         private Guna.UI2.WinForms.Guna2TabControl tcMenu;
-        private System.Windows.Forms.TabPage tpHome;
         private System.Windows.Forms.TabPage tpView;
         private System.Windows.Forms.TabPage tpReport;
         private System.Windows.Forms.TabPage tpSystem;

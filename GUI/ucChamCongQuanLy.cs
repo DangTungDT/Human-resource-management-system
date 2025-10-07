@@ -29,12 +29,15 @@ namespace GUI
             new EmployeTemp(){ HoTen = "Bùi Minh Khang", Email = "khang.bui@company.com", TrangThaiChamCong = true },
             new EmployeTemp(){ HoTen = "Phan Thị Mai", Email = "mai.phan@company.com", TrangThaiChamCong = false }
         };
+
+        //Cham cong bang checkbox
         public ucChamCongQuanLy(string idEmployee)
         {
             IdManager = idEmployee;
             InitializeComponent();
         }
 
+        //Cham cong = hinh anh
         public ucChamCongQuanLy(string idEmployee, bool check)
         {
             IdManager = idEmployee;

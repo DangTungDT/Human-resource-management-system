@@ -33,6 +33,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="CrystalDecisions.CrystalReports.Engine, Version=13.0.4000.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL" />
+    <Reference Include="CrystalDecisions.ReportSource, Version=13.0.4000.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL" />
+    <Reference Include="CrystalDecisions.Shared, Version=13.0.4000.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL" />
+    <Reference Include="CrystalDecisions.Windows.Forms, Version=13.0.4000.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL" />
     <Reference Include="Guna.UI2, Version=2.0.4.7, Culture=neutral, PublicKeyToken=8b9d14aa5142e261, processorArchitecture=MSIL">
       <HintPath>packages\Guna.UI2.WinForms.2.0.4.7\lib\net472\Guna.UI2.dll</HintPath>
     </Reference>
@@ -41,6 +45,7 @@
     <Reference Include="System.Design" />
     <Reference Include="System.Management" />
     <Reference Include="System.Web" />
+    <Reference Include="System.Web.Services" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -53,6 +58,18 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="EmployeTemp.cs" />
+    <Compile Include="FormBaoCaoChamCongCaNhan.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormBaoCaoChamCongCaNhan.Designer.cs">
+      <DependentUpon>FormBaoCaoChamCongCaNhan.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormBaoCaoTuyenDung.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormBaoCaoTuyenDung.Designer.cs">
+      <DependentUpon>FormBaoCaoTuyenDung.cs</DependentUpon>
+    </Compile>
     <Compile Include="FormLogin.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -67,6 +84,18 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="rptChamCongCaNhan.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>rptChamCongCaNhan.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="rptTuyenDung.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>rptTuyenDung.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="ucChamCongQuanLy.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -103,6 +132,24 @@
     <Compile Include="ucUngVien.Designer.cs">
       <DependentUpon>ucUngVien.cs</DependentUpon>
     </Compile>
+    <Compile Include="ucXemChamCong.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="ucXemChamCong.Designer.cs">
+      <DependentUpon>ucXemChamCong.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ucXemTuyenDung.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="ucXemTuyenDung.Designer.cs">
+      <DependentUpon>ucXemTuyenDung.cs</DependentUpon>
+    </Compile>
+    <EmbeddedResource Include="FormBaoCaoChamCongCaNhan.resx">
+      <DependentUpon>FormBaoCaoChamCongCaNhan.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormBaoCaoTuyenDung.resx">
+      <DependentUpon>FormBaoCaoTuyenDung.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="FormLogin.resx">
       <DependentUpon>FormLogin.cs</DependentUpon>
     </EmbeddedResource>
@@ -118,6 +165,14 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="rptChamCongCaNhan.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>rptChamCongCaNhan.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="rptTuyenDung.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>rptTuyenDung.cs</LastGenOutput>
+    </EmbeddedResource>
     <EmbeddedResource Include="ucChamCongQuanLy.resx">
       <DependentUpon>ucChamCongQuanLy.cs</DependentUpon>
     </EmbeddedResource>
@@ -135,6 +190,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="ucUngVien.resx">
       <DependentUpon>ucUngVien.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ucXemChamCong.resx">
+      <DependentUpon>ucXemChamCong.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ucXemTuyenDung.resx">
+      <DependentUpon>ucXemTuyenDung.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
@@ -159,6 +220,9 @@
       <Project>{8399077e-d08d-4538-b02b-e04cbc462b4a}</Project>
       <Name>DTO</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{C0C07587-41A7-46C8-8FBD-3F9C8EBE2DDC}" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

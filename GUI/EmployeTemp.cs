@@ -39,4 +39,10 @@ namespace GUI
         public string Name { get; set; }
         public string Status { get; set; }
     }
+
+    public class Timekeeping
+    {
+        public DateTime Date { get; set; }
+        public string Name { get; set; }
+    }
 }

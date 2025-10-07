@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -14,6 +15,7 @@ namespace GUI
     public partial class ucChamCongQuanLy : UserControl
     {
         string IdManager = "";
+        bool Check = false;
         List<EmployeTemp> ListEmploye = new List<EmployeTemp>()
         {
             new EmployeTemp(){ HoTen = "Nguyễn Văn An", Email = "an.nguyen@company.com", TrangThaiChamCong = true },
@@ -32,6 +34,13 @@ namespace GUI
             IdManager = idEmployee;
             InitializeComponent();
         }
+
+        public ucChamCongQuanLy(string idEmployee, bool check)
+        {
+            IdManager = idEmployee;
+            InitializeComponent();
+            Check = true;
+        }
         public ucChamCongQuanLy()
         {
             InitializeComponent();
@@ -40,32 +49,83 @@ namespace GUI
 
         private void ucChamCongQuanLy_Load(object sender, EventArgs e)
         {
-            this.Padding = new Padding(0, 10, 0, 0);
-            dgvEmployeeAttendance.DataSource = ListEmploye;
-            dgvEmployeeAttendance.Columns.Clear();
-            dgvEmployeeAttendance.Columns.Add(new DataGridViewTextBoxColumn()
-            {
-                HeaderText = "HỌ TÊN NHÂN VIÊN",
-                DataPropertyName = "HoTen"
-            });
-            dgvEmployeeAttendance.Columns.Add(new DataGridViewTextBoxColumn()
-            {
-                HeaderText = "Email",
-                DataPropertyName = "Email"
-            });
-            dgvEmployeeAttendance.Columns.Add(new DataGridViewCheckBoxColumn()
-            {
-                HeaderText = "Đã chấm công",
-                DataPropertyName = "TrangThaiChamCong",
-                Width = 120
-            });
-            dgvEmployeeAttendance.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.EnableResizing;
-            dgvEmployeeAttendance.ColumnHeadersHeight = 35;
-
             //Gắn placeholder
             SetPlaceholder(txtEmployeeName, "Nhập họ tên nhân viên");
             SetPlaceholder(txtEmail, "Nhập email nhân viên");
             SetPlaceholder(txtPhoneNumber, "Nhập số điện thoại nhân viên");
+
+            if (!Check)
+            {
+                this.Padding = new Padding(0, 10, 0, 0);
+                dgvEmployeeAttendance.DataSource = ListEmploye;
+                dgvEmployeeAttendance.Columns.Clear();
+                dgvEmployeeAttendance.Columns.Add(new DataGridViewTextBoxColumn()
+                {
+                    HeaderText = "HỌ TÊN NHÂN VIÊN",
+                    DataPropertyName = "HoTen"
+                });
+                dgvEmployeeAttendance.Columns.Add(new DataGridViewTextBoxColumn()
+                {
+                    HeaderText = "Email",
+                    DataPropertyName = "Email"
+                });
+                dgvEmployeeAttendance.Columns.Add(new DataGridViewCheckBoxColumn()
+                {
+                    HeaderText = "Đã chấm công",
+                    DataPropertyName = "TrangThaiChamCong",
+                    Width = 120
+                });
+                dgvEmployeeAttendance.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.EnableResizing;
+                dgvEmployeeAttendance.ColumnHeadersHeight = 35;
+            }
+            else
+            {
+                dgvEmployeeAttendance.SelectionMode = DataGridViewSelectionMode.CellSelect;
+                dgvEmployeeAttendance.RowTemplate.Height = 150;
+
+                for (int i = 1; i < 6; i++)
+                {
+                    var imgCol = new DataGridViewImageColumn();
+                    imgCol.HeaderText = i.ToString();
+                    imgCol.ImageLayout = DataGridViewImageCellLayout.Zoom;
+                    dgvEmployeeAttendance.Columns.Add(imgCol);
+                }
+
+                string imageFolder = Path.Combine(Application.StartupPath, @"..\..\..\Image");
+                imageFolder = Path.GetFullPath(imageFolder);
+
+                if (!Directory.Exists(imageFolder))
+                {
+                    MessageBox.Show("Không tìm thấy thư mục Image!");
+                    return;
+                }
+
+                // Lấy tất cả file ảnh
+                string[] imageFiles = Directory.GetFiles(imageFolder, "*.*")
+                                               .Where(f => f.EndsWith(".jpg", StringComparison.OrdinalIgnoreCase)
+                                                        || f.EndsWith(".png", StringComparison.OrdinalIgnoreCase)
+                                                        || f.EndsWith(".jpeg", StringComparison.OrdinalIgnoreCase))
+                                               .ToArray();
+
+                // Thêm ảnh vào DataGridView, mỗi dòng chứa 5 ảnh
+                for (int i = 0; i < imageFiles.Length; i += 5)
+                {
+                    object[] row = new object[5];
+                    for (int j = 0; j < 5; j++)
+                    {
+                        int index = i + j;
+                        if (index < imageFiles.Length)
+                        {
+                            row[j] = Image.FromFile(imageFiles[index]);
+                        }
+                        else
+                        {
+                            row[j] = null;
+                        }
+                    }
+                    dgvEmployeeAttendance.Rows.Add(row);
+                }
+            }
         }
 
         private void SetPlaceholder(Guna2TextBox textBox, string placeholder)

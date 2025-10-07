@@ -124,7 +124,7 @@ namespace GUI
             {
                 Dock = DockStyle.Fill,
                 FlowDirection = FlowDirection.RightToLeft,
-                Padding = new Padding(0, 20, 0, 0)
+                Padding = new Padding(0, 0, 0, 0)
             };
             btnPanel.Controls.Add(btnSave);
             btnPanel.Controls.Add(btnUndo);

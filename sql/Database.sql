@@ -42,6 +42,7 @@ create table NhanVien
 	Email varchar(100) not null,
 	idChucVu int not null,
 	idPhongBan int not null,
+	DaXoa bit default 0 not null,
 	constraint chk_NgaySinhNV check (NgaySinh <= dateadd(year, -16, getdate())),
 	primary key(id)
 )
@@ -304,3 +305,4 @@ go
 --USE master;
 --ALTER DATABASE PersonnelManagement SET SINGLE_USER WITH ROLLBACK IMMEDIATE;
 --DROP DATABASE PersonnelManagement;
+

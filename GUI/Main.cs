@@ -60,5 +60,30 @@ namespace GUI
         {
             LoadControl(new CapNhatThongTinRieng(idNV));
         }
+
+        private void btnTaoHDLD_Click(object sender, EventArgs e)
+        {
+            LoadControl(new BaoCaoHopDong());
+        }
+
+        private void btnCRUDTaiKhoan_Click(object sender, EventArgs e)
+        {
+            LoadControl(new CRUDTaiKhoan());
+        }
+
+        private void btnCRUDPhongBan_Click(object sender, EventArgs e)
+        {
+            LoadControl(new CRUDPhongban());
+        }
+
+        private void btnCRUDChucVu_Click(object sender, EventArgs e)
+        {
+            LoadControl(new CRUDChucVu());
+        }
+
+        private void btnBaoCaoKhenThuong_Click(object sender, EventArgs e)
+        {
+            LoadControl(new BaoCaoKhenThuong());
+        }
     }
 }

@@ -11,6 +11,19 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DTO", "..\DTO\DTO.csproj", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BLL", "..\BLL\BLL.csproj", "{7AD545CF-F7EF-451A-8EBF-82DB115D933F}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Image", "Image", "{3E6AE295-D4F9-4913-BEA9-D4A569D440E3}"
+	ProjectSection(SolutionItems) = preProject
+		..\Image\growtika-FQ3lFA4Zi58-unsplash.jpg = ..\Image\growtika-FQ3lFA4Zi58-unsplash.jpg
+		..\Image\wallhaven-5ywdg1.jpg = ..\Image\wallhaven-5ywdg1.jpg
+		..\Image\wallhaven-9dgq28.jpg = ..\Image\wallhaven-9dgq28.jpg
+		..\Image\wallhaven-d69eom.jpg = ..\Image\wallhaven-d69eom.jpg
+		..\Image\wallhaven-e8ok8r.jpg = ..\Image\wallhaven-e8ok8r.jpg
+		..\Image\wallhaven-gw8593.jpg = ..\Image\wallhaven-gw8593.jpg
+		..\Image\wallhaven-l8e9zq.jpg = ..\Image\wallhaven-l8e9zq.jpg
+		..\Image\wallhaven-ogxe7p.jpg = ..\Image\wallhaven-ogxe7p.jpg
+		..\Image\wallhaven-w5yr2p.jpg = ..\Image\wallhaven-w5yr2p.jpg
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU

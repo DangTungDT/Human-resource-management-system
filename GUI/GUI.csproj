@@ -57,6 +57,65 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BaoCaoHopDong.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="BaoCaoHopDong.Designer.cs">
+      <DependentUpon>BaoCaoHopDong.cs</DependentUpon>
+    </Compile>
+    <Compile Include="BaoCaoKhenThuong.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="BaoCaoKhenThuong.Designer.cs">
+      <DependentUpon>BaoCaoKhenThuong.cs</DependentUpon>
+    </Compile>
+    <Compile Include="CapNhatThongTinRieng.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="CapNhatThongTinRieng.Designer.cs">
+      <DependentUpon>CapNhatThongTinRieng.cs</DependentUpon>
+    </Compile>
+    <Compile Include="CapNhatThongTinNV.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="CapNhatThongTinNV.Designer.cs">
+      <DependentUpon>CapNhatThongTinNV.cs</DependentUpon>
+    </Compile>
+    <Compile Include="CRUDChucVu.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="CRUDChucVu.Designer.cs">
+      <DependentUpon>CRUDChucVu.cs</DependentUpon>
+    </Compile>
+    <Compile Include="CRUDPhongban.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="CRUDPhongban.Designer.cs">
+      <DependentUpon>CRUDPhongban.cs</DependentUpon>
+    </Compile>
+    <Compile Include="CRUDTaiKhoan.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="CRUDTaiKhoan.Designer.cs">
+      <DependentUpon>CRUDTaiKhoan.cs</DependentUpon>
+    </Compile>
+    <Compile Include="CrystalReportKhenThuong.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>CrystalReportKhenThuong.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="FrmReportHopDong.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FrmReportHopDong.Designer.cs">
+      <DependentUpon>FrmReportHopDong.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FrmReportKhenThuong.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FrmReportKhenThuong.Designer.cs">
+      <DependentUpon>FrmReportKhenThuong.cs</DependentUpon>
     <Compile Include="EmployeTemp.cs" />
     <Compile Include="FormBaoCaoChamCongCaNhan.cs">
       <SubType>Form</SubType>
@@ -84,6 +143,54 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TaoDanhGiaHieuSuat.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="TaoDanhGiaHieuSuat.Designer.cs">
+      <DependentUpon>TaoDanhGiaHieuSuat.cs</DependentUpon>
+    </Compile>
+    <Compile Include="TaoKhenThuong.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="TaoKhenThuong.Designer.cs">
+      <DependentUpon>TaoKhenThuong.cs</DependentUpon>
+    </Compile>
+    <Compile Include="TaoKyLuat.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="TaoKyLuat.Designer.cs">
+      <DependentUpon>TaoKyLuat.cs</DependentUpon>
+    </Compile>
+    <Compile Include="XemNghiPhep.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="XemNghiPhep.Designer.cs">
+      <DependentUpon>XemNghiPhep.cs</DependentUpon>
+    </Compile>
+    <Compile Include="XemThongTinCaNhan.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="XemThongTinCaNhan.Designer.cs">
+      <DependentUpon>XemThongTinCaNhan.cs</DependentUpon>
+    </Compile>
+    <EmbeddedResource Include="BaoCaoHopDong.resx">
+      <DependentUpon>BaoCaoHopDong.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CapNhatThongTinRieng.resx">
+      <DependentUpon>CapNhatThongTinRieng.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CapNhatThongTinNV.resx">
+      <DependentUpon>CapNhatThongTinNV.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CrystalReportKhenThuong.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>CrystalReportKhenThuong.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FrmReportHopDong.resx">
+      <DependentUpon>FrmReportHopDong.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FrmReportKhenThuong.resx">
+      <DependentUpon>FrmReportKhenThuong.cs</DependentUpon>
     <Compile Include="rptChamCongCaNhan.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -164,7 +271,10 @@
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
     </Compile>
+    <EmbeddedResource Include="TaoDanhGiaHieuSuat.resx">
+      <DependentUpon>TaoDanhGiaHieuSuat.cs</DependentUpon>
     <EmbeddedResource Include="rptChamCongCaNhan.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>rptChamCongCaNhan.cs</LastGenOutput>
@@ -222,6 +332,32 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <None Include="Resources\delete.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\trash.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\reset.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\arrow.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\user.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{C0C07587-41A7-46C8-8FBD-3F9C8EBE2DDC}" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\calendar.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\eye.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\eyebrow.png" />
+  </ItemGroup>
     <Service Include="{C0C07587-41A7-46C8-8FBD-3F9C8EBE2DDC}" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

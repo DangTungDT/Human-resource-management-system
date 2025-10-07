@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Guna.UI2.WinForms;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -12,11 +13,77 @@ namespace GUI
 {
     public partial class Main : Form
     {
+        string idNV = "GD00000001";
         public Main()
         {
             InitializeComponent();
         }
 
+        private void LoadControl(UserControl uc)
+        {
+            pnContent.Controls.Clear();   // xóa control cũ
+            uc.Dock = DockStyle.Fill;     // cho UserControl chiếm hết panel
+            pnContent.Controls.Add(uc);   // thêm control mới
+        }
+
+        private void btnCapNhatTTNV_Click(object sender, EventArgs e)
+        {
+            LoadControl(new CapNhatThongTinNV());
+        }
+
+        private void btnTaoDanhGiaHieuSuat_Click(object sender, EventArgs e)
+        {
+            LoadControl(new TaoDanhGiaHieuSuat());
+        }
+
+        private void btnTaoKyLuat_Click(object sender, EventArgs e)
+        {
+            LoadControl(new TaoKyLuat());
+        }
+
+        private void btnTaoKhenThuong_Click(object sender, EventArgs e)
+        {
+            LoadControl(new TaoKhenThuong());
+        }
+
+        private void btnXemNghiPhep_Click(object sender, EventArgs e)
+        {
+            LoadControl(new XemNghiPhep());
+        }
+
+        private void btnXemThongTinCaNhan_Click(object sender, EventArgs e)
+        {
+            LoadControl(new XemThongTinCaNhan(idNV));
+        }
+
+        private void guna2Button1_Click(object sender, EventArgs e)
+        {
+            LoadControl(new CapNhatThongTinRieng(idNV));
+        }
+
+        private void btnTaoHDLD_Click(object sender, EventArgs e)
+        {
+            LoadControl(new BaoCaoHopDong());
+        }
+
+        private void btnCRUDTaiKhoan_Click(object sender, EventArgs e)
+        {
+            LoadControl(new CRUDTaiKhoan());
+        }
+
+        private void btnCRUDPhongBan_Click(object sender, EventArgs e)
+        {
+            LoadControl(new CRUDPhongban());
+        }
+
+        private void btnCRUDChucVu_Click(object sender, EventArgs e)
+        {
+            LoadControl(new CRUDChucVu());
+        }
+
+        private void btnBaoCaoKhenThuong_Click(object sender, EventArgs e)
+        {
+            LoadControl(new BaoCaoKhenThuong());
         private void OpenChildControl(UserControl uc)
         {
             pnContent.Padding = new Padding(0, 10, 0, 0);

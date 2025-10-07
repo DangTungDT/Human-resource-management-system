@@ -10,16 +10,11 @@ using System.Windows.Forms;
 
 namespace GUI
 {
-    public partial class DuyetNghiPhep : UserControl
+    public partial class UCChiTietluongCaNhan : UserControl
     {
-        public DuyetNghiPhep()
+        public UCChiTietluongCaNhan()
         {
             InitializeComponent();
-        }
-
-        private void tableLayoutPanel1_Paint(object sender, PaintEventArgs e)
-        {
-
         }
     }
 }

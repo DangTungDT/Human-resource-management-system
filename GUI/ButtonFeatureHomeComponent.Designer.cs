@@ -32,6 +32,7 @@
             this.btnNghiPhep = new Guna.UI2.WinForms.Guna2TileButton();
             this.btnDuyetNghi = new Guna.UI2.WinForms.Guna2TileButton();
             this.btnDoiMK = new Guna.UI2.WinForms.Guna2TileButton();
+            this.btnHopDong = new Guna.UI2.WinForms.Guna2TileButton();
             this.flowLayoutPanel1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -40,6 +41,7 @@
             this.flowLayoutPanel1.Controls.Add(this.btnNghiPhep);
             this.flowLayoutPanel1.Controls.Add(this.btnDuyetNghi);
             this.flowLayoutPanel1.Controls.Add(this.btnDoiMK);
+            this.flowLayoutPanel1.Controls.Add(this.btnHopDong);
             this.flowLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.flowLayoutPanel1.Location = new System.Drawing.Point(5, 5);
             this.flowLayoutPanel1.Name = "flowLayoutPanel1";
@@ -81,7 +83,7 @@
             this.btnDuyetNghi.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
             this.btnDuyetNghi.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.btnDuyetNghi.ForeColor = System.Drawing.Color.White;
-            this.btnDuyetNghi.Image = global::GUI.Properties.Resources.paper;
+            this.btnDuyetNghi.Image = global::GUI.Properties.Resources.Permission;
             this.btnDuyetNghi.ImageOffset = new System.Drawing.Point(0, 8);
             this.btnDuyetNghi.ImageSize = new System.Drawing.Size(30, 30);
             this.btnDuyetNghi.ImeMode = System.Windows.Forms.ImeMode.NoControl;
@@ -118,13 +120,37 @@
             this.btnDoiMK.TextFormatNoPrefix = true;
             this.btnDoiMK.Click += new System.EventHandler(this.btnDoiMK_Click);
             // 
+            // btnHopDong
+            // 
+            this.btnHopDong.BorderRadius = 5;
+            this.btnHopDong.BorderThickness = 1;
+            this.btnHopDong.DisabledState.BorderColor = System.Drawing.Color.DarkGray;
+            this.btnHopDong.DisabledState.CustomBorderColor = System.Drawing.Color.DarkGray;
+            this.btnHopDong.DisabledState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(169)))), ((int)(((byte)(169)))), ((int)(((byte)(169)))));
+            this.btnHopDong.DisabledState.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(141)))), ((int)(((byte)(141)))), ((int)(((byte)(141)))));
+            this.btnHopDong.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
+            this.btnHopDong.Font = new System.Drawing.Font("Segoe UI", 9F);
+            this.btnHopDong.ForeColor = System.Drawing.Color.White;
+            this.btnHopDong.Image = global::GUI.Properties.Resources.contract;
+            this.btnHopDong.ImageOffset = new System.Drawing.Point(0, 8);
+            this.btnHopDong.ImageSize = new System.Drawing.Size(30, 30);
+            this.btnHopDong.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+            this.btnHopDong.IndicateFocus = true;
+            this.btnHopDong.Location = new System.Drawing.Point(301, 3);
+            this.btnHopDong.Name = "btnHopDong";
+            this.btnHopDong.Size = new System.Drawing.Size(108, 52);
+            this.btnHopDong.TabIndex = 3;
+            this.btnHopDong.Text = "D/s hợp đồng";
+            this.btnHopDong.TextFormatNoPrefix = true;
+            this.btnHopDong.Click += new System.EventHandler(this.btnHopDong_Click);
+            // 
             // ButtonFeatureHomeComponent
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.flowLayoutPanel1);
             this.Name = "ButtonFeatureHomeComponent";
-            this.Padding = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            this.Padding = new System.Windows.Forms.Padding(5);
             this.Size = new System.Drawing.Size(794, 72);
             this.flowLayoutPanel1.ResumeLayout(false);
             this.ResumeLayout(false);
@@ -137,5 +163,6 @@
         private Guna.UI2.WinForms.Guna2TileButton btnDoiMK;
         private Guna.UI2.WinForms.Guna2TileButton btnNghiPhep;
         private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel1;
+        private Guna.UI2.WinForms.Guna2TileButton btnHopDong;
     }
 }

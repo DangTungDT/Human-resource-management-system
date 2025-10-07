@@ -8,10 +8,11 @@
     <OutputType>WinExe</OutputType>
     <RootNamespace>GUI</RootNamespace>
     <AssemblyName>GUI</AssemblyName>
-    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <Deterministic>true</Deterministic>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -33,6 +34,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="CrystalDecisions.CrystalReports.Engine, Version=13.0.4000.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL" />
+    <Reference Include="CrystalDecisions.ReportSource, Version=13.0.4000.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL" />
+    <Reference Include="CrystalDecisions.Shared, Version=13.0.4000.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL" />
     <Reference Include="Guna.UI2, Version=2.0.4.7, Culture=neutral, PublicKeyToken=8b9d14aa5142e261, processorArchitecture=MSIL">
       <HintPath>packages\Guna.UI2.WinForms.2.0.4.7\lib\net472\Guna.UI2.dll</HintPath>
     </Reference>
@@ -59,17 +63,40 @@
     <Compile Include="ButtonFeatureHomeComponent.Designer.cs">
       <DependentUpon>ButtonFeatureHomeComponent.cs</DependentUpon>
     </Compile>
-    <Compile Include="CapNhatMatkhau.cs">
+    <Compile Include="ButtonFeatureViewComponent.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="CapNhatMatkhau.Designer.cs">
-      <DependentUpon>CapNhatMatkhau.cs</DependentUpon>
+    <Compile Include="ButtonFeatureViewComponent.Designer.cs">
+      <DependentUpon>ButtonFeatureViewComponent.cs</DependentUpon>
     </Compile>
-    <Compile Include="DuyetNghiPhep.cs">
+    <Compile Include="RPBaoCaoLuong.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>RPBaoCaoLuong.rpt</DependentUpon>
+    </Compile>
+    <Compile Include="UCCapNhatMatkhau.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="DuyetNghiPhep.Designer.cs">
-      <DependentUpon>DuyetNghiPhep.cs</DependentUpon>
+    <Compile Include="UCCapNhatMatkhau.Designer.cs">
+      <DependentUpon>UCCapNhatMatkhau.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UCChiTietluongCaNhan.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UCChiTietluongCaNhan.Designer.cs">
+      <DependentUpon>UCChiTietluongCaNhan.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UCDoiMatKhau.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UCDoiMatKhau.Designer.cs">
+      <DependentUpon>UCDoiMatKhau.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UCDuyetNghiPhep.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UCDuyetNghiPhep.Designer.cs">
+      <DependentUpon>UCDuyetNghiPhep.cs</DependentUpon>
     </Compile>
     <Compile Include="Main.cs">
       <SubType>Form</SubType>
@@ -77,28 +104,62 @@
     <Compile Include="Main.Designer.cs">
       <DependentUpon>Main.cs</DependentUpon>
     </Compile>
-    <Compile Include="NghiPhep.cs">
+    <Compile Include="UCHopDong.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="NghiPhep.Designer.cs">
-      <DependentUpon>NghiPhep.cs</DependentUpon>
+    <Compile Include="UCHopDong.Designer.cs">
+      <DependentUpon>UCHopDong.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UCNghiPhep.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UCNghiPhep.Designer.cs">
+      <DependentUpon>UCNghiPhep.cs</DependentUpon>
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="UCDanhGiaHieuSuat.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UCDanhGiaHieuSuat.Designer.cs">
+      <DependentUpon>UCDanhGiaHieuSuat.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UCXemKyLuat.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UCXemKyLuat.Designer.cs">
+      <DependentUpon>UCXemKyLuat.cs</DependentUpon>
+    </Compile>
     <EmbeddedResource Include="ButtonFeatureHomeComponent.resx">
       <DependentUpon>ButtonFeatureHomeComponent.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="CapNhatMatkhau.resx">
-      <DependentUpon>CapNhatMatkhau.cs</DependentUpon>
+    <EmbeddedResource Include="ButtonFeatureViewComponent.resx">
+      <DependentUpon>ButtonFeatureViewComponent.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="DuyetNghiPhep.resx">
-      <DependentUpon>DuyetNghiPhep.cs</DependentUpon>
+    <EmbeddedResource Include="RPBaoCaoLuong.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>RPBaoCaoLuong.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UCCapNhatMatkhau.resx">
+      <DependentUpon>UCCapNhatMatkhau.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UCChiTietluongCaNhan.resx">
+      <DependentUpon>UCChiTietluongCaNhan.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UCDoiMatKhau.resx">
+      <DependentUpon>UCDoiMatKhau.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UCDuyetNghiPhep.resx">
+      <DependentUpon>UCDuyetNghiPhep.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Main.resx">
       <DependentUpon>Main.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="NghiPhep.resx">
-      <DependentUpon>NghiPhep.cs</DependentUpon>
+    <EmbeddedResource Include="UCHopDong.resx">
+      <DependentUpon>UCHopDong.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UCNghiPhep.resx">
+      <DependentUpon>UCNghiPhep.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -110,6 +171,12 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
+    <EmbeddedResource Include="UCDanhGiaHieuSuat.resx">
+      <DependentUpon>UCDanhGiaHieuSuat.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UCXemKyLuat.resx">
+      <DependentUpon>UCXemKyLuat.cs</DependentUpon>
+    </EmbeddedResource>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -139,6 +206,17 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="image\key.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="image\contract.png" />
+    <Content Include="image\Discipline.png" />
+    <Content Include="image\Permission.png" />
+    <Content Include="image\resume.png" />
+    <Content Include="image\salary.png" />
+    <Content Include="image\user.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{C0C07587-41A7-46C8-8FBD-3F9C8EBE2DDC}" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

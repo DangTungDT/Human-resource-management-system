@@ -46,10 +46,10 @@
             this.tcMenu.Dock = System.Windows.Forms.DockStyle.Top;
             this.tcMenu.ItemSize = new System.Drawing.Size(180, 30);
             this.tcMenu.Location = new System.Drawing.Point(0, 0);
-            this.tcMenu.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.tcMenu.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.tcMenu.Name = "tcMenu";
             this.tcMenu.SelectedIndex = 0;
-            this.tcMenu.Size = new System.Drawing.Size(1105, 137);
+            this.tcMenu.Size = new System.Drawing.Size(851, 111);
             this.tcMenu.TabButtonHoverState.BorderColor = System.Drawing.Color.Empty;
             this.tcMenu.TabButtonHoverState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(128)))), ((int)(((byte)(255)))));
             this.tcMenu.TabButtonHoverState.Font = new System.Drawing.Font("Segoe UI Semibold", 10F);
@@ -69,39 +69,43 @@
             this.tcMenu.TabIndex = 0;
             this.tcMenu.TabMenuBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
             this.tcMenu.TabMenuOrientation = Guna.UI2.WinForms.TabMenuOrientation.HorizontalTop;
+            this.tcMenu.TabIndexChanged += new System.EventHandler(this.tpHome_Click);
+            this.tcMenu.Click += new System.EventHandler(this.tcMenu_Click);
             // 
             // tpHome
             // 
             this.tpHome.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
             this.tpHome.ForeColor = System.Drawing.Color.Black;
             this.tpHome.Location = new System.Drawing.Point(4, 34);
-            this.tpHome.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.tpHome.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.tpHome.Name = "tpHome";
-            this.tpHome.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.tpHome.Size = new System.Drawing.Size(1097, 99);
+            this.tpHome.Padding = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.tpHome.Size = new System.Drawing.Size(843, 73);
             this.tpHome.TabIndex = 0;
             this.tpHome.Text = "Trang chủ";
+            this.tpHome.Click += new System.EventHandler(this.tpHome_Click);
             // 
             // tpView
             // 
             this.tpView.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
             this.tpView.ForeColor = System.Drawing.Color.Black;
             this.tpView.Location = new System.Drawing.Point(4, 34);
-            this.tpView.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.tpView.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.tpView.Name = "tpView";
-            this.tpView.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.tpView.Size = new System.Drawing.Size(1097, 99);
+            this.tpView.Padding = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.tpView.Size = new System.Drawing.Size(821, 73);
             this.tpView.TabIndex = 1;
-            this.tpView.Text = "Hiện thị";
+            this.tpView.Text = "Hiển thị";
+            this.tpView.Click += new System.EventHandler(this.tpView_Click);
             // 
             // tpReport
             // 
             this.tpReport.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
             this.tpReport.ForeColor = System.Drawing.Color.Black;
             this.tpReport.Location = new System.Drawing.Point(4, 34);
-            this.tpReport.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.tpReport.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.tpReport.Name = "tpReport";
-            this.tpReport.Size = new System.Drawing.Size(1097, 99);
+            this.tpReport.Size = new System.Drawing.Size(821, 73);
             this.tpReport.TabIndex = 3;
             this.tpReport.Text = "Báo cáo";
             // 
@@ -110,34 +114,32 @@
             this.tpSystem.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
             this.tpSystem.ForeColor = System.Drawing.Color.Black;
             this.tpSystem.Location = new System.Drawing.Point(4, 34);
-            this.tpSystem.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.tpSystem.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.tpSystem.Name = "tpSystem";
-            this.tpSystem.Size = new System.Drawing.Size(1097, 99);
+            this.tpSystem.Size = new System.Drawing.Size(821, 73);
             this.tpSystem.TabIndex = 2;
             this.tpSystem.Text = "Hệ thống";
             // 
             // pnMain
             // 
             this.pnMain.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pnMain.Location = new System.Drawing.Point(0, 137);
-            this.pnMain.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.pnMain.Location = new System.Drawing.Point(0, 111);
             this.pnMain.Name = "pnMain";
-            this.pnMain.Size = new System.Drawing.Size(1105, 405);
+            this.pnMain.Size = new System.Drawing.Size(851, 432);
             this.pnMain.TabIndex = 1;
             // 
             // Main
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1105, 542);
+            this.ClientSize = new System.Drawing.Size(851, 543);
             this.Controls.Add(this.pnMain);
             this.Controls.Add(this.tcMenu);
             this.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
-            this.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.Name = "Main";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Phần mềm quản lý nhân sự";
-            this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             this.Load += new System.EventHandler(this.Main_Load);
             this.tcMenu.ResumeLayout(false);
             this.ResumeLayout(false);

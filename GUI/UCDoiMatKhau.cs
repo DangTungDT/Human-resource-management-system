@@ -10,9 +10,9 @@ using System.Windows.Forms;
 
 namespace GUI
 {
-    public partial class NghiPhep : UserControl
+    public partial class UCDoiMatKhau : UserControl
     {
-        public NghiPhep()
+        public UCDoiMatKhau()
         {
             InitializeComponent();
         }

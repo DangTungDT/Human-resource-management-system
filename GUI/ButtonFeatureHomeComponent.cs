@@ -19,7 +19,8 @@ namespace GUI
             this.DoubleBuffered = false;
             _tpHome = tpHome;
         }
-
+        private void LoadForm(Form form) => form.Show();
+       
         private void btnNghiPhep_Click(object sender, EventArgs e)
         {
             var main = this.ParentForm as Main;
@@ -45,6 +46,55 @@ namespace GUI
         {
             var main = this.ParentForm as Main;
             main?.ShowUserControl("UCHopDong");
+            main.ChildFormComponent(_tpHome, "ButtonFeatureHomeComponent");
+        }
+
+        private void guna2TileButton1_Click(object sender, EventArgs e)
+        {
+            var main = this.ParentForm as Main;
+            main?.ShowUserControl("XemThongTinCaNhan");
+            main.ChildFormComponent(_tpHome, "ButtonFeatureHomeComponent");
+        }
+
+        private void guna2TileButton2_Click(object sender, EventArgs e)
+        {
+            var main = this.ParentForm as Main;
+            main?.ShowUserControl("UCDanhGiaHieuSuat");
+            main.ChildFormComponent(_tpHome, "ButtonFeatureHomeComponent");
+        }
+
+        private void btnTaoKyLuat_Click(object sender, EventArgs e)
+        {
+            var main = this.ParentForm as Main;
+            main?.ShowUserControl("TaoKyLuat");
+            main.ChildFormComponent(_tpHome, "ButtonFeatureHomeComponent");
+        }
+
+        private void guna2TileButton4_Click(object sender, EventArgs e)
+        {
+            var main = this.ParentForm as Main;
+            main?.ShowUserControl("TaoKhenThuong");
+            main.ChildFormComponent(_tpHome, "ButtonFeatureHomeComponent");
+        }
+
+        private void guna2TileButton5_Click(object sender, EventArgs e)
+        {
+            var main = this.ParentForm as Main;
+            main?.ShowUserControl("ucChamCongQuanLy");
+            main.ChildFormComponent(_tpHome, "ButtonFeatureHomeComponent");
+        }
+
+        private void guna2TileButton6_Click(object sender, EventArgs e)
+        {
+            var main = this.ParentForm as Main;
+            main?.ShowUserControl("ucChamCongQuanLyHinh");
+            main.ChildFormComponent(_tpHome, "ButtonFeatureHomeComponent");
+        }
+
+        private void guna2TileButton7_Click(object sender, EventArgs e)
+        {
+            var main = this.ParentForm as Main;
+            main?.ShowUserControl("ucDuyenTuyenDung");
             main.ChildFormComponent(_tpHome, "ButtonFeatureHomeComponent");
         }
     }

@@ -14,7 +14,7 @@ namespace GUI
 {
     public partial class XemThongTinCaNhan : UserControl
     {
-        private string connectionString = @"Data Source=DESKTOP-UM1I61K\THANHNGAN;Initial Catalog=PersonnelManagement;Integrated Security=True;";
+        private string connectionString = @"Data Source=DESKTOP-6LE6PT2\SQLEXPRESS;Initial Catalog=PersonnelManagement;Integrated Security=True;Encrypt=False";
         private string idNhanVien;
 
         // ======= Các control giao diện =======

@@ -17,7 +17,7 @@ namespace GUI
         private Guna2TextBox txtTenPhongBan, txtMoTa;
         private Guna2Button btnSave, btnUndo;
         private Guna2DataGridView dgv;
-        private string connectionString = @"Data Source=DESKTOP-UM1I61K\THANHNGAN;Initial Catalog=PersonnelManagement;Integrated Security=True;";
+        private string connectionString = ConnectionDB.conn;
         private int? selectedId = null; // lưu id đang chọn
 
         public CRUDPhongban()

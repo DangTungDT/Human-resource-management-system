@@ -6,6 +6,11 @@ using System.Threading.Tasks;
 
 namespace GUI
 {
+    public class ConnectionDB
+    {
+        public static string conn = "Data Source=DESKTOP-6LE6PT2\\SQLEXPRESS;Initial Catalog=PersonnelManagement;Integrated Security=True;Encrypt=False";
+
+    }
     public class EmployeTemp
     {
         public string HoTen { get; set; }

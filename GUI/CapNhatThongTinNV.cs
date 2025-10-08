@@ -29,7 +29,7 @@ namespace GUI
         private Guna2Button btnSave, btnToggleView, btnAdd;
         private Guna2DataGridView dgv;
 
-        private string connectionString = @"Data Source=DESKTOP-UM1I61K\THANHNGAN;Initial Catalog=PersonnelManagement;Integrated Security=True;";
+        private string connectionString = ConnectionDB.conn;
         private string selectedId = null;
         private bool isViewingHidden = false;
 

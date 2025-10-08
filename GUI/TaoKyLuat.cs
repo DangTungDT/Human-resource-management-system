@@ -21,7 +21,7 @@ namespace GUI
         private Guna2Button btnSave, btnUndo;
         private Guna2DataGridView dgv;
 
-        private string connectionString = @"Data Source=DESKTOP-UM1I61K\THANHNGAN;Initial Catalog=PersonnelManagement;Integrated Security=True;";
+        private string connectionString = @"Data Source=DESKTOP-6LE6PT2\SQLEXPRESS;Initial Catalog=PersonnelManagement;Integrated Security=True;Encrypt=False";
         private string idNguoiTao = "GD00000001"; // người tạo tạm
         private int? selectedId = null; // id bản ghi đang sửa
 

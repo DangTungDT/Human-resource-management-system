@@ -18,7 +18,7 @@ namespace GUI
         private Guna2DateTimePicker dtFrom, dtTo;
         private Guna2Button btnSearch, btnExcel, btnPDF, btnXuatReport;
         private Guna2DataGridView dgv;
-        private string connectionString = @"Data Source=DESKTOP-UM1I61K\THANHNGAN;Initial Catalog=PersonnelManagement;Integrated Security=True;";
+        private string connectionString = ConnectionDB.conn;
 
         public BaoCaoHopDong()
         {

@@ -39,7 +39,7 @@
     <Reference Include="CrystalDecisions.Shared, Version=13.0.4000.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL" />
     <Reference Include="CrystalDecisions.Windows.Forms, Version=13.0.4000.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL" />
     <Reference Include="Guna.UI2, Version=2.0.4.7, Culture=neutral, PublicKeyToken=8b9d14aa5142e261, processorArchitecture=MSIL">
-      <HintPath>packages\Guna.UI2.WinForms.2.0.4.7\lib\net472\Guna.UI2.dll</HintPath>
+      <HintPath>packages\Guna.UI2.WinForms.2.0.4.7\lib\net48\Guna.UI2.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -59,11 +59,23 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ButtonFeatureCRUDComponent.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="ButtonFeatureCRUDComponent.Designer.cs">
+      <DependentUpon>ButtonFeatureCRUDComponent.cs</DependentUpon>
+    </Compile>
     <Compile Include="ButtonFeatureHomeComponent.cs">
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="ButtonFeatureHomeComponent.Designer.cs">
       <DependentUpon>ButtonFeatureHomeComponent.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ButtonFeatureReportComponent.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="ButtonFeatureReportComponent.Designer.cs">
+      <DependentUpon>ButtonFeatureReportComponent.cs</DependentUpon>
     </Compile>
     <Compile Include="ButtonFeatureViewComponent.cs">
       <SubType>UserControl</SubType>
@@ -71,10 +83,22 @@
     <Compile Include="ButtonFeatureViewComponent.Designer.cs">
       <DependentUpon>ButtonFeatureViewComponent.cs</DependentUpon>
     </Compile>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="RPBaoCaoKyLuat.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>RPBaoCaoKyLuat.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="RPBaoCaoLuong.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>RPBaoCaoLuong.rpt</DependentUpon>
+      <SubType>Component</SubType>
     </Compile>
     <Compile Include="UCCapNhatMatkhau.cs">
       <SubType>UserControl</SubType>
@@ -99,6 +123,7 @@
     </Compile>
     <Compile Include="UCDuyetNghiPhep.Designer.cs">
       <DependentUpon>UCDuyetNghiPhep.cs</DependentUpon>
+    </Compile>
     <Compile Include="BaoCaoHopDong.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -158,6 +183,7 @@
     </Compile>
     <Compile Include="FrmReportKhenThuong.Designer.cs">
       <DependentUpon>FrmReportKhenThuong.cs</DependentUpon>
+    </Compile>
     <Compile Include="EmployeTemp.cs" />
     <Compile Include="FormBaoCaoChamCongCaNhan.cs">
       <SubType>Form</SubType>
@@ -203,17 +229,35 @@
     <Compile Include="UCDanhGiaHieuSuat.Designer.cs">
       <DependentUpon>UCDanhGiaHieuSuat.cs</DependentUpon>
     </Compile>
+    <Compile Include="UCReportDanhSachKyLuat.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UCReportDanhSachKyLuat.Designer.cs" />
+    <Compile Include="UCReportDanhSachLuongPBan.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UCReportDanhSachLuongPBan.Designer.cs" />
     <Compile Include="UCXemKyLuat.cs">
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="UCXemKyLuat.Designer.cs">
       <DependentUpon>UCXemKyLuat.cs</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="ButtonFeatureCRUDComponent.resx">
+      <DependentUpon>ButtonFeatureCRUDComponent.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="ButtonFeatureHomeComponent.resx">
       <DependentUpon>ButtonFeatureHomeComponent.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="ButtonFeatureReportComponent.resx">
+      <DependentUpon>ButtonFeatureReportComponent.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="ButtonFeatureViewComponent.resx">
       <DependentUpon>ButtonFeatureViewComponent.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="RPBaoCaoKyLuat.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>RPBaoCaoKyLuat.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="RPBaoCaoLuong.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
@@ -230,6 +274,7 @@
     </EmbeddedResource>
     <EmbeddedResource Include="UCDuyetNghiPhep.resx">
       <DependentUpon>UCDuyetNghiPhep.cs</DependentUpon>
+    </EmbeddedResource>
     <Compile Include="TaoDanhGiaHieuSuat.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -278,6 +323,7 @@
     </EmbeddedResource>
     <EmbeddedResource Include="FrmReportKhenThuong.resx">
       <DependentUpon>FrmReportKhenThuong.cs</DependentUpon>
+    </EmbeddedResource>
     <Compile Include="rptChamCongCaNhan.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -361,18 +407,17 @@
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <Compile Include="Properties\Resources.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DependentUpon>Resources.resx</DependentUpon>
-      <DesignTime>True</DesignTime>
-    </Compile>
     <EmbeddedResource Include="UCDanhGiaHieuSuat.resx">
       <DependentUpon>UCDanhGiaHieuSuat.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="UCReportDanhSachKyLuat.resx" />
+    <EmbeddedResource Include="UCReportDanhSachLuongPBan.resx" />
     <EmbeddedResource Include="UCXemKyLuat.resx">
       <DependentUpon>UCXemKyLuat.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="TaoDanhGiaHieuSuat.resx">
       <DependentUpon>TaoDanhGiaHieuSuat.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="rptChamCongCaNhan.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>rptChamCongCaNhan.cs</LastGenOutput>
@@ -470,6 +515,7 @@
   <ItemGroup>
     <None Include="Resources\eyebrow.png" />
   </ItemGroup>
+  <ItemGroup>
     <Service Include="{C0C07587-41A7-46C8-8FBD-3F9C8EBE2DDC}" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

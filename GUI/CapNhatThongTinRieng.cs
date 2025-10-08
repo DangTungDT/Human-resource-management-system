@@ -29,7 +29,7 @@ namespace GUI
         private Guna2CirclePictureBox picAvatar;
         private string idNhanVien;
         private string imagePath = "";
-        private string connectionString = @"Data Source=DESKTOP-UM1I61K\THANHNGAN;Initial Catalog=PersonnelManagement;Integrated Security=True;";
+        private string connectionString = ConnectionDB.conn;
 
         public CapNhatThongTinRieng(string idNV)
         {

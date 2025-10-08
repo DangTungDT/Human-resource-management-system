@@ -44,8 +44,9 @@
             this.tpReport = new System.Windows.Forms.TabPage();
             this.btnBaoCaoKhenThuong = new Guna.UI2.WinForms.Guna2Button();
             this.btnTaoHDLD = new Guna.UI2.WinForms.Guna2Button();
+            this.tpCRUD = new System.Windows.Forms.TabPage();
             this.tpSystem = new System.Windows.Forms.TabPage();
-            this.pnMain = new Guna.UI2.WinForms.Guna2CustomGradientPanel();
+            this.pnContent = new Guna.UI2.WinForms.Guna2Panel();
             this.tcMenu.SuspendLayout();
             this.tpHome.SuspendLayout();
             this.tpView.SuspendLayout();
@@ -57,14 +58,15 @@
             this.tcMenu.Controls.Add(this.tpHome);
             this.tcMenu.Controls.Add(this.tpView);
             this.tcMenu.Controls.Add(this.tpReport);
+            this.tcMenu.Controls.Add(this.tpCRUD);
             this.tcMenu.Controls.Add(this.tpSystem);
             this.tcMenu.Dock = System.Windows.Forms.DockStyle.Top;
             this.tcMenu.ItemSize = new System.Drawing.Size(180, 30);
             this.tcMenu.Location = new System.Drawing.Point(0, 0);
-            this.tcMenu.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.tcMenu.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.tcMenu.Name = "tcMenu";
             this.tcMenu.SelectedIndex = 0;
-            this.tcMenu.Size = new System.Drawing.Size(1414, 123);
+            this.tcMenu.Size = new System.Drawing.Size(1885, 151);
             this.tcMenu.TabButtonHoverState.BorderColor = System.Drawing.Color.Empty;
             this.tcMenu.TabButtonHoverState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(128)))), ((int)(((byte)(255)))));
             this.tcMenu.TabButtonHoverState.Font = new System.Drawing.Font("Segoe UI Semibold", 10F);
@@ -100,10 +102,10 @@
             this.tpHome.Controls.Add(this.btnCapNhatTTNV);
             this.tpHome.ForeColor = System.Drawing.Color.Black;
             this.tpHome.Location = new System.Drawing.Point(4, 34);
-            this.tpHome.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.tpHome.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.tpHome.Name = "tpHome";
-            this.tpHome.Padding = new System.Windows.Forms.Padding(3);
-            this.tpHome.Size = new System.Drawing.Size(1406, 85);
+            this.tpHome.Padding = new System.Windows.Forms.Padding(4);
+            this.tpHome.Size = new System.Drawing.Size(1877, 113);
             this.tpHome.TabIndex = 0;
             this.tpHome.Text = "Trang chủ";
             this.tpHome.Click += new System.EventHandler(this.tpHome_Click);
@@ -116,9 +118,10 @@
             this.btnCRUDChucVu.DisabledState.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(141)))), ((int)(((byte)(141)))), ((int)(((byte)(141)))));
             this.btnCRUDChucVu.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.btnCRUDChucVu.ForeColor = System.Drawing.Color.White;
-            this.btnCRUDChucVu.Location = new System.Drawing.Point(1092, 17);
+            this.btnCRUDChucVu.Location = new System.Drawing.Point(1456, 21);
+            this.btnCRUDChucVu.Margin = new System.Windows.Forms.Padding(4);
             this.btnCRUDChucVu.Name = "btnCRUDChucVu";
-            this.btnCRUDChucVu.Size = new System.Drawing.Size(133, 45);
+            this.btnCRUDChucVu.Size = new System.Drawing.Size(177, 55);
             this.btnCRUDChucVu.TabIndex = 7;
             this.btnCRUDChucVu.Text = "Cập nhật chức vụ";
             this.btnCRUDChucVu.Click += new System.EventHandler(this.btnCRUDChucVu_Click);
@@ -131,9 +134,10 @@
             this.btnCRUDPhongBan.DisabledState.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(141)))), ((int)(((byte)(141)))), ((int)(((byte)(141)))));
             this.btnCRUDPhongBan.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.btnCRUDPhongBan.ForeColor = System.Drawing.Color.White;
-            this.btnCRUDPhongBan.Location = new System.Drawing.Point(940, 17);
+            this.btnCRUDPhongBan.Location = new System.Drawing.Point(1253, 21);
+            this.btnCRUDPhongBan.Margin = new System.Windows.Forms.Padding(4);
             this.btnCRUDPhongBan.Name = "btnCRUDPhongBan";
-            this.btnCRUDPhongBan.Size = new System.Drawing.Size(133, 45);
+            this.btnCRUDPhongBan.Size = new System.Drawing.Size(177, 55);
             this.btnCRUDPhongBan.TabIndex = 6;
             this.btnCRUDPhongBan.Text = "Cập nhật phòng ban";
             this.btnCRUDPhongBan.Click += new System.EventHandler(this.btnCRUDPhongBan_Click);
@@ -146,9 +150,10 @@
             this.btnCRUDTaiKhoan.DisabledState.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(141)))), ((int)(((byte)(141)))), ((int)(((byte)(141)))));
             this.btnCRUDTaiKhoan.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.btnCRUDTaiKhoan.ForeColor = System.Drawing.Color.White;
-            this.btnCRUDTaiKhoan.Location = new System.Drawing.Point(784, 17);
+            this.btnCRUDTaiKhoan.Location = new System.Drawing.Point(1045, 21);
+            this.btnCRUDTaiKhoan.Margin = new System.Windows.Forms.Padding(4);
             this.btnCRUDTaiKhoan.Name = "btnCRUDTaiKhoan";
-            this.btnCRUDTaiKhoan.Size = new System.Drawing.Size(133, 45);
+            this.btnCRUDTaiKhoan.Size = new System.Drawing.Size(177, 55);
             this.btnCRUDTaiKhoan.TabIndex = 5;
             this.btnCRUDTaiKhoan.Text = "Cập nhật tài khoản";
             this.btnCRUDTaiKhoan.Click += new System.EventHandler(this.btnCRUDTaiKhoan_Click);
@@ -161,9 +166,10 @@
             this.btnCapNhatThongTinRieng.DisabledState.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(141)))), ((int)(((byte)(141)))), ((int)(((byte)(141)))));
             this.btnCapNhatThongTinRieng.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.btnCapNhatThongTinRieng.ForeColor = System.Drawing.Color.White;
-            this.btnCapNhatThongTinRieng.Location = new System.Drawing.Point(8, 17);
+            this.btnCapNhatThongTinRieng.Location = new System.Drawing.Point(11, 21);
+            this.btnCapNhatThongTinRieng.Margin = new System.Windows.Forms.Padding(4);
             this.btnCapNhatThongTinRieng.Name = "btnCapNhatThongTinRieng";
-            this.btnCapNhatThongTinRieng.Size = new System.Drawing.Size(133, 45);
+            this.btnCapNhatThongTinRieng.Size = new System.Drawing.Size(177, 55);
             this.btnCapNhatThongTinRieng.TabIndex = 4;
             this.btnCapNhatThongTinRieng.Text = "Cập nhật Thông Tin Cá Nhân";
             this.btnCapNhatThongTinRieng.Click += new System.EventHandler(this.guna2Button1_Click);
@@ -176,9 +182,10 @@
             this.btnTaoKhenThuong.DisabledState.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(141)))), ((int)(((byte)(141)))), ((int)(((byte)(141)))));
             this.btnTaoKhenThuong.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.btnTaoKhenThuong.ForeColor = System.Drawing.Color.White;
-            this.btnTaoKhenThuong.Location = new System.Drawing.Point(628, 17);
+            this.btnTaoKhenThuong.Location = new System.Drawing.Point(837, 21);
+            this.btnTaoKhenThuong.Margin = new System.Windows.Forms.Padding(4);
             this.btnTaoKhenThuong.Name = "btnTaoKhenThuong";
-            this.btnTaoKhenThuong.Size = new System.Drawing.Size(133, 45);
+            this.btnTaoKhenThuong.Size = new System.Drawing.Size(177, 55);
             this.btnTaoKhenThuong.TabIndex = 3;
             this.btnTaoKhenThuong.Text = "Tạo khen thưởng";
             this.btnTaoKhenThuong.Click += new System.EventHandler(this.btnTaoKhenThuong_Click);
@@ -191,9 +198,10 @@
             this.btnTaoDanhGiaHieuSuat.DisabledState.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(141)))), ((int)(((byte)(141)))), ((int)(((byte)(141)))));
             this.btnTaoDanhGiaHieuSuat.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.btnTaoDanhGiaHieuSuat.ForeColor = System.Drawing.Color.White;
-            this.btnTaoDanhGiaHieuSuat.Location = new System.Drawing.Point(317, 17);
+            this.btnTaoDanhGiaHieuSuat.Location = new System.Drawing.Point(423, 21);
+            this.btnTaoDanhGiaHieuSuat.Margin = new System.Windows.Forms.Padding(4);
             this.btnTaoDanhGiaHieuSuat.Name = "btnTaoDanhGiaHieuSuat";
-            this.btnTaoDanhGiaHieuSuat.Size = new System.Drawing.Size(133, 45);
+            this.btnTaoDanhGiaHieuSuat.Size = new System.Drawing.Size(177, 55);
             this.btnTaoDanhGiaHieuSuat.TabIndex = 2;
             this.btnTaoDanhGiaHieuSuat.Text = "Tao đánh giá hiệu suất";
             this.btnTaoDanhGiaHieuSuat.Click += new System.EventHandler(this.btnTaoDanhGiaHieuSuat_Click);
@@ -206,9 +214,10 @@
             this.btnTaoKyLuat.DisabledState.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(141)))), ((int)(((byte)(141)))), ((int)(((byte)(141)))));
             this.btnTaoKyLuat.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.btnTaoKyLuat.ForeColor = System.Drawing.Color.White;
-            this.btnTaoKyLuat.Location = new System.Drawing.Point(473, 17);
+            this.btnTaoKyLuat.Location = new System.Drawing.Point(631, 21);
+            this.btnTaoKyLuat.Margin = new System.Windows.Forms.Padding(4);
             this.btnTaoKyLuat.Name = "btnTaoKyLuat";
-            this.btnTaoKyLuat.Size = new System.Drawing.Size(133, 45);
+            this.btnTaoKyLuat.Size = new System.Drawing.Size(177, 55);
             this.btnTaoKyLuat.TabIndex = 1;
             this.btnTaoKyLuat.Text = "Tạo kỷ luật";
             this.btnTaoKyLuat.Click += new System.EventHandler(this.btnTaoKyLuat_Click);
@@ -221,9 +230,10 @@
             this.btnCapNhatTTNV.DisabledState.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(141)))), ((int)(((byte)(141)))), ((int)(((byte)(141)))));
             this.btnCapNhatTTNV.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.btnCapNhatTTNV.ForeColor = System.Drawing.Color.White;
-            this.btnCapNhatTTNV.Location = new System.Drawing.Point(162, 17);
+            this.btnCapNhatTTNV.Location = new System.Drawing.Point(216, 21);
+            this.btnCapNhatTTNV.Margin = new System.Windows.Forms.Padding(4);
             this.btnCapNhatTTNV.Name = "btnCapNhatTTNV";
-            this.btnCapNhatTTNV.Size = new System.Drawing.Size(133, 45);
+            this.btnCapNhatTTNV.Size = new System.Drawing.Size(177, 55);
             this.btnCapNhatTTNV.TabIndex = 0;
             this.btnCapNhatTTNV.Text = "Cập nhật Thông Tin Nhân Viên";
             this.btnCapNhatTTNV.Click += new System.EventHandler(this.btnCapNhatTTNV_Click);
@@ -235,10 +245,10 @@
             this.tpView.Controls.Add(this.btnXemNghiPhep);
             this.tpView.ForeColor = System.Drawing.Color.Black;
             this.tpView.Location = new System.Drawing.Point(4, 34);
-            this.tpView.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.tpView.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.tpView.Name = "tpView";
-            this.tpView.Padding = new System.Windows.Forms.Padding(3);
-            this.tpView.Size = new System.Drawing.Size(1406, 85);
+            this.tpView.Padding = new System.Windows.Forms.Padding(4);
+            this.tpView.Size = new System.Drawing.Size(1877, 113);
             this.tpView.TabIndex = 1;
             this.tpView.Text = "Hiển thị";
             this.tpView.Click += new System.EventHandler(this.tpView_Click);
@@ -251,9 +261,10 @@
             this.btnXemThongTinCaNhan.DisabledState.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(141)))), ((int)(((byte)(141)))), ((int)(((byte)(141)))));
             this.btnXemThongTinCaNhan.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.btnXemThongTinCaNhan.ForeColor = System.Drawing.Color.White;
-            this.btnXemThongTinCaNhan.Location = new System.Drawing.Point(179, 17);
+            this.btnXemThongTinCaNhan.Location = new System.Drawing.Point(239, 21);
+            this.btnXemThongTinCaNhan.Margin = new System.Windows.Forms.Padding(4);
             this.btnXemThongTinCaNhan.Name = "btnXemThongTinCaNhan";
-            this.btnXemThongTinCaNhan.Size = new System.Drawing.Size(133, 45);
+            this.btnXemThongTinCaNhan.Size = new System.Drawing.Size(177, 55);
             this.btnXemThongTinCaNhan.TabIndex = 2;
             this.btnXemThongTinCaNhan.Text = "Xem Thông Tin Cá Nhân";
             this.btnXemThongTinCaNhan.Click += new System.EventHandler(this.btnXemThongTinCaNhan_Click);
@@ -266,9 +277,10 @@
             this.btnXemNghiPhep.DisabledState.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(141)))), ((int)(((byte)(141)))), ((int)(((byte)(141)))));
             this.btnXemNghiPhep.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.btnXemNghiPhep.ForeColor = System.Drawing.Color.White;
-            this.btnXemNghiPhep.Location = new System.Drawing.Point(18, 17);
+            this.btnXemNghiPhep.Location = new System.Drawing.Point(24, 21);
+            this.btnXemNghiPhep.Margin = new System.Windows.Forms.Padding(4);
             this.btnXemNghiPhep.Name = "btnXemNghiPhep";
-            this.btnXemNghiPhep.Size = new System.Drawing.Size(133, 45);
+            this.btnXemNghiPhep.Size = new System.Drawing.Size(177, 55);
             this.btnXemNghiPhep.TabIndex = 1;
             this.btnXemNghiPhep.Text = "Xem thông tin nghỉ phép";
             this.btnXemNghiPhep.Click += new System.EventHandler(this.btnXemNghiPhep_Click);
@@ -280,11 +292,12 @@
             this.tpReport.Controls.Add(this.btnTaoHDLD);
             this.tpReport.ForeColor = System.Drawing.Color.Black;
             this.tpReport.Location = new System.Drawing.Point(4, 34);
-            this.tpReport.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.tpReport.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.tpReport.Name = "tpReport";
-            this.tpReport.Size = new System.Drawing.Size(1406, 85);
+            this.tpReport.Size = new System.Drawing.Size(1877, 113);
             this.tpReport.TabIndex = 3;
             this.tpReport.Text = "Báo cáo";
+            this.tpReport.Click += new System.EventHandler(this.tpReport_Click);
             // 
             // btnBaoCaoKhenThuong
             // 
@@ -294,9 +307,10 @@
             this.btnBaoCaoKhenThuong.DisabledState.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(141)))), ((int)(((byte)(141)))), ((int)(((byte)(141)))));
             this.btnBaoCaoKhenThuong.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.btnBaoCaoKhenThuong.ForeColor = System.Drawing.Color.White;
-            this.btnBaoCaoKhenThuong.Location = new System.Drawing.Point(185, 17);
+            this.btnBaoCaoKhenThuong.Location = new System.Drawing.Point(247, 21);
+            this.btnBaoCaoKhenThuong.Margin = new System.Windows.Forms.Padding(4);
             this.btnBaoCaoKhenThuong.Name = "btnBaoCaoKhenThuong";
-            this.btnBaoCaoKhenThuong.Size = new System.Drawing.Size(133, 45);
+            this.btnBaoCaoKhenThuong.Size = new System.Drawing.Size(177, 55);
             this.btnBaoCaoKhenThuong.TabIndex = 6;
             this.btnBaoCaoKhenThuong.Text = "Khen Thưởng";
             this.btnBaoCaoKhenThuong.Click += new System.EventHandler(this.btnBaoCaoKhenThuong_Click);
@@ -309,41 +323,55 @@
             this.btnTaoHDLD.DisabledState.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(141)))), ((int)(((byte)(141)))), ((int)(((byte)(141)))));
             this.btnTaoHDLD.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.btnTaoHDLD.ForeColor = System.Drawing.Color.White;
-            this.btnTaoHDLD.Location = new System.Drawing.Point(22, 17);
+            this.btnTaoHDLD.Location = new System.Drawing.Point(29, 21);
+            this.btnTaoHDLD.Margin = new System.Windows.Forms.Padding(4);
             this.btnTaoHDLD.Name = "btnTaoHDLD";
-            this.btnTaoHDLD.Size = new System.Drawing.Size(133, 45);
+            this.btnTaoHDLD.Size = new System.Drawing.Size(177, 55);
             this.btnTaoHDLD.TabIndex = 5;
             this.btnTaoHDLD.Text = "Hợp đồng lao động";
             this.btnTaoHDLD.Click += new System.EventHandler(this.btnTaoHDLD_Click);
+            // 
+            // tpCRUD
+            // 
+            this.tpCRUD.Location = new System.Drawing.Point(4, 34);
+            this.tpCRUD.Name = "tpCRUD";
+            this.tpCRUD.Size = new System.Drawing.Size(1877, 113);
+            this.tpCRUD.TabIndex = 4;
+            this.tpCRUD.Text = "Quản lý";
+            this.tpCRUD.UseVisualStyleBackColor = true;
+            this.tpCRUD.Click += new System.EventHandler(this.tpCRUD_Click);
             // 
             // tpSystem
             // 
             this.tpSystem.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
             this.tpSystem.ForeColor = System.Drawing.Color.Black;
             this.tpSystem.Location = new System.Drawing.Point(4, 34);
-            this.tpSystem.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.tpSystem.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.tpSystem.Name = "tpSystem";
-            this.tpSystem.Size = new System.Drawing.Size(1406, 85);
+            this.tpSystem.Size = new System.Drawing.Size(1877, 113);
             this.tpSystem.TabIndex = 2;
             this.tpSystem.Text = "Hệ thống";
+            this.tpSystem.Click += new System.EventHandler(this.tpSystem_Click);
             // 
-            // pnMain
+            // pnContent
             // 
             this.pnContent.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pnContent.Location = new System.Drawing.Point(0, 123);
+            this.pnContent.Location = new System.Drawing.Point(0, 151);
+            this.pnContent.Margin = new System.Windows.Forms.Padding(4);
             this.pnContent.Name = "pnContent";
-            this.pnContent.Size = new System.Drawing.Size(1414, 327);
+            this.pnContent.Size = new System.Drawing.Size(1885, 403);
             this.pnContent.TabIndex = 1;
             // 
             // Main
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1414, 450);
+            this.ClientSize = new System.Drawing.Size(1885, 554);
             this.Controls.Add(this.pnContent);
             this.Controls.Add(this.tcMenu);
             this.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.Margin = new System.Windows.Forms.Padding(4);
             this.MaximizeBox = false;
             this.Name = "Main";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
@@ -377,6 +405,8 @@
         private Guna.UI2.WinForms.Guna2Button btnCRUDTaiKhoan;
         private Guna.UI2.WinForms.Guna2Button btnCRUDChucVu;
         private Guna.UI2.WinForms.Guna2Button btnBaoCaoKhenThuong;
+        private System.Windows.Forms.TabPage tpHome;
+        private System.Windows.Forms.TabPage tpCRUD;
     }
 }
 

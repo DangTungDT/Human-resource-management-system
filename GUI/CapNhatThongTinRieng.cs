@@ -1,21 +1,7 @@
 ﻿using Guna.UI2.WinForms;
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Data.SqlClient;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-using System.Xml.Linq;
-
-using Guna.UI2.WinForms;
-using System;
-using System.Data.SqlClient;
-using System.Drawing;
-using System.IO;
 using System.Windows.Forms;
 
 namespace GUI
@@ -27,13 +13,16 @@ namespace GUI
         private Guna2DateTimePicker dtDob;
         private Guna2Button btnSave, btnBack, btnUpload;
         private Guna2CirclePictureBox picAvatar;
+        private Panel _panel;
+
         private string idNhanVien;
         private string imagePath = "";
         private string connectionString = ConnectionDB.conn;
 
-        public CapNhatThongTinRieng(string idNV)
+        public CapNhatThongTinRieng(string idNV, Panel panel)
         {
             idNhanVien = idNV;
+            _panel = panel;
             InitializeComponent();
             BuildUI();
             LoadThongTinCaNhan();
@@ -97,7 +86,7 @@ namespace GUI
             // ===== FORM NHẬP =====
             txtName = new Guna2TextBox() { PlaceholderText = "Họ tên", BorderRadius = 6, Margin = new Padding(0, 8, 0, 8) };
             dtDob = new Guna2DateTimePicker() { Format = DateTimePickerFormat.Custom, CustomFormat = "dd/MM/yyyy", BorderRadius = 6, Margin = new Padding(0, 8, 0, 8) };
-            cbGender = new Guna2ComboBox() { BorderRadius = 6, DropDownStyle = ComboBoxStyle.DropDownList,Width = 200, Margin = new Padding(0, 8, 0, 8) };
+            cbGender = new Guna2ComboBox() { BorderRadius = 6, DropDownStyle = ComboBoxStyle.DropDownList, Width = 200, Margin = new Padding(0, 8, 0, 8) };
             cbGender.Items.AddRange(new object[] { "Nam", "Nữ", "Khác" });
             txtAddress = new Guna2TextBox() { PlaceholderText = "Địa chỉ", BorderRadius = 6, Margin = new Padding(0, 8, 0, 8) };
             txtQue = new Guna2TextBox() { PlaceholderText = "Quê quán", BorderRadius = 6, Margin = new Padding(0, 8, 0, 8) };
@@ -237,19 +226,24 @@ namespace GUI
 
                 MessageBox.Show("✅ Cập nhật thành công!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
-                XemThongTinCaNhan xemPage = new XemThongTinCaNhan(idNhanVien);
-                Control parent = this.Parent;
-                parent.Controls.Clear();
-                parent.Controls.Add(xemPage);
+                XemThongTinCaNhan xemPage = new XemThongTinCaNhan(idNhanVien, _panel);
+                var parent = this.ParentForm as Main;
+                parent?.ShowUserControl("XemThongTinCaNhan");
+                parent.ChildFormComponent(_panel, "ButtonFeatureViewComponent");
             }
         }
 
         private void BtnBack_Click(object sender, EventArgs e)
         {
-            XemThongTinCaNhan xemPage = new XemThongTinCaNhan(idNhanVien);
-            Control parent = this.Parent;
-            parent.Controls.Clear();
-            parent.Controls.Add(xemPage);
+            //XemThongTinCaNhan xemPage = new XemThongTinCaNhan(idNhanVien);
+            //Control parent = this.Parent;
+            //parent.Controls.Clear();
+            //parent.Controls.Add(xemPage);
+
+            XemThongTinCaNhan xemPage = new XemThongTinCaNhan(idNhanVien, _panel);
+            var parent = this.ParentForm as Main;
+            parent?.ShowUserControl("XemThongTinCaNhan");
+            parent.ChildFormComponent(_panel, "ButtonFeatureViewComponent");
         }
 
         private void LoadThongTinCaNhan()

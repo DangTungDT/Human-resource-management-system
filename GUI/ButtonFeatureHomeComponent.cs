@@ -59,7 +59,7 @@ namespace GUI
         private void guna2TileButton2_Click(object sender, EventArgs e)
         {
             var main = this.ParentForm as Main;
-            main?.ShowUserControl("UCDanhGiaHieuSuat");
+            main?.ShowUserControl("TaoDanhGiaHieuSuat");
             main.ChildFormComponent(_tpHome, "ButtonFeatureHomeComponent");
         }
 

@@ -56,7 +56,7 @@
             this.flowLayoutPanel1.Location = new System.Drawing.Point(7, 6);
             this.flowLayoutPanel1.Margin = new System.Windows.Forms.Padding(4);
             this.flowLayoutPanel1.Name = "flowLayoutPanel1";
-            this.flowLayoutPanel1.Size = new System.Drawing.Size(1478, 77);
+            this.flowLayoutPanel1.Size = new System.Drawing.Size(1638, 87);
             this.flowLayoutPanel1.TabIndex = 3;
             // 
             // btnNghiPhep
@@ -78,7 +78,7 @@
             this.btnNghiPhep.Location = new System.Drawing.Point(4, 4);
             this.btnNghiPhep.Margin = new System.Windows.Forms.Padding(4);
             this.btnNghiPhep.Name = "btnNghiPhep";
-            this.btnNghiPhep.Size = new System.Drawing.Size(150, 64);
+            this.btnNghiPhep.Size = new System.Drawing.Size(180, 64);
             this.btnNghiPhep.TabIndex = 2;
             this.btnNghiPhep.Text = "Nghỉ phép";
             this.btnNghiPhep.TextFormatNoPrefix = true;
@@ -100,10 +100,10 @@
             this.btnDuyetNghi.ImageSize = new System.Drawing.Size(30, 30);
             this.btnDuyetNghi.ImeMode = System.Windows.Forms.ImeMode.NoControl;
             this.btnDuyetNghi.IndicateFocus = true;
-            this.btnDuyetNghi.Location = new System.Drawing.Point(162, 4);
+            this.btnDuyetNghi.Location = new System.Drawing.Point(192, 4);
             this.btnDuyetNghi.Margin = new System.Windows.Forms.Padding(4);
             this.btnDuyetNghi.Name = "btnDuyetNghi";
-            this.btnDuyetNghi.Size = new System.Drawing.Size(150, 64);
+            this.btnDuyetNghi.Size = new System.Drawing.Size(180, 64);
             this.btnDuyetNghi.TabIndex = 0;
             this.btnDuyetNghi.Text = "Duyệt nghỉ";
             this.btnDuyetNghi.TextFormatNoPrefix = true;
@@ -125,10 +125,10 @@
             this.guna2TileButton1.ImageSize = new System.Drawing.Size(30, 30);
             this.guna2TileButton1.ImeMode = System.Windows.Forms.ImeMode.NoControl;
             this.guna2TileButton1.IndicateFocus = true;
-            this.guna2TileButton1.Location = new System.Drawing.Point(320, 4);
+            this.guna2TileButton1.Location = new System.Drawing.Point(380, 4);
             this.guna2TileButton1.Margin = new System.Windows.Forms.Padding(4);
             this.guna2TileButton1.Name = "guna2TileButton1";
-            this.guna2TileButton1.Size = new System.Drawing.Size(150, 64);
+            this.guna2TileButton1.Size = new System.Drawing.Size(180, 64);
             this.guna2TileButton1.TabIndex = 4;
             this.guna2TileButton1.Text = "Thông tin riêng";
             this.guna2TileButton1.TextFormatNoPrefix = true;
@@ -150,10 +150,10 @@
             this.guna2TileButton2.ImageSize = new System.Drawing.Size(30, 30);
             this.guna2TileButton2.ImeMode = System.Windows.Forms.ImeMode.NoControl;
             this.guna2TileButton2.IndicateFocus = true;
-            this.guna2TileButton2.Location = new System.Drawing.Point(478, 4);
+            this.guna2TileButton2.Location = new System.Drawing.Point(568, 4);
             this.guna2TileButton2.Margin = new System.Windows.Forms.Padding(4);
             this.guna2TileButton2.Name = "guna2TileButton2";
-            this.guna2TileButton2.Size = new System.Drawing.Size(150, 64);
+            this.guna2TileButton2.Size = new System.Drawing.Size(180, 64);
             this.guna2TileButton2.TabIndex = 5;
             this.guna2TileButton2.Text = "ĐG hiệu suất";
             this.guna2TileButton2.TextFormatNoPrefix = true;
@@ -175,10 +175,10 @@
             this.btnTaoKyLuat.ImageSize = new System.Drawing.Size(30, 30);
             this.btnTaoKyLuat.ImeMode = System.Windows.Forms.ImeMode.NoControl;
             this.btnTaoKyLuat.IndicateFocus = true;
-            this.btnTaoKyLuat.Location = new System.Drawing.Point(636, 4);
+            this.btnTaoKyLuat.Location = new System.Drawing.Point(756, 4);
             this.btnTaoKyLuat.Margin = new System.Windows.Forms.Padding(4);
             this.btnTaoKyLuat.Name = "btnTaoKyLuat";
-            this.btnTaoKyLuat.Size = new System.Drawing.Size(150, 64);
+            this.btnTaoKyLuat.Size = new System.Drawing.Size(180, 64);
             this.btnTaoKyLuat.TabIndex = 7;
             this.btnTaoKyLuat.Text = "Tạo kỷ luật";
             this.btnTaoKyLuat.TextFormatNoPrefix = true;
@@ -200,10 +200,10 @@
             this.guna2TileButton4.ImageSize = new System.Drawing.Size(30, 30);
             this.guna2TileButton4.ImeMode = System.Windows.Forms.ImeMode.NoControl;
             this.guna2TileButton4.IndicateFocus = true;
-            this.guna2TileButton4.Location = new System.Drawing.Point(794, 4);
+            this.guna2TileButton4.Location = new System.Drawing.Point(944, 4);
             this.guna2TileButton4.Margin = new System.Windows.Forms.Padding(4);
             this.guna2TileButton4.Name = "guna2TileButton4";
-            this.guna2TileButton4.Size = new System.Drawing.Size(150, 64);
+            this.guna2TileButton4.Size = new System.Drawing.Size(180, 64);
             this.guna2TileButton4.TabIndex = 8;
             this.guna2TileButton4.Text = "Tạo khen thưởng";
             this.guna2TileButton4.TextFormatNoPrefix = true;
@@ -225,10 +225,10 @@
             this.guna2TileButton5.ImageSize = new System.Drawing.Size(30, 30);
             this.guna2TileButton5.ImeMode = System.Windows.Forms.ImeMode.NoControl;
             this.guna2TileButton5.IndicateFocus = true;
-            this.guna2TileButton5.Location = new System.Drawing.Point(952, 4);
+            this.guna2TileButton5.Location = new System.Drawing.Point(1132, 4);
             this.guna2TileButton5.Margin = new System.Windows.Forms.Padding(4);
             this.guna2TileButton5.Name = "guna2TileButton5";
-            this.guna2TileButton5.Size = new System.Drawing.Size(150, 64);
+            this.guna2TileButton5.Size = new System.Drawing.Size(180, 64);
             this.guna2TileButton5.TabIndex = 9;
             this.guna2TileButton5.Text = "Chấm công check";
             this.guna2TileButton5.TextFormatNoPrefix = true;
@@ -250,10 +250,10 @@
             this.guna2TileButton6.ImageSize = new System.Drawing.Size(30, 30);
             this.guna2TileButton6.ImeMode = System.Windows.Forms.ImeMode.NoControl;
             this.guna2TileButton6.IndicateFocus = true;
-            this.guna2TileButton6.Location = new System.Drawing.Point(1110, 4);
+            this.guna2TileButton6.Location = new System.Drawing.Point(1320, 4);
             this.guna2TileButton6.Margin = new System.Windows.Forms.Padding(4);
             this.guna2TileButton6.Name = "guna2TileButton6";
-            this.guna2TileButton6.Size = new System.Drawing.Size(150, 64);
+            this.guna2TileButton6.Size = new System.Drawing.Size(180, 64);
             this.guna2TileButton6.TabIndex = 10;
             this.guna2TileButton6.Text = "Chấm công hình";
             this.guna2TileButton6.TextFormatNoPrefix = true;
@@ -275,10 +275,10 @@
             this.guna2TileButton7.ImageSize = new System.Drawing.Size(30, 30);
             this.guna2TileButton7.ImeMode = System.Windows.Forms.ImeMode.NoControl;
             this.guna2TileButton7.IndicateFocus = true;
-            this.guna2TileButton7.Location = new System.Drawing.Point(1268, 4);
+            this.guna2TileButton7.Location = new System.Drawing.Point(4, 76);
             this.guna2TileButton7.Margin = new System.Windows.Forms.Padding(4);
             this.guna2TileButton7.Name = "guna2TileButton7";
-            this.guna2TileButton7.Size = new System.Drawing.Size(150, 64);
+            this.guna2TileButton7.Size = new System.Drawing.Size(180, 64);
             this.guna2TileButton7.TabIndex = 11;
             this.guna2TileButton7.Text = "Duyệt tuyển dụng";
             this.guna2TileButton7.TextFormatNoPrefix = true;
@@ -292,7 +292,7 @@
             this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "ButtonFeatureHomeComponent";
             this.Padding = new System.Windows.Forms.Padding(7, 6, 7, 6);
-            this.Size = new System.Drawing.Size(1492, 89);
+            this.Size = new System.Drawing.Size(1652, 99);
             this.flowLayoutPanel1.ResumeLayout(false);
             this.ResumeLayout(false);
 

@@ -74,7 +74,7 @@ namespace GUI
             _userControls["BaoCaoHopDong"] = new BaoCaoHopDong();
             _userControls["BaoCaoKhenThuong"] = new BaoCaoKhenThuong();
             _userControls["CapNhatThongTinNV"] = new CapNhatThongTinNV();
-            _userControls["CapNhatThongTinRieng"] = new CapNhatThongTinRieng(idNV);
+            _userControls["CapNhatThongTinRieng"] = new CapNhatThongTinRieng(idNV, tpView);
             _userControls["CRUDChucVu"] = new CRUDChucVu();
             _userControls["CRUDPhongBan"] = new CRUDPhongban();
             _userControls["CRUDTaiKhoan"] = new CRUDTaiKhoan();
@@ -93,7 +93,7 @@ namespace GUI
             _userControls["UCXemKyLuat"] = new UCXemKyLuat();
             _userControls["ucXemTuyenDung"] = new ucXemTuyenDung();
             _userControls["XemNghiPhep"] = new XemNghiPhep();
-            _userControls["XemThongTinCaNhan"] = new XemThongTinCaNhan(idNV);
+            _userControls["XemThongTinCaNhan"] = new XemThongTinCaNhan(idNV, tpView);
             _userControls["TaoKhenThuong"] = new TaoKhenThuong();
             _userControls["TaoKyLuat"] = new TaoKyLuat();
 
@@ -156,7 +156,7 @@ namespace GUI
                             user = new CapNhatThongTinNV();
                             break;
                         case "CapNhatThongTinRieng":
-                            user = new CapNhatThongTinRieng(idNV);
+                            user = new CapNhatThongTinRieng(idNV, tpView);
                             break;
                         case "CRUDChucVu":
                             user = new CRUDChucVu();
@@ -207,7 +207,7 @@ namespace GUI
                             user = new XemNghiPhep();
                             break;
                         case "XemThongTinCaNhan":
-                            user = new XemThongTinCaNhan(idNV);
+                            user = new XemThongTinCaNhan(idNV, tpView);
                             break;
                         case "TaoKyLuat":
                             user = new TaoKyLuat();
@@ -319,12 +319,12 @@ namespace GUI
 
         private void btnXemThongTinCaNhan_Click(object sender, EventArgs e)
         {
-            LoadControl(new XemThongTinCaNhan(idNV));
+            LoadControl(new XemThongTinCaNhan(idNV, tpView));
         }
 
         private void guna2Button1_Click(object sender, EventArgs e)
         {
-            LoadControl(new CapNhatThongTinRieng(idNV));
+            LoadControl(new CapNhatThongTinRieng(idNV, tpView));
         }
 
         private void btnTaoHDLD_Click(object sender, EventArgs e)
@@ -350,7 +350,7 @@ namespace GUI
         private void btnBaoCaoKhenThuong_Click(object sender, EventArgs e)
         {
             LoadControl(new BaoCaoKhenThuong());
-            
+
         }
         private void OpenChildControl(UserControl uc)
         {

@@ -14,20 +14,22 @@ namespace GUI
 {
     public partial class XemThongTinCaNhan : UserControl
     {
-        private string connectionString = @"Data Source=DESKTOP-6LE6PT2\SQLEXPRESS;Initial Catalog=PersonnelManagement;Integrated Security=True;Encrypt=False";
+        private string connectionString = ConnectionDB.conn;
         private string idNhanVien;
 
         // ======= Các control giao diện =======
         private Label lblName, lblDob, lblGender, lblAddress, lblQue, lblEmail, lblChucVu, lblPhongBan;
         private Guna2CirclePictureBox picAvatar;
         private Guna2Button btnUpdate;
+        private Panel _panel;
 
-        public XemThongTinCaNhan(string idNV)
+        public XemThongTinCaNhan(string idNV, Panel panel)
         {
             idNhanVien = idNV;
             InitializeComponent();
             BuildUI();
             LoadThongTinNhanVien();
+            _panel = panel;
         }
 
         private void BuildUI()
@@ -198,10 +200,10 @@ namespace GUI
         // ===============================
         private void BtnUpdate_Click(object sender, EventArgs e)
         {
-            CapNhatThongTinRieng capNhatPage = new CapNhatThongTinRieng(idNhanVien);
-            Control parent = this.Parent;
-            parent.Controls.Clear();
-            parent.Controls.Add(capNhatPage);
+            CapNhatThongTinRieng capNhatPage = new CapNhatThongTinRieng(idNhanVien, _panel);
+            var parent = this.ParentForm as Main;
+            parent?.ShowUserControl("CapNhatThongTinRieng");
+            parent.ChildFormComponent(_panel, "ButtonFeatureViewComponent");
         }
 
         // ===============================

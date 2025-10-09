@@ -19,14 +19,12 @@ namespace GUI
 
         private void btnLogin_Click(object sender, EventArgs e)
         {
-
             new Main().Show();
             this.Hide();
         }
 
         private void FormLogin_Load(object sender, EventArgs e)
         {
-
         }
     }
 }

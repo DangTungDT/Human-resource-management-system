@@ -232,11 +232,15 @@
     <Compile Include="UCReportDanhSachKyLuat.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="UCReportDanhSachKyLuat.Designer.cs" />
+    <Compile Include="UCReportDanhSachKyLuat.Designer.cs">
+      <DependentUpon>UCReportDanhSachKyLuat.cs</DependentUpon>
+    </Compile>
     <Compile Include="UCReportDanhSachLuongPBan.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="UCReportDanhSachLuongPBan.Designer.cs" />
+    <Compile Include="UCReportDanhSachLuongPBan.Designer.cs">
+      <DependentUpon>UCReportDanhSachLuongPBan.cs</DependentUpon>
+    </Compile>
     <Compile Include="UCXemKyLuat.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -410,8 +414,12 @@
     <EmbeddedResource Include="UCDanhGiaHieuSuat.resx">
       <DependentUpon>UCDanhGiaHieuSuat.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="UCReportDanhSachKyLuat.resx" />
-    <EmbeddedResource Include="UCReportDanhSachLuongPBan.resx" />
+    <EmbeddedResource Include="UCReportDanhSachKyLuat.resx">
+      <DependentUpon>UCReportDanhSachKyLuat.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UCReportDanhSachLuongPBan.resx">
+      <DependentUpon>UCReportDanhSachLuongPBan.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="UCXemKyLuat.resx">
       <DependentUpon>UCXemKyLuat.cs</DependentUpon>
     </EmbeddedResource>

@@ -18,9 +18,11 @@ namespace GUI
         private Guna2ComboBox cbPhongBan;
         private Guna2Button btnSave, btnUndo;
         private Guna2DataGridView dgv;
+        private Guna2TextBox txtSearch; // 🔍 Ô tìm kiếm
 
         private string connectionString = ConnectionDB.conn;
         private int? selectedId = null;
+
         public CRUDChucVu()
         {
             InitializeComponent();
@@ -34,6 +36,7 @@ namespace GUI
             this.Dock = DockStyle.Fill;
             this.BackColor = Color.WhiteSmoke;
 
+            // ===== TIÊU ĐỀ =====
             Label lblTitle = new Label()
             {
                 Text = "QUẢN LÝ CHỨC VỤ",
@@ -44,6 +47,36 @@ namespace GUI
                 TextAlign = ContentAlignment.MiddleCenter
             };
 
+            // ===== THANH TÌM KIẾM =====
+            Label lblSearch = new Label()
+            {
+                Text = "🔍 TÌM KIẾM CHỨC VỤ:",
+                AutoSize = true,
+                Font = new Font("Segoe UI", 10, FontStyle.Bold),
+                ForeColor = Color.FromArgb(60, 60, 60),
+                Margin = new Padding(10, 10, 10, 0)
+            };
+
+            txtSearch = new Guna2TextBox()
+            {
+                PlaceholderText = "Nhập tên chức vụ, phòng ban hoặc mô tả...",
+                BorderRadius = 8,
+                Width = 300,
+                Margin = new Padding(10, 5, 0, 10)
+            };
+            txtSearch.TextChanged += (s, e) => LoadChucVu(txtSearch.Text);
+
+            FlowLayoutPanel searchPanel = new FlowLayoutPanel()
+            {
+                Dock = DockStyle.Top,
+                FlowDirection = FlowDirection.LeftToRight,
+                AutoSize = true,
+                Padding = new Padding(20, 5, 0, 5)
+            };
+            searchPanel.Controls.Add(lblSearch);
+            searchPanel.Controls.Add(txtSearch);
+
+            // ===== INPUT FORM =====
             txtTenChucVu = new Guna2TextBox() { PlaceholderText = "Tên chức vụ", Dock = DockStyle.Fill };
             txtLuong = new Guna2TextBox() { PlaceholderText = "Lương cơ bản", Dock = DockStyle.Fill };
             txtTyLe = new Guna2TextBox() { PlaceholderText = "Tỷ lệ hoa hồng (%)", Dock = DockStyle.Fill };
@@ -81,36 +114,29 @@ namespace GUI
                 Padding = new Padding(0, 0, 0, 0),
                 ColumnCount = 3,
                 RowCount = 6,
-                AutoSize = true,
-                AutoSizeMode = AutoSizeMode.GrowAndShrink
+                AutoSize = true
             };
-            form.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 07));
+            form.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 10));
             form.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 70));
-            form.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 23));
+            form.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 20));
 
             form.Controls.Add(new Label() { Text = "Tên chức vụ:", ForeColor = Color.DarkBlue, AutoSize = true }, 0, 0);
             form.Controls.Add(txtTenChucVu, 1, 0);
-
             form.Controls.Add(new Label() { Text = "Phòng ban:", ForeColor = Color.DarkBlue, AutoSize = true }, 0, 1);
             form.Controls.Add(cbPhongBan, 1, 1);
-
             form.Controls.Add(new Label() { Text = "Lương cơ bản:", ForeColor = Color.DarkBlue, AutoSize = true }, 0, 2);
             form.Controls.Add(txtLuong, 1, 2);
-
             form.Controls.Add(new Label() { Text = "Tỷ lệ hoa hồng:", ForeColor = Color.DarkBlue, AutoSize = true }, 0, 3);
             form.Controls.Add(txtTyLe, 1, 3);
-
             form.Controls.Add(new Label() { Text = "Mô tả:", ForeColor = Color.DarkBlue, AutoSize = true }, 0, 4);
             form.Controls.Add(txtMoTa, 1, 4);
 
-            // ==== HÀNG NÚT (THÊM / HOÀN TÁC) ====
             FlowLayoutPanel btnPanel = new FlowLayoutPanel()
             {
                 AutoSize = true,
                 FlowDirection = FlowDirection.RightToLeft,
                 Dock = DockStyle.Fill,
-                Padding = new Padding(0, 10, 0, 0),
-                WrapContents = false
+                Padding = new Padding(0, 10, 0, 0)
             };
             btnPanel.Controls.Add(btnSave);
             btnPanel.Controls.Add(btnUndo);
@@ -135,16 +161,30 @@ namespace GUI
             TableLayoutPanel main = new TableLayoutPanel()
             {
                 Dock = DockStyle.Fill,
+                RowCount = 3,
+                ColumnCount = 1
+            };
+            main.RowStyles.Add(new RowStyle(SizeType.Absolute, 50));  // tiêu đề
+            main.RowStyles.Add(new RowStyle(SizeType.Absolute, 70));  // thanh tìm kiếm
+            main.RowStyles.Add(new RowStyle(SizeType.Percent, 100));  // phần còn lại
+
+            main.Controls.Add(lblTitle, 0, 0);
+            main.Controls.Add(searchPanel, 0, 1);
+
+            TableLayoutPanel content = new TableLayoutPanel()
+            {
+                Dock = DockStyle.Fill,
                 RowCount = 2,
                 ColumnCount = 1
             };
-            main.RowStyles.Add(new RowStyle(SizeType.Absolute, 350));
-            main.RowStyles.Add(new RowStyle(SizeType.Percent, 100));
-            main.Controls.Add(form, 0, 0);
-            main.Controls.Add(dgv, 0, 1);
+            content.RowStyles.Add(new RowStyle(SizeType.Absolute, 300));
+            content.RowStyles.Add(new RowStyle(SizeType.Percent, 100));
+            content.Controls.Add(form, 0, 0);
+            content.Controls.Add(dgv, 0, 1);
+
+            main.Controls.Add(content, 0, 2);
 
             this.Controls.Add(main);
-            this.Controls.Add(lblTitle);
         }
 
         // ======================= LOAD PHÒNG BAN =======================
@@ -163,20 +203,34 @@ namespace GUI
         }
 
         // ======================= LOAD CHỨC VỤ =======================
-        private void LoadChucVu()
+        private void LoadChucVu(string keyword = "")
         {
             using (SqlConnection conn = new SqlConnection(connectionString))
             {
-                string query = @"SELECT cv.id AS [Mã chức vụ], cv.TenChucVu AS [Tên chức vụ], cv.luongCoBan AS [Lương cơ bản],
-                                 cv.tyLeHoaHong AS [Tỷ lệ hoa hồng], pb.TenPhongBan AS [Phòng ban], cv.moTa AS [Mô tả]
-                                 FROM ChucVu cv
-                                 JOIN PhongBan pb ON cv.idPhongBan = pb.id";
-                SqlDataAdapter da = new SqlDataAdapter(query, conn);
+                StringBuilder query = new StringBuilder(@"
+                    SELECT cv.id AS [Mã chức vụ], cv.TenChucVu AS [Tên chức vụ], cv.luongCoBan AS [Lương cơ bản],
+                           cv.tyLeHoaHong AS [Tỷ lệ hoa hồng], pb.TenPhongBan AS [Phòng ban], cv.moTa AS [Mô tả]
+                    FROM ChucVu cv
+                    JOIN PhongBan pb ON cv.idPhongBan = pb.id
+                    WHERE 1=1");
+
+                SqlCommand cmd = new SqlCommand();
+                cmd.Connection = conn;
+
+                if (!string.IsNullOrWhiteSpace(keyword))
+                {
+                    query.Append(" AND (cv.TenChucVu LIKE @kw OR pb.TenPhongBan LIKE @kw OR cv.moTa LIKE @kw)");
+                    cmd.Parameters.AddWithValue("@kw", "%" + keyword + "%");
+                }
+
+                cmd.CommandText = query.ToString();
+                SqlDataAdapter da = new SqlDataAdapter(cmd);
                 DataTable dt = new DataTable();
                 da.Fill(dt);
                 dgv.DataSource = dt;
             }
 
+            // thêm cột xóa nếu chưa có
             if (!dgv.Columns.Contains("Xoa"))
             {
                 DataGridViewImageColumn colDelete = new DataGridViewImageColumn()
@@ -192,7 +246,7 @@ namespace GUI
             }
         }
 
-        // ======================= THÊM / CẬP NHẬT =======================
+        // ======================= NÚT LƯU =======================
         private void BtnSave_Click(object sender, EventArgs e)
         {
             if (string.IsNullOrWhiteSpace(txtTenChucVu.Text))
@@ -220,7 +274,7 @@ namespace GUI
                 {
                     if (selectedId == null)
                     {
-                        MessageBox.Show("Không xác định được bản ghi cần cập nhật!", "Lỗi");
+                        MessageBox.Show("Không xác định bản ghi cần cập nhật!", "Lỗi");
                         return;
                     }
 
@@ -242,7 +296,7 @@ namespace GUI
             ClearForm();
         }
 
-        // ======================= XÓA =======================
+        // ======================= XÓA / CHỌN =======================
         private void Dgv_CellClick(object sender, DataGridViewCellEventArgs e)
         {
             if (e.RowIndex < 0) return;
@@ -264,7 +318,6 @@ namespace GUI
                 return;
             }
 
-            // Click chọn để sửa
             selectedId = Convert.ToInt32(dgv.Rows[e.RowIndex].Cells["Mã chức vụ"].Value);
             txtTenChucVu.Text = dgv.Rows[e.RowIndex].Cells["Tên chức vụ"].Value.ToString();
             txtLuong.Text = dgv.Rows[e.RowIndex].Cells["Lương cơ bản"].Value.ToString();
@@ -310,7 +363,6 @@ namespace GUI
             txtTyLe.Clear();
             txtMoTa.Clear();
             cbPhongBan.SelectedIndex = -1;
-
             btnSave.Text = "➕ Thêm mới";
             btnSave.FillColor = Color.MediumSeaGreen;
             dgv.ClearSelection();

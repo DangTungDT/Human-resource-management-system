@@ -56,27 +56,6 @@ namespace GUI
             main.ChildFormComponent(_tpHome, "ButtonFeatureHomeComponent");
         }
 
-        private void guna2TileButton2_Click(object sender, EventArgs e)
-        {
-            var main = this.ParentForm as Main;
-            main?.ShowUserControl("TaoDanhGiaHieuSuat");
-            main.ChildFormComponent(_tpHome, "ButtonFeatureHomeComponent");
-        }
-
-        private void btnTaoKyLuat_Click(object sender, EventArgs e)
-        {
-            var main = this.ParentForm as Main;
-            main?.ShowUserControl("TaoKyLuat");
-            main.ChildFormComponent(_tpHome, "ButtonFeatureHomeComponent");
-        }
-
-        private void guna2TileButton4_Click(object sender, EventArgs e)
-        {
-            var main = this.ParentForm as Main;
-            main?.ShowUserControl("TaoKhenThuong");
-            main.ChildFormComponent(_tpHome, "ButtonFeatureHomeComponent");
-        }
-
         private void guna2TileButton5_Click(object sender, EventArgs e)
         {
             var main = this.ParentForm as Main;
@@ -97,5 +76,7 @@ namespace GUI
             main?.ShowUserControl("ucDuyenTuyenDung");
             main.ChildFormComponent(_tpHome, "ButtonFeatureHomeComponent");
         }
+
+        
     }
 }

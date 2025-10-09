@@ -51,7 +51,7 @@ namespace GUI
         private void btnNghiPhepCaNhan_Click(object sender, EventArgs e)
         {
             var main = this.ParentForm as Main;
-            main?.ShowUserControl("UCNghiPhep");
+            main?.ShowUserControl("XemNghiPhep");
             main.ChildFormComponent(_tpView, "ButtonFeatureViewComponent");
         }
 

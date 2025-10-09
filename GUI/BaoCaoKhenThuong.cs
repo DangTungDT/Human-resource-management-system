@@ -10,22 +10,6 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-using Guna.UI2.WinForms;
-using System;
-using System.Data;
-using System.Data.SqlClient;
-using System.Drawing;
-using System.Text;
-using System.Windows.Forms;
-
-using Guna.UI2.WinForms;
-using System;
-using System.Data;
-using System.Data.SqlClient;
-using System.Drawing;
-using System.Text;
-using System.Windows.Forms;
-
 namespace GUI
 {
     public partial class BaoCaoKhenThuong : UserControl

@@ -36,6 +36,10 @@
             this.guna2TileButton2 = new Guna.UI2.WinForms.Guna2TileButton();
             this.guna2TileButton3 = new Guna.UI2.WinForms.Guna2TileButton();
             this.guna2TileButton5 = new Guna.UI2.WinForms.Guna2TileButton();
+            this.btnTaoDanhGiaHieuSuat = new Guna.UI2.WinForms.Guna2TileButton();
+            this.btnTaoKyLuat = new Guna.UI2.WinForms.Guna2TileButton();
+            this.btnTaoKhenThuong = new Guna.UI2.WinForms.Guna2TileButton();
+            this.btnCapNhatThongTinNV = new Guna.UI2.WinForms.Guna2TileButton();
             this.flowLayoutPanel1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -48,11 +52,15 @@
             this.flowLayoutPanel1.Controls.Add(this.guna2TileButton2);
             this.flowLayoutPanel1.Controls.Add(this.guna2TileButton3);
             this.flowLayoutPanel1.Controls.Add(this.guna2TileButton5);
+            this.flowLayoutPanel1.Controls.Add(this.btnTaoDanhGiaHieuSuat);
+            this.flowLayoutPanel1.Controls.Add(this.btnTaoKyLuat);
+            this.flowLayoutPanel1.Controls.Add(this.btnTaoKhenThuong);
+            this.flowLayoutPanel1.Controls.Add(this.btnCapNhatThongTinNV);
             this.flowLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.flowLayoutPanel1.Location = new System.Drawing.Point(0, 0);
             this.flowLayoutPanel1.Margin = new System.Windows.Forms.Padding(4);
             this.flowLayoutPanel1.Name = "flowLayoutPanel1";
-            this.flowLayoutPanel1.Size = new System.Drawing.Size(1422, 89);
+            this.flowLayoutPanel1.Size = new System.Drawing.Size(2163, 89);
             this.flowLayoutPanel1.TabIndex = 6;
             // 
             // btnDanhGia
@@ -232,13 +240,113 @@
             this.guna2TileButton5.TextFormatNoPrefix = true;
             this.guna2TileButton5.Click += new System.EventHandler(this.guna2TileButton5_Click);
             // 
+            // btnTaoDanhGiaHieuSuat
+            // 
+            this.btnTaoDanhGiaHieuSuat.BorderRadius = 5;
+            this.btnTaoDanhGiaHieuSuat.BorderThickness = 1;
+            this.btnTaoDanhGiaHieuSuat.DisabledState.BorderColor = System.Drawing.Color.DarkGray;
+            this.btnTaoDanhGiaHieuSuat.DisabledState.CustomBorderColor = System.Drawing.Color.DarkGray;
+            this.btnTaoDanhGiaHieuSuat.DisabledState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(169)))), ((int)(((byte)(169)))), ((int)(((byte)(169)))));
+            this.btnTaoDanhGiaHieuSuat.DisabledState.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(141)))), ((int)(((byte)(141)))), ((int)(((byte)(141)))));
+            this.btnTaoDanhGiaHieuSuat.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
+            this.btnTaoDanhGiaHieuSuat.Font = new System.Drawing.Font("Segoe UI", 9F);
+            this.btnTaoDanhGiaHieuSuat.ForeColor = System.Drawing.Color.Black;
+            this.btnTaoDanhGiaHieuSuat.Image = global::GUI.Properties.Resources.Permission;
+            this.btnTaoDanhGiaHieuSuat.ImageOffset = new System.Drawing.Point(0, 8);
+            this.btnTaoDanhGiaHieuSuat.ImageSize = new System.Drawing.Size(30, 30);
+            this.btnTaoDanhGiaHieuSuat.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+            this.btnTaoDanhGiaHieuSuat.IndicateFocus = true;
+            this.btnTaoDanhGiaHieuSuat.Location = new System.Drawing.Point(1250, 4);
+            this.btnTaoDanhGiaHieuSuat.Margin = new System.Windows.Forms.Padding(4);
+            this.btnTaoDanhGiaHieuSuat.Name = "btnTaoDanhGiaHieuSuat";
+            this.btnTaoDanhGiaHieuSuat.Size = new System.Drawing.Size(180, 64);
+            this.btnTaoDanhGiaHieuSuat.TabIndex = 14;
+            this.btnTaoDanhGiaHieuSuat.Text = "ĐG hiệu suất";
+            this.btnTaoDanhGiaHieuSuat.TextFormatNoPrefix = true;
+            this.btnTaoDanhGiaHieuSuat.Click += new System.EventHandler(this.guna2TileButton6_Click);
+            // 
+            // btnTaoKyLuat
+            // 
+            this.btnTaoKyLuat.BorderRadius = 5;
+            this.btnTaoKyLuat.BorderThickness = 1;
+            this.btnTaoKyLuat.DisabledState.BorderColor = System.Drawing.Color.DarkGray;
+            this.btnTaoKyLuat.DisabledState.CustomBorderColor = System.Drawing.Color.DarkGray;
+            this.btnTaoKyLuat.DisabledState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(169)))), ((int)(((byte)(169)))), ((int)(((byte)(169)))));
+            this.btnTaoKyLuat.DisabledState.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(141)))), ((int)(((byte)(141)))), ((int)(((byte)(141)))));
+            this.btnTaoKyLuat.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
+            this.btnTaoKyLuat.Font = new System.Drawing.Font("Segoe UI", 9F);
+            this.btnTaoKyLuat.ForeColor = System.Drawing.Color.Black;
+            this.btnTaoKyLuat.Image = global::GUI.Properties.Resources.Permission;
+            this.btnTaoKyLuat.ImageOffset = new System.Drawing.Point(0, 8);
+            this.btnTaoKyLuat.ImageSize = new System.Drawing.Size(30, 30);
+            this.btnTaoKyLuat.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+            this.btnTaoKyLuat.IndicateFocus = true;
+            this.btnTaoKyLuat.Location = new System.Drawing.Point(1438, 4);
+            this.btnTaoKyLuat.Margin = new System.Windows.Forms.Padding(4);
+            this.btnTaoKyLuat.Name = "btnTaoKyLuat";
+            this.btnTaoKyLuat.Size = new System.Drawing.Size(180, 64);
+            this.btnTaoKyLuat.TabIndex = 15;
+            this.btnTaoKyLuat.Text = "Tạo kỷ luật";
+            this.btnTaoKyLuat.TextFormatNoPrefix = true;
+            this.btnTaoKyLuat.Click += new System.EventHandler(this.btnTaoKyLuat_Click);
+            // 
+            // btnTaoKhenThuong
+            // 
+            this.btnTaoKhenThuong.BorderRadius = 5;
+            this.btnTaoKhenThuong.BorderThickness = 1;
+            this.btnTaoKhenThuong.DisabledState.BorderColor = System.Drawing.Color.DarkGray;
+            this.btnTaoKhenThuong.DisabledState.CustomBorderColor = System.Drawing.Color.DarkGray;
+            this.btnTaoKhenThuong.DisabledState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(169)))), ((int)(((byte)(169)))), ((int)(((byte)(169)))));
+            this.btnTaoKhenThuong.DisabledState.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(141)))), ((int)(((byte)(141)))), ((int)(((byte)(141)))));
+            this.btnTaoKhenThuong.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
+            this.btnTaoKhenThuong.Font = new System.Drawing.Font("Segoe UI", 9F);
+            this.btnTaoKhenThuong.ForeColor = System.Drawing.Color.Black;
+            this.btnTaoKhenThuong.Image = global::GUI.Properties.Resources.Permission;
+            this.btnTaoKhenThuong.ImageOffset = new System.Drawing.Point(0, 8);
+            this.btnTaoKhenThuong.ImageSize = new System.Drawing.Size(30, 30);
+            this.btnTaoKhenThuong.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+            this.btnTaoKhenThuong.IndicateFocus = true;
+            this.btnTaoKhenThuong.Location = new System.Drawing.Point(1626, 4);
+            this.btnTaoKhenThuong.Margin = new System.Windows.Forms.Padding(4);
+            this.btnTaoKhenThuong.Name = "btnTaoKhenThuong";
+            this.btnTaoKhenThuong.Size = new System.Drawing.Size(180, 64);
+            this.btnTaoKhenThuong.TabIndex = 16;
+            this.btnTaoKhenThuong.Text = "Tạo khen thưởng";
+            this.btnTaoKhenThuong.TextFormatNoPrefix = true;
+            this.btnTaoKhenThuong.Click += new System.EventHandler(this.btnTaoKhenThuong_Click);
+            // 
+            // btnCapNhatThongTinNV
+            // 
+            this.btnCapNhatThongTinNV.BorderRadius = 5;
+            this.btnCapNhatThongTinNV.BorderThickness = 1;
+            this.btnCapNhatThongTinNV.DisabledState.BorderColor = System.Drawing.Color.DarkGray;
+            this.btnCapNhatThongTinNV.DisabledState.CustomBorderColor = System.Drawing.Color.DarkGray;
+            this.btnCapNhatThongTinNV.DisabledState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(169)))), ((int)(((byte)(169)))), ((int)(((byte)(169)))));
+            this.btnCapNhatThongTinNV.DisabledState.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(141)))), ((int)(((byte)(141)))), ((int)(((byte)(141)))));
+            this.btnCapNhatThongTinNV.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
+            this.btnCapNhatThongTinNV.Font = new System.Drawing.Font("Segoe UI", 9F);
+            this.btnCapNhatThongTinNV.ForeColor = System.Drawing.Color.Black;
+            this.btnCapNhatThongTinNV.Image = global::GUI.Properties.Resources.Permission;
+            this.btnCapNhatThongTinNV.ImageOffset = new System.Drawing.Point(0, 8);
+            this.btnCapNhatThongTinNV.ImageSize = new System.Drawing.Size(30, 30);
+            this.btnCapNhatThongTinNV.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+            this.btnCapNhatThongTinNV.IndicateFocus = true;
+            this.btnCapNhatThongTinNV.Location = new System.Drawing.Point(1814, 4);
+            this.btnCapNhatThongTinNV.Margin = new System.Windows.Forms.Padding(4);
+            this.btnCapNhatThongTinNV.Name = "btnCapNhatThongTinNV";
+            this.btnCapNhatThongTinNV.Size = new System.Drawing.Size(180, 64);
+            this.btnCapNhatThongTinNV.TabIndex = 17;
+            this.btnCapNhatThongTinNV.Text = "Cập nhật thông tin nhân viên";
+            this.btnCapNhatThongTinNV.TextFormatNoPrefix = true;
+            this.btnCapNhatThongTinNV.Click += new System.EventHandler(this.btnCapNhatThongTinNV_Click);
+            // 
             // ButtonFeatureCRUDComponent
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.flowLayoutPanel1);
             this.Name = "ButtonFeatureCRUDComponent";
-            this.Size = new System.Drawing.Size(1422, 89);
+            this.Size = new System.Drawing.Size(2163, 89);
             this.flowLayoutPanel1.ResumeLayout(false);
             this.ResumeLayout(false);
 
@@ -254,5 +362,9 @@
         private Guna.UI2.WinForms.Guna2TileButton guna2TileButton2;
         private Guna.UI2.WinForms.Guna2TileButton guna2TileButton3;
         private Guna.UI2.WinForms.Guna2TileButton guna2TileButton5;
+        private Guna.UI2.WinForms.Guna2TileButton btnTaoDanhGiaHieuSuat;
+        private Guna.UI2.WinForms.Guna2TileButton btnTaoKyLuat;
+        private Guna.UI2.WinForms.Guna2TileButton btnTaoKhenThuong;
+        private Guna.UI2.WinForms.Guna2TileButton btnCapNhatThongTinNV;
     }
 }

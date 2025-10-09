@@ -1,24 +1,19 @@
 ﻿using Guna.UI2.WinForms;
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
 using System.Data.SqlClient;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace GUI
 {
     public partial class CRUDPhongban : UserControl
     {
-        private Guna2TextBox txtTenPhongBan, txtMoTa;
-        private Guna2Button btnSave, btnUndo;
+        private Guna2TextBox txtTenPhongBan, txtMoTa, txtSearchTen, txtSearchMoTa;
+        private Guna2Button btnSave, btnUndo, btnClearFilter;
         private Guna2DataGridView dgv;
         private string connectionString = ConnectionDB.conn;
-        private int? selectedId = null; // lưu id đang chọn
+        private int? selectedId = null;
 
         public CRUDPhongban()
         {
@@ -32,6 +27,7 @@ namespace GUI
             this.Dock = DockStyle.Fill;
             this.BackColor = Color.WhiteSmoke;
 
+            // ===== TIÊU ĐỀ =====
             Label lblTitle = new Label()
             {
                 Text = "QUẢN LÝ PHÒNG BAN",
@@ -42,6 +38,70 @@ namespace GUI
                 TextAlign = ContentAlignment.MiddleCenter
             };
 
+            // ===== THANH TÌM KIẾM (một hàng, đồng màu) =====
+            FlowLayoutPanel searchPanel = new FlowLayoutPanel()
+            {
+                Dock = DockStyle.Top,
+                Height = 55,
+                BackColor = Color.FromArgb(245, 247, 250),
+                Padding = new Padding(25, 10, 25, 10),
+                FlowDirection = FlowDirection.LeftToRight,
+                WrapContents = false
+            };
+
+            Label lblSearchTitle = new Label()
+            {
+                Text = "🔍 TÌM KIẾM PHÒNG BAN",
+                Font = new Font("Segoe UI", 10, FontStyle.Bold),
+                ForeColor = Color.FromArgb(64, 64, 64),
+                AutoSize = true,
+                TextAlign = ContentAlignment.MiddleLeft,
+                Margin = new Padding(0, 6, 15, 0)
+            };
+
+            txtSearchTen = new Guna2TextBox()
+            {
+                PlaceholderText = "Nhập tên phòng ban...",
+                Width = 250,
+                BorderRadius = 6,
+                Margin = new Padding(0, 0, 10, 0)
+            };
+            txtSearchTen.TextChanged += (s, e) => FilterPhongBan();
+
+            txtSearchMoTa = new Guna2TextBox()
+            {
+                PlaceholderText = "Nhập mô tả...",
+                Width = 250,
+                BorderRadius = 6,
+                Margin = new Padding(0, 0, 10, 0)
+            };
+            txtSearchMoTa.TextChanged += (s, e) => FilterPhongBan();
+
+            btnClearFilter = new Guna2Button()
+            {
+                Text = "🔄 Làm mới",
+                BorderRadius = 8,
+                FillColor = Color.SteelBlue,
+                ForeColor = Color.White,
+                Height = 36,
+                Width = 120,
+                Anchor = AnchorStyles.Left
+            };
+            btnClearFilter.Click += (s, e) =>
+            {
+                txtSearchTen.Clear();
+                txtSearchMoTa.Clear();
+                FilterPhongBan();
+            };
+            btnClearFilter.MouseEnter += (s, e) => btnClearFilter.FillColor = Color.DodgerBlue;
+            btnClearFilter.MouseLeave += (s, e) => btnClearFilter.FillColor = Color.SteelBlue;
+
+            searchPanel.Controls.Add(lblSearchTitle);
+            searchPanel.Controls.Add(txtSearchTen);
+            searchPanel.Controls.Add(txtSearchMoTa);
+            searchPanel.Controls.Add(btnClearFilter);
+
+            // ===== FORM INPUT =====
             txtTenPhongBan = new Guna2TextBox() { PlaceholderText = "Tên phòng ban", Dock = DockStyle.Fill };
             txtMoTa = new Guna2TextBox() { PlaceholderText = "Mô tả", Dock = DockStyle.Fill, Multiline = true, Height = 60 };
 
@@ -52,8 +112,7 @@ namespace GUI
                 FillColor = Color.MediumSeaGreen,
                 ForeColor = Color.White,
                 Width = 140,
-                Height = 40,
-                Cursor = Cursors.Hand
+                Height = 40
             };
             btnSave.Click += BtnSave_Click;
 
@@ -64,23 +123,21 @@ namespace GUI
                 FillColor = Color.Gray,
                 ForeColor = Color.White,
                 Width = 120,
-                Height = 40,
-                Cursor = Cursors.Hand
+                Height = 40
             };
             btnUndo.Click += BtnUndo_Click;
 
-            // ==== Form input layout ====
             TableLayoutPanel form = new TableLayoutPanel()
             {
                 Dock = DockStyle.Top,
-                Padding = new Padding(0, 0, 0, 0),
+                Padding = new Padding(20, 10, 20, 10),
                 ColumnCount = 3,
                 RowCount = 3,
-                Height = 160
+                AutoSize = true
             };
-            form.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 07));
+            form.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 10));
             form.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 70));
-            form.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 23));
+            form.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 20));
 
             form.Controls.Add(new Label() { Text = "Tên phòng ban:", ForeColor = Color.DarkBlue, AutoSize = true }, 0, 0);
             form.Controls.Add(txtTenPhongBan, 1, 0);
@@ -96,7 +153,7 @@ namespace GUI
             btnPanel.Controls.Add(btnUndo);
             form.Controls.Add(btnPanel, 1, 2);
 
-            // ==== DGV ====
+            // ===== DGV =====
             dgv = new Guna2DataGridView()
             {
                 Dock = DockStyle.Fill,
@@ -108,54 +165,71 @@ namespace GUI
                 MultiSelect = false
             };
             dgv.CellClick += Dgv_CellClick;
-            dgv.CellMouseEnter += Dgv_CellMouseEnter;
-            dgv.CellMouseLeave += Dgv_CellMouseLeave;
 
-            // Layout tổng
+            // ===== MAIN =====
             TableLayoutPanel main = new TableLayoutPanel()
             {
                 Dock = DockStyle.Fill,
-                RowCount = 2,
+                RowCount = 4,
                 ColumnCount = 1
             };
-            main.RowStyles.Add(new RowStyle(SizeType.Absolute, 200));
-            main.RowStyles.Add(new RowStyle(SizeType.Percent, 100));
-            main.Controls.Add(form, 0, 0);
-            main.Controls.Add(dgv, 0, 1);
+            main.RowStyles.Add(new RowStyle(SizeType.Absolute, 50)); // Tiêu đề
+            main.RowStyles.Add(new RowStyle(SizeType.Absolute, 55)); // Thanh tìm kiếm
+            main.RowStyles.Add(new RowStyle(SizeType.AutoSize));     // Form nhập
+            main.RowStyles.Add(new RowStyle(SizeType.Percent, 100)); // DGV
+
+            main.Controls.Add(lblTitle, 0, 0);
+            main.Controls.Add(searchPanel, 0, 1);
+            main.Controls.Add(form, 0, 2);
+            main.Controls.Add(dgv, 0, 3);
 
             this.Controls.Add(main);
-            this.Controls.Add(lblTitle);
         }
 
-        // ======================= LOAD DỮ LIỆU =======================
+        // ======================= LOAD & LỌC =======================
+        private DataTable dtPhongBan;
+
         private void LoadPhongBan()
         {
             using (SqlConnection conn = new SqlConnection(connectionString))
             {
                 string query = "SELECT id AS [Mã phòng ban], TenPhongBan AS [Tên phòng ban], MoTa AS [Mô tả] FROM PhongBan";
                 SqlDataAdapter da = new SqlDataAdapter(query, conn);
-                DataTable dt = new DataTable();
-                da.Fill(dt);
-                dgv.DataSource = dt;
+                dtPhongBan = new DataTable();
+                da.Fill(dtPhongBan);
+                dgv.DataSource = dtPhongBan;
             }
 
-            // Thêm icon XÓA nếu chưa có
-            if (!dgv.Columns.Contains("Xoa"))
+            if (!dgv.Columns.Contains("Xóa"))
             {
                 DataGridViewImageColumn colDelete = new DataGridViewImageColumn()
                 {
-                    Name = "Xoa",
+                    Name = "Xóa",
                     HeaderText = "Xóa",
-                    Image = Properties.Resources.delete, // bạn nhớ thêm icon delete.png vào Resources
+                    Image = Properties.Resources.delete,
                     ImageLayout = DataGridViewImageCellLayout.Zoom,
                     Width = 50
                 };
                 dgv.Columns.Add(colDelete);
-                dgv.Columns["Xoa"].DisplayIndex = dgv.Columns.Count - 1;
+                dgv.Columns["Xóa"].DisplayIndex = dgv.Columns.Count - 1;
             }
         }
 
-        // ======================= LƯU / CẬP NHẬT =======================
+        private void FilterPhongBan()
+        {
+            if (dtPhongBan == null) return;
+
+            string filter = "1=1";
+            if (!string.IsNullOrWhiteSpace(txtSearchTen.Text))
+                filter += $" AND [Tên phòng ban] LIKE '%{txtSearchTen.Text.Replace("'", "''")}%'";
+
+            if (!string.IsNullOrWhiteSpace(txtSearchMoTa.Text))
+                filter += $" AND [Mô tả] LIKE '%{txtSearchMoTa.Text.Replace("'", "''")}%'";
+
+            dtPhongBan.DefaultView.RowFilter = filter;
+        }
+
+        // ======================= CRUD =======================
         private void BtnSave_Click(object sender, EventArgs e)
         {
             if (string.IsNullOrWhiteSpace(txtTenPhongBan.Text))
@@ -167,25 +241,16 @@ namespace GUI
             using (SqlConnection conn = new SqlConnection(connectionString))
             {
                 conn.Open();
-                SqlCommand cmd;
-
-                if (btnSave.Text.Contains("Thêm"))
-                {
-                    cmd = new SqlCommand("INSERT INTO PhongBan (TenPhongBan, MoTa) VALUES (@Ten, @MoTa)", conn);
-                }
-                else
-                {
-                    if (selectedId == null)
-                    {
-                        MessageBox.Show("Không xác định được bản ghi cần cập nhật!", "Lỗi");
-                        return;
-                    }
-                    cmd = new SqlCommand("UPDATE PhongBan SET TenPhongBan=@Ten, MoTa=@MoTa WHERE id=@id", conn);
-                    cmd.Parameters.AddWithValue("@id", selectedId);
-                }
+                SqlCommand cmd = btnSave.Text.Contains("Thêm")
+                    ? new SqlCommand("INSERT INTO PhongBan (TenPhongBan, MoTa) VALUES (@Ten, @MoTa)", conn)
+                    : new SqlCommand("UPDATE PhongBan SET TenPhongBan=@Ten, MoTa=@MoTa WHERE id=@id", conn);
 
                 cmd.Parameters.AddWithValue("@Ten", txtTenPhongBan.Text);
                 cmd.Parameters.AddWithValue("@MoTa", txtMoTa.Text);
+
+                if (selectedId != null)
+                    cmd.Parameters.AddWithValue("@id", selectedId);
+
                 cmd.ExecuteNonQuery();
             }
 
@@ -194,12 +259,11 @@ namespace GUI
             ClearForm();
         }
 
-        // ======================= XÓA DỮ LIỆU =======================
         private void Dgv_CellClick(object sender, DataGridViewCellEventArgs e)
         {
             if (e.RowIndex < 0) return;
 
-            if (dgv.Columns[e.ColumnIndex].Name == "Xoa")
+            if (dgv.Columns[e.ColumnIndex].Name == "Xóa")
             {
                 int id = Convert.ToInt32(dgv.Rows[e.RowIndex].Cells["Mã phòng ban"].Value);
                 if (MessageBox.Show("Bạn có chắc muốn xóa phòng ban này?", "Xác nhận", MessageBoxButtons.YesNo) == DialogResult.Yes)
@@ -216,7 +280,6 @@ namespace GUI
                 return;
             }
 
-            // Click để chỉnh sửa
             selectedId = Convert.ToInt32(dgv.Rows[e.RowIndex].Cells["Mã phòng ban"].Value);
             txtTenPhongBan.Text = dgv.Rows[e.RowIndex].Cells["Tên phòng ban"].Value.ToString();
             txtMoTa.Text = dgv.Rows[e.RowIndex].Cells["Mô tả"].Value.ToString();
@@ -225,26 +288,6 @@ namespace GUI
             btnSave.FillColor = Color.Orange;
         }
 
-        // ======================= HIỆU ỨNG HOVER ICON =======================
-        private void Dgv_CellMouseEnter(object sender, DataGridViewCellEventArgs e)
-        {
-            if (e.RowIndex >= 0 && e.ColumnIndex >= 0 && dgv.Columns[e.ColumnIndex].Name == "Xoa")
-            {
-                dgv.Cursor = Cursors.Hand;
-                dgv.Rows[e.RowIndex].Cells[e.ColumnIndex].Value = Properties.Resources.trash;
-            }
-        }
-
-        private void Dgv_CellMouseLeave(object sender, DataGridViewCellEventArgs e)
-        {
-            if (e.RowIndex >= 0 && e.ColumnIndex >= 0 && dgv.Columns[e.ColumnIndex].Name == "Xoa")
-            {
-                dgv.Cursor = Cursors.Default;
-                dgv.Rows[e.RowIndex].Cells[e.ColumnIndex].Value = Properties.Resources.delete;
-            }
-        }
-
-        // ======================= HOÀN TÁC =======================
         private void BtnUndo_Click(object sender, EventArgs e)
         {
             if (MessageBox.Show("Bạn có chắc muốn hoàn tác dữ liệu đang nhập?", "Xác nhận", MessageBoxButtons.YesNo) == DialogResult.Yes)
@@ -261,5 +304,4 @@ namespace GUI
             dgv.ClearSelection();
         }
     }
-
 }

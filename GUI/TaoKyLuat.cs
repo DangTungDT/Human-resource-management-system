@@ -15,27 +15,29 @@ namespace GUI
 {
     public partial class TaoKyLuat : UserControl
     {
-        private Guna2ComboBox cbEmployee, cbType;
+        private Guna2ComboBox cbEmployee, cbType, cbPhongBan;
         private Guna2DateTimePicker dtDiscipline;
         private Guna2TextBox txtReason;
-        private Guna2Button btnSave, btnUndo;
+        private Guna2Button btnSave, btnUndo, btnSearch;
         private Guna2DataGridView dgv;
 
-        private string connectionString = @"Data Source=DESKTOP-6LE6PT2\SQLEXPRESS;Initial Catalog=PersonnelManagement;Integrated Security=True;Encrypt=False";
-        private string idNguoiTao = "GD00000001"; // người tạo tạm
-        private int? selectedId = null; // id bản ghi đang sửa
+        private string connectionString = ConnectionDB.conn;
+        private string idNguoiTao = "GD00000001";
+        private int? selectedId = null;
 
         public TaoKyLuat()
         {
             InitializeComponent();
             BuildUI();
+            LoadPhongBan();
             LoadNhanVien();
-            LoadKyLuat();
+            LoadKyLuat(); // ✅ hiển thị tất cả ngay khi mở form
         }
 
         private void BuildUI()
         {
             this.Dock = DockStyle.Fill;
+            this.BackColor = Color.WhiteSmoke;
 
             Label lblTitle = new Label()
             {
@@ -47,13 +49,67 @@ namespace GUI
                 TextAlign = ContentAlignment.MiddleCenter
             };
 
+            // ==== THANH TÌM KIẾM ====
+            Label lblSearch = new Label()
+            {
+                Text = "📋 Tìm kiếm theo phòng ban:",
+                AutoSize = true,
+                Font = new Font("Segoe UI", 10, FontStyle.Bold),
+                ForeColor = Color.FromArgb(50, 50, 50),
+                Margin = new Padding(10, 10, 0, 0)
+            };
+
+            cbPhongBan = new Guna2ComboBox()
+            {
+                Width = 250,
+                BorderRadius = 6,
+                Margin = new Padding(10, 5, 10, 5),
+                DropDownStyle = ComboBoxStyle.DropDownList
+            };
+
+            btnSearch = new Guna2Button()
+            {
+                Text = "🔍 Tìm kiếm",
+                BorderRadius = 8,
+                FillColor = Color.SteelBlue,
+                ForeColor = Color.White,
+                Height = 36,
+                Width = 120,
+                Margin = new Padding(10, 5, 0, 5)
+            };
+            btnSearch.Click += BtnSearch_Click;
+
+            FlowLayoutPanel searchPanel = new FlowLayoutPanel()
+            {
+                Dock = DockStyle.Top,
+                AutoSize = true,
+                FlowDirection = FlowDirection.LeftToRight,
+                Padding = new Padding(20, 5, 0, 10)
+            };
+            searchPanel.Controls.Add(lblSearch);
+            searchPanel.Controls.Add(cbPhongBan);
+            searchPanel.Controls.Add(btnSearch);
+
+            // ==== FORM INPUT ====
             cbEmployee = new Guna2ComboBox() { Dock = DockStyle.Fill, DropDownStyle = ComboBoxStyle.DropDownList };
             cbType = new Guna2ComboBox() { Dock = DockStyle.Fill, DropDownStyle = ComboBoxStyle.DropDownList };
             cbType.Items.AddRange(new object[] { "Khiển trách", "Cảnh cáo", "Đình chỉ", "Sa thải" });
             cbType.SelectedIndex = 0;
 
-            dtDiscipline = new Guna2DateTimePicker() { Format = DateTimePickerFormat.Custom, CustomFormat = "dd/MM/yyyy", Dock = DockStyle.Fill };
-            txtReason = new Guna2TextBox() { PlaceholderText = "Lý do kỷ luật", Dock = DockStyle.Fill, Multiline = true, Height = 60 };
+            dtDiscipline = new Guna2DateTimePicker()
+            {
+                Format = DateTimePickerFormat.Custom,
+                CustomFormat = "dd/MM/yyyy",
+                Dock = DockStyle.Fill
+            };
+
+            txtReason = new Guna2TextBox()
+            {
+                PlaceholderText = "Lý do kỷ luật",
+                Dock = DockStyle.Fill,
+                Multiline = true,
+                Height = 60
+            };
 
             btnSave = new Guna2Button()
             {
@@ -124,19 +180,34 @@ namespace GUI
             btnPanel.Controls.Add(btnUndo);
             form.Controls.Add(btnPanel, 1, 4);
 
+            // ==== MAIN ====
             TableLayoutPanel main = new TableLayoutPanel()
+            {
+                Dock = DockStyle.Fill,
+                RowCount = 3,
+                ColumnCount = 1
+            };
+            main.RowStyles.Add(new RowStyle(SizeType.Absolute, 50));
+            main.RowStyles.Add(new RowStyle(SizeType.Absolute, 70)); // thanh tìm kiếm
+            main.RowStyles.Add(new RowStyle(SizeType.Percent, 100));
+
+            main.Controls.Add(lblTitle, 0, 0);
+            main.Controls.Add(searchPanel, 0, 1);
+
+            TableLayoutPanel content = new TableLayoutPanel()
             {
                 Dock = DockStyle.Fill,
                 RowCount = 2,
                 ColumnCount = 1
             };
-            main.RowStyles.Add(new RowStyle(SizeType.Absolute, 300));
-            main.RowStyles.Add(new RowStyle(SizeType.Percent, 100));
-            main.Controls.Add(form, 0, 0);
-            main.Controls.Add(dgv, 0, 1);
+            content.RowStyles.Add(new RowStyle(SizeType.Absolute, 300));
+            content.RowStyles.Add(new RowStyle(SizeType.Percent, 100));
+            content.Controls.Add(form, 0, 0);
+            content.Controls.Add(dgv, 0, 1);
+
+            main.Controls.Add(content, 0, 2);
 
             this.Controls.Add(main);
-            this.Controls.Add(lblTitle);
         }
 
         // ======================= LOAD NHÂN VIÊN =======================
@@ -156,25 +227,64 @@ namespace GUI
             }
         }
 
+        // ======================= LOAD PHÒNG BAN =======================
+        private void LoadPhongBan()
+        {
+            using (SqlConnection conn = new SqlConnection(connectionString))
+            {
+                string query = "SELECT id, TenPhongBan FROM PhongBan";
+                SqlDataAdapter da = new SqlDataAdapter(query, conn);
+                DataTable dt = new DataTable();
+                da.Fill(dt);
+
+                // ✅ Thêm dòng “Tất cả phòng ban” vào đầu danh sách
+                DataRow allRow = dt.NewRow();
+                allRow["id"] = DBNull.Value;
+                allRow["TenPhongBan"] = "Tất cả phòng ban";
+                dt.Rows.InsertAt(allRow, 0);
+
+                cbPhongBan.DataSource = dt;
+                cbPhongBan.DisplayMember = "TenPhongBan";
+                cbPhongBan.ValueMember = "id";
+                cbPhongBan.SelectedIndex = 0; // ✅ Mặc định chọn “Tất cả”
+            }
+        }
+
+        // ======================= TÌM KIẾM =======================
+        private void BtnSearch_Click(object sender, EventArgs e)
+        {
+            if (cbPhongBan.SelectedValue == null || cbPhongBan.SelectedIndex == 0)
+                LoadKyLuat(); // ✅ chọn “Tất cả” thì hiển thị hết
+            else
+                LoadKyLuat(cbPhongBan.SelectedValue.ToString());
+        }
+
         // ======================= LOAD KỶ LUẬT =======================
-        private void LoadKyLuat()
+        private void LoadKyLuat(string idPhongBan = "")
         {
             using (SqlConnection conn = new SqlConnection(connectionString))
             {
                 string query = @"
-                                SELECT tp.id, nv.TenNhanVien, tp.lyDo, tp.loai AS HinhThuc, nv.id AS idNhanVien
-                                FROM ThuongPhat tp
-                                JOIN NhanVien_ThuongPhat nvtp ON tp.id = nvtp.idThuongPhat
-                                JOIN NhanVien nv ON nvtp.idNhanVien = nv.id
-                                WHERE tp.loai IN (N'Khiển trách', N'Cảnh cáo', N'Đình chỉ', N'Sa thải', N'Phạt')";
+                    SELECT tp.id, nv.TenNhanVien, pb.TenPhongBan, tp.loai AS HinhThuc, tp.lyDo
+                    FROM ThuongPhat tp
+                    JOIN NhanVien_ThuongPhat nvtp ON tp.id = nvtp.idThuongPhat
+                    JOIN NhanVien nv ON nvtp.idNhanVien = nv.id
+                    JOIN PhongBan pb ON nv.idPhongBan = pb.id
+                    WHERE tp.loai IN (N'Khiển trách', N'Cảnh cáo', N'Đình chỉ', N'Sa thải', N'Phạt')";
 
-                SqlDataAdapter da = new SqlDataAdapter(query, conn);
+                if (!string.IsNullOrEmpty(idPhongBan))
+                    query += " AND pb.id = @idPB";
+
+                SqlCommand cmd = new SqlCommand(query, conn);
+                if (!string.IsNullOrEmpty(idPhongBan))
+                    cmd.Parameters.AddWithValue("@idPB", idPhongBan);
+
+                SqlDataAdapter da = new SqlDataAdapter(cmd);
                 DataTable dt = new DataTable();
                 da.Fill(dt);
                 dgv.DataSource = dt;
             }
 
-            // Thêm icon XÓA nếu chưa có
             if (!dgv.Columns.Contains("Xoa"))
             {
                 DataGridViewImageColumn colDelete = new DataGridViewImageColumn()
@@ -188,7 +298,6 @@ namespace GUI
                 dgv.Columns.Add(colDelete);
                 dgv.Columns["Xoa"].DisplayIndex = dgv.Columns.Count - 1;
             }
-        
         }
 
         // ======================= LƯU HOẶC CẬP NHẬT =======================
@@ -323,4 +432,5 @@ namespace GUI
         }
     }
 }
+
 

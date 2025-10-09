@@ -14,28 +14,30 @@ namespace GUI
 {
     public partial class TaoKhenThuong : UserControl
     {
-        private Guna2ComboBox cbEmployee;
+        private Guna2ComboBox cbEmployee, cbPhongBan;
         private Guna2DateTimePicker dtReward;
-        private Guna2TextBox txtReason;
-        private Guna2TextBox txtAmount;
-        private Guna2Button btnSave, btnUndo;
+        private Guna2TextBox txtReason, txtAmount;
+        private Guna2Button btnSave, btnUndo, btnSearch;
         private Guna2DataGridView dgv;
 
         private string connectionString = ConnectionDB.conn;
-        private string idNguoiTao = "GD00000001"; // người tạo tạm
-        private int? selectedId = null; // id bản ghi đang sửa
+        private string idNguoiTao = "GD00000001";
+        private int? selectedId = null;
 
         public TaoKhenThuong()
         {
             InitializeComponent();
             BuildUI();
+            LoadPhongBan();
             LoadNhanVien();
             LoadKhenThuong();
         }
 
+        // ======================= DỰNG GIAO DIỆN =======================
         private void BuildUI()
         {
             this.Dock = DockStyle.Fill;
+            this.BackColor = Color.WhiteSmoke;
 
             Label lblTitle = new Label()
             {
@@ -47,6 +49,48 @@ namespace GUI
                 TextAlign = ContentAlignment.MiddleCenter
             };
 
+            // ==== THANH TÌM KIẾM ====
+            Label lblSearch = new Label()
+            {
+                Text = "📋 Tìm kiếm theo phòng ban:",
+                AutoSize = true,
+                Font = new Font("Segoe UI", 10, FontStyle.Bold),
+                ForeColor = Color.FromArgb(50, 50, 50),
+                Margin = new Padding(10, 10, 0, 0)
+            };
+
+            cbPhongBan = new Guna2ComboBox()
+            {
+                Width = 250,
+                BorderRadius = 6,
+                Margin = new Padding(10, 5, 10, 5),
+                DropDownStyle = ComboBoxStyle.DropDownList
+            };
+
+            btnSearch = new Guna2Button()
+            {
+                Text = "🔍 Tìm kiếm",
+                BorderRadius = 8,
+                FillColor = Color.SteelBlue,
+                ForeColor = Color.White,
+                Height = 36,
+                Width = 120,
+                Margin = new Padding(10, 5, 0, 5)
+            };
+            btnSearch.Click += BtnSearch_Click;
+
+            FlowLayoutPanel searchPanel = new FlowLayoutPanel()
+            {
+                Dock = DockStyle.Top,
+                AutoSize = true,
+                FlowDirection = FlowDirection.LeftToRight,
+                Padding = new Padding(20, 5, 0, 10)
+            };
+            searchPanel.Controls.Add(lblSearch);
+            searchPanel.Controls.Add(cbPhongBan);
+            searchPanel.Controls.Add(btnSearch);
+
+            // ==== INPUT FORM ====
             cbEmployee = new Guna2ComboBox() { Dock = DockStyle.Fill, DropDownStyle = ComboBoxStyle.DropDownList };
             dtReward = new Guna2DateTimePicker() { Format = DateTimePickerFormat.Custom, CustomFormat = "dd/MM/yyyy", Dock = DockStyle.Fill };
             txtAmount = new Guna2TextBox() { PlaceholderText = "Số tiền thưởng (VD: 500000)", Dock = DockStyle.Fill };
@@ -90,7 +134,7 @@ namespace GUI
             dgv.CellMouseEnter += Dgv_CellMouseEnter;
             dgv.CellMouseLeave += Dgv_CellMouseLeave;
 
-            // ===== FORM INPUT =====
+            // ==== FORM INPUT ====
             TableLayoutPanel form = new TableLayoutPanel()
             {
                 Dock = DockStyle.Top,
@@ -122,55 +166,93 @@ namespace GUI
             btnPanel.Controls.Add(btnUndo);
             form.Controls.Add(btnPanel, 1, 4);
 
+            // ==== MAIN ====
             TableLayoutPanel main = new TableLayoutPanel()
+            {
+                Dock = DockStyle.Fill,
+                RowCount = 3,
+                ColumnCount = 1
+            };
+            main.RowStyles.Add(new RowStyle(SizeType.Absolute, 50));
+            main.RowStyles.Add(new RowStyle(SizeType.Absolute, 70)); // Thanh tìm kiếm
+            main.RowStyles.Add(new RowStyle(SizeType.Percent, 100));
+
+            main.Controls.Add(lblTitle, 0, 0);
+            main.Controls.Add(searchPanel, 0, 1);
+
+            TableLayoutPanel content = new TableLayoutPanel()
             {
                 Dock = DockStyle.Fill,
                 RowCount = 2,
                 ColumnCount = 1
             };
-            main.RowStyles.Add(new RowStyle(SizeType.Absolute, 300));
-            main.RowStyles.Add(new RowStyle(SizeType.Percent, 100));
-            main.Controls.Add(form, 0, 0);
-            main.Controls.Add(dgv, 0, 1);
+            content.RowStyles.Add(new RowStyle(SizeType.Absolute, 300));
+            content.RowStyles.Add(new RowStyle(SizeType.Percent, 100));
+            content.Controls.Add(form, 0, 0);
+            content.Controls.Add(dgv, 0, 1);
 
+            main.Controls.Add(content, 0, 2);
             this.Controls.Add(main);
-            this.Controls.Add(lblTitle);
         }
 
-        // ======================= LOAD NHÂN VIÊN =======================
-        private void LoadNhanVien()
+        // ======================= LOAD PHÒNG BAN =======================
+        private void LoadPhongBan()
         {
             using (SqlConnection conn = new SqlConnection(connectionString))
             {
-                conn.Open();
-                string query = "SELECT id, TenNhanVien FROM NhanVien";
-                SqlCommand cmd = new SqlCommand(query, conn);
-                SqlDataReader reader = cmd.ExecuteReader();
+                string query = "SELECT id, TenPhongBan FROM PhongBan";
+                SqlDataAdapter da = new SqlDataAdapter(query, conn);
                 DataTable dt = new DataTable();
-                dt.Load(reader);
-                cbEmployee.DataSource = dt;
-                cbEmployee.DisplayMember = "TenNhanVien";
-                cbEmployee.ValueMember = "id";
+                da.Fill(dt);
+
+                DataRow allRow = dt.NewRow();
+                allRow["id"] = DBNull.Value;
+                allRow["TenPhongBan"] = "Tất cả phòng ban";
+                dt.Rows.InsertAt(allRow, 0);
+
+                cbPhongBan.DataSource = dt;
+                cbPhongBan.DisplayMember = "TenPhongBan";
+                cbPhongBan.ValueMember = "id";
+                cbPhongBan.SelectedIndex = 0;
             }
         }
 
+        // ======================= TÌM KIẾM =======================
+        private void BtnSearch_Click(object sender, EventArgs e)
+        {
+            if (cbPhongBan.SelectedValue == null || cbPhongBan.SelectedIndex == 0)
+                LoadKhenThuong();
+            else
+                LoadKhenThuong(cbPhongBan.SelectedValue.ToString());
+        }
+
         // ======================= LOAD KHEN THƯỞNG =======================
-        private void LoadKhenThuong()
+        private void LoadKhenThuong(string idPhongBan = "")
         {
             using (SqlConnection conn = new SqlConnection(connectionString))
             {
-                string query = @"SELECT tp.id, nv.TenNhanVien, tp.lyDo, tp.tienThuongPhat, tp.loai, nv.id AS idNhanVien
-                                 FROM ThuongPhat tp
-                                 JOIN NhanVien_ThuongPhat nvtp ON tp.id = nvtp.idThuongPhat
-                                 JOIN NhanVien nv ON nvtp.idNhanVien = nv.id
-                                 WHERE tp.loai = N'Thưởng'";
-                SqlDataAdapter da = new SqlDataAdapter(query, conn);
+                string query = @"
+                    SELECT tp.id, nv.TenNhanVien, pb.TenPhongBan, tp.tienThuongPhat AS [Số tiền thưởng], 
+                           tp.lyDo AS [Lý do], nvtp.thangApDung AS [Ngày áp dụng]
+                    FROM ThuongPhat tp
+                    JOIN NhanVien_ThuongPhat nvtp ON tp.id = nvtp.idThuongPhat
+                    JOIN NhanVien nv ON nvtp.idNhanVien = nv.id
+                    JOIN PhongBan pb ON nv.idPhongBan = pb.id
+                    WHERE tp.loai = N'Thưởng'";
+
+                if (!string.IsNullOrEmpty(idPhongBan))
+                    query += " AND pb.id = @idPB";
+
+                SqlCommand cmd = new SqlCommand(query, conn);
+                if (!string.IsNullOrEmpty(idPhongBan))
+                    cmd.Parameters.AddWithValue("@idPB", idPhongBan);
+
+                SqlDataAdapter da = new SqlDataAdapter(cmd);
                 DataTable dt = new DataTable();
                 da.Fill(dt);
                 dgv.DataSource = dt;
             }
 
-            // Thêm icon XÓA nếu chưa có
             if (!dgv.Columns.Contains("Xoa"))
             {
                 DataGridViewImageColumn colDelete = new DataGridViewImageColumn()
@@ -186,7 +268,24 @@ namespace GUI
             }
         }
 
-        // ======================= LƯU HOẶC CẬP NHẬT =======================
+        // ======================= LOAD NHÂN VIÊN =======================
+        private void LoadNhanVien()
+        {
+            using (SqlConnection conn = new SqlConnection(connectionString))
+            {
+                conn.Open();
+                string query = "SELECT id, TenNhanVien FROM NhanVien WHERE DaXoa = 0";
+                SqlCommand cmd = new SqlCommand(query, conn);
+                SqlDataReader reader = cmd.ExecuteReader();
+                DataTable dt = new DataTable();
+                dt.Load(reader);
+                cbEmployee.DataSource = dt;
+                cbEmployee.DisplayMember = "TenNhanVien";
+                cbEmployee.ValueMember = "id";
+            }
+        }
+
+        // ======================= LƯU / CẬP NHẬT =======================
         private void BtnSave_Click(object sender, EventArgs e)
         {
             if (cbEmployee.SelectedValue == null)
@@ -204,13 +303,11 @@ namespace GUI
             using (SqlConnection conn = new SqlConnection(connectionString))
             {
                 conn.Open();
-
-                int idThuongPhat;
                 SqlCommand cmd;
+                int idThuongPhat;
 
                 if (btnSave.Text.Contains("Lưu"))
                 {
-                    // ➕ Thêm mới vào ThuongPhat
                     cmd = new SqlCommand(@"INSERT INTO ThuongPhat (tienThuongPhat, loai, lyDo, idNguoiTao)
                                            OUTPUT INSERTED.id
                                            VALUES (@tien, N'Thưởng', @lydo, @idng)", conn);
@@ -219,7 +316,6 @@ namespace GUI
                     cmd.Parameters.AddWithValue("@idng", idNguoiTao);
                     idThuongPhat = (int)cmd.ExecuteScalar();
 
-                    // ➕ Thêm vào NhanVien_ThuongPhat
                     SqlCommand cmd2 = new SqlCommand(@"INSERT INTO NhanVien_ThuongPhat (idNhanVien, idThuongPhat, thangApDung)
                                                        VALUES (@idnv, @idtp, @ngay)", conn);
                     cmd2.Parameters.AddWithValue("@idnv", cbEmployee.SelectedValue.ToString());
@@ -243,8 +339,7 @@ namespace GUI
                 }
             }
 
-            string msg = btnSave.Text.Contains("Lưu") ? "✅ Đã thêm khen thưởng mới!" : "✏️ Đã cập nhật khen thưởng!";
-            MessageBox.Show(msg);
+            MessageBox.Show(btnSave.Text.Contains("Lưu") ? "✅ Đã thêm khen thưởng mới!" : "✏️ Đã cập nhật khen thưởng!");
             LoadKhenThuong();
             ClearForm();
         }
@@ -271,12 +366,11 @@ namespace GUI
                 return;
             }
 
-            // ✏️ Chọn hàng để sửa
             DataGridViewRow row = dgv.Rows[e.RowIndex];
             selectedId = Convert.ToInt32(row.Cells["id"].Value);
             cbEmployee.Text = row.Cells["TenNhanVien"].Value?.ToString();
-            txtReason.Text = row.Cells["lyDo"].Value?.ToString();
-            txtAmount.Text = row.Cells["tienThuongPhat"].Value?.ToString();
+            txtReason.Text = row.Cells["Lý do"].Value?.ToString();
+            txtAmount.Text = row.Cells["Số tiền thưởng"].Value?.ToString();
 
             btnSave.Text = "✏️ Cập nhật";
             btnSave.FillColor = Color.Orange;

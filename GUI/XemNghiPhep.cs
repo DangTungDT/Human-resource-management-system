@@ -15,7 +15,7 @@ namespace GUI
     public partial class XemNghiPhep : UserControl
     {
         private Guna2DataGridView dgv;
-        private string connectionString = @"Data Source=DESKTOP-6LE6PT2\SQLEXPRESS;Initial Catalog=PersonnelManagement;Integrated Security=True;Encrypt=False";
+        private string connectionString = ConnectionDB.conn;
         private string idNhanVien;
 
         public XemNghiPhep()

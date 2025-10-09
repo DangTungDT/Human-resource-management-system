@@ -67,5 +67,33 @@ namespace GUI
             main?.ShowUserControl("ucUngVien");
             main.ChildFormComponent(_tpCRUD, "ButtonFeatureCRUDComponent");
         }
+
+        private void guna2TileButton6_Click(object sender, EventArgs e)
+        {
+            var main = this.ParentForm as Main;
+            main?.ShowUserControl("TaoDanhGiaHieuSuat");
+            main.ChildFormComponent(_tpCRUD, "ButtonFeatureCRUDComponent");
+        }
+
+        private void btnTaoKyLuat_Click(object sender, EventArgs e)
+        {
+            var main = this.ParentForm as Main;
+            main?.ShowUserControl("TaoKyLuat");
+            main.ChildFormComponent(_tpCRUD, "ButtonFeatureCRUDComponent");
+        }
+
+        private void btnTaoKhenThuong_Click(object sender, EventArgs e)
+        {
+            var main = this.ParentForm as Main;
+            main?.ShowUserControl("TaoKhenThuong");
+            main.ChildFormComponent(_tpCRUD, "ButtonFeatureCRUDComponent");
+        }
+
+        private void btnCapNhatThongTinNV_Click(object sender, EventArgs e)
+        {
+            var main = this.ParentForm as Main;
+            main?.ShowUserControl("CapNhatThongTinNV");
+            main.ChildFormComponent(_tpCRUD, "ButtonFeatureCRUDComponent");
+        }
     }
 }

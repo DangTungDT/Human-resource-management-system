@@ -11,13 +11,6 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Xml.Linq;
 
-using Guna.UI2.WinForms;
-using System;
-using System.Data;
-using System.Data.SqlClient;
-using System.Drawing;
-using System.Windows.Forms;
-
 namespace GUI
 {
     public partial class CapNhatThongTinNV : UserControl
@@ -28,6 +21,8 @@ namespace GUI
         private Guna2DateTimePicker dtDob;
         private Guna2Button btnSave, btnToggleView, btnAdd;
         private Guna2DataGridView dgv;
+        private Guna2TextBox txtSearchName, txtSearchAddress, txtSearchQue, txtSearchEmail;
+        private Guna2ComboBox cbSearchGender;
 
         private string connectionString = ConnectionDB.conn;
         private string selectedId = null;
@@ -57,6 +52,48 @@ namespace GUI
                 Height = 40,
                 TextAlign = ContentAlignment.MiddleCenter
             };
+
+            // ===== TIÊU ĐỀ THANH TÌM KIẾM =====
+            Label lblSearchTitle = new Label()
+            {
+                Text = "🔍 TÌM KIẾM NHÂN VIÊN",
+                Font = new Font("Segoe UI", 10, FontStyle.Bold),
+                ForeColor = Color.DimGray,
+                Dock = DockStyle.Top,
+                Height = 30,
+                TextAlign = ContentAlignment.MiddleLeft,
+                Padding = new Padding(30, 0, 0, 0),
+                BackColor = Color.FromArgb(240, 242, 245)
+            };
+
+            // ==== THANH TÌM KIẾM ==== 
+            FlowLayoutPanel searchPanel = new FlowLayoutPanel()
+            {
+                Dock = DockStyle.Top,
+                Padding = new Padding(20, 5, 20, 5),
+                AutoSize = true,
+                BackColor = Color.White
+            };
+
+            // 🔹 Khởi tạo control tìm kiếm
+            txtSearchName = new Guna2TextBox() { PlaceholderText = "🔍 Tìm theo họ tên", Width = 200 };
+            cbSearchGender = new Guna2ComboBox() { Width = 120, DropDownStyle = ComboBoxStyle.DropDownList };
+            cbSearchGender.Items.AddRange(new object[] { "", "Nam", "Nữ", "Khác" });
+
+            txtSearchAddress = new Guna2TextBox() { PlaceholderText = "Địa chỉ", Width = 200 };
+            txtSearchQue = new Guna2TextBox() { PlaceholderText = "Quê quán", Width = 200 };
+            txtSearchEmail = new Guna2TextBox() { PlaceholderText = "Email", Width = 200 };
+
+            searchPanel.Controls.AddRange(new Control[] {
+    txtSearchName, cbSearchGender, txtSearchAddress, txtSearchQue, txtSearchEmail
+});
+
+            // Sự kiện tìm kiếm
+            txtSearchName.TextChanged += (s, e) => FilterNhanVien();
+            cbSearchGender.SelectedIndexChanged += (s, e) => FilterNhanVien();
+            txtSearchAddress.TextChanged += (s, e) => FilterNhanVien();
+            txtSearchQue.TextChanged += (s, e) => FilterNhanVien();
+            txtSearchEmail.TextChanged += (s, e) => FilterNhanVien();
 
             // ==== INPUT CONTROL ====
             txtName = new Guna2TextBox() { PlaceholderText = "Họ tên", Dock = DockStyle.Fill };
@@ -174,16 +211,20 @@ namespace GUI
             TableLayoutPanel layoutTotal = new TableLayoutPanel()
             {
                 Dock = DockStyle.Fill,
-                RowCount = 3,
+                RowCount = 5,
                 ColumnCount = 1
             };
-            layoutTotal.RowStyles.Add(new RowStyle(SizeType.Absolute, 50));
-            layoutTotal.RowStyles.Add(new RowStyle(SizeType.Absolute, 380));
-            layoutTotal.RowStyles.Add(new RowStyle(SizeType.Percent, 100));
+            layoutTotal.RowStyles.Add(new RowStyle(SizeType.Absolute, 50));   // tiêu đề
+            layoutTotal.RowStyles.Add(new RowStyle(SizeType.Absolute, 30));   // nhãn tìm kiếm
+            layoutTotal.RowStyles.Add(new RowStyle(SizeType.AutoSize));       // thanh tìm kiếm
+            layoutTotal.RowStyles.Add(new RowStyle(SizeType.Absolute, 380));  // form nhập
+            layoutTotal.RowStyles.Add(new RowStyle(SizeType.Percent, 100));   // bảng
 
             layoutTotal.Controls.Add(lblTitle, 0, 0);
-            layoutTotal.Controls.Add(layoutForm, 0, 1);
-            layoutTotal.Controls.Add(dgv, 0, 2);
+            layoutTotal.Controls.Add(lblSearchTitle, 0, 1);
+            layoutTotal.Controls.Add(searchPanel, 0, 2);
+            layoutTotal.Controls.Add(layoutForm, 0, 3);
+            layoutTotal.Controls.Add(dgv, 0, 4);
 
             this.Controls.Add(layoutTotal);
         }
@@ -281,7 +322,7 @@ namespace GUI
                 }
                 LoadDanhSachNhanVien(true);
             }
-                
+
         }
 
         // =======================
@@ -389,6 +430,33 @@ namespace GUI
                 // Trả nền về trắng
                 dgv.Rows[e.RowIndex].Cells[e.ColumnIndex].Style.BackColor = Color.White;
             }
+        }
+
+        // Hàm lọc kết quả
+        private void FilterNhanVien()
+        {
+            if (dgv.DataSource == null) return;
+            DataTable dt = dgv.DataSource as DataTable;
+            if (dt == null) return;
+
+            string filter = "1=1";
+
+            if (!string.IsNullOrWhiteSpace(txtSearchName.Text))
+                filter += $" AND [Họ tên] LIKE '%{txtSearchName.Text.Replace("'", "''")}%'";
+
+            if (cbSearchGender.SelectedIndex > 0)
+                filter += $" AND [Giới tính] = '{cbSearchGender.Text}'";
+
+            if (!string.IsNullOrWhiteSpace(txtSearchAddress.Text))
+                filter += $" AND [Địa chỉ] LIKE '%{txtSearchAddress.Text.Replace("'", "''")}%'";
+
+            if (!string.IsNullOrWhiteSpace(txtSearchQue.Text))
+                filter += $" AND [Quê quán] LIKE '%{txtSearchQue.Text.Replace("'", "''")}%'";
+
+            if (!string.IsNullOrWhiteSpace(txtSearchEmail.Text))
+                filter += $" AND [Email] LIKE '%{txtSearchEmail.Text.Replace("'", "''")}%'";
+
+            (dgv.DataSource as DataTable).DefaultView.RowFilter = filter;
         }
     }
 }

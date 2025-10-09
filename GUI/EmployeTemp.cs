@@ -8,7 +8,9 @@ namespace GUI
 {
     public class ConnectionDB
     {
-        public static string conn = "Data Source=DESKTOP-6LE6PT2\\SQLEXPRESS;Initial Catalog=PersonnelManagement;Integrated Security=True;Encrypt=False";
+        //Tùng : DESKTOP-6LE6PT2\\SQLEXPRESS
+        //Ngân : DESKTOP-UM1I61K\THANHNGAN
+        public static string conn = "Data Source=DESKTOP-UM1I61K\\THANHNGAN;Initial Catalog=PersonnelManagement;Integrated Security=True;Encrypt=False";
 
     }
     public class EmployeTemp

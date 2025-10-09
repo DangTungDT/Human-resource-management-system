@@ -96,6 +96,7 @@ namespace GUI
             _userControls["XemThongTinCaNhan"] = new XemThongTinCaNhan(idNV, tpView);
             _userControls["TaoKhenThuong"] = new TaoKhenThuong();
             _userControls["TaoKyLuat"] = new TaoKyLuat();
+            _userControls["TaoDanhGiaHieuSuat"] = new TaoDanhGiaHieuSuat();
 
             _userControls["UCReportDanhSachLuongPBan"] = new UCReportDanhSachLuongPBan();
             _userControls["UCReportDanhSachKyLuat"] = new UCReportDanhSachKyLuat();

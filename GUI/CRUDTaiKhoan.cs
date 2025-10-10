@@ -4,6 +4,8 @@ using System.Data;
 using System.Data.SqlClient;
 using System.Drawing;
 using System.Windows.Forms;
+using System.Security.Cryptography;
+using System.Text;
 
 namespace GUI
 {
@@ -23,6 +25,7 @@ namespace GUI
         {
             InitializeComponent();
             BuildUI();
+            LoadNhanVien();
             LoadTaiKhoan();
         }
 
@@ -199,6 +202,26 @@ namespace GUI
             txtPassword.IconRight = isPasswordVisible ? Properties.Resources.eye : Properties.Resources.eyebrow;
         }
 
+        // ======================= LOAD DANH SÁCH NHÂN VIÊN =======================
+        private void LoadNhanVien()
+        {
+            using (SqlConnection conn = new SqlConnection(connectionString))
+            {
+                string query = @"SELECT id, TenNhanVien 
+                         FROM NhanVien 
+                         WHERE DaXoa = 0 
+                         ORDER BY TenNhanVien";
+                SqlDataAdapter da = new SqlDataAdapter(query, conn);
+                DataTable dt = new DataTable();
+                da.Fill(dt);
+
+                cbNhanVien.DataSource = dt;
+                cbNhanVien.DisplayMember = "TenNhanVien";
+                cbNhanVien.ValueMember = "id";
+                cbNhanVien.SelectedIndex = -1;
+            }
+        }
+
         // ======================= LOAD TÀI KHOẢN =======================
         private void LoadTaiKhoan()
         {
@@ -250,6 +273,14 @@ namespace GUI
                 return;
             }
 
+            if (string.IsNullOrWhiteSpace(txtPassword.Text))
+            {
+                MessageBox.Show("Vui lòng nhập mật khẩu!", "Thông báo");
+                return;
+            }
+
+            string hashedPassword = HashPassword(txtPassword.Text); // 🟢 mã hóa mật khẩu
+
             using (SqlConnection conn = new SqlConnection(connectionString))
             {
                 conn.Open();
@@ -258,7 +289,7 @@ namespace GUI
                 if (btnSave.Text.Contains("Thêm"))
                 {
                     cmd = new SqlCommand(@"INSERT INTO TaiKhoan (taiKhoan, matKhau, idNhanVien)
-                                           VALUES (@User, @Pass, @IdNV)", conn);
+                                   VALUES (@User, @Pass, @IdNV)", conn);
                 }
                 else
                 {
@@ -273,7 +304,7 @@ namespace GUI
                 }
 
                 cmd.Parameters.AddWithValue("@User", txtUsername.Text);
-                cmd.Parameters.AddWithValue("@Pass", txtPassword.Text);
+                cmd.Parameters.AddWithValue("@Pass", hashedPassword); // 🟢 lưu chuỗi mã hoá
                 cmd.Parameters.AddWithValue("@IdNV", cbNhanVien.SelectedValue ?? DBNull.Value);
                 cmd.ExecuteNonQuery();
             }
@@ -282,6 +313,7 @@ namespace GUI
             LoadTaiKhoan();
             ClearForm();
         }
+
 
         // ======================= CLICK DGV =======================
         private void Dgv_CellClick(object sender, DataGridViewCellEventArgs e)
@@ -331,5 +363,19 @@ namespace GUI
             btnSave.FillColor = Color.MediumSeaGreen;
             dgv.ClearSelection();
         }
+
+        private string HashPassword(string password)
+        {
+            using (SHA256 sha256 = SHA256.Create())
+            {
+                byte[] bytes = sha256.ComputeHash(Encoding.UTF8.GetBytes(password));
+                StringBuilder builder = new StringBuilder();
+                foreach (byte b in bytes)
+                    builder.Append(b.ToString("x2")); // chuyển byte sang dạng hex
+                return builder.ToString();
+            }
+        }
+
+
     }
 }

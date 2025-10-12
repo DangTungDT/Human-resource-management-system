@@ -17,12 +17,13 @@ namespace GUI
         private Guna2DataGridView dgv;
         private bool isPasswordVisible = false;
 
-        private string connectionString = ConnectionDB.conn;
+        private string connectionString;
         private int? selectedId = null;
         private DataTable dtTaiKhoan;
 
-        public CRUDTaiKhoan()
+        public CRUDTaiKhoan(string conn)
         {
+            connectionString = conn;
             InitializeComponent();
             BuildUI();
             LoadNhanVien();

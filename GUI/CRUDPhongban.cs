@@ -12,11 +12,12 @@ namespace GUI
         private Guna2TextBox txtTenPhongBan, txtMoTa, txtSearchTen, txtSearchMoTa;
         private Guna2Button btnSave, btnUndo, btnClearFilter;
         private Guna2DataGridView dgv;
-        private string connectionString = ConnectionDB.conn;
+        private string connectionString;
         private int? selectedId = null;
 
-        public CRUDPhongban()
+        public CRUDPhongban(string conn)
         {
+            connectionString = conn;
             InitializeComponent();
             BuildUI();
             LoadPhongBan();

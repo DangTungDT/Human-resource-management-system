@@ -19,11 +19,11 @@ namespace GUI
         private Guna2Button btnSearch, btnExcel, btnPDF, btnXuatReport;
         private Guna2DataGridView dgv;
 
-        private string connectionString =
-            ConnectionDB.conn;
+        private string connectionString;
 
-        public BaoCaoKhenThuong()
+        public BaoCaoKhenThuong(string conn)
         {
+            connectionString = conn;
             InitializeComponent();
             BuildUI();
             LoadPhongBan();

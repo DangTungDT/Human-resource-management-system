@@ -21,12 +21,13 @@ namespace GUI
         private Guna2Button btnSave, btnUndo, btnSearch;
         private Guna2DataGridView dgv;
 
-        private string connectionString = ConnectionDB.conn;
+        private string connectionString;
         private string idNguoiTao = "GD00000001";
         private int? selectedId = null;
 
-        public TaoKyLuat()
+        public TaoKyLuat(string conn)
         {
+            connectionString = conn;
             InitializeComponent();
             BuildUI();
             LoadPhongBan();

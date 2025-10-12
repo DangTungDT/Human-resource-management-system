@@ -20,11 +20,12 @@ namespace GUI
         private Guna2DataGridView dgv;
         private Guna2TextBox txtSearch; // 🔍 Ô tìm kiếm
 
-        private string connectionString = ConnectionDB.conn;
+        private string connectionString;
         private int? selectedId = null;
 
-        public CRUDChucVu()
+        public CRUDChucVu(string conn)
         {
+            connectionString = conn;
             InitializeComponent();
             BuildUI();
             LoadPhongBan();

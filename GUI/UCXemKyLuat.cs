@@ -14,10 +14,11 @@ namespace GUI
 {
     public partial class UCXemKyLuat : UserControl
     {
-        private BLLThuongPhat _dbContext = new BLLThuongPhat();
+        private BLLThuongPhat _dbContext;
 
-        public UCXemKyLuat()
+        public UCXemKyLuat(string stringConnection)
         {
+            _dbContext = new BLLThuongPhat(stringConnection);
             InitializeComponent();
         }
 

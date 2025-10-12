@@ -22,13 +22,14 @@ namespace GUI
         private Guna2Button btnSave, btnUndo, btnReload;
         private Guna2DataGridView dgv;
 
-        private string connectionString = ConnectionDB.conn;
+        private string connectionString;
         private string idNguoiDanhGia = "GD00000001"; // người đánh giá giả định
         private int? selectedId = null;
         private DataTable dtDanhGia; // lưu dữ liệu toàn bộ để lọc tại chỗ
 
-        public TaoDanhGiaHieuSuat()
+        public TaoDanhGiaHieuSuat(string conn)
         {
+            connectionString = conn;
             InitializeComponent();
             BuildUI();
             LoadNhanVien();

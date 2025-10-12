@@ -17,10 +17,11 @@ namespace GUI
 
         private string idNhanVien;
         private string imagePath = "";
-        private string connectionString = ConnectionDB.conn;
+        private string connectionString;
 
-        public CapNhatThongTinRieng(string idNV, Panel panel)
+        public CapNhatThongTinRieng(string idNV, Panel panel, string conn)
         {
+            connectionString = conn;
             idNhanVien = idNV;
             _panel = panel;
             InitializeComponent();
@@ -226,7 +227,7 @@ namespace GUI
 
                 MessageBox.Show("✅ Cập nhật thành công!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
-                XemThongTinCaNhan xemPage = new XemThongTinCaNhan(idNhanVien, _panel);
+                XemThongTinCaNhan xemPage = new XemThongTinCaNhan(idNhanVien, _panel, connectionString);
                 var parent = this.ParentForm as Main;
                 parent?.ShowUserControl("XemThongTinCaNhan");
                 parent.ChildFormComponent(_panel, "ButtonFeatureViewComponent");
@@ -240,7 +241,7 @@ namespace GUI
             //parent.Controls.Clear();
             //parent.Controls.Add(xemPage);
 
-            XemThongTinCaNhan xemPage = new XemThongTinCaNhan(idNhanVien, _panel);
+            XemThongTinCaNhan xemPage = new XemThongTinCaNhan(idNhanVien, _panel, connectionString);
             var parent = this.ParentForm as Main;
             parent?.ShowUserControl("XemThongTinCaNhan");
             parent.ChildFormComponent(_panel, "ButtonFeatureViewComponent");

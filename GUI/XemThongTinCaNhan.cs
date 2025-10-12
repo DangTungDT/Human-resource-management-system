@@ -14,7 +14,7 @@ namespace GUI
 {
     public partial class XemThongTinCaNhan : UserControl
     {
-        private string connectionString = ConnectionDB.conn;
+        private string connectionString;
         private string idNhanVien;
 
         // ======= Các control giao diện =======
@@ -23,8 +23,9 @@ namespace GUI
         private Guna2Button btnUpdate;
         private Panel _panel;
 
-        public XemThongTinCaNhan(string idNV, Panel panel)
+        public XemThongTinCaNhan(string idNV, Panel panel, string conn)
         {
+            connectionString = conn;
             idNhanVien = idNV;
             InitializeComponent();
             BuildUI();
@@ -200,7 +201,7 @@ namespace GUI
         // ===============================
         private void BtnUpdate_Click(object sender, EventArgs e)
         {
-            CapNhatThongTinRieng capNhatPage = new CapNhatThongTinRieng(idNhanVien, _panel);
+            CapNhatThongTinRieng capNhatPage = new CapNhatThongTinRieng(idNhanVien, _panel, connectionString);
             var parent = this.ParentForm as Main;
             parent?.ShowUserControl("CapNhatThongTinRieng");
             parent.ChildFormComponent(_panel, "ButtonFeatureViewComponent");

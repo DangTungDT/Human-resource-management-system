@@ -474,12 +474,13 @@ namespace GUI
         private Guna2TextBox txtSearchName, txtSearchAddress, txtSearchQue, txtSearchEmail;
         private Guna2ComboBox cbSearchGender;
 
-        private string connectionString = ConnectionDB.conn;
+        private string connectionString;
         private string selectedId = null;
         private bool isViewingHidden = false;
 
-        public CapNhatThongTinNV()
+        public CapNhatThongTinNV(string conn)
         {
+            connectionString = conn;
             InitializeComponent();
             BuildUI();
             LoadDanhSachNhanVien(false);

@@ -10,8 +10,11 @@ namespace DAL
     public class DALHopDongLaoDong
     {
         public readonly PersonnelManagementDataContextDataContext _dbContext;
-
-        public DALHopDongLaoDong() => _dbContext = new PersonnelManagementDataContextDataContext();
+        public DALHopDongLaoDong(string stringConnection)
+        {
+            _dbContext = new PersonnelManagementDataContextDataContext(stringConnection);
+        }
+        private string _stringConnection = "";
 
         // Danh sach hop dong lao dong
         public IQueryable<DTOHopDongLaoDong> DanhSachHopDongLaoDong() => _dbContext.HopDongLaoDongs.Select(p => new DTOHopDongLaoDong

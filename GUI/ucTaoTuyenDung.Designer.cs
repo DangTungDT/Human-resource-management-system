@@ -45,6 +45,7 @@
             this.guna2HtmlLabel7 = new Guna.UI2.WinForms.Guna2HtmlLabel();
             this.guna2HtmlLabel6 = new Guna.UI2.WinForms.Guna2HtmlLabel();
             this.guna2HtmlLabel5 = new Guna.UI2.WinForms.Guna2HtmlLabel();
+            this.guna2HtmlLabel10 = new Guna.UI2.WinForms.Guna2HtmlLabel();
             this.guna2HtmlLabel4 = new Guna.UI2.WinForms.Guna2HtmlLabel();
             this.guna2HtmlLabel3 = new Guna.UI2.WinForms.Guna2HtmlLabel();
             this.cbStatus = new Guna.UI2.WinForms.Guna2ComboBox();
@@ -52,11 +53,10 @@
             this.cbDepartment = new Guna.UI2.WinForms.Guna2ComboBox();
             this.txtCreateBy = new Guna.UI2.WinForms.Guna2TextBox();
             this.txtCreateDate = new Guna.UI2.WinForms.Guna2TextBox();
+            this.guna2TextBox1 = new Guna.UI2.WinForms.Guna2TextBox();
             this.txtTitle = new Guna.UI2.WinForms.Guna2TextBox();
             this.guna2HtmlLabel2 = new Guna.UI2.WinForms.Guna2HtmlLabel();
             this.dgvRecruitment = new Guna.UI2.WinForms.Guna2DataGridView();
-            this.guna2TextBox1 = new Guna.UI2.WinForms.Guna2TextBox();
-            this.guna2HtmlLabel10 = new Guna.UI2.WinForms.Guna2HtmlLabel();
             this.guna2Panel1.SuspendLayout();
             this.guna2Panel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvRecruitment)).BeginInit();
@@ -235,7 +235,7 @@
             // 
             this.guna2HtmlLabel7.AutoSize = false;
             this.guna2HtmlLabel7.BackColor = System.Drawing.Color.Transparent;
-            this.guna2HtmlLabel7.Location = new System.Drawing.Point(297, 470);
+            this.guna2HtmlLabel7.Location = new System.Drawing.Point(297, 283);
             this.guna2HtmlLabel7.Name = "guna2HtmlLabel7";
             this.guna2HtmlLabel7.Size = new System.Drawing.Size(170, 18);
             this.guna2HtmlLabel7.TabIndex = 13;
@@ -245,7 +245,7 @@
             // 
             this.guna2HtmlLabel6.AutoSize = false;
             this.guna2HtmlLabel6.BackColor = System.Drawing.Color.Transparent;
-            this.guna2HtmlLabel6.Location = new System.Drawing.Point(297, 377);
+            this.guna2HtmlLabel6.Location = new System.Drawing.Point(814, 43);
             this.guna2HtmlLabel6.Name = "guna2HtmlLabel6";
             this.guna2HtmlLabel6.Size = new System.Drawing.Size(175, 18);
             this.guna2HtmlLabel6.TabIndex = 14;
@@ -255,17 +255,27 @@
             // 
             this.guna2HtmlLabel5.AutoSize = false;
             this.guna2HtmlLabel5.BackColor = System.Drawing.Color.Transparent;
-            this.guna2HtmlLabel5.Location = new System.Drawing.Point(297, 300);
+            this.guna2HtmlLabel5.Location = new System.Drawing.Point(814, 203);
             this.guna2HtmlLabel5.Name = "guna2HtmlLabel5";
             this.guna2HtmlLabel5.Size = new System.Drawing.Size(241, 18);
             this.guna2HtmlLabel5.TabIndex = 15;
             this.guna2HtmlLabel5.Text = "Người tạo tuyển dụng";
             // 
+            // guna2HtmlLabel10
+            // 
+            this.guna2HtmlLabel10.AutoSize = false;
+            this.guna2HtmlLabel10.BackColor = System.Drawing.Color.Transparent;
+            this.guna2HtmlLabel10.Location = new System.Drawing.Point(297, 198);
+            this.guna2HtmlLabel10.Name = "guna2HtmlLabel10";
+            this.guna2HtmlLabel10.Size = new System.Drawing.Size(175, 18);
+            this.guna2HtmlLabel10.TabIndex = 16;
+            this.guna2HtmlLabel10.Text = "Số lượng tuyển";
+            // 
             // guna2HtmlLabel4
             // 
             this.guna2HtmlLabel4.AutoSize = false;
             this.guna2HtmlLabel4.BackColor = System.Drawing.Color.Transparent;
-            this.guna2HtmlLabel4.Location = new System.Drawing.Point(297, 207);
+            this.guna2HtmlLabel4.Location = new System.Drawing.Point(814, 114);
             this.guna2HtmlLabel4.Name = "guna2HtmlLabel4";
             this.guna2HtmlLabel4.Size = new System.Drawing.Size(175, 18);
             this.guna2HtmlLabel4.TabIndex = 16;
@@ -291,9 +301,9 @@
             this.cbStatus.Font = new System.Drawing.Font("Segoe UI", 10F);
             this.cbStatus.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(68)))), ((int)(((byte)(88)))), ((int)(((byte)(112)))));
             this.cbStatus.ItemHeight = 30;
-            this.cbStatus.Location = new System.Drawing.Point(297, 400);
+            this.cbStatus.Location = new System.Drawing.Point(814, 66);
             this.cbStatus.Name = "cbStatus";
-            this.cbStatus.Size = new System.Drawing.Size(976, 36);
+            this.cbStatus.Size = new System.Drawing.Size(459, 36);
             this.cbStatus.TabIndex = 10;
             // 
             // cbPosision
@@ -310,9 +320,9 @@
             "Thực tập sinh",
             "Trưởng phòng",
             "Leader"});
-            this.cbPosision.Location = new System.Drawing.Point(297, 231);
+            this.cbPosision.Location = new System.Drawing.Point(814, 139);
             this.cbPosision.Name = "cbPosision";
-            this.cbPosision.Size = new System.Drawing.Size(407, 36);
+            this.cbPosision.Size = new System.Drawing.Size(459, 36);
             this.cbPosision.TabIndex = 11;
             // 
             // cbDepartment
@@ -332,7 +342,7 @@
             "Phòng Kế Toán"});
             this.cbDepartment.Location = new System.Drawing.Point(297, 139);
             this.cbDepartment.Name = "cbDepartment";
-            this.cbDepartment.Size = new System.Drawing.Size(976, 36);
+            this.cbDepartment.Size = new System.Drawing.Size(459, 36);
             this.cbDepartment.TabIndex = 12;
             // 
             // txtCreateBy
@@ -346,12 +356,12 @@
             this.txtCreateBy.FocusedState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(94)))), ((int)(((byte)(148)))), ((int)(((byte)(255)))));
             this.txtCreateBy.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.txtCreateBy.HoverState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(94)))), ((int)(((byte)(148)))), ((int)(((byte)(255)))));
-            this.txtCreateBy.Location = new System.Drawing.Point(297, 319);
+            this.txtCreateBy.Location = new System.Drawing.Point(814, 222);
             this.txtCreateBy.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.txtCreateBy.Name = "txtCreateBy";
             this.txtCreateBy.PlaceholderText = "";
             this.txtCreateBy.SelectedText = "";
-            this.txtCreateBy.Size = new System.Drawing.Size(976, 36);
+            this.txtCreateBy.Size = new System.Drawing.Size(459, 36);
             this.txtCreateBy.TabIndex = 7;
             // 
             // txtCreateDate
@@ -365,13 +375,32 @@
             this.txtCreateDate.FocusedState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(94)))), ((int)(((byte)(148)))), ((int)(((byte)(255)))));
             this.txtCreateDate.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.txtCreateDate.HoverState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(94)))), ((int)(((byte)(148)))), ((int)(((byte)(255)))));
-            this.txtCreateDate.Location = new System.Drawing.Point(297, 495);
+            this.txtCreateDate.Location = new System.Drawing.Point(297, 308);
             this.txtCreateDate.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.txtCreateDate.Name = "txtCreateDate";
             this.txtCreateDate.PlaceholderText = "";
             this.txtCreateDate.SelectedText = "";
-            this.txtCreateDate.Size = new System.Drawing.Size(976, 36);
+            this.txtCreateDate.Size = new System.Drawing.Size(459, 36);
             this.txtCreateDate.TabIndex = 8;
+            // 
+            // guna2TextBox1
+            // 
+            this.guna2TextBox1.Cursor = System.Windows.Forms.Cursors.IBeam;
+            this.guna2TextBox1.DefaultText = "";
+            this.guna2TextBox1.DisabledState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(208)))), ((int)(((byte)(208)))), ((int)(((byte)(208)))));
+            this.guna2TextBox1.DisabledState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(226)))), ((int)(((byte)(226)))), ((int)(((byte)(226)))));
+            this.guna2TextBox1.DisabledState.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(138)))), ((int)(((byte)(138)))), ((int)(((byte)(138)))));
+            this.guna2TextBox1.DisabledState.PlaceholderForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(138)))), ((int)(((byte)(138)))), ((int)(((byte)(138)))));
+            this.guna2TextBox1.FocusedState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(94)))), ((int)(((byte)(148)))), ((int)(((byte)(255)))));
+            this.guna2TextBox1.Font = new System.Drawing.Font("Segoe UI", 9F);
+            this.guna2TextBox1.HoverState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(94)))), ((int)(((byte)(148)))), ((int)(((byte)(255)))));
+            this.guna2TextBox1.Location = new System.Drawing.Point(297, 222);
+            this.guna2TextBox1.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.guna2TextBox1.Name = "guna2TextBox1";
+            this.guna2TextBox1.PlaceholderText = "";
+            this.guna2TextBox1.SelectedText = "";
+            this.guna2TextBox1.Size = new System.Drawing.Size(459, 36);
+            this.guna2TextBox1.TabIndex = 9;
             // 
             // txtTitle
             // 
@@ -389,7 +418,7 @@
             this.txtTitle.Name = "txtTitle";
             this.txtTitle.PlaceholderText = "";
             this.txtTitle.SelectedText = "";
-            this.txtTitle.Size = new System.Drawing.Size(976, 36);
+            this.txtTitle.Size = new System.Drawing.Size(459, 36);
             this.txtTitle.TabIndex = 9;
             // 
             // guna2HtmlLabel2
@@ -454,35 +483,6 @@
             this.dgvRecruitment.ThemeStyle.RowsStyle.Height = 24;
             this.dgvRecruitment.ThemeStyle.RowsStyle.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(231)))), ((int)(((byte)(229)))), ((int)(((byte)(255)))));
             this.dgvRecruitment.ThemeStyle.RowsStyle.SelectionForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(71)))), ((int)(((byte)(69)))), ((int)(((byte)(94)))));
-            // 
-            // guna2TextBox1
-            // 
-            this.guna2TextBox1.Cursor = System.Windows.Forms.Cursors.IBeam;
-            this.guna2TextBox1.DefaultText = "";
-            this.guna2TextBox1.DisabledState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(208)))), ((int)(((byte)(208)))), ((int)(((byte)(208)))));
-            this.guna2TextBox1.DisabledState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(226)))), ((int)(((byte)(226)))), ((int)(((byte)(226)))));
-            this.guna2TextBox1.DisabledState.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(138)))), ((int)(((byte)(138)))), ((int)(((byte)(138)))));
-            this.guna2TextBox1.DisabledState.PlaceholderForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(138)))), ((int)(((byte)(138)))), ((int)(((byte)(138)))));
-            this.guna2TextBox1.FocusedState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(94)))), ((int)(((byte)(148)))), ((int)(((byte)(255)))));
-            this.guna2TextBox1.Font = new System.Drawing.Font("Segoe UI", 9F);
-            this.guna2TextBox1.HoverState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(94)))), ((int)(((byte)(148)))), ((int)(((byte)(255)))));
-            this.guna2TextBox1.Location = new System.Drawing.Point(762, 232);
-            this.guna2TextBox1.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.guna2TextBox1.Name = "guna2TextBox1";
-            this.guna2TextBox1.PlaceholderText = "";
-            this.guna2TextBox1.SelectedText = "";
-            this.guna2TextBox1.Size = new System.Drawing.Size(511, 36);
-            this.guna2TextBox1.TabIndex = 9;
-            // 
-            // guna2HtmlLabel10
-            // 
-            this.guna2HtmlLabel10.AutoSize = false;
-            this.guna2HtmlLabel10.BackColor = System.Drawing.Color.Transparent;
-            this.guna2HtmlLabel10.Location = new System.Drawing.Point(762, 207);
-            this.guna2HtmlLabel10.Name = "guna2HtmlLabel10";
-            this.guna2HtmlLabel10.Size = new System.Drawing.Size(175, 18);
-            this.guna2HtmlLabel10.TabIndex = 16;
-            this.guna2HtmlLabel10.Text = "Số lượng tuyển";
             // 
             // ucTaoTuyenDung
             // 

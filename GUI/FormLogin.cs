@@ -19,7 +19,7 @@ namespace GUI
 
         private void btnLogin_Click(object sender, EventArgs e)
         {
-            new Main().Show();
+            new Main(ConnectionDB.TakeConnectionString()).Show();
             this.Hide();
         }
 

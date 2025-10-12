@@ -15,11 +15,13 @@ namespace GUI
 {
     public partial class UCHopDong : UserControl
     {
-        private BLLHopDongLaoDong _dbContext = new BLLHopDongLaoDong();
-        private BLLThuongPhat _dbContextTP = new BLLThuongPhat();
+        private BLLHopDongLaoDong _dbContext;
+        private BLLThuongPhat _dbContextTP;
 
-        public UCHopDong()
+        public UCHopDong(string stringConnection)
         {
+            _dbContext = new BLLHopDongLaoDong(stringConnection);
+            _dbContextTP = new BLLThuongPhat(stringConnection);
             InitializeComponent();
         }
 

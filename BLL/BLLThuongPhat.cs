@@ -11,8 +11,10 @@ namespace BLL
     public class BLLThuongPhat
     {
         public readonly DALThuongPhat _dbContext;
-
-        public BLLThuongPhat() => _dbContext = new DALThuongPhat();
+        public BLLThuongPhat(string stringConnection)
+        {
+            _dbContext = new DALThuongPhat(stringConnection);
+        }
 
         // Danh sach thuong phat
         public List<DTOThuongPhat> CheckListThuongPhat()

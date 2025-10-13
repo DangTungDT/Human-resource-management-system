@@ -1,4 +1,6 @@
-﻿using Guna.UI2.WinForms;
+﻿using BLL;
+using DTO;
+using Guna.UI2.WinForms;
 using System;
 using System.Data;
 using System.Data.SqlClient;
@@ -14,11 +16,14 @@ namespace GUI
         private Guna2DataGridView dgv;
         private string connectionString;
         private int? selectedId = null;
+        private readonly BLLPhongBan bllPhongBan;
+        private DataTable dtPhongBan;
 
         public CRUDPhongban(string conn)
         {
             connectionString = conn;
             InitializeComponent();
+            bllPhongBan = new BLLPhongBan(conn);
             BuildUI();
             LoadPhongBan();
         }
@@ -188,18 +193,11 @@ namespace GUI
         }
 
         // ======================= LOAD & LỌC =======================
-        private DataTable dtPhongBan;
 
         private void LoadPhongBan()
         {
-            using (SqlConnection conn = new SqlConnection(connectionString))
-            {
-                string query = "SELECT id AS [Mã phòng ban], TenPhongBan AS [Tên phòng ban], MoTa AS [Mô tả] FROM PhongBan";
-                SqlDataAdapter da = new SqlDataAdapter(query, conn);
-                dtPhongBan = new DataTable();
-                da.Fill(dtPhongBan);
-                dgv.DataSource = dtPhongBan;
-            }
+            dtPhongBan = bllPhongBan.GetAllPhongBan();
+            dgv.DataSource = dtPhongBan;
 
             if (!dgv.Columns.Contains("Xóa"))
             {
@@ -239,25 +237,35 @@ namespace GUI
                 return;
             }
 
-            using (SqlConnection conn = new SqlConnection(connectionString))
+            DTOPhongBan pb = new DTOPhongBan
             {
-                conn.Open();
-                SqlCommand cmd = btnSave.Text.Contains("Thêm")
-                    ? new SqlCommand("INSERT INTO PhongBan (TenPhongBan, MoTa) VALUES (@Ten, @MoTa)", conn)
-                    : new SqlCommand("UPDATE PhongBan SET TenPhongBan=@Ten, MoTa=@MoTa WHERE id=@id", conn);
+                Id = selectedId ?? 0,
+                TenPhongBan = txtTenPhongBan.Text.Trim(),
+                MoTa = txtMoTa.Text.Trim()
+            };
 
-                cmd.Parameters.AddWithValue("@Ten", txtTenPhongBan.Text);
-                cmd.Parameters.AddWithValue("@MoTa", txtMoTa.Text);
+            try
+            {
+                if (selectedId == null)
+                {
+                    // === Thêm mới ===
+                    bllPhongBan.SavePhongBan(pb, isNew: true);
+                    MessageBox.Show("✅ Đã thêm phòng ban mới!");
+                }
+                else
+                {
+                    // === Cập nhật ===
+                    bllPhongBan.SavePhongBan(pb, isNew: false);
+                    MessageBox.Show("✏️ Đã cập nhật phòng ban!");
+                }
 
-                if (selectedId != null)
-                    cmd.Parameters.AddWithValue("@id", selectedId);
-
-                cmd.ExecuteNonQuery();
+                LoadPhongBan();
+                ClearForm();
             }
-
-            MessageBox.Show(btnSave.Text.Contains("Thêm") ? "✅ Đã thêm phòng ban mới!" : "✏️ Đã cập nhật phòng ban!");
-            LoadPhongBan();
-            ClearForm();
+            catch (Exception ex)
+            {
+                MessageBox.Show("Lỗi khi lưu phòng ban: " + ex.Message);
+            }
         }
 
         private void Dgv_CellClick(object sender, DataGridViewCellEventArgs e)
@@ -269,14 +277,8 @@ namespace GUI
                 int id = Convert.ToInt32(dgv.Rows[e.RowIndex].Cells["Mã phòng ban"].Value);
                 if (MessageBox.Show("Bạn có chắc muốn xóa phòng ban này?", "Xác nhận", MessageBoxButtons.YesNo) == DialogResult.Yes)
                 {
-                    using (SqlConnection conn = new SqlConnection(connectionString))
-                    {
-                        SqlCommand cmd = new SqlCommand("DELETE FROM PhongBan WHERE id=@id", conn);
-                        cmd.Parameters.AddWithValue("@id", id);
-                        conn.Open();
-                        cmd.ExecuteNonQuery();
-                    }
-                    LoadPhongBan();
+                    if (bllPhongBan.DeletePhongBan(id))
+                        LoadPhongBan();
                 }
                 return;
             }

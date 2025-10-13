@@ -87,7 +87,7 @@ namespace DAL
     #endregion
 		
 		public PersonnelManagementDataContextDataContext() : 
-				base(global::DAL.Properties.Settings.Default.PersonnelManagementConnectionString, mappingSource)
+				base(global::DAL.Properties.Settings.Default.PersonnelManagementConnectionString2, mappingSource)
 		{
 			OnCreated();
 		}

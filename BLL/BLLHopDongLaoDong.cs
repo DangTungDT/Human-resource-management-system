@@ -11,9 +11,10 @@ namespace BLL
     public class BLLHopDongLaoDong
     {
         public readonly DALHopDongLaoDong _dbContext;
-
-        public BLLHopDongLaoDong() => _dbContext = new DALHopDongLaoDong();
-
+        public BLLHopDongLaoDong(string stringConnection)
+        {
+            _dbContext = new DALHopDongLaoDong(stringConnection);
+        }
         // Danh sach hop dong lao dong
         public List<DTOHopDongLaoDong> CheckListHopDongLaoDong()
         {

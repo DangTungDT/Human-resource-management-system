@@ -13,12 +13,13 @@ namespace GUI
 {
     public partial class UCDanhGiaHieuSuat : UserControl
     {
-        private BLLDanhGiaNhanVien _dbContext = new BLLDanhGiaNhanVien();
-        private BLLThuongPhat _dbContextTP = new BLLThuongPhat();
-
-        public UCDanhGiaHieuSuat()
+        private BLLDanhGiaNhanVien _dbContext;
+        private BLLThuongPhat _dbContextTP;
+        public UCDanhGiaHieuSuat(string stringConnection)
         {
-            InitializeComponent();
+            _dbContext = new BLLDanhGiaNhanVien(stringConnection);
+            _dbContextTP = new BLLThuongPhat(stringConnection);
+            InitializeComponent();            
         }
 
         private void UCDanhGiaHieuSuat_Load(object sender, EventArgs e)

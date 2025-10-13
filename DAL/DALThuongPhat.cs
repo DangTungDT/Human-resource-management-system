@@ -11,9 +11,10 @@ namespace DAL
     {
         public readonly PersonnelManagementDataContextDataContext _dbContext;
 
-        public DALThuongPhat() => _dbContext = new PersonnelManagementDataContextDataContext();
-
-
+        public DALThuongPhat(string stringConnection)
+        {
+            _dbContext = new PersonnelManagementDataContextDataContext(stringConnection);
+        }
         public IQueryable<DTOThuongPhat> DanhSachThuongPhat() => _dbContext.ThuongPhats.Select(p => new DTOThuongPhat
         {
             ID = p.id,

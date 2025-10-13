@@ -15,11 +15,12 @@ namespace GUI
     public partial class XemNghiPhep : UserControl
     {
         private Guna2DataGridView dgv;
-        private string connectionString = ConnectionDB.conn;
+        private string connectionString;
         private string idNhanVien;
 
-        public XemNghiPhep()
+        public XemNghiPhep(string conn)
         {
+            connectionString = conn;
             idNhanVien = "NVNS000002";
             InitializeComponent();
             BuildUI();

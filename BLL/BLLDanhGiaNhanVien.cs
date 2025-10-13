@@ -11,8 +11,10 @@ namespace BLL
     public class BLLDanhGiaNhanVien
     {
         public readonly DALDanhGiaNhanVien _dbContext;
-
-        public BLLDanhGiaNhanVien() => _dbContext = new DALDanhGiaNhanVien();
+        public BLLDanhGiaNhanVien(string stringConnection)
+        {
+            _dbContext = new DALDanhGiaNhanVien(stringConnection);
+        }
 
         // Danh sach danh gia nhan vien
         public List<DTODanhGiaNhanVien> CheckListDanhGiaNhanVien()

@@ -18,10 +18,11 @@ namespace GUI
         private Guna2DateTimePicker dtFrom, dtTo;
         private Guna2Button btnSearch, btnExcel, btnPDF, btnXuatReport;
         private Guna2DataGridView dgv;
-        private string connectionString = ConnectionDB.conn;
+        private string connectionString;
 
-        public BaoCaoHopDong()
+        public BaoCaoHopDong(string stringConnection)
         {
+            connectionString = stringConnection;
             InitializeComponent();
             BuildUI();
             LoadFilterData();

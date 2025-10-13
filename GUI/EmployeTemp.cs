@@ -29,7 +29,7 @@ namespace GUI
                 }
             }
 
-            return conn;
+            return "Data Source=DESKTOP-UM1I61K\\THANHNGAN;Initial Catalog=PersonnelManagement;Integrated Security=True;Encrypt=False";
         }
     }
     public class EmployeTemp

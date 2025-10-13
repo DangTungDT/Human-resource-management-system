@@ -18,5 +18,12 @@ namespace DTO
 
         public string ID { get; set; }
         public string TenNhanVien { get; set; }
+        public DateTime NgaySinh { get; set; }
+        public string GioiTinh { get; set; }
+        public string DiaChi { get; set; }
+        public string Que { get; set; }
+        public string Email { get; set; }
+        public string IdChucVu { get; set; }
+        public string IdPhongBan { get; set; }
     }
 }

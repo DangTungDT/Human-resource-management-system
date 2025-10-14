@@ -1,11 +1,13 @@
-﻿using Guna.UI2.WinForms;
+﻿using BLL;
+using DTO;
+using Guna.UI2.WinForms;
 using System;
 using System.Data;
 using System.Data.SqlClient;
 using System.Drawing;
-using System.Windows.Forms;
 using System.Security.Cryptography;
 using System.Text;
+using System.Windows.Forms;
 
 namespace GUI
 {
@@ -20,10 +22,12 @@ namespace GUI
         private string connectionString;
         private int? selectedId = null;
         private DataTable dtTaiKhoan;
+        private readonly BLLTaiKhoan bllTaiKhoan;
 
         public CRUDTaiKhoan(string conn)
         {
             connectionString = conn;
+            bllTaiKhoan = new BLLTaiKhoan(conn);
             InitializeComponent();
             BuildUI();
             LoadNhanVien();
@@ -226,17 +230,8 @@ namespace GUI
         // ======================= LOAD TÀI KHOẢN =======================
         private void LoadTaiKhoan()
         {
-            using (SqlConnection conn = new SqlConnection(connectionString))
-            {
-                string query = @"SELECT tk.id AS [Mã], tk.taiKhoan AS [Tài khoản],
-                                        tk.matKhau AS [Mật khẩu], nv.TenNhanVien AS [Nhân viên]
-                                 FROM TaiKhoan tk
-                                 LEFT JOIN NhanVien nv ON tk.idNhanVien = nv.id";
-                SqlDataAdapter da = new SqlDataAdapter(query, conn);
-                dtTaiKhoan = new DataTable();
-                da.Fill(dtTaiKhoan);
-                dgv.DataSource = dtTaiKhoan;
-            }
+            dtTaiKhoan = bllTaiKhoan.GetAllAccounts();
+            dgv.DataSource = dtTaiKhoan;
 
             if (!dgv.Columns.Contains("Xóa"))
             {
@@ -265,7 +260,7 @@ namespace GUI
             dtTaiKhoan.DefaultView.RowFilter = filter;
         }
 
-        // ======================= CRUD =======================
+        // =============== LƯU (THÊM/CẬP NHẬT) ===============
         private void BtnSave_Click(object sender, EventArgs e)
         {
             if (string.IsNullOrWhiteSpace(txtUsername.Text))
@@ -280,39 +275,37 @@ namespace GUI
                 return;
             }
 
-            string hashedPassword = HashPassword(txtPassword.Text); // 🟢 mã hóa mật khẩu
 
-            using (SqlConnection conn = new SqlConnection(connectionString))
+            DTOTaiKhoan tk = new DTOTaiKhoan
             {
-                conn.Open();
-                SqlCommand cmd;
+                Id = selectedId ?? 0,
+                TaiKhoan = txtUsername.Text.Trim(),
+                MatKhau = txtPassword.Text.Trim(),
+                IdNhanVien = cbNhanVien.SelectedValue?.ToString()
+            };
 
-                if (btnSave.Text.Contains("Thêm"))
+            try
+            {
+                if (selectedId == null)
                 {
-                    cmd = new SqlCommand(@"INSERT INTO TaiKhoan (taiKhoan, matKhau, idNhanVien)
-                                   VALUES (@User, @Pass, @IdNV)", conn);
+                    // === Thêm mới ===
+                    bllTaiKhoan.SaveAccount(tk, isNew: true);
+                    MessageBox.Show("✅ Đã thêm tài khoản mới!");
                 }
                 else
                 {
-                    if (selectedId == null)
-                    {
-                        MessageBox.Show("Không xác định được bản ghi cần cập nhật!", "Lỗi");
-                        return;
-                    }
-
-                    cmd = new SqlCommand(@"UPDATE TaiKhoan SET taiKhoan=@User, matKhau=@Pass, idNhanVien=@IdNV WHERE id=@id", conn);
-                    cmd.Parameters.AddWithValue("@id", selectedId);
+                    // === Cập nhật ===
+                    bllTaiKhoan.SaveAccount(tk, isNew: false);
+                    MessageBox.Show("✏️ Đã cập nhật tài khoản!");
                 }
 
-                cmd.Parameters.AddWithValue("@User", txtUsername.Text);
-                cmd.Parameters.AddWithValue("@Pass", hashedPassword); // 🟢 lưu chuỗi mã hoá
-                cmd.Parameters.AddWithValue("@IdNV", cbNhanVien.SelectedValue ?? DBNull.Value);
-                cmd.ExecuteNonQuery();
+                LoadTaiKhoan();
+                ClearForm();
             }
-
-            MessageBox.Show(btnSave.Text.Contains("Thêm") ? "✅ Đã thêm tài khoản mới!" : "✏️ Đã cập nhật tài khoản!");
-            LoadTaiKhoan();
-            ClearForm();
+            catch (Exception ex)
+            {
+                MessageBox.Show("Lỗi khi lưu tài khoản: " + ex.Message);
+            }
         }
 
 
@@ -363,18 +356,6 @@ namespace GUI
             btnSave.Text = "➕ Thêm mới";
             btnSave.FillColor = Color.MediumSeaGreen;
             dgv.ClearSelection();
-        }
-
-        private string HashPassword(string password)
-        {
-            using (SHA256 sha256 = SHA256.Create())
-            {
-                byte[] bytes = sha256.ComputeHash(Encoding.UTF8.GetBytes(password));
-                StringBuilder builder = new StringBuilder();
-                foreach (byte b in bytes)
-                    builder.Append(b.ToString("x2")); // chuyển byte sang dạng hex
-                return builder.ToString();
-            }
         }
 
 

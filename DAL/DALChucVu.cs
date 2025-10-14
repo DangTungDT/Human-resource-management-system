@@ -1,0 +1,112 @@
+﻿using DTO;
+using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Data.SqlClient;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace DAL
+{
+    public class DALChucVu
+    {
+        private readonly string connectionString;
+
+        public DALChucVu(string conn)
+        {
+            connectionString = conn;
+        }
+
+        // Lấy danh sách chức vụ (theo từ khóa)
+        public DataTable GetAll(string keyword = "")
+        {
+            using (SqlConnection conn = new SqlConnection(connectionString))
+            {
+                string query = @"
+                    SELECT cv.id AS [Mã chức vụ], cv.TenChucVu AS [Tên chức vụ], cv.luongCoBan AS [Lương cơ bản],
+                           cv.tyLeHoaHong AS [Tỷ lệ hoa hồng], pb.TenPhongBan AS [Phòng ban], cv.moTa AS [Mô tả]
+                    FROM ChucVu cv
+                    JOIN PhongBan pb ON cv.idPhongBan = pb.id
+                    WHERE 1=1";
+
+                if (!string.IsNullOrWhiteSpace(keyword))
+                {
+                    query += " AND (cv.TenChucVu LIKE @kw OR pb.TenPhongBan LIKE @kw OR cv.moTa LIKE @kw)";
+                }
+
+                SqlCommand cmd = new SqlCommand(query, conn);
+                if (!string.IsNullOrWhiteSpace(keyword))
+                    cmd.Parameters.AddWithValue("@kw", "%" + keyword + "%");
+
+                SqlDataAdapter da = new SqlDataAdapter(cmd);
+                DataTable dt = new DataTable();
+                da.Fill(dt);
+                return dt;
+            }
+        }
+
+        // Lấy danh sách phòng ban (để hiển thị combobox)
+        public DataTable GetDepartments()
+        {
+            using (SqlConnection conn = new SqlConnection(connectionString))
+            {
+                string query = "SELECT id, TenPhongBan FROM PhongBan";
+                SqlDataAdapter da = new SqlDataAdapter(query, conn);
+                DataTable dt = new DataTable();
+                da.Fill(dt);
+                return dt;
+            }
+        }
+
+        // Thêm mới
+        public void Insert(DTOChucVu cv)
+        {
+            using (SqlConnection conn = new SqlConnection(connectionString))
+            {
+                string query = @"INSERT INTO ChucVu (TenChucVu, luongCoBan, tyLeHoaHong, moTa, idPhongBan)
+                                 VALUES (@Ten, @Luong, @TyLe, @MoTa, @idPB)";
+                SqlCommand cmd = new SqlCommand(query, conn);
+                cmd.Parameters.AddWithValue("@Ten", cv.TenChucVu);
+                cmd.Parameters.AddWithValue("@Luong", cv.LuongCoBan);
+                cmd.Parameters.AddWithValue("@TyLe", cv.TyLeHoaHong);
+                cmd.Parameters.AddWithValue("@MoTa", cv.MoTa ?? "");
+                cmd.Parameters.AddWithValue("@idPB", cv.IdPhongBan);
+                conn.Open();
+                cmd.ExecuteNonQuery();
+            }
+        }
+
+        // Cập nhật
+        public void Update(DTOChucVu cv)
+        {
+            using (SqlConnection conn = new SqlConnection(connectionString))
+            {
+                string query = @"UPDATE ChucVu SET TenChucVu=@Ten, luongCoBan=@Luong, 
+                                tyLeHoaHong=@TyLe, moTa=@MoTa, idPhongBan=@idPB WHERE id=@id";
+                SqlCommand cmd = new SqlCommand(query, conn);
+                cmd.Parameters.AddWithValue("@Ten", cv.TenChucVu);
+                cmd.Parameters.AddWithValue("@Luong", cv.LuongCoBan);
+                cmd.Parameters.AddWithValue("@TyLe", cv.TyLeHoaHong);
+                cmd.Parameters.AddWithValue("@MoTa", cv.MoTa ?? "");
+                cmd.Parameters.AddWithValue("@idPB", cv.IdPhongBan);
+                cmd.Parameters.AddWithValue("@id", cv.Id);
+                conn.Open();
+                cmd.ExecuteNonQuery();
+            }
+        }
+
+        // Xóa
+        public void Delete(int id)
+        {
+            using (SqlConnection conn = new SqlConnection(connectionString))
+            {
+                string query = "DELETE FROM ChucVu WHERE id=@id";
+                SqlCommand cmd = new SqlCommand(query, conn);
+                cmd.Parameters.AddWithValue("@id", id);
+                conn.Open();
+                cmd.ExecuteNonQuery();
+            }
+        }
+    }
+}

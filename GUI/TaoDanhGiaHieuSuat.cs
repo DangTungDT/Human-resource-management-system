@@ -1,4 +1,6 @@
-﻿using Guna.UI2.WinForms;
+﻿using BLL;
+using DTO;
+using Guna.UI2.WinForms;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -26,11 +28,13 @@ namespace GUI
         private string idNguoiDanhGia = "GD00000001"; // người đánh giá giả định
         private int? selectedId = null;
         private DataTable dtDanhGia; // lưu dữ liệu toàn bộ để lọc tại chỗ
+        private BLLDanhGiaNhanVien bllDanhGia;
 
         public TaoDanhGiaHieuSuat(string conn)
         {
             connectionString = conn;
             InitializeComponent();
+            bllDanhGia = new BLLDanhGiaNhanVien(conn);
             BuildUI();
             LoadNhanVien();
             LoadDanhGia(); // tải dữ liệu ban đầu
@@ -230,21 +234,8 @@ namespace GUI
         // ===== LOAD DỮ LIỆU ĐÁNH GIÁ =====
         private void LoadDanhGia()
         {
-            using (SqlConnection conn = new SqlConnection(connectionString))
-            {
-                string query = @"
-                    SELECT dg.id AS [Mã đánh giá],
-                           nv.TenNhanVien AS [Nhân viên],
-                           dg.ngayTao AS [Ngày đánh giá],
-                           dg.DiemSo AS [Điểm số],
-                           dg.NhanXet AS [Nhận xét]
-                    FROM DanhGiaNhanVien dg
-                    JOIN NhanVien nv ON dg.idNhanVien = nv.id";
-                SqlDataAdapter da = new SqlDataAdapter(query, conn);
-                dtDanhGia = new DataTable();
-                da.Fill(dtDanhGia);
-                dgv.DataSource = dtDanhGia;
-            }
+            dtDanhGia = bllDanhGia.GetAll();
+            dgv.DataSource = dtDanhGia;
 
             // thêm cột xóa nếu chưa có
             if (!dgv.Columns.Contains("Xoa"))
@@ -300,43 +291,40 @@ namespace GUI
                 return;
             }
 
-            using (SqlConnection conn = new SqlConnection(connectionString))
+            // ===== TẠO DTO =====
+            DTODanhGiaNhanVien dg = new DTODanhGiaNhanVien
             {
-                conn.Open();
-                SqlCommand cmd;
+                ID = selectedId ?? 0,
+                IDNhanVien = cbEmployee.SelectedValue.ToString(),
+                IDNguoiDanhGia = idNguoiDanhGia,
+                NgayTao = dtReview.Value,
+                DiemSo = (int)numScore.Value,
+                NhanXet = txtNote.Text.Trim()
+            };
 
-                if (btnSave.Text.Contains("Lưu"))
+            try
+            {
+                if (selectedId == null)
                 {
-                    cmd = new SqlCommand(@"
-                        INSERT INTO DanhGiaNhanVien (DiemSo, NhanXet, ngayTao, idNhanVien, idNguoiDanhGia)
-                        VALUES (@diem, @nhanxet, @ngay, @idnv, @idng)", conn);
+                    // ===== THÊM MỚI =====
+                    bllDanhGia.Save(dg, isNew: true);
+                    MessageBox.Show("✅ Đã thêm đánh giá mới!");
                 }
                 else
                 {
-                    if (selectedId == null)
-                    {
-                        MessageBox.Show("Không xác định bản ghi để cập nhật!", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                        return;
-                    }
-
-                    cmd = new SqlCommand(@"
-                        UPDATE DanhGiaNhanVien
-                        SET DiemSo=@diem, NhanXet=@nhanxet, ngayTao=@ngay, idNhanVien=@idnv, idNguoiDanhGia=@idng
-                        WHERE id=@id", conn);
-                    cmd.Parameters.AddWithValue("@id", selectedId);
+                    // ===== CẬP NHẬT =====
+                    bllDanhGia.Save(dg, isNew: false);
+                    MessageBox.Show("✏️ Đã cập nhật đánh giá!");
                 }
 
-                cmd.Parameters.AddWithValue("@diem", numScore.Value);
-                cmd.Parameters.AddWithValue("@nhanxet", txtNote.Text.Trim());
-                cmd.Parameters.AddWithValue("@ngay", dtReview.Value);
-                cmd.Parameters.AddWithValue("@idnv", cbEmployee.SelectedValue);
-                cmd.Parameters.AddWithValue("@idng", idNguoiDanhGia);
-                cmd.ExecuteNonQuery();
+                // ===== LÀM MỚI DỮ LIỆU =====
+                LoadDanhGia();
+                ClearForm();
             }
-
-            MessageBox.Show("✅ Lưu dữ liệu thành công!");
-            LoadDanhGia();
-            ClearForm();
+            catch (Exception ex)
+            {
+                MessageBox.Show("Lỗi khi lưu đánh giá: " + ex.Message);
+            }
         }
 
         // ===== CLICK DGV =====
@@ -349,13 +337,7 @@ namespace GUI
                 int id = Convert.ToInt32(dgv.Rows[e.RowIndex].Cells["Mã đánh giá"].Value);
                 if (MessageBox.Show("Bạn có chắc muốn xóa đánh giá này?", "Xác nhận", MessageBoxButtons.YesNo) == DialogResult.Yes)
                 {
-                    using (SqlConnection conn = new SqlConnection(connectionString))
-                    {
-                        conn.Open();
-                        SqlCommand cmd = new SqlCommand("DELETE FROM DanhGiaNhanVien WHERE id=@id", conn);
-                        cmd.Parameters.AddWithValue("@id", id);
-                        cmd.ExecuteNonQuery();
-                    }
+                    bllDanhGia.Delete(id);
                     LoadDanhGia();
                 }
                 return;

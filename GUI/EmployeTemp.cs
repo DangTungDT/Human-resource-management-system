@@ -1,9 +1,11 @@
-﻿using System;
+﻿using Microsoft.Win32;
+using System;
 using System.Collections.Generic;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Microsoft.Win32;
+using System.Xml.Linq;
 
 namespace GUI
 {
@@ -11,6 +13,7 @@ namespace GUI
     {
         //Tùng : DESKTOP-6LE6PT2\\SQLEXPRESS
         //Ngân : DESKTOP-UM1I61K\THANHNGAN
+        //Tuấn : LAPTOP-PNFFHRG1\MSSQLSERVER01
 
         public static string conn = "Data Source=DESKTOP-UM1I61K\\THANHNGAN;Initial Catalog=PersonnelManagement;Integrated Security=True;Encrypt=False";
         public static string TakeConnectionString()
@@ -23,13 +26,25 @@ namespace GUI
                     {
                         foreach (string instanceName in rk.GetValueNames())
                         {
-                            conn = $"Data Source={Environment.MachineName}\\{instanceName};Initial Catalog=PersonnelManagement;Integrated Security=True;Encrypt=False";
-                            break;
+                            var connect = $"Data Source={Environment.MachineName}\\{instanceName};Initial Catalog=PersonnelManagement;Integrated Security=True;Encrypt=False";
+                            try
+                            {
+                                using (SqlConnection connection = new SqlConnection(connect))
+                                {
+                                    connection.Open();
+                                    conn = connect;
+                                    break;
+                                }
+                            }
+                            catch
+                            {
+                                continue;
+                            }
                         }
                     }
                 }
             }
-          
+
             return conn;
         }
     }

@@ -15,13 +15,16 @@ namespace GUI
     {
         private Dictionary<string, UserControl> _userControls = new Dictionary<string, UserControl>();
 
-        string idNV = "GD00000001";
-        string _stringConnection = "";
-        public Main(string stringConnection)
+        public readonly string _idNV;
+        public readonly string _stringConnection;
+
+        public Main(string idNV, string stringConnection)
         {
+            _idNV = idNV;
             _stringConnection = stringConnection;
+            this.DoubleBuffered = true;
+
             InitializeComponent();
-            this.DoubleBuffered = false;
             PreLoadUserControl();
         }
 
@@ -48,7 +51,6 @@ namespace GUI
             {
                 pn.ResumeLayout();
             }
-
         }
 
         public void ChildFormMain(UserControl user)
@@ -67,7 +69,7 @@ namespace GUI
             _userControls["UCHopDong"] = new UCHopDong(_stringConnection);
             _userControls["UCDuyetNghiPhep"] = new UCDuyetNghiPhep();
             _userControls["UCCapNhatMatKhau"] = new UCCapNhatMatkhau();
-            _userControls["UCDanhGiaHieuSuat"] = new UCDanhGiaHieuSuat(_stringConnection);
+            _userControls["UCDanhGiaHieuSuat"] = new UCDanhGiaHieuSuat(_idNV, _stringConnection);
             _userControls["UCChiTietLuongCaNhan"] = new UCChiTietluongCaNhan();
             _userControls["ButtonFeatureHomeComponent"] = new ButtonFeatureHomeComponent(tpHome);
             _userControls["ButtonFeatureViewComponent"] = new ButtonFeatureViewComponent(tpView);
@@ -76,26 +78,26 @@ namespace GUI
             _userControls["BaoCaoHopDong"] = new BaoCaoHopDong(_stringConnection);
             _userControls["BaoCaoKhenThuong"] = new BaoCaoKhenThuong(_stringConnection);
             _userControls["CapNhatThongTinNV"] = new CapNhatThongTinNV(_stringConnection);
-            _userControls["CapNhatThongTinRieng"] = new CapNhatThongTinRieng(idNV, tpView, _stringConnection);
+            _userControls["CapNhatThongTinRieng"] = new CapNhatThongTinRieng(_idNV, tpView, _stringConnection);
             _userControls["CRUDChucVu"] = new CRUDChucVu(_stringConnection);
             _userControls["CRUDPhongBan"] = new CRUDPhongban(_stringConnection);
             _userControls["CRUDTaiKhoan"] = new CRUDTaiKhoan(_stringConnection);
-            _userControls["ucChamCongQuanLyHinh"] = new ucChamCongQuanLy(idNV, true);
-            _userControls["ucChamCongQuanLy"] = new ucChamCongQuanLy(idNV);
+            _userControls["ucChamCongQuanLyHinh"] = new ucChamCongQuanLy(_idNV, true);
+            _userControls["ucChamCongQuanLy"] = new ucChamCongQuanLy(_idNV);
             _userControls["ucChiTietLuong"] = new ucChiTietLuong();
             _userControls["ucChiTietLuongCaNhan"] = new UCChiTietluongCaNhan();
             _userControls["UCDoiMatKhau"] = new UCDoiMatKhau();
             _userControls["ucDuyenTuyenDung"] = new ucDuyenTuyenDung();
             _userControls["UCHopDong"] = new UCHopDong(_stringConnection);
             _userControls["ucKyLuong"] = new ucKyLuong();
-            _userControls["UCNghiPhep"] = new UCNghiPhep();
+            _userControls["UCNghiPhep"] = new UCNghiPhep(_idNV, _stringConnection);
             _userControls["ucTaoTuyenDung"] = new ucTaoTuyenDung();
             _userControls["ucUngVien"] = new ucUngVien();
             _userControls["ucXemChamCong"] = new ucXemChamCong();
             _userControls["UCXemKyLuat"] = new UCXemKyLuat(_stringConnection);
             _userControls["ucXemTuyenDung"] = new ucXemTuyenDung();
             _userControls["XemNghiPhep"] = new XemNghiPhep(_stringConnection);
-            _userControls["XemThongTinCaNhan"] = new XemThongTinCaNhan(idNV, tpView, _stringConnection);
+            _userControls["XemThongTinCaNhan"] = new XemThongTinCaNhan(_idNV, tpView, _stringConnection);
             _userControls["TaoKhenThuong"] = new TaoKhenThuong(_stringConnection);
             _userControls["TaoKyLuat"] = new TaoKyLuat(_stringConnection);
             _userControls["TaoDanhGiaHieuSuat"] = new TaoDanhGiaHieuSuat(_stringConnection);
@@ -138,7 +140,7 @@ namespace GUI
                             user = new UCCapNhatMatkhau();
                             break;
                         case "UCDanhGiaHieuSuat":
-                            user = new UCDanhGiaHieuSuat(_stringConnection);
+                            user = new UCDanhGiaHieuSuat(_idNV, _stringConnection);
                             break;
                         case "UCChiTietLuongCaNhan":
                             user = new UCChiTietluongCaNhan();
@@ -159,7 +161,7 @@ namespace GUI
                             user = new CapNhatThongTinNV(_stringConnection);
                             break;
                         case "CapNhatThongTinRieng":
-                            user = new CapNhatThongTinRieng(idNV, tpView, _stringConnection);
+                            user = new CapNhatThongTinRieng(_idNV, tpView, _stringConnection);
                             break;
                         case "CRUDChucVu":
                             user = new CRUDChucVu(_stringConnection);
@@ -171,10 +173,10 @@ namespace GUI
                             user = new CRUDTaiKhoan(_stringConnection);
                             break;
                         case "ucChamCongQuanLyHinh":
-                            user = new ucChamCongQuanLy(idNV, true);
+                            user = new ucChamCongQuanLy(_idNV, true);
                             break;
                         case "ucChamCongQuanLy":
-                            user = new ucChamCongQuanLy(idNV);
+                            user = new ucChamCongQuanLy(_idNV);
                             break;
                         case "ucChiTietLuong":
                             user = new ucChiTietLuong();
@@ -189,7 +191,7 @@ namespace GUI
                             user = new ucKyLuong();
                             break;
                         case "UCNghiPhep":
-                            user = new UCNghiPhep();
+                            user = new UCNghiPhep(_idNV, _stringConnection);
                             break;
                         case "ucTaoTuyenDung":
                             user = new ucTaoTuyenDung();
@@ -210,7 +212,7 @@ namespace GUI
                             user = new XemNghiPhep(_stringConnection);
                             break;
                         case "XemThongTinCaNhan":
-                            user = new XemThongTinCaNhan(idNV, tpView, _stringConnection);
+                            user = new XemThongTinCaNhan(_idNV, tpView, _stringConnection);
                             break;
                         case "TaoKyLuat":
                             user = new TaoKyLuat(_stringConnection);
@@ -322,12 +324,12 @@ namespace GUI
 
         private void btnXemThongTinCaNhan_Click(object sender, EventArgs e)
         {
-            LoadControl(new XemThongTinCaNhan(idNV, tpView, _stringConnection));
+            LoadControl(new XemThongTinCaNhan(_idNV, tpView, _stringConnection));
         }
 
         private void guna2Button1_Click(object sender, EventArgs e)
         {
-            LoadControl(new CapNhatThongTinRieng(idNV, tpView, _stringConnection));
+            LoadControl(new CapNhatThongTinRieng(_idNV, tpView, _stringConnection));
         }
 
         private void btnTaoHDLD_Click(object sender, EventArgs e)

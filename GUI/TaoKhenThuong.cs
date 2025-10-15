@@ -1,4 +1,6 @@
-﻿using Guna.UI2.WinForms;
+﻿using BLL;
+using DTO;
+using Guna.UI2.WinForms;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -23,11 +25,17 @@ namespace GUI
         private string connectionString;
         private string idNguoiTao = "GD00000001";
         private int? selectedId = null;
+        private readonly BLLKhenThuong bllKhenThuong;
+        private readonly BLLPhongBan bllPhongBan;
+        private BLLNhanVien bllNhanVien;
 
         public TaoKhenThuong(string conn)
         {
             connectionString = conn;
             InitializeComponent();
+            bllKhenThuong = new BLLKhenThuong(conn);
+            bllPhongBan = new BLLPhongBan(conn);
+            bllNhanVien = new BLLNhanVien(conn);
             BuildUI();
             LoadPhongBan();
             LoadNhanVien();
@@ -199,23 +207,10 @@ namespace GUI
         // ======================= LOAD PHÒNG BAN =======================
         private void LoadPhongBan()
         {
-            using (SqlConnection conn = new SqlConnection(connectionString))
-            {
-                string query = "SELECT id, TenPhongBan FROM PhongBan";
-                SqlDataAdapter da = new SqlDataAdapter(query, conn);
-                DataTable dt = new DataTable();
-                da.Fill(dt);
-
-                DataRow allRow = dt.NewRow();
-                allRow["id"] = DBNull.Value;
-                allRow["TenPhongBan"] = "Tất cả phòng ban";
-                dt.Rows.InsertAt(allRow, 0);
-
-                cbPhongBan.DataSource = dt;
-                cbPhongBan.DisplayMember = "TenPhongBan";
-                cbPhongBan.ValueMember = "id";
-                cbPhongBan.SelectedIndex = 0;
-            }
+            cbPhongBan.DataSource = bllPhongBan.ComboboxPhongBan();
+            cbPhongBan.DisplayMember = "TenPhongBan";
+            cbPhongBan.ValueMember = "id";
+            cbPhongBan.SelectedIndex = 0;
         }
 
         // ======================= TÌM KIẾM =======================
@@ -230,29 +225,7 @@ namespace GUI
         // ======================= LOAD KHEN THƯỞNG =======================
         private void LoadKhenThuong(string idPhongBan = "")
         {
-            using (SqlConnection conn = new SqlConnection(connectionString))
-            {
-                string query = @"
-                    SELECT tp.id, nv.TenNhanVien, pb.TenPhongBan, tp.tienThuongPhat AS [Số tiền thưởng], 
-                           tp.lyDo AS [Lý do], nvtp.thangApDung AS [Ngày áp dụng]
-                    FROM ThuongPhat tp
-                    JOIN NhanVien_ThuongPhat nvtp ON tp.id = nvtp.idThuongPhat
-                    JOIN NhanVien nv ON nvtp.idNhanVien = nv.id
-                    JOIN PhongBan pb ON nv.idPhongBan = pb.id
-                    WHERE tp.loai = N'Thưởng'";
-
-                if (!string.IsNullOrEmpty(idPhongBan))
-                    query += " AND pb.id = @idPB";
-
-                SqlCommand cmd = new SqlCommand(query, conn);
-                if (!string.IsNullOrEmpty(idPhongBan))
-                    cmd.Parameters.AddWithValue("@idPB", idPhongBan);
-
-                SqlDataAdapter da = new SqlDataAdapter(cmd);
-                DataTable dt = new DataTable();
-                da.Fill(dt);
-                dgv.DataSource = dt;
-            }
+            dgv.DataSource = bllKhenThuong.GetAll(idPhongBan);
 
             if (!dgv.Columns.Contains("Xoa"))
             {
@@ -272,18 +245,9 @@ namespace GUI
         // ======================= LOAD NHÂN VIÊN =======================
         private void LoadNhanVien()
         {
-            using (SqlConnection conn = new SqlConnection(connectionString))
-            {
-                conn.Open();
-                string query = "SELECT id, TenNhanVien FROM NhanVien WHERE DaXoa = 0";
-                SqlCommand cmd = new SqlCommand(query, conn);
-                SqlDataReader reader = cmd.ExecuteReader();
-                DataTable dt = new DataTable();
-                dt.Load(reader);
-                cbEmployee.DataSource = dt;
-                cbEmployee.DisplayMember = "TenNhanVien";
-                cbEmployee.ValueMember = "id";
-            }
+            cbEmployee.DataSource = bllNhanVien.ComboboxNhanVien();
+            cbEmployee.DisplayMember = "TenNhanVien";
+            cbEmployee.ValueMember = "id";
         }
 
         // ======================= LƯU / CẬP NHẬT =======================
@@ -301,46 +265,20 @@ namespace GUI
                 return;
             }
 
-            using (SqlConnection conn = new SqlConnection(connectionString))
+            var kt = new DTOKhenThuong
             {
-                conn.Open();
-                SqlCommand cmd;
-                int idThuongPhat;
+                Id = selectedId ?? 0,
+                IdNhanVien = cbEmployee.SelectedValue.ToString(),
+                SoTien = soTien,
+                LyDo = txtReason.Text.Trim(),
+                NgayThuong = dtReward.Value,
+                IdNguoiTao = idNguoiTao
+            };
 
-                if (btnSave.Text.Contains("Lưu"))
-                {
-                    cmd = new SqlCommand(@"INSERT INTO ThuongPhat (tienThuongPhat, loai, lyDo, idNguoiTao)
-                                           OUTPUT INSERTED.id
-                                           VALUES (@tien, N'Thưởng', @lydo, @idng)", conn);
-                    cmd.Parameters.AddWithValue("@tien", soTien);
-                    cmd.Parameters.AddWithValue("@lydo", txtReason.Text);
-                    cmd.Parameters.AddWithValue("@idng", idNguoiTao);
-                    idThuongPhat = (int)cmd.ExecuteScalar();
+            bool isNew = selectedId == null;
+            bllKhenThuong.Save(kt, isNew);
+            MessageBox.Show(isNew ? "✅ Đã thêm khen thưởng!" : "✏️ Đã cập nhật!");
 
-                    SqlCommand cmd2 = new SqlCommand(@"INSERT INTO NhanVien_ThuongPhat (idNhanVien, idThuongPhat, thangApDung)
-                                                       VALUES (@idnv, @idtp, @ngay)", conn);
-                    cmd2.Parameters.AddWithValue("@idnv", cbEmployee.SelectedValue.ToString());
-                    cmd2.Parameters.AddWithValue("@idtp", idThuongPhat);
-                    cmd2.Parameters.AddWithValue("@ngay", dtReward.Value);
-                    cmd2.ExecuteNonQuery();
-                }
-                else
-                {
-                    if (selectedId == null)
-                    {
-                        MessageBox.Show("Không xác định được bản ghi cần cập nhật!", "Lỗi");
-                        return;
-                    }
-
-                    cmd = new SqlCommand(@"UPDATE ThuongPhat SET lyDo=@lydo, tienThuongPhat=@tien WHERE id=@id", conn);
-                    cmd.Parameters.AddWithValue("@lydo", txtReason.Text);
-                    cmd.Parameters.AddWithValue("@tien", soTien);
-                    cmd.Parameters.AddWithValue("@id", selectedId);
-                    cmd.ExecuteNonQuery();
-                }
-            }
-
-            MessageBox.Show(btnSave.Text.Contains("Lưu") ? "✅ Đã thêm khen thưởng mới!" : "✏️ Đã cập nhật khen thưởng!");
             LoadKhenThuong();
             ClearForm();
         }
@@ -352,16 +290,10 @@ namespace GUI
 
             if (dgv.Columns[e.ColumnIndex].Name == "Xoa")
             {
-                var id = dgv.Rows[e.RowIndex].Cells["id"].Value.ToString();
+                int id = Convert.ToInt32(dgv.Rows[e.RowIndex].Cells["id"].Value);
                 if (MessageBox.Show("Bạn có chắc muốn xóa khen thưởng này?", "Xác nhận", MessageBoxButtons.YesNo) == DialogResult.Yes)
                 {
-                    using (SqlConnection conn = new SqlConnection(connectionString))
-                    {
-                        SqlCommand cmd = new SqlCommand("DELETE FROM NhanVien_ThuongPhat WHERE idThuongPhat=@id; DELETE FROM ThuongPhat WHERE id=@id", conn);
-                        cmd.Parameters.AddWithValue("@id", id);
-                        conn.Open();
-                        cmd.ExecuteNonQuery();
-                    }
+                    bllKhenThuong.Delete(id);
                     LoadKhenThuong();
                 }
                 return;

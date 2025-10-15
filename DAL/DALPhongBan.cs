@@ -30,6 +30,19 @@ namespace DAL
             }
         }
 
+        // Lấy danh sách phòng ban (để hiển thị combobox)
+        public DataTable ComBoBoxPhongBan()
+        {
+            using (SqlConnection conn = new SqlConnection(connectionString))
+            {
+                string query = "SELECT id, TenPhongBan FROM PhongBan";
+                SqlDataAdapter da = new SqlDataAdapter(query, conn);
+                DataTable dt = new DataTable();
+                da.Fill(dt);
+                return dt;
+            }
+        }
+
         public bool InsertPhongBan(DTOPhongBan pb)
         {
             using (SqlConnection conn = new SqlConnection(connectionString))

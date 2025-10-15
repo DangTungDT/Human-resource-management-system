@@ -1,4 +1,6 @@
-﻿using Guna.UI2.WinForms;
+﻿using BLL;
+using DTO;
+using Guna.UI2.WinForms;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -22,15 +24,19 @@ namespace GUI
         private Guna2CirclePictureBox picAvatar;
         private Guna2Button btnUpdate;
         private Panel _panel;
+        private BLLNhanVien bllNhanVien;
 
         public XemThongTinCaNhan(string idNV, Panel panel, string conn)
         {
             connectionString = conn;
             idNhanVien = idNV;
+            bllNhanVien = new BLLNhanVien(conn);
             InitializeComponent();
             BuildUI();
-            LoadThongTinNhanVien();
             _panel = panel;
+            // 🔹 Gọi lại load mỗi khi control được hiển thị
+            this.Load += (s, e) => LoadThongTinNhanVien();
+
         }
 
         private void BuildUI()
@@ -84,8 +90,8 @@ namespace GUI
             };
 
             //Cột 1 chiếm 15%, cột 2 chiếm 65% (phần còn lại là padding).
-            tblInfo.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 35));
-            tblInfo.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 65));
+            tblInfo.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 40));
+            tblInfo.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 60));
 
             // label tiêu đề (cột trái) có biểu tượng emoji + text.
             Label MakeLabel(string text, string emoji) => new Label()
@@ -96,7 +102,7 @@ namespace GUI
                 Dock = DockStyle.Fill,
                 TextAlign = ContentAlignment.MiddleLeft,
                 Padding = new Padding(0),
-                Margin = new Padding(15)
+                Margin = new Padding(30,15,15,15)
             };
 
             //Label hiển thị giá trị (cột phải), ví dụ: “Nguyễn Văn A”, “01/01/1990”,
@@ -212,32 +218,32 @@ namespace GUI
         // ===============================
         private void LoadThongTinNhanVien()
         {
-            using (SqlConnection conn = new SqlConnection(connectionString))
+            DTONhanVien nv = bllNhanVien.LayThongTin(idNhanVien);
+            if (nv != null)
             {
-                string query = @"
-                    SELECT nv.TenNhanVien, nv.NgaySinh, nv.GioiTinh, nv.DiaChi, nv.Que, nv.Email,
-                           cv.TenChucVu, pb.TenPhongBan
-                    FROM NhanVien nv
-                    JOIN ChucVu cv ON nv.idChucVu = cv.id
-                    JOIN PhongBan pb ON nv.idPhongBan = pb.id
-                    WHERE nv.id = @id";
+                lblName.Text = nv.TenNhanVien;
+                lblDob.Text = nv.NgaySinh.ToString("dd/MM/yyyy");
+                lblGender.Text = nv.GioiTinh;
+                lblAddress.Text = nv.DiaChi;
+                lblQue.Text = nv.Que;
+                lblEmail.Text = nv.Email;
+                lblChucVu.Text = nv.TenChucVu;
+                lblPhongBan.Text = nv.TenPhongBan;
+            }
+            else
+            {
+                MessageBox.Show("Không tìm thấy thông tin nhân viên!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
+        
+        }
 
-                SqlCommand cmd = new SqlCommand(query, conn);
-                cmd.Parameters.AddWithValue("@id", idNhanVien);
-                conn.Open();
-                SqlDataReader reader = cmd.ExecuteReader();
-                if (reader.Read())
-                {
-                    lblName.Text = reader["TenNhanVien"].ToString();
-                    lblDob.Text = Convert.ToDateTime(reader["NgaySinh"]).ToString("dd/MM/yyyy");
-                    lblGender.Text = reader["GioiTinh"].ToString();
-                    lblAddress.Text = reader["DiaChi"].ToString();
-                    lblQue.Text = reader["Que"].ToString();
-                    lblEmail.Text = reader["Email"].ToString();
-                    lblChucVu.Text = reader["TenChucVu"].ToString();
-                    lblPhongBan.Text = reader["TenPhongBan"].ToString();
-                }
-                reader.Close();
+        // 🟢 Ghi đè sự kiện OnVisibleChanged
+        protected override void OnVisibleChanged(EventArgs e)
+        {
+            base.OnVisibleChanged(e);
+            if (this.Visible)
+            {
+                LoadThongTinNhanVien(); // tự động load lại khi hiển thị
             }
         }
     }

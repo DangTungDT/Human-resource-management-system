@@ -94,7 +94,7 @@ namespace GUI
             _userControls["ucXemChamCong"] = new ucXemChamCong();
             _userControls["UCXemKyLuat"] = new UCXemKyLuat(_stringConnection);
             _userControls["ucXemTuyenDung"] = new ucXemTuyenDung();
-            _userControls["XemNghiPhep"] = new XemNghiPhep(_stringConnection);
+            _userControls["XemNghiPhep"] = new XemNghiPhep(_stringConnection, idNV);
             _userControls["XemThongTinCaNhan"] = new XemThongTinCaNhan(idNV, tpView, _stringConnection);
             _userControls["TaoKhenThuong"] = new TaoKhenThuong(_stringConnection);
             _userControls["TaoKyLuat"] = new TaoKyLuat(_stringConnection);
@@ -207,7 +207,7 @@ namespace GUI
                             user = new ucXemTuyenDung();
                             break;
                         case "XemNghiPhep":
-                            user = new XemNghiPhep(_stringConnection);
+                            user = new XemNghiPhep(_stringConnection, idNV);
                             break;
                         case "XemThongTinCaNhan":
                             user = new XemThongTinCaNhan(idNV, tpView, _stringConnection);
@@ -317,7 +317,7 @@ namespace GUI
 
         private void btnXemNghiPhep_Click(object sender, EventArgs e)
         {
-            LoadControl(new XemNghiPhep(_stringConnection));
+            LoadControl(new XemNghiPhep(_stringConnection, idNV));
         }
 
         private void btnXemThongTinCaNhan_Click(object sender, EventArgs e)

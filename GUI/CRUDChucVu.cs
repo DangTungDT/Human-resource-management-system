@@ -1,4 +1,6 @@
-﻿using Guna.UI2.WinForms;
+﻿using BLL;
+using DTO;
+using Guna.UI2.WinForms;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -22,11 +24,12 @@ namespace GUI
 
         private string connectionString;
         private int? selectedId = null;
-
+        private readonly BLLChucVu bllChucVu;
         public CRUDChucVu(string conn)
         {
             connectionString = conn;
             InitializeComponent();
+            bllChucVu = new BLLChucVu(conn);
             BuildUI();
             LoadPhongBan();
             LoadChucVu();
@@ -191,45 +194,15 @@ namespace GUI
         // ======================= LOAD PHÒNG BAN =======================
         private void LoadPhongBan()
         {
-            using (SqlConnection conn = new SqlConnection(connectionString))
-            {
-                string query = "SELECT id, TenPhongBan FROM PhongBan";
-                SqlDataAdapter da = new SqlDataAdapter(query, conn);
-                DataTable dt = new DataTable();
-                da.Fill(dt);
-                cbPhongBan.DataSource = dt;
-                cbPhongBan.DisplayMember = "TenPhongBan";
-                cbPhongBan.ValueMember = "id";
-            }
+            cbPhongBan.DataSource = bllChucVu.GetDepartments();
+            cbPhongBan.DisplayMember = "TenPhongBan";
+            cbPhongBan.ValueMember = "id";
         }
 
         // ======================= LOAD CHỨC VỤ =======================
         private void LoadChucVu(string keyword = "")
         {
-            using (SqlConnection conn = new SqlConnection(connectionString))
-            {
-                StringBuilder query = new StringBuilder(@"
-                    SELECT cv.id AS [Mã chức vụ], cv.TenChucVu AS [Tên chức vụ], cv.luongCoBan AS [Lương cơ bản],
-                           cv.tyLeHoaHong AS [Tỷ lệ hoa hồng], pb.TenPhongBan AS [Phòng ban], cv.moTa AS [Mô tả]
-                    FROM ChucVu cv
-                    JOIN PhongBan pb ON cv.idPhongBan = pb.id
-                    WHERE 1=1");
-
-                SqlCommand cmd = new SqlCommand();
-                cmd.Connection = conn;
-
-                if (!string.IsNullOrWhiteSpace(keyword))
-                {
-                    query.Append(" AND (cv.TenChucVu LIKE @kw OR pb.TenPhongBan LIKE @kw OR cv.moTa LIKE @kw)");
-                    cmd.Parameters.AddWithValue("@kw", "%" + keyword + "%");
-                }
-
-                cmd.CommandText = query.ToString();
-                SqlDataAdapter da = new SqlDataAdapter(cmd);
-                DataTable dt = new DataTable();
-                da.Fill(dt);
-                dgv.DataSource = dt;
-            }
+            dgv.DataSource = bllChucVu.GetAll(keyword);
 
             // thêm cột xóa nếu chưa có
             if (!dgv.Columns.Contains("Xoa"))
@@ -250,51 +223,54 @@ namespace GUI
         // ======================= NÚT LƯU =======================
         private void BtnSave_Click(object sender, EventArgs e)
         {
+            // ===== Kiểm tra dữ liệu =====
             if (string.IsNullOrWhiteSpace(txtTenChucVu.Text))
             {
                 MessageBox.Show("Vui lòng nhập tên chức vụ!", "Thông báo");
                 return;
             }
+
             if (cbPhongBan.SelectedValue == null)
             {
                 MessageBox.Show("Vui lòng chọn phòng ban!", "Thông báo");
                 return;
             }
 
-            using (SqlConnection conn = new SqlConnection(connectionString))
+            // ===== Gán dữ liệu vào DTO =====
+            DTOChucVu cv = new DTOChucVu
             {
-                conn.Open();
-                SqlCommand cmd;
+                Id = selectedId ?? 0,
+                TenChucVu = txtTenChucVu.Text.Trim(),
+                LuongCoBan = decimal.TryParse(txtLuong.Text, out var luong) ? luong : 0,
+                TyLeHoaHong = decimal.TryParse(txtTyLe.Text, out var tyle) ? tyle : 0,
+                MoTa = txtMoTa.Text.Trim(),
+                IdPhongBan = Convert.ToInt32(cbPhongBan.SelectedValue)
+            };
 
-                if (btnSave.Text.Contains("Thêm"))
+            try
+            {
+                // ===== Thêm mới hoặc cập nhật =====
+                if (selectedId == null)
                 {
-                    cmd = new SqlCommand(@"INSERT INTO ChucVu (TenChucVu, luongCoBan, tyLeHoaHong, moTa, idPhongBan)
-                                           VALUES (@Ten, @Luong, @TyLe, @MoTa, @idPB)", conn);
+                    // === Thêm mới ===
+                    bllChucVu.SaveChucVu(cv, isNew: true);
+                    MessageBox.Show("✅ Đã thêm chức vụ mới!");
                 }
                 else
                 {
-                    if (selectedId == null)
-                    {
-                        MessageBox.Show("Không xác định bản ghi cần cập nhật!", "Lỗi");
-                        return;
-                    }
-
-                    cmd = new SqlCommand(@"UPDATE ChucVu SET TenChucVu=@Ten, luongCoBan=@Luong,
-                                           tyLeHoaHong=@TyLe, moTa=@MoTa, idPhongBan=@idPB WHERE id=@id", conn);
-                    cmd.Parameters.AddWithValue("@id", selectedId);
+                    // === Cập nhật ===
+                    bllChucVu.SaveChucVu(cv, isNew: false);
+                    MessageBox.Show("✏️ Đã cập nhật chức vụ!");
                 }
 
-                cmd.Parameters.AddWithValue("@Ten", txtTenChucVu.Text);
-                cmd.Parameters.AddWithValue("@Luong", decimal.TryParse(txtLuong.Text, out var luong) ? luong : 0);
-                cmd.Parameters.AddWithValue("@TyLe", decimal.TryParse(txtTyLe.Text, out var tyle) ? tyle : 0);
-                cmd.Parameters.AddWithValue("@MoTa", txtMoTa.Text);
-                cmd.Parameters.AddWithValue("@idPB", cbPhongBan.SelectedValue);
-                cmd.ExecuteNonQuery();
+                // ===== Làm mới giao diện =====
+                LoadChucVu();
+                ClearForm();
             }
-
-            MessageBox.Show(btnSave.Text.Contains("Thêm") ? "✅ Đã thêm chức vụ mới!" : "✏️ Đã cập nhật chức vụ!");
-            LoadChucVu();
-            ClearForm();
+            catch (Exception ex)
+            {
+                MessageBox.Show("Lỗi khi lưu chức vụ: " + ex.Message);
+            }
         }
 
         // ======================= XÓA / CHỌN =======================
@@ -307,13 +283,7 @@ namespace GUI
                 int id = Convert.ToInt32(dgv.Rows[e.RowIndex].Cells["Mã chức vụ"].Value);
                 if (MessageBox.Show("Bạn có chắc muốn xóa chức vụ này?", "Xác nhận", MessageBoxButtons.YesNo) == DialogResult.Yes)
                 {
-                    using (SqlConnection conn = new SqlConnection(connectionString))
-                    {
-                        SqlCommand cmd = new SqlCommand("DELETE FROM ChucVu WHERE id=@id", conn);
-                        cmd.Parameters.AddWithValue("@id", id);
-                        conn.Open();
-                        cmd.ExecuteNonQuery();
-                    }
+                    bllChucVu.Delete(id);
                     LoadChucVu();
                 }
                 return;

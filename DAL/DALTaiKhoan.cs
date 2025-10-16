@@ -24,7 +24,7 @@ namespace DAL
             {
                 string query = @"SELECT tk.id AS [Mã], tk.taiKhoan AS [Tài khoản],
                                         tk.matKhau AS [Mật khẩu], nv.TenNhanVien AS [Nhân viên],
-                                        nv.id AS [Mã NV]
+                                        nv.id AS [Mã Nhân viên]
                                  FROM TaiKhoan tk
                                  LEFT JOIN NhanVien nv ON tk.idNhanVien = nv.id";
                 SqlDataAdapter da = new SqlDataAdapter(query, conn);

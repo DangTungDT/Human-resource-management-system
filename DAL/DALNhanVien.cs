@@ -11,7 +11,7 @@ namespace DAL
 {
     public class DALNhanVien
     {
-        public readonly PersonnelManagementDataContextDataContext _dbContext;
+        //public readonly PersonnelManagementDataContextDataContext _dbContext;
         private readonly string connectionString;
         public DALNhanVien(string conn)
         {
@@ -36,6 +36,84 @@ namespace DAL
                 DataTable dt = new DataTable();
                 da.Fill(dt);
                 return dt;
+            }
+        }
+
+        public DataTable LoadNhanVien()
+        {
+            using (SqlConnection conn = new SqlConnection(connectionString))
+            {
+                string query = "SELECT id, TenNhanVien FROM NhanVien WHERE DaXoa = 0";
+                SqlDataAdapter da = new SqlDataAdapter(query, conn);
+                DataTable dt = new DataTable();
+                da.Fill(dt);
+
+                return dt;
+            }
+        }
+
+        // 🔹 Lấy thông tin cá nhân của nhân viên
+        public DTONhanVien LayThongTin(string idNhanVien)
+        {
+            DTONhanVien nv = null;
+            using (SqlConnection conn = new SqlConnection(connectionString))
+            {
+                conn.Open();
+                string query = @"
+            SELECT nv.ID, nv.TenNhanVien, nv.NgaySinh, nv.GioiTinh, 
+                   nv.DiaChi, nv.Que, nv.Email, cv.TenChucVu, pb.TenPhongBan
+            FROM NhanVien nv
+            LEFT JOIN ChucVu cv ON nv.idChucVu = cv.ID
+            LEFT JOIN PhongBan pb ON nv.idPhongBan = pb.ID
+            WHERE nv.ID = @id";
+
+                using (SqlCommand cmd = new SqlCommand(query, conn))
+                {
+                    cmd.Parameters.AddWithValue("@id", idNhanVien);
+                    using (SqlDataReader dr = cmd.ExecuteReader())
+                    {
+                        if (dr.Read())
+                        {
+                            nv = new DTONhanVien
+                            {
+                                ID = dr["ID"].ToString(),
+                                TenNhanVien = dr["TenNhanVien"].ToString(),
+                                NgaySinh = Convert.ToDateTime(dr["NgaySinh"]),
+                                GioiTinh = dr["GioiTinh"].ToString(),
+                                DiaChi = dr["DiaChi"].ToString(),
+                                Que = dr["Que"].ToString(),
+                                Email = dr["Email"].ToString(),
+                                TenChucVu = dr["TenChucVu"].ToString(),
+                                TenPhongBan = dr["TenPhongBan"].ToString()
+                            };
+                        }
+                    }
+                }
+            }
+
+            return nv;
+        }
+
+        // 🔹 Cập nhật thông tin cá nhân
+        public void UpdateNhanVien(DTONhanVien nv)
+        {
+            using (SqlConnection conn = new SqlConnection(connectionString))
+            {
+                string query = @"UPDATE NhanVien 
+                                 SET TenNhanVien=@ten, NgaySinh=@ngay, GioiTinh=@gt, 
+                                     DiaChi=@dc, Que=@que, Email=@mail
+                                 WHERE id=@id";
+                SqlCommand cmd = new SqlCommand(query, conn);
+                cmd.Parameters.AddWithValue("@ten", nv.TenNhanVien);
+                cmd.Parameters.AddWithValue("@ngay", nv.NgaySinh);
+                cmd.Parameters.AddWithValue("@gt", nv.GioiTinh);
+                cmd.Parameters.AddWithValue("@dc", nv.DiaChi);
+                cmd.Parameters.AddWithValue("@que", nv.Que);
+                cmd.Parameters.AddWithValue("@mail", nv.Email);
+                cmd.Parameters.AddWithValue("@id", nv.ID);
+
+                conn.Open();
+                cmd.ExecuteNonQuery();
             }
         }
 

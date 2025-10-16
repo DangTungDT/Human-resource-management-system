@@ -233,6 +233,12 @@ namespace GUI
             dtTaiKhoan = bllTaiKhoan.GetAllAccounts();
             dgv.DataSource = dtTaiKhoan;
 
+            // Ẩn cột "MatKhau" (tên cột trong DataTable)
+            if (dgv.Columns["Mật khẩu"] != null)
+            {
+                dgv.Columns["Mật khẩu"].Visible = false;
+            }
+
             if (!dgv.Columns.Contains("Xóa"))
             {
                 DataGridViewImageColumn colDelete = new DataGridViewImageColumn()
@@ -333,7 +339,7 @@ namespace GUI
 
             selectedId = Convert.ToInt32(dgv.Rows[e.RowIndex].Cells["Mã"].Value);
             txtUsername.Text = dgv.Rows[e.RowIndex].Cells["Tài khoản"].Value.ToString();
-            txtPassword.Text = dgv.Rows[e.RowIndex].Cells["Mật khẩu"].Value.ToString();
+            //txtPassword.Text = dgv.Rows[e.RowIndex].Cells["Mật khẩu"].Value.ToString();
             cbNhanVien.Text = dgv.Rows[e.RowIndex].Cells["Nhân viên"].Value.ToString();
 
             btnSave.Text = "✏️ Cập nhật";

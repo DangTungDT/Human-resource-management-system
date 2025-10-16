@@ -1,11 +1,11 @@
 ﻿using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
-using System.Configuration;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Linq;
 
 namespace GUI
 {
@@ -26,8 +26,20 @@ namespace GUI
                     {
                         foreach (string instanceName in rk.GetValueNames())
                         {
-                            conn = $"Data Source={Environment.MachineName}\\{instanceName};Initial Catalog=PersonnelManagement;Integrated Security=True;Encrypt=False";
-                            break;
+                            var connect = $"Data Source={Environment.MachineName}\\{instanceName};Initial Catalog=PersonnelManagement;Integrated Security=True;Encrypt=False";
+                            try
+                            {
+                                using (SqlConnection connection = new SqlConnection(connect))
+                                {
+                                    connection.Open();
+                                    conn = connect;
+                                    break;
+                                }
+                            }
+                            catch
+                            {
+                                continue;
+                            }
                         }
                     }
                 }

@@ -11,13 +11,9 @@ namespace DAL
 {
     public class DALDanhGiaNhanVien
     {
-        public readonly PersonnelManagementDataContextDataContext _dbContext;
-        private readonly string connectionString;
-        public DALDanhGiaNhanVien(string stringConnection)
-        {
-            _dbContext = new PersonnelManagementDataContextDataContext(stringConnection);
-            connectionString = stringConnection;
-        }
+        public readonly PersonnelManagementDataContextDataContext _dbContext;   
+
+        public DALDanhGiaNhanVien(string stringConnection) => _dbContext = new PersonnelManagementDataContextDataContext(stringConnection);
 
         public IQueryable<DTODanhGiaNhanVien> DanhSachDanhGiaNV() => _dbContext.DanhGiaNhanViens.Select(p => new DTODanhGiaNhanVien
         {

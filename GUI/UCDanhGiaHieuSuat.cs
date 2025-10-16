@@ -13,25 +13,48 @@ namespace GUI
 {
     public partial class UCDanhGiaHieuSuat : UserControl
     {
-        private BLLDanhGiaNhanVien _dbContext;
-        private BLLThuongPhat _dbContextTP;
-        public UCDanhGiaHieuSuat(string stringConnection)
+        private readonly string _idNhanVien;
+        private readonly BLLThuongPhat _dbContextTP;
+        private readonly BLLDanhGiaNhanVien _dbContext;
+
+        public UCDanhGiaHieuSuat(string idNhanVien, string stringConnection)
         {
-            _dbContext = new BLLDanhGiaNhanVien(stringConnection);
+            InitializeComponent();
+
+            _idNhanVien = idNhanVien;
             _dbContextTP = new BLLThuongPhat(stringConnection);
-            InitializeComponent();            
+            _dbContext = new BLLDanhGiaNhanVien(stringConnection);
         }
 
         private void UCDanhGiaHieuSuat_Load(object sender, EventArgs e)
         {
+            ChayLaiDuLieu();
+        }
+
+        private void dgvDSHieuSuatNV_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e != null && e.RowIndex > -1)
+            {
+                txtDiemTB.Text = dgvDSHieuSuatNV.Rows[e.RowIndex].Cells["DiemTB"].Value?.ToString() ?? string.Empty;
+                rtNhanXet.Text = dgvDSHieuSuatNV.Rows[e.RowIndex].Cells["NhanXet"].Value?.ToString() ?? string.Empty;
+                txtNhanVien.Text = dgvDSHieuSuatNV.Rows[e.RowIndex].Cells["NhanVien"].Value?.ToString() ?? string.Empty;
+                txtDiemSo.Text = dgvDSHieuSuatNV.Rows[e.RowIndex].Cells["DiemDanhGia"].Value?.ToString() ?? string.Empty;
+                dtpNgayTao.Value = DateTime.Parse(dgvDSHieuSuatNV.Rows[e.RowIndex].Cells["NgayTao"].Value?.ToString());
+                grbDanhGiaHS.Text = "NGƯỜI ĐÁNH GIÁ: " + dgvDSHieuSuatNV.Rows[e.RowIndex].Cells["NguoiDanhGia"].Value?.ToString() ?? string.Empty;
+            }
+        }
+
+        // Load du lieu
+        private void ChayLaiDuLieu()
+        {
             var dsHieuSuat = _dbContext.CheckListDanhGiaNhanVien();
             var dsNhanVien = _dbContextTP.CheckListNhanVien().ToList();
 
-            dgvDSHieuSuat.DataSource = dsHieuSuat.GroupBy(g => g.IDNhanVien).Select(p => new
+            dgvDSHieuSuatNV.DataSource = dsHieuSuat.GroupBy(g => g.IDNhanVien).Select(p => new
             {
                 NhanVien = dsNhanVien.Where(n => n.ID == p.FirstOrDefault(a => a.IDNhanVien == p.Key)?.IDNhanVien).Select(s => s.TenNhanVien).FirstOrDefault(),
-                DTB = p.Average(a => a.DiemSo),
-                DiemSo = string.Join(", ", p.Select(s => s.DiemSo)),
+                DiemTB = p.Average(a => a.DiemSo),
+                DiemDanhGia = string.Join(", ", p.Select(s => s.DiemSo)),
                 NhanXet = p.FirstOrDefault(a => a.IDNhanVien == p.Key)?.NhanXet,
                 NgayTao = p.FirstOrDefault(a => a.IDNhanVien == p.Key)?.NgayTao,
                 NguoiDanhGia = string.Join(", ", p.Select(s => dsNhanVien.FirstOrDefault(a => a.ID == s.IDNguoiDanhGia)?.TenNhanVien)),
@@ -39,17 +62,6 @@ namespace GUI
             }).ToList();
         }
 
-        private void dgvDSHieuSuat_CellClick(object sender, DataGridViewCellEventArgs e)
-        {
-            if (e != null && e.RowIndex > -1)
-            {
-                txtNhanVien.Text = dgvDSHieuSuat.Rows[e.RowIndex].Cells[0].Value?.ToString();
-                txtDTB.Text = dgvDSHieuSuat.Rows[e.RowIndex].Cells[1].Value?.ToString();
-                txtDiemSo.Text = dgvDSHieuSuat.Rows[e.RowIndex].Cells[2].Value?.ToString();
-                rtxtNhanXet.Text = dgvDSHieuSuat.Rows[e.RowIndex].Cells[3].Value?.ToString();
-                txtNgayTao.Text = dgvDSHieuSuat.Rows[e.RowIndex].Cells[4].Value?.ToString();
-                lblNguoiDanhGia.Text = dgvDSHieuSuat.Rows[e.RowIndex].Cells[5].Value?.ToString();
-            }
-        }
+        private void btnLoadDuLieu_Click(object sender, EventArgs e) => ChayLaiDuLieu();
     }
 }

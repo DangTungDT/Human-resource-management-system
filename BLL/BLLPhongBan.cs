@@ -20,6 +20,11 @@ namespace BLL
 
         public DataTable GetAllPhongBan() => dal.GetAllPhongBan();
 
+        public DataTable ComboboxPhongBan()
+        {
+            return dal.ComBoBoxPhongBan();
+        }
+
         public bool SavePhongBan(DTOPhongBan pb, bool isNew)
         {
             return isNew ? dal.InsertPhongBan(pb) : dal.UpdatePhongBan(pb);

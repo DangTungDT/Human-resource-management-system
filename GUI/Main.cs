@@ -209,7 +209,7 @@ namespace GUI
                             user = new ucXemTuyenDung();
                             break;
                         case "XemNghiPhep":
-                            user = new XemNghiPhep(_stringConnection);
+                            user = new XemNghiPhep(_stringConnection, idNV);
                             break;
                         case "XemThongTinCaNhan":
                             user = new XemThongTinCaNhan(_idNV, tpView, _stringConnection);
@@ -319,7 +319,7 @@ namespace GUI
 
         private void btnXemNghiPhep_Click(object sender, EventArgs e)
         {
-            LoadControl(new XemNghiPhep(_stringConnection));
+            LoadControl(new XemNghiPhep(_stringConnection, idNV));
         }
 
         private void btnXemThongTinCaNhan_Click(object sender, EventArgs e)

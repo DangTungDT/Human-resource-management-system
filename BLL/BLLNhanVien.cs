@@ -26,6 +26,24 @@ namespace BLL
             return _dal.GetAll(showHidden);
         }
 
+        public DataTable ComboboxNhanVien()
+        {
+            return _dal.LoadNhanVien();
+        }
+
+        public DTONhanVien LayThongTin(string idNV)
+        {
+            return _dal.LayThongTin(idNV);
+        }
+
+        public void CapNhatThongTin(DTONhanVien nv)
+        {
+            if (string.IsNullOrWhiteSpace(nv.TenNhanVien))
+                throw new Exception("Tên nhân viên không được để trống!");
+
+            _dal.UpdateNhanVien(nv);
+        }
+
         public bool AddNhanVien(DTONhanVien nv, string tenChucVu, string TenPhongBan)
         {
             nv.ID = _dal.SinhMaNhanVien(tenChucVu, TenPhongBan);

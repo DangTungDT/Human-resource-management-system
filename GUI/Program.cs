@@ -18,8 +18,8 @@ namespace GUI
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
 
-            Application.Run(new FormLogin("NVKD000004"));
-            //Application.Run(new TestGiaoDien("NVKD000004"));
+            //Application.Run(new FormLogin("NVKD000004"));
+            Application.Run(new TestGiaoDien("NVKD000004"));
         }
     }
 }

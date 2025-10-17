@@ -42,8 +42,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DALChucVu.cs" />
     <Compile Include="DALDanhGiaNhanVien.cs" />
     <Compile Include="DALHopDongLaoDong.cs" />
+    <Compile Include="DALKhenThuong.cs" />
+    <Compile Include="DALKyLuat.cs" />
     <Compile Include="DALNghiPhep.cs" />
     <Compile Include="DALNhanVien.cs" />
     <Compile Include="DALPhongBan.cs" />

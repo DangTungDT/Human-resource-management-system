@@ -18,10 +18,11 @@ namespace GUI
         public TestGiaoDien(string id)
         {
             InitializeComponent();
+            _nghiPhep = new UCNghiPhep(id, ConnectionDB.TakeConnectionString());
             _hieusuat = new UCDanhGiaHieuSuat(id, ConnectionDB.TakeConnectionString());
         }
 
-        public void DisplayInterface(UserControl uc)
+        private void DisplayInterface(UserControl uc)
         {
             pnMain.Controls.Clear();
             pnMain.Controls.Add(uc);

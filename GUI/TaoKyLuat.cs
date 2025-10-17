@@ -1,4 +1,6 @@
-﻿using Guna.UI2.WinForms;
+﻿using BLL;
+using DTO;
+using Guna.UI2.WinForms;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -24,11 +26,15 @@ namespace GUI
         private string connectionString;
         private string idNguoiTao = "GD00000001";
         private int? selectedId = null;
+        private BLLKyLuat bllKyLuat;
+        private BLLNhanVien bllNhanVien;
 
         public TaoKyLuat(string conn)
         {
             connectionString = conn;
             InitializeComponent();
+            bllKyLuat = new BLLKyLuat(conn);
+            bllNhanVien = new BLLNhanVien(conn);
             BuildUI();
             LoadPhongBan();
             LoadNhanVien();
@@ -94,7 +100,8 @@ namespace GUI
             // ==== FORM INPUT ====
             cbEmployee = new Guna2ComboBox() { Dock = DockStyle.Fill, DropDownStyle = ComboBoxStyle.DropDownList };
             cbType = new Guna2ComboBox() { Dock = DockStyle.Fill, DropDownStyle = ComboBoxStyle.DropDownList };
-            cbType.Items.AddRange(new object[] { "Khiển trách", "Cảnh cáo", "Đình chỉ", "Sa thải" });
+            //cbType.Items.AddRange(new object[] { "Khiển trách", "Cảnh cáo", "Đình chỉ", "Sa thải" });
+            cbType.Items.AddRange(new object[] { "Phạt", "Kỷ luật" });
             cbType.SelectedIndex = 0;
 
             dtDiscipline = new Guna2DateTimePicker()
@@ -214,41 +221,18 @@ namespace GUI
         // ======================= LOAD NHÂN VIÊN =======================
         private void LoadNhanVien()
         {
-            using (SqlConnection conn = new SqlConnection(connectionString))
-            {
-                conn.Open();
-                string query = "SELECT id, TenNhanVien FROM NhanVien";
-                SqlCommand cmd = new SqlCommand(query, conn);
-                SqlDataReader reader = cmd.ExecuteReader();
-                DataTable dt = new DataTable();
-                dt.Load(reader);
-                cbEmployee.DataSource = dt;
-                cbEmployee.DisplayMember = "TenNhanVien";
-                cbEmployee.ValueMember = "id";
-            }
+            cbEmployee.DataSource = bllNhanVien.ComboboxNhanVien();
+            cbEmployee.DisplayMember = "TenNhanVien";
+            cbEmployee.ValueMember = "id";
         }
 
         // ======================= LOAD PHÒNG BAN =======================
         private void LoadPhongBan()
         {
-            using (SqlConnection conn = new SqlConnection(connectionString))
-            {
-                string query = "SELECT id, TenPhongBan FROM PhongBan";
-                SqlDataAdapter da = new SqlDataAdapter(query, conn);
-                DataTable dt = new DataTable();
-                da.Fill(dt);
-
-                // ✅ Thêm dòng “Tất cả phòng ban” vào đầu danh sách
-                DataRow allRow = dt.NewRow();
-                allRow["id"] = DBNull.Value;
-                allRow["TenPhongBan"] = "Tất cả phòng ban";
-                dt.Rows.InsertAt(allRow, 0);
-
-                cbPhongBan.DataSource = dt;
-                cbPhongBan.DisplayMember = "TenPhongBan";
-                cbPhongBan.ValueMember = "id";
-                cbPhongBan.SelectedIndex = 0; // ✅ Mặc định chọn “Tất cả”
-            }
+            cbPhongBan.DataSource = bllKyLuat.GetDepartments();
+            cbPhongBan.DisplayMember = "TenPhongBan";
+            cbPhongBan.ValueMember = "id";
+            cbPhongBan.SelectedIndex = 0; // ✅ Mặc định chọn “Tất cả”
         }
 
         // ======================= TÌM KIẾM =======================
@@ -263,28 +247,7 @@ namespace GUI
         // ======================= LOAD KỶ LUẬT =======================
         private void LoadKyLuat(string idPhongBan = "")
         {
-            using (SqlConnection conn = new SqlConnection(connectionString))
-            {
-                string query = @"
-                    SELECT tp.id, nv.TenNhanVien, pb.TenPhongBan, tp.loai AS HinhThuc, tp.lyDo
-                    FROM ThuongPhat tp
-                    JOIN NhanVien_ThuongPhat nvtp ON tp.id = nvtp.idThuongPhat
-                    JOIN NhanVien nv ON nvtp.idNhanVien = nv.id
-                    JOIN PhongBan pb ON nv.idPhongBan = pb.id
-                    WHERE tp.loai IN (N'Khiển trách', N'Cảnh cáo', N'Đình chỉ', N'Sa thải', N'Phạt')";
-
-                if (!string.IsNullOrEmpty(idPhongBan))
-                    query += " AND pb.id = @idPB";
-
-                SqlCommand cmd = new SqlCommand(query, conn);
-                if (!string.IsNullOrEmpty(idPhongBan))
-                    cmd.Parameters.AddWithValue("@idPB", idPhongBan);
-
-                SqlDataAdapter da = new SqlDataAdapter(cmd);
-                DataTable dt = new DataTable();
-                da.Fill(dt);
-                dgv.DataSource = dt;
-            }
+            dgv.DataSource = bllKyLuat.GetAll(idPhongBan);
 
             if (!dgv.Columns.Contains("Xoa"))
             {
@@ -310,52 +273,21 @@ namespace GUI
                 return;
             }
 
-            using (SqlConnection conn = new SqlConnection(connectionString))
+            // Khởi tạo DTO
+            DTOKyLuat kl = new DTOKyLuat
             {
-                conn.Open();
+                Id = selectedId ?? 0,
+                IdNhanVien = cbEmployee.SelectedValue.ToString(),
+                Loai = cbType.Text,
+                LyDo = txtReason.Text,
+                NgayKyLuat = dtDiscipline.Value,
+                IdNguoiTao = idNguoiTao
+            };
 
-                int idThuongPhat;
-                SqlCommand cmd;
+            bool isNew = (selectedId == null);
+            bllKyLuat.Save(kl, isNew);
 
-                if (btnSave.Text.Contains("Lưu"))
-                {
-                    // ➕ Thêm mới vào ThuongPhat
-                    cmd = new SqlCommand(@"INSERT INTO ThuongPhat (tienThuongPhat, loai, lyDo, idNguoiTao)
-                       OUTPUT INSERTED.id
-                       VALUES (0, @loai, @lydo, @idng)", conn);
-                    cmd.Parameters.AddWithValue("@loai", cbType.Text);
-                    cmd.Parameters.AddWithValue("@lydo", txtReason.Text);
-                    cmd.Parameters.AddWithValue("@idng", idNguoiTao);
-                    idThuongPhat = (int)cmd.ExecuteScalar();
-
-                    // ➕ Thêm vào NhanVien_ThuongPhat
-                    SqlCommand cmd2 = new SqlCommand(@"INSERT INTO NhanVien_ThuongPhat (idNhanVien, idThuongPhat, thangApDung)
-                                                       VALUES (@idnv, @idtp, @ngay)", conn);
-                    cmd2.Parameters.AddWithValue("@idnv", cbEmployee.SelectedValue.ToString());
-                    cmd2.Parameters.AddWithValue("@idtp", idThuongPhat);
-                    cmd2.Parameters.AddWithValue("@ngay", dtDiscipline.Value);
-                    cmd2.ExecuteNonQuery();
-                }
-                else
-                {
-                    if (selectedId == null)
-                    {
-                        MessageBox.Show("Không xác định được bản ghi cần cập nhật!", "Lỗi");
-                        return;
-                    }
-
-                    cmd = new SqlCommand(@"UPDATE ThuongPhat 
-                       SET lyDo=@lydo, loai=@loai 
-                       WHERE id=@id", conn);
-                    cmd.Parameters.AddWithValue("@lydo", txtReason.Text);
-                    cmd.Parameters.AddWithValue("@loai", cbType.Text);
-                    cmd.Parameters.AddWithValue("@id", selectedId);
-                    cmd.ExecuteNonQuery();
-                }
-            }
-
-            string msg = btnSave.Text.Contains("Lưu") ? "✅ Đã thêm kỷ luật mới!" : "✏️ Đã cập nhật kỷ luật!";
-            MessageBox.Show(msg);
+            MessageBox.Show(isNew ? "✅ Đã thêm kỷ luật mới!" : "✏️ Đã cập nhật kỷ luật!");
             LoadKyLuat();
             ClearForm();
         }
@@ -367,16 +299,10 @@ namespace GUI
 
             if (dgv.Columns[e.ColumnIndex].Name == "Xoa")
             {
-                var id = dgv.Rows[e.RowIndex].Cells["id"].Value.ToString();
+                int id = Convert.ToInt32(dgv.Rows[e.RowIndex].Cells["id"].Value);
                 if (MessageBox.Show("Bạn có chắc muốn xóa kỷ luật này?", "Xác nhận", MessageBoxButtons.YesNo) == DialogResult.Yes)
                 {
-                    using (SqlConnection conn = new SqlConnection(connectionString))
-                    {
-                        SqlCommand cmd = new SqlCommand("DELETE FROM NhanVien_ThuongPhat WHERE idThuongPhat=@id; DELETE FROM ThuongPhat WHERE id=@id", conn);
-                        cmd.Parameters.AddWithValue("@id", id);
-                        conn.Open();
-                        cmd.ExecuteNonQuery();
-                    }
+                    bllKyLuat.Delete(id);
                     LoadKyLuat();
                 }
                 return;

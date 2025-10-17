@@ -1,4 +1,6 @@
-﻿using Guna.UI2.WinForms;
+﻿using BLL;
+using DTO;
+using Guna.UI2.WinForms;
 using System;
 using System.Data.SqlClient;
 using System.Drawing;
@@ -18,11 +20,13 @@ namespace GUI
         private string idNhanVien;
         private string imagePath = "";
         private string connectionString;
+        private BLLNhanVien bllNhanVien;
 
         public CapNhatThongTinRieng(string idNV, Panel panel, string conn)
         {
             connectionString = conn;
             idNhanVien = idNV;
+            bllNhanVien = new BLLNhanVien(conn);
             _panel = panel;
             InitializeComponent();
             BuildUI();
@@ -207,30 +211,41 @@ namespace GUI
 
         private void BtnSave_Click(object sender, EventArgs e)
         {
-            using (SqlConnection conn = new SqlConnection(connectionString))
+            try
             {
-                string query = @"UPDATE NhanVien 
-                                 SET TenNhanVien=@ten, NgaySinh=@ngay, GioiTinh=@gt, DiaChi=@dc, Que=@que, Email=@mail
-                                 WHERE id=@id";
-                SqlCommand cmd = new SqlCommand(query, conn);
-                cmd.Parameters.AddWithValue("@ten", txtName.Text);
-                cmd.Parameters.AddWithValue("@ngay", dtDob.Value);
-                cmd.Parameters.AddWithValue("@gt", cbGender.Text);
-                cmd.Parameters.AddWithValue("@dc", txtAddress.Text);
-                cmd.Parameters.AddWithValue("@que", txtQue.Text);
-                cmd.Parameters.AddWithValue("@mail", txtEmail.Text);
-                cmd.Parameters.AddWithValue("@id", idNhanVien);
+                DTONhanVien nv = new DTONhanVien
+                {
+                    ID = idNhanVien,
+                    TenNhanVien = txtName.Text,
+                    NgaySinh = dtDob.Value,
+                    GioiTinh = cbGender.Text,
+                    DiaChi = txtAddress.Text,
+                    Que = txtQue.Text,
+                    Email = txtEmail.Text
+                };
 
-                conn.Open();
-                cmd.ExecuteNonQuery();
-                conn.Close();
+                bllNhanVien.CapNhatThongTin(nv);
 
-                MessageBox.Show("✅ Cập nhật thành công!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageBox.Show("✅ Cập nhật thành công!", "Thông báo");
+
+                var parentForm = this.FindForm();
+                var parentControl = this.Parent;
+
+                //MessageBox.Show($"Form cha: {parentForm?.Name}\nPanel cha: {parentControl?.Name}");
+
+                // 🟢 Làm mới form hiển thị
+                _panel.Controls.Clear();
+                var xemThongTin = new XemThongTinCaNhan(idNhanVien, _panel, connectionString);
+                _panel.Controls.Add(xemThongTin);
 
                 XemThongTinCaNhan xemPage = new XemThongTinCaNhan(idNhanVien, _panel, connectionString);
                 var parent = this.ParentForm as Main;
                 parent?.ShowUserControl("XemThongTinCaNhan");
                 parent.ChildFormComponent(_panel, "ButtonFeatureViewComponent");
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Lỗi: " + ex.Message);
             }
         }
 
@@ -249,24 +264,17 @@ namespace GUI
 
         private void LoadThongTinCaNhan()
         {
-            using (SqlConnection conn = new SqlConnection(connectionString))
+            var nv = bllNhanVien.LayThongTin(idNhanVien);
+            if (nv != null)
             {
-                string query = @"SELECT TenNhanVien, NgaySinh, GioiTinh, DiaChi, Que, Email FROM NhanVien WHERE id=@id";
-                SqlCommand cmd = new SqlCommand(query, conn);
-                cmd.Parameters.AddWithValue("@id", idNhanVien);
-                conn.Open();
-                SqlDataReader reader = cmd.ExecuteReader();
-                if (reader.Read())
-                {
-                    txtName.Text = reader["TenNhanVien"].ToString();
-                    dtDob.Value = Convert.ToDateTime(reader["NgaySinh"]);
-                    cbGender.Text = reader["GioiTinh"].ToString();
-                    txtAddress.Text = reader["DiaChi"].ToString();
-                    txtQue.Text = reader["Que"].ToString();
-                    txtEmail.Text = reader["Email"].ToString();
-                }
-                reader.Close();
+                txtName.Text = nv.TenNhanVien;
+                dtDob.Value = nv.NgaySinh;
+                cbGender.Text = nv.GioiTinh;
+                txtAddress.Text = nv.DiaChi;
+                txtQue.Text = nv.Que;
+                txtEmail.Text = nv.Email;
             }
+        
         }
     }
 }

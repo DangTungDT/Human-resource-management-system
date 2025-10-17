@@ -122,5 +122,10 @@ namespace BLL
                 throw new Exception("Lỗi cập nhật nghỉ phép: " + ex.Message);
             }
         }
+
+        public List<DTONghiPhep> LayDanhSachNghiPhep(string idNhanVien)
+        {
+            return _dbContext.LayDanhSachNghiPhep(idNhanVien);
+        }
     }
 }

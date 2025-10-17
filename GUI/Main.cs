@@ -96,7 +96,7 @@ namespace GUI
             _userControls["ucXemChamCong"] = new ucXemChamCong();
             _userControls["UCXemKyLuat"] = new UCXemKyLuat(_stringConnection);
             _userControls["ucXemTuyenDung"] = new ucXemTuyenDung();
-            _userControls["XemNghiPhep"] = new XemNghiPhep(_stringConnection);
+            _userControls["XemNghiPhep"] = new XemNghiPhep(_stringConnection, _idNV);
             _userControls["XemThongTinCaNhan"] = new XemThongTinCaNhan(_idNV, tpView, _stringConnection);
             _userControls["TaoKhenThuong"] = new TaoKhenThuong(_stringConnection);
             _userControls["TaoKyLuat"] = new TaoKyLuat(_stringConnection);
@@ -209,7 +209,7 @@ namespace GUI
                             user = new ucXemTuyenDung();
                             break;
                         case "XemNghiPhep":
-                            user = new XemNghiPhep(_stringConnection, idNV);
+                            user = new XemNghiPhep(_stringConnection, _idNV);
                             break;
                         case "XemThongTinCaNhan":
                             user = new XemThongTinCaNhan(_idNV, tpView, _stringConnection);
@@ -319,7 +319,7 @@ namespace GUI
 
         private void btnXemNghiPhep_Click(object sender, EventArgs e)
         {
-            LoadControl(new XemNghiPhep(_stringConnection, idNV));
+            LoadControl(new XemNghiPhep(_stringConnection, _idNV));
         }
 
         private void btnXemThongTinCaNhan_Click(object sender, EventArgs e)
@@ -356,14 +356,6 @@ namespace GUI
         {
             LoadControl(new BaoCaoKhenThuong(_stringConnection));
 
-        }
-        private void OpenChildControl(UserControl uc)
-        {
-            pnContent.Padding = new Padding(0, 10, 0, 0);
-            pnContent.Controls.Clear();
-            uc.Dock = DockStyle.Fill;
-            pnContent.Controls.Add(uc);
-            uc.BringToFront();
         }
 
         private void tpReport_Click(object sender, EventArgs e)

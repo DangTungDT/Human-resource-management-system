@@ -35,18 +35,21 @@
             // 
             this.pnMain.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pnMain.Location = new System.Drawing.Point(0, 0);
+            this.pnMain.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.pnMain.Name = "pnMain";
-            this.pnMain.Size = new System.Drawing.Size(1414, 450);
+            this.pnMain.Size = new System.Drawing.Size(1885, 554);
             this.pnMain.TabIndex = 0;
             // 
             // TestGiaoDien
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1414, 450);
+            this.ClientSize = new System.Drawing.Size(1885, 554);
             this.Controls.Add(this.pnMain);
+            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.Name = "TestGiaoDien";
             this.Text = "TestGiaoDien";
+            this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             this.Load += new System.EventHandler(this.TestGiaoDien_Load);
             this.ResumeLayout(false);
 

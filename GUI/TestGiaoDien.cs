@@ -12,14 +12,17 @@ namespace GUI
 {
     public partial class TestGiaoDien : Form
     {
+        public string conn = "Data Source=LAPTOP-PNFFHRG1\\MSSQLSERVER01;Initial Catalog=PersonnelManagement;Integrated Security=True;Encrypt=False";
         public readonly UCNghiPhep _nghiPhep;
         public readonly UCDanhGiaHieuSuat _hieusuat;
 
-        public TestGiaoDien(string id)
+        public TestGiaoDien(string idNhanvien)
         {
             InitializeComponent();
-            _nghiPhep = new UCNghiPhep(id, ConnectionDB.TakeConnectionString());
-            _hieusuat = new UCDanhGiaHieuSuat(id, ConnectionDB.TakeConnectionString());
+
+            _nghiPhep = new UCNghiPhep(idNhanvien, conn);
+            _hieusuat = new UCDanhGiaHieuSuat(idNhanvien, conn);
+            //_nghiPhep = new UCNghiPhep(idNhanvien, ConnectionDB.TakeConnectionString());
         }
 
         private void DisplayInterface(UserControl uc)
@@ -32,9 +35,6 @@ namespace GUI
             uc.Show();
         }
 
-        private void TestGiaoDien_Load(object sender, EventArgs e)
-        {
-            DisplayInterface(_hieusuat);
-        }
+        private void TestGiaoDien_Load(object sender, EventArgs e) => DisplayInterface(_nghiPhep);
     }
 }

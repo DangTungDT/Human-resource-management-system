@@ -1,24 +1,19 @@
 ﻿using DTO;
-using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Diagnostics.SymbolStore;
+using System.Data.SqlClient;
 using System.Linq;
-using System.Security.Permissions;
-using System.Text;
-using System.Threading.Tasks;
-using System.Web;
-using System.Xml.Schema;
 
 namespace DAL
 {
     public class DALNghiPhep
     {
         private string connectionString;
+        public readonly PersonnelManagementDataContextDataContext _dbContext;
 
         public DALNghiPhep(string conn)
         {
             connectionString = conn;
+            _dbContext = new PersonnelManagementDataContextDataContext(conn);
         }
 
         public List<DTONghiPhep> LayDanhSachNghiPhep(string idNhanVien)
@@ -52,10 +47,7 @@ namespace DAL
                 conn.Close();
             }
             return list;
-        public PersonnelManagementDataContextDataContext _dbContext;
-
-        public DALNghiPhep(string conn) => _dbContext = new PersonnelManagementDataContextDataContext(conn);
-
+        }
 
         // Lay danh sach Nghi Phep
         public List<DTONghiPhep> LayDsNghiPhep() => _dbContext.NghiPheps.Select(np => new DTONghiPhep

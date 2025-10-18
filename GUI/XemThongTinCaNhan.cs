@@ -7,6 +7,7 @@ using System.ComponentModel;
 using System.Data;
 using System.Data.SqlClient;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -229,12 +230,32 @@ namespace GUI
                 lblEmail.Text = nv.Email;
                 lblChucVu.Text = nv.TenChucVu;
                 lblPhongBan.Text = nv.TenPhongBan;
+
+                // 🖼️ Hiển thị ảnh đại diện (nếu có)
+                if (!string.IsNullOrEmpty(nv.AnhDaiDien))
+                {
+                    string fullPath = Path.Combine(Application.StartupPath, nv.AnhDaiDien);
+                    if (File.Exists(fullPath))
+                    {
+                        using (var stream = new FileStream(fullPath, FileMode.Open, FileAccess.Read))
+                        {
+                            picAvatar.Image = Image.FromStream(stream);
+                        }
+                    }
+                    else
+                    {
+                        picAvatar.Image = Properties.Resources.user; // ảnh mặc định
+                    }
+                }
+                else
+                {
+                    picAvatar.Image = Properties.Resources.user;
+                }
             }
             else
             {
                 MessageBox.Show("Không tìm thấy thông tin nhân viên!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
-        
         }
 
         // 🟢 Ghi đè sự kiện OnVisibleChanged

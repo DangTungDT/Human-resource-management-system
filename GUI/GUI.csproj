@@ -496,6 +496,8 @@
     <Content Include="image\resume.png" />
     <Content Include="image\salary.png" />
     <Content Include="image\user.png" />
+    <None Include="Resources\search.png" />
+    <None Include="Resources\magnifying-glass.png" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\delete.png" />

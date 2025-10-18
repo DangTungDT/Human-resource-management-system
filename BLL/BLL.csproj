@@ -44,10 +44,9 @@
     <Compile Include="BLLChucVu.cs" />
     <Compile Include="BLLDanhGiaNhanVien.cs" />
     <Compile Include="BLLHopDongLaoDong.cs" />
-    <Compile Include="BLLKhenThuong.cs" />
-    <Compile Include="BLLKyLuat.cs" />
     <Compile Include="BLLNghiPhep.cs" />
     <Compile Include="BLLNhanVien.cs" />
+    <Compile Include="BLLNhanVien_ThuongPhat.cs" />
     <Compile Include="BLLPhongBan.cs" />
     <Compile Include="BLLTaiKhoan.cs" />
     <Compile Include="BLLThuongPhat.cs" />

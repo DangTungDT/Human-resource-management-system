@@ -2,6 +2,7 @@
 using DTO;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -50,6 +51,11 @@ namespace BLL
                 }
             }
             else return null;
+        }
+
+        public DataTable GetAll()
+        {
+            return _dbContext.GetAll();
         }
     }
 }

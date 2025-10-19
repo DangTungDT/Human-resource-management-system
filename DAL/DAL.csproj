@@ -54,6 +54,7 @@
     <Compile Include="DALPhongBan.cs" />
     <Compile Include="DALTaiKhoan.cs" />
     <Compile Include="DALThuongPhat.cs" />
+    <Compile Include="DALTuyenDung.cs" />
     <Compile Include="PersonnelManagementDataContext.designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>

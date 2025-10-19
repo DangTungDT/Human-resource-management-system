@@ -45,6 +45,7 @@
     <Compile Include="DALChucVu.cs" />
     <Compile Include="DALDanhGiaNhanVien.cs" />
     <Compile Include="DALHopDongLaoDong.cs" />
+    <Compile Include="DALKhauTru.cs" />
     <Compile Include="DALKhenThuong.cs" />
     <Compile Include="DALKyLuat.cs" />
     <Compile Include="DALNghiPhep.cs" />

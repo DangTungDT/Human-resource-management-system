@@ -35,6 +35,6 @@ namespace GUI
             uc.Show();
         }
 
-        private void TestGiaoDien_Load(object sender, EventArgs e) => DisplayInterface(_nghiPhep);
+        private void TestGiaoDien_Load(object sender, EventArgs e) => DisplayInterface(_hieusuat);
     }
 }

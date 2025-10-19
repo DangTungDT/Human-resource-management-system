@@ -56,7 +56,7 @@
             this.rtxtNhanXet.TabIndex = 34;
             this.rtxtNhanXet.Text = "";
             // 
-            // txtDiemSo
+            // txtGioiTinh
             // 
             this.txtDiemSo.BorderRadius = 10;
             this.txtDiemSo.BorderThickness = 2;
@@ -72,7 +72,7 @@
             this.txtDiemSo.HoverState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(94)))), ((int)(((byte)(148)))), ((int)(((byte)(255)))));
             this.txtDiemSo.Location = new System.Drawing.Point(141, 206);
             this.txtDiemSo.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
-            this.txtDiemSo.Name = "txtDiemSo";
+            this.txtDiemSo.Name = "txtGioiTinh";
             this.txtDiemSo.PlaceholderText = "";
             this.txtDiemSo.ReadOnly = true;
             this.txtDiemSo.SelectedText = "";

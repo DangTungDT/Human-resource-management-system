@@ -16,9 +16,10 @@ namespace GUI
 {
     public partial class XemNghiPhep : UserControl
     {
-        private Guna2DataGridView dgv;
-        private string connectionString;
         private string idNhanVien;
+        private string connectionString;
+
+        private Guna2DataGridView dgv;
         private BLLNghiPhep bllNghiPhep;
 
         public XemNghiPhep(string conn, string idNV)

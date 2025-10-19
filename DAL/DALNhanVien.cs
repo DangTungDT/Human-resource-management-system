@@ -11,8 +11,9 @@ namespace DAL
 {
     public class DALNhanVien
     {
-        //public readonly PersonnelManagementDataContextDataContext _dbContext;
         private readonly string connectionString;
+        public readonly PersonnelManagementDataContextDataContext _dbContext;
+
         public DALNhanVien(string conn)
         {
             connectionString = conn;

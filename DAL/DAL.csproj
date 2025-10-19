@@ -48,6 +48,7 @@
     <Compile Include="DALKhauTru.cs" />
     <Compile Include="DALKhenThuong.cs" />
     <Compile Include="DALKyLuat.cs" />
+    <Compile Include="DALKyLuong.cs" />
     <Compile Include="DALNghiPhep.cs" />
     <Compile Include="DALNhanVien.cs" />
     <Compile Include="DALPhongBan.cs" />

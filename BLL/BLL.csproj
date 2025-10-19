@@ -48,6 +48,7 @@
     <Compile Include="BLLKhauTru.cs" />
     <Compile Include="BLLKhenThuong.cs" />
     <Compile Include="BLLKyLuat.cs" />
+    <Compile Include="BLLKyLuong.cs" />
     <Compile Include="BLLNghiPhep.cs" />
     <Compile Include="BLLNhanVien.cs" />
     <Compile Include="BLLPhongBan.cs" />

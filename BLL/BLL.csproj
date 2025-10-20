@@ -42,6 +42,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BLLChiTietLuong.cs" />
     <Compile Include="BLLChucVu.cs" />
     <Compile Include="BLLDanhGiaNhanVien.cs" />
     <Compile Include="BLLHopDongLaoDong.cs" />
@@ -51,6 +52,7 @@
     <Compile Include="BLLKyLuong.cs" />
     <Compile Include="BLLNghiPhep.cs" />
     <Compile Include="BLLNhanVien.cs" />
+    <Compile Include="BLLNhanVien_PhuCap.cs" />
     <Compile Include="BLLPhongBan.cs" />
     <Compile Include="BLLTaiKhoan.cs" />
     <Compile Include="BLLThuongPhat.cs" />

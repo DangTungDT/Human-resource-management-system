@@ -42,6 +42,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DALChiTietLuong.cs" />
     <Compile Include="DALChucVu.cs" />
     <Compile Include="DALDanhGiaNhanVien.cs" />
     <Compile Include="DALHopDongLaoDong.cs" />
@@ -51,6 +52,7 @@
     <Compile Include="DALKyLuong.cs" />
     <Compile Include="DALNghiPhep.cs" />
     <Compile Include="DALNhanVien.cs" />
+    <Compile Include="DALNhanVien_PhuCap.cs" />
     <Compile Include="DALPhongBan.cs" />
     <Compile Include="DALTaiKhoan.cs" />
     <Compile Include="DALThuongPhat.cs" />

@@ -18,6 +18,8 @@ namespace GUI
         public readonly string _idNV;
         public readonly string _stringConnection;
 
+        public Main() { }
+
         public Main(string idNV, string stringConnection)
         {
             _idNV = idNV;
@@ -372,5 +374,16 @@ namespace GUI
         {
 
         }
+
+        private void Main_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            if (MessageBox.Show("Bạn có chắc chắn muốn thoát không?", "Xác nhận", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.No)
+            {
+                e.Cancel = true;
+            }
+        }
+
+        // Tat han chuong trinh sau khi an form Main -> khoi thong qua login
+        private void Main_FormClosed(object sender, FormClosedEventArgs e) => Application.Exit();
     }
 }

@@ -12,9 +12,10 @@ namespace GUI
 {
     public partial class TestGiaoDien : Form
     {
-        public string conn = "Data Source=LAPTOP-PNFFHRG1\\MSSQLSERVER01;Initial Catalog=PersonnelManagement;Integrated Security=True;Encrypt=False";
         public readonly UCNghiPhep _nghiPhep;
         public readonly UCDanhGiaHieuSuat _hieusuat;
+
+        public string conn = "Data Source=LAPTOP-PNFFHRG1\\MSSQLSERVER01;Initial Catalog=PersonnelManagement;Integrated Security=True;Encrypt=False";
 
         public TestGiaoDien(string idNhanvien)
         {

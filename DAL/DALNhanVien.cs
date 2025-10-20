@@ -263,19 +263,18 @@ namespace DAL
         public List<NhanVien> LayDsNhanVien() => _dbContext.NhanViens.ToList();
 
         // Lay nhan vien qua id
-        public NhanVien LayNhanVienQuaID(string id)
+        public NhanVien LayNhanVienQuaID(string idNhanVien)
         {
-            if (id != null)
+            if (idNhanVien != null)
             {
-                var nhanVien = _dbContext.NhanViens.FirstOrDefault(nv => nv.id == id);
+                var nhanVien = _dbContext.NhanViens.FirstOrDefault(nv => nv.id == idNhanVien);
 
                 if (nhanVien != null)
                 {
                     return nhanVien;
                 }
             }
-            return new NhanVien();
+            return null;
         }
-
     }
 }

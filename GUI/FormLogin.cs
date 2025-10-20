@@ -18,18 +18,16 @@ namespace GUI
 {
     public partial class FormLogin : Form
     {
-        public string _getConnect { get; }
-        public readonly BLLTaiKhoan _dbContextTK;
-        public readonly string _conn = ConnectionDB.TakeConnectionString();
+        private readonly BLLTaiKhoan _dbContextTK;
+        private readonly string _conn = ConnectionDB.TakeConnectionString();
+        //private readonly string _conn = "Data Source=LAPTOP-PNFFHRG1\\MSSQLSERVER01;Initial Catalog=PersonnelManagement;Integrated Security=True;Encrypt=False";
 
         public FormLogin(string idNhanVien)
         {
             InitializeComponent();
 
-            _getConnect = _conn;
-            _dbContextTK = new BLLTaiKhoan(_getConnect);
+            _dbContextTK = new BLLTaiKhoan(_conn);
         }
-
 
         private void FormLogin_Load(object sender, EventArgs e)
         {
@@ -49,7 +47,7 @@ namespace GUI
 
             if (taiKhoan != null)
             {
-                Main formMain = new Main(taiKhoan.id, _getConnect);
+                Main formMain = new Main(taiKhoan.id, _conn);
                 formMain.Show(); this.Hide();
             }
             else MessageBox.Show("Tài khản nhân viên không tồn tại !");

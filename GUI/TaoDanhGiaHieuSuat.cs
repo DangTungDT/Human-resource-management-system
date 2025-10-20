@@ -31,7 +31,7 @@ namespace GUI
         private BLLDanhGiaNhanVien bllDanhGia;
         private BLLNhanVien bllNhanVien;
 
-        public TaoDanhGiaHieuSuat(string conn)
+        public TaoDanhGiaHieuSuat(string idNhanVien, string conn)
         {
             connectionString = conn;
             InitializeComponent();

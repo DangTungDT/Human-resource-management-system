@@ -18,7 +18,7 @@ namespace GUI
         private BLLHopDongLaoDong _dbContext;
         private BLLThuongPhat _dbContextTP;
 
-        public UCHopDong(string stringConnection)
+        public UCHopDong(string idNhanVien, string stringConnection)
         {
             _dbContext = new BLLHopDongLaoDong(stringConnection);
             _dbContextTP = new BLLThuongPhat(stringConnection);

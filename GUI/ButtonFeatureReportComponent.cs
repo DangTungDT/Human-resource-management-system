@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -12,12 +13,17 @@ namespace GUI
 {
     public partial class ButtonFeatureReportComponent : UserControl
     {
-        private Panel _tpHome;
-        public ButtonFeatureReportComponent(Panel tpHome)
+        private readonly Panel _tpReport;
+        public readonly string _idNhanVien, _conn;
+
+        public ButtonFeatureReportComponent(Panel tpHome, string idNhanVien, string conn)
         {
             InitializeComponent();
-            this.DoubleBuffered = false;
-            _tpHome = tpHome;
+            this.DoubleBuffered = true;
+
+            _conn = conn;
+            _tpReport = tpHome;
+            _idNhanVien = idNhanVien;
         }
 
         private void btnChiTietLuong_Click(object sender, EventArgs e)
@@ -34,30 +40,26 @@ namespace GUI
 
         private void btnKyLuat_Click(object sender, EventArgs e)
         {
-            var main = this.ParentForm as Main;
-            main?.ShowUserControl("BaoCaoHopDong");
-            main.ChildFormComponent(_tpHome, "ButtonFeatureReportComponent");
+            BaoCaoHopDong uc = new BaoCaoHopDong(_conn, _idNhanVien);
+            DisplayUserControlPanel.ChildUserControl(uc, _tpReport);
         }
 
         private void guna2TileButton4_Click(object sender, EventArgs e)
         {
-            var main = this.ParentForm as Main;
-            main?.ShowUserControl("BaoCaoKhenThuong");
-            main.ChildFormComponent(_tpHome, "ButtonFeatureReportComponent");
+            BaoCaoKhenThuong uc = new BaoCaoKhenThuong(_conn, _idNhanVien);
+            DisplayUserControlPanel.ChildUserControl(uc, _tpReport);
         }
 
         private void guna2TileButton1_Click(object sender, EventArgs e)
         {
-            var main = this.ParentForm as Main;
-            main?.ShowUserControl("UCReportDanhSachLuongPBan");
-            main.ChildFormComponent(_tpHome, "ButtonFeatureReportComponent");
+            UCReportDanhSachLuongPBan uc = new UCReportDanhSachLuongPBan(_idNhanVien, _conn);
+            DisplayUserControlPanel.ChildUserControl(uc, _tpReport);
         }
 
         private void guna2TileButton2_Click(object sender, EventArgs e)
         {
-            var main = this.ParentForm as Main;
-            main?.ShowUserControl("UCReportDanhSachKyLuat");
-            main.ChildFormComponent(_tpHome, "ButtonFeatureReportComponent");
+            UCReportDanhSachKyLuat uc = new UCReportDanhSachKyLuat(_idNhanVien, _conn);
+            DisplayUserControlPanel.ChildUserControl(uc, _tpReport);
         }
     }
 }

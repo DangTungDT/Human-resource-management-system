@@ -24,7 +24,7 @@ namespace GUI
         private DataTable dtTaiKhoan;
         private readonly BLLTaiKhoan bllTaiKhoan;
 
-        public CRUDTaiKhoan(string conn)
+        public CRUDTaiKhoan(string idNhanVien, string conn)
         {
             connectionString = conn;
             bllTaiKhoan = new BLLTaiKhoan(conn);

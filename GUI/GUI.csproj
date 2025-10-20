@@ -84,6 +84,7 @@
     <Compile Include="ButtonFeatureViewComponent.Designer.cs">
       <DependentUpon>ButtonFeatureViewComponent.cs</DependentUpon>
     </Compile>
+    <Compile Include="DisplayUserControlPanel.cs" />
     <Compile Include="FrmXemDanhGiaChiTietNV.cs">
       <SubType>Form</SubType>
     </Compile>

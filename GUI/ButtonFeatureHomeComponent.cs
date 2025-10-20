@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Guna.UI2.WinForms;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -58,6 +59,17 @@ namespace GUI
             //var main = this.ParentForm as Main;
             //main?.ShowUserControl("ucChamCongQuanLyHinh");
             //main.ChildFormComponent(_tpHome, "ButtonFeatureHomeComponent");
+        }
+
+        private void ButtonFeatureHomeComponent_Load(object sender, EventArgs e)
+        {
+            if (_idNhanVien.Contains("NV"))
+            {
+                btnDuyetNghi.Visible = false;
+                guna2TileButton5.Visible = false;
+                guna2TileButton6.Visible = false;
+                guna2TileButton7.Visible = false;
+            }
         }
 
         private void guna2TileButton7_Click(object sender, EventArgs e)

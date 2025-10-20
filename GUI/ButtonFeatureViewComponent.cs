@@ -61,6 +61,15 @@ namespace GUI
             DisplayUserControlPanel.ChildUserControl(uc, _tpView);
         }
 
+        private void ButtonFeatureViewComponent_Load(object sender, EventArgs e)
+        {
+            if (_idNhanVien.Contains("NV"))
+            {
+                btnDanhGia.Visible = false;
+                guna2TileButton3.Visible = false;
+            }
+        }
+
         private void btnChamCong_Click(object sender, EventArgs e)
         {
             ucXemChamCong uc = new ucXemChamCong(_idNhanVien, _conn);

@@ -85,6 +85,11 @@ namespace GUI
             DisplayUserControlPanel.ChildUserControl(uc, _tpCRUD);
         }
 
+        private void flowLayoutPanel1_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+
         private void btnCapNhatThongTinNV_Click(object sender, EventArgs e)
         {
             CapNhatThongTinNV uc = new CapNhatThongTinNV(_idNhanVien, _conn);

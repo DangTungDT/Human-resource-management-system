@@ -56,6 +56,11 @@ namespace GUI
             DisplayUserControlPanel.ChildUserControl(uc, _tpReport);
         }
 
+        private void ButtonFeatureReportComponent_Load(object sender, EventArgs e)
+        {
+
+        }
+
         private void guna2TileButton2_Click(object sender, EventArgs e)
         {
             UCReportDanhSachKyLuat uc = new UCReportDanhSachKyLuat(_idNhanVien, _conn);

@@ -36,14 +36,14 @@ namespace GUI
 
         private void btnDangNhap_Click(object sender, EventArgs e)
         {
-            if (string.IsNullOrEmpty(txtUsername.Text) || string.IsNullOrEmpty(txtPassword.Text))
+            if (string.IsNullOrEmpty(txtUsername.Text.Trim()) || string.IsNullOrEmpty(txtPassword.Text.Trim()))
             {
                 MessageBox.Show("Vui lòng nhập đầy đủ thông tin đăng nhập !");
                 return;
             }
 
-            var password = _dbContextTK.HashPassword(txtPassword.Text);
-            var taiKhoan = _dbContextTK.KtraDuLieuTaiKhoan(txtUsername.Text, password);
+            var password = _dbContextTK.HashPassword(txtPassword.Text.Trim());
+            var taiKhoan = _dbContextTK.KtraDuLieuTaiKhoan(txtUsername.Text.Trim(), password);
 
             if (taiKhoan != null)
             {

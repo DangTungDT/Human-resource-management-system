@@ -42,9 +42,12 @@ namespace GUI
 
             dgvDSHieuSuatNV.DataSource = ChayLaiDuLieu(null);
 
-            if (dgvDSHieuSuatNV.Columns["ID"].Visible == true)
+            if (dgvDSHieuSuatNV.Columns["ID"] != null)
             {
-                dgvDSHieuSuatNV.Columns["ID"].Visible = false;
+                if (dgvDSHieuSuatNV.Columns["ID"].Visible == true)
+                {
+                    dgvDSHieuSuatNV.Columns["ID"].Visible = false;
+                }
             }
 
             grbDanhGiaHS.Text = $"NGƯỜI ĐÁNH GIÁ: {_dbContextNV.KtraNhanVienQuaID(_idNhanVien).TenNhanVien}";
@@ -356,7 +359,7 @@ namespace GUI
                         }
 
                         _formCTiet = new FrmXemDanhGiaChiTietNV(_conn, nhanVien.id, _idNhanVien);
-                        _formCTiet.Show();  
+                        _formCTiet.Show();
 
                         _idView = nhanVien.id;
 

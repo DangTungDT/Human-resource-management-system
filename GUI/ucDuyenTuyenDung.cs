@@ -32,11 +32,7 @@ namespace GUI
             new Recruitment() {Title = "Tuyển kiểm toán trưởng", Status = "Đang tuyển"}
         };
 
-        public ucDuyenTuyenDung()
-        {
-            InitializeComponent();
-
-        }
+        public ucDuyenTuyenDung() => InitializeComponent();
 
         private void ucDuyenTuyenDung_Load(object sender, EventArgs e)
         {

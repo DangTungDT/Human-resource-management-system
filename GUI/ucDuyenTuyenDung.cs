@@ -6,12 +6,23 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web.UI.Design;
 using System.Windows.Forms;
 
 namespace GUI
 {
     public partial class ucDuyenTuyenDung : UserControl
     {
+        public readonly string _idNhanVien, _conn;
+
+        public ucDuyenTuyenDung(string idNhanVien, string conn)
+        {
+            InitializeComponent();
+
+            _conn = conn;
+            _idNhanVien = idNhanVien;
+        }
+
         List<Recruitment> Recruitments = new List<Recruitment>()
         {
             new Recruitment() {Title = "Tuyển thực tập sinh phòng công nghệ thông tin", Status = "Đang duyệt"},
@@ -21,11 +32,7 @@ namespace GUI
             new Recruitment() {Title = "Tuyển kiểm toán trưởng", Status = "Đang tuyển"}
         };
 
-        public ucDuyenTuyenDung()
-        {
-            InitializeComponent();
-
-        }
+        public ucDuyenTuyenDung() => InitializeComponent();
 
         private void ucDuyenTuyenDung_Load(object sender, EventArgs e)
         {
@@ -46,7 +53,7 @@ namespace GUI
             dgvRecruitment.Columns.Add(comboboxCol);
 
 
-            foreach (Recruitment item  in Recruitments)
+            foreach (Recruitment item in Recruitments)
             {
                 dgvRecruitment.Rows.Add(item.Title, item.Status);
             }

@@ -11,13 +11,15 @@ namespace DAL
 {
     public class DALNhanVien
     {
-        //public readonly PersonnelManagementDataContextDataContext _dbContext;
         private readonly string connectionString;
-        public DALNhanVien( string conn)
+        public readonly PersonnelManagementDataContextDataContext _dbContext;
+
+        public DALNhanVien(string conn)
         {
-            //_dbContext = new PersonnelManagementDataContextDataContext(stringConnection);
             connectionString = conn;
+            _dbContext = new PersonnelManagementDataContextDataContext(conn);
         }
+
 
         public DataTable GetAll(bool showHidden)
         {
@@ -247,7 +249,7 @@ namespace DAL
                                     .Select(s => s[0])
                                     .ToArray()).ToUpper();
 
-            
+
 
             // Gộp lại: VD "Nhân viên Marketing" => NVM
             string prefix = prefixCV;
@@ -296,5 +298,22 @@ namespace DAL
             return maNV;
         }
 
+        // Lay ds nhan vien
+        public List<NhanVien> LayDsNhanVien() => _dbContext.NhanViens.ToList();
+
+        // Lay nhan vien qua id
+        public NhanVien LayNhanVienQuaID(string idNhanVien)
+        {
+            if (idNhanVien != null)
+            {
+                var nhanVien = _dbContext.NhanViens.FirstOrDefault(nv => nv.id == idNhanVien);
+
+                if (nhanVien != null)
+                {
+                    return nhanVien;
+                }
+            }
+            return null;
+        }
     }
 }

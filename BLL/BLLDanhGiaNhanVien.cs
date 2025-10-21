@@ -20,7 +20,7 @@ namespace BLL
         }
 
         // Danh sach danh gia nhan vien
-        public List<DTODanhGiaNhanVien> CheckListDanhGiaNhanVien()
+        public List<DTODanhGiaNhanVien> KtraDsDanhGiaNhanVien()
         {
             var list = _dbContext.DanhSachDanhGiaNV().ToList();
             if (list.Any() && list != null)

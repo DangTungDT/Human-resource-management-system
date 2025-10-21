@@ -1,11 +1,11 @@
 ﻿using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
-using System.Configuration;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Linq;
 
 namespace GUI
 {
@@ -15,24 +15,36 @@ namespace GUI
         //Ngân : DESKTOP-UM1I61K\THANHNGAN
         //Tuấn : LAPTOP-PNFFHRG1\MSSQLSERVER01
 
-        //public static string conn = "Data Source=DESKTOP-UM1I61K\\THANHNGAN;Initial Catalog=PersonnelManagement;Integrated Security=True;Encrypt=False";
-        //public static string TakeConnectionString()
-        //{
-        //    using (RegistryKey localMachine64 = RegistryKey.OpenBaseKey(RegistryHive.LocalMachine, RegistryView.Registry64))
-        //    {
-        //        using (RegistryKey rk = localMachine64.OpenSubKey(@"SOFTWARE\Microsoft\Microsoft SQL Server\Instance Names\SQL"))
-        //        {
-        //            if (rk != null)
-        //            {
-        //                foreach (string instanceName in rk.GetValueNames())
-        //                {
-        //                    conn = $"Data Source={Environment.MachineName}\\{instanceName};Initial Catalog=PersonnelManagement;Integrated Security=True;Encrypt=False";
-        //                    break;
-        //                }
-        //            }
-        //        }
-        //    }
-
+        public static string conn = "Data Source=DESKTOP-UM1I61K\\THANHNGAN;Initial Catalog=PersonnelManagement;Integrated Security=True;Encrypt=False";
+        public static string TakeConnectionString()
+        {
+            using (RegistryKey localMachine64 = RegistryKey.OpenBaseKey(RegistryHive.LocalMachine, RegistryView.Registry64))
+            {
+                using (RegistryKey rk = localMachine64.OpenSubKey(@"SOFTWARE\Microsoft\Microsoft SQL Server\Instance Names\SQL"))
+                {
+                    if (rk != null)
+                    {
+                        foreach (string instanceName in rk.GetValueNames())
+                        {
+                            var connect = $"Data Source={Environment.MachineName}\\{instanceName};Initial Catalog=PersonnelManagement;Integrated Security=True;Encrypt=False";
+                            try
+                            {
+                                using (SqlConnection connection = new SqlConnection(connect))
+                                {
+                                    connection.Open();
+                                    conn = connect;
+                                    break;
+                                }
+                            }
+                            catch
+                            {
+                                continue;
+                            }
+                        }
+                    }
+                }
+            }
+        }
         //    return conn;
         //}
 

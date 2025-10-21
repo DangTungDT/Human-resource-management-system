@@ -8,6 +8,7 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web.ModelBinding;
 using System.Windows.Forms;
 
 namespace GUI
@@ -18,15 +19,17 @@ namespace GUI
         private Guna2DateTimePicker dtFrom, dtTo;
         private Guna2Button btnSearch, btnExcel, btnPDF, btnXuatReport;
         private Guna2DataGridView dgv;
-        private string connectionString;
+        private readonly string _idNhanVien, _connectionString;
 
-        public BaoCaoHopDong(string stringConnection)
+        public BaoCaoHopDong(string stringConnection, string idNhanVien)
         {
-            connectionString = stringConnection;
             InitializeComponent();
             BuildUI();
             LoadFilterData();
             LoadHopDong();
+
+            _idNhanVien = idNhanVien;
+            _connectionString = stringConnection;
         }
 
         private void BuildUI()
@@ -115,7 +118,7 @@ namespace GUI
 
         private void LoadFilterData()
         {
-            using (SqlConnection conn = new SqlConnection(connectionString))
+            using (SqlConnection conn = new SqlConnection(_connectionString))
             {
                 conn.Open();
 
@@ -139,7 +142,7 @@ namespace GUI
 
         private void LoadHopDong()
         {
-            using (SqlConnection conn = new SqlConnection(connectionString))
+            using (SqlConnection conn = new SqlConnection(_connectionString))
             {
                 conn.Open();
                 StringBuilder query = new StringBuilder(@"

@@ -12,9 +12,13 @@ namespace GUI
 {
     public partial class ucXemTuyenDung : UserControl
     {
-        public ucXemTuyenDung()
+        public readonly string _idNhanVien, _conn;
+        public ucXemTuyenDung(string idNhanVien, string conn)
         {
             InitializeComponent();
+
+            _conn = conn;
+            _idNhanVien = idNhanVien;
         }
     }
 }

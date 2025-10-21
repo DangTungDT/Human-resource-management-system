@@ -18,7 +18,7 @@ namespace GUI
         private BLLHopDongLaoDong _dbContext;
         private BLLThuongPhat _dbContextTP;
 
-        public UCHopDong(string stringConnection)
+        public UCHopDong(string idNhanVien, string stringConnection)
         {
             _dbContext = new BLLHopDongLaoDong(stringConnection);
             _dbContextTP = new BLLThuongPhat(stringConnection);
@@ -27,10 +27,10 @@ namespace GUI
 
         private void UCHopDong_Load(object sender, EventArgs e)
         {
-            var dsHieuSuat = _dbContext.CheckListHopDongLaoDong();
+            var dsHieuSuat = _dbContext.KtraDsHopDongLaoDong();
             var dsNhanVien = _dbContextTP.CheckListNhanVien();
 
-            dgvDanhSachHDLD.DataSource = _dbContext.CheckListHopDongLaoDong().Select(p => new
+            dgvDanhSachHDLD.DataSource = _dbContext.KtraDsHopDongLaoDong().Select(p => new
             {
                 p.IDNhanVien,
                 NhanVien = dsNhanVien.FirstOrDefault(q => q.ID == p.IDNhanVien)?.TenNhanVien ?? string.Empty,
@@ -42,8 +42,8 @@ namespace GUI
 
             }).ToList();
 
-            cmbLoaiHD.DataSource = _dbContext.CheckListHopDongLaoDong().Select(p => p.LoaiHopDong).Distinct().ToList();
-            cmbMoTa.DataSource = _dbContext.CheckListHopDongLaoDong().Select(p => p.MoTa).Distinct().ToList();
+            cmbLoaiHD.DataSource = _dbContext.KtraDsHopDongLaoDong().Select(p => p.LoaiHopDong).Distinct().ToList();
+            cmbMoTa.DataSource = _dbContext.KtraDsHopDongLaoDong().Select(p => p.MoTa).Distinct().ToList();
             //cmbLoaiHD.DisplayMember = "LoaiHopDong";
             //cmbLoaiHD.ValueMember = "LoaiHopDong";
         }

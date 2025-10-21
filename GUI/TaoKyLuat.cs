@@ -34,7 +34,7 @@ namespace GUI
         private bool isUpdating = false;  // true nếu đang cập nhật
         private int currentGroupId = -1;  // lưu Id nhóm đang edit
 
-        public TaoKyLuat(string conn)
+        public TaoKyLuat(string idNhanVien, string conn)
         {
             connectionString = conn;
             InitializeComponent();

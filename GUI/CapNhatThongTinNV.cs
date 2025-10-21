@@ -32,7 +32,7 @@ namespace GUI
         private string selectedId = null;
         private bool isViewingHidden = false;
 
-        public CapNhatThongTinNV(string conn)
+        public CapNhatThongTinNV(string idNhanVien, string conn)
         {
             connectionString = conn;
             nvBus = new BLLNhanVien(conn);
@@ -416,9 +416,9 @@ namespace GUI
             LoadDanhSachNhanVien(isViewingHidden);
         }
 
-         //=======================
-         // 8️⃣ HIỆU ỨNG ACTION
-         // =======================
+        //=======================
+        // 8️⃣ HIỆU ỨNG ACTION
+        // =======================
         private void Dgv_CellMouseEnter(object sender, DataGridViewCellEventArgs e)
         {
             if (e.RowIndex >= 0 && e.ColumnIndex >= 0 && dgv.Columns[e.ColumnIndex].Name == "Action")

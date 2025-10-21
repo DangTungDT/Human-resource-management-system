@@ -12,9 +12,13 @@ namespace GUI
 {
     public partial class UCChiTietluongCaNhan : UserControl
     {
-        public UCChiTietluongCaNhan()
+        public readonly string _idNhanVien, _conn;
+        public UCChiTietluongCaNhan(string idNhanVien, string conn)
         {
             InitializeComponent();
+
+            _conn = conn;
+            _idNhanVien = idNhanVien;
         }
     }
 }

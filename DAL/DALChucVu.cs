@@ -28,7 +28,7 @@ namespace DAL
             {
                 string query = @"
                     SELECT cv.id AS [Mã chức vụ], cv.TenChucVu AS [Tên chức vụ], cv.luongCoBan AS [Lương cơ bản],
-                           cv.tyLeHoaHong AS [Tỷ lệ hoa hồng], pb.TenPhongBan AS [Phòng ban], cv.moTa AS [Mô tả]
+                           cv.tyLeHoaHong AS [Tỷ lệ hoa hồng], pb.id AS [Phòng ban], cv.moTa AS [Mô tả]
                     FROM ChucVu cv
                     JOIN PhongBan pb ON cv.idPhongBan = pb.id
                     WHERE 1=1";
@@ -63,39 +63,55 @@ namespace DAL
         }
 
         // Thêm mới
-        public void Insert(DTOChucVu cv)
+        public bool Insert(DTOChucVu cv)
         {
-            using (SqlConnection conn = new SqlConnection(connectionString))
+            try
             {
-                string query = @"INSERT INTO ChucVu (TenChucVu, luongCoBan, tyLeHoaHong, moTa, idPhongBan)
+                using (SqlConnection conn = new SqlConnection(connectionString))
+                {
+                    string query = @"INSERT INTO ChucVu (TenChucVu, luongCoBan, tyLeHoaHong, moTa, idPhongBan)
                                  VALUES (@Ten, @Luong, @TyLe, @MoTa, @idPB)";
-                SqlCommand cmd = new SqlCommand(query, conn);
-                cmd.Parameters.AddWithValue("@Ten", cv.TenChucVu);
-                cmd.Parameters.AddWithValue("@Luong", cv.LuongCoBan);
-                cmd.Parameters.AddWithValue("@TyLe", cv.TyLeHoaHong);
-                cmd.Parameters.AddWithValue("@MoTa", cv.MoTa ?? "");
-                cmd.Parameters.AddWithValue("@idPB", cv.IdPhongBan);
-                conn.Open();
-                cmd.ExecuteNonQuery();
+                    SqlCommand cmd = new SqlCommand(query, conn);
+                    cmd.Parameters.AddWithValue("@Ten", cv.TenChucVu);
+                    cmd.Parameters.AddWithValue("@Luong", cv.LuongCoBan);
+                    cmd.Parameters.AddWithValue("@TyLe", cv.TyLeHoaHong);
+                    cmd.Parameters.AddWithValue("@MoTa", cv.MoTa ?? "");
+                    cmd.Parameters.AddWithValue("@idPB", cv.IdPhongBan);
+                    conn.Open();
+                    cmd.ExecuteNonQuery();
+                }
+                return true;
+            }
+            catch
+            {
+                return false;
             }
         }
 
         // Cập nhật
-        public void Update(DTOChucVu cv)
+        public bool Update(DTOChucVu cv)
         {
-            using (SqlConnection conn = new SqlConnection(connectionString))
+            try
             {
-                string query = @"UPDATE ChucVu SET TenChucVu=@Ten, luongCoBan=@Luong, 
+                using (SqlConnection conn = new SqlConnection(connectionString))
+                {
+                    string query = @"UPDATE ChucVu SET TenChucVu=@Ten, luongCoBan=@Luong, 
                                 tyLeHoaHong=@TyLe, moTa=@MoTa, idPhongBan=@idPB WHERE id=@id";
-                SqlCommand cmd = new SqlCommand(query, conn);
-                cmd.Parameters.AddWithValue("@Ten", cv.TenChucVu);
-                cmd.Parameters.AddWithValue("@Luong", cv.LuongCoBan);
-                cmd.Parameters.AddWithValue("@TyLe", cv.TyLeHoaHong);
-                cmd.Parameters.AddWithValue("@MoTa", cv.MoTa ?? "");
-                cmd.Parameters.AddWithValue("@idPB", cv.IdPhongBan);
-                cmd.Parameters.AddWithValue("@id", cv.Id);
-                conn.Open();
-                cmd.ExecuteNonQuery();
+                    SqlCommand cmd = new SqlCommand(query, conn);
+                    cmd.Parameters.AddWithValue("@Ten", cv.TenChucVu);
+                    cmd.Parameters.AddWithValue("@Luong", cv.LuongCoBan);
+                    cmd.Parameters.AddWithValue("@TyLe", cv.TyLeHoaHong);
+                    cmd.Parameters.AddWithValue("@MoTa", cv.MoTa ?? "");
+                    cmd.Parameters.AddWithValue("@idPB", cv.IdPhongBan);
+                    cmd.Parameters.AddWithValue("@id", cv.Id);
+                    conn.Open();
+                    cmd.ExecuteNonQuery();
+                }
+                return true;
+            }
+            catch
+            {
+                return false;
             }
         }
 

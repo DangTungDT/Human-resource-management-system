@@ -42,11 +42,22 @@ namespace GUI
             CRUDPhongban uc = new CRUDPhongban(_idNhanVien, _conn);
             DisplayUserControlPanel.ChildUserControl(uc, _tpCRUD);
         }
-
+        private void btnPhongBan_Click(object sender, EventArgs e)
+        {
+            var main = this.ParentForm as Main;
+            main?.ShowUserControl("CRUDPhongBan");
+            main.ChildFormComponent(_tpCRUD, "ButtonFeatureCRUDComponent");
+        }
         private void guna2TileButton1_Click(object sender, EventArgs e)
         {
             CRUDChucVu uc = new CRUDChucVu(_idNhanVien, _conn);
             DisplayUserControlPanel.ChildUserControl(uc, _tpCRUD);
+        }
+        private void btnChucVu_Click(object sender, EventArgs e)
+        {
+            var main = this.ParentForm as Main;
+            main?.ShowUserControl("ucChucVu");
+            main.ChildFormComponent(_tpCRUD, "ButtonFeatureCRUDComponent");
         }
 
         private void guna2TileButton2_Click(object sender, EventArgs e)

@@ -85,6 +85,7 @@ namespace GUI
         public void PreLoadUserControl()
         {
             _userControls["UCHopDong"] = new UCHopDong(_stringConnection);
+            _userControls["ucChucVu"] = new ucChucVu(_stringConnection);
             _userControls["UCDuyetNghiPhep"] = new UCDuyetNghiPhep();
             _userControls["UCCapNhatMatKhau"] = new UCCapNhatMatkhau();
             _userControls["UCDanhGiaHieuSuat"] = new UCDanhGiaHieuSuat(_stringConnection);
@@ -147,6 +148,124 @@ namespace GUI
             pnContent.SuspendLayout();
             try
             {
+                if (!_userControls.ContainsKey(controlName))
+                {
+                    UserControl user = null;
+
+                    switch (controlName)
+                    {
+                        case "UCHopDong":
+                            user = new UCHopDong(_stringConnection);
+                            break;
+                        case "ucChucVu":
+                            user = new ucChucVu(_stringConnection);
+                            break;
+                        case "UCDuyetNghiPhep":
+                            user = new UCDuyetNghiPhep();
+                            break;
+                        case "UCCapNhatMatKhau":
+                            user = new UCCapNhatMatkhau();
+                            break;
+                        case "UCDanhGiaHieuSuat":
+                            user = new UCDanhGiaHieuSuat(_stringConnection);
+                            break;
+                        case "UCChiTietLuongCaNhan":
+                            user = new UCChiTietluongCaNhan();
+                            break;
+                        case "ButtonFeatureHomeComponent":
+                            user = new ButtonFeatureHomeComponent(tpHome);
+                            break;
+                        case "ButtonFeatureViewComponent":
+                            user = new ButtonFeatureViewComponent(tpView);
+                            break;
+                        case "BaoCaoHopDong":
+                            user = new BaoCaoHopDong(_stringConnection);
+                            break;
+                        case "BaoCaoKhenThuong":
+                            user = new BaoCaoKhenThuong(_stringConnection);
+                            break;
+                        case "CapNhatThongTinNV":
+                            user = new CapNhatThongTinNV(_stringConnection);
+                            break;
+                        case "CapNhatThongTinRieng":
+                            user = new CapNhatThongTinRieng(idNV, tpView, _stringConnection);
+                            break;
+                        case "CRUDChucVu":
+                            user = new CRUDChucVu(_stringConnection);
+                            break;
+                        case "CRUDPhongBan":
+                            user = new CRUDPhongban(_stringConnection);
+                            break;
+                        case "CRUDTaiKhoan":
+                            user = new CRUDTaiKhoan(_stringConnection);
+                            break;
+                        case "ucChamCongQuanLyHinh":
+                            user = new ucChamCongQuanLy(idNV, true);
+                            break;
+                        case "ucChamCongQuanLy":
+                            user = new ucChamCongQuanLy(idNV);
+                            break;
+                        case "ucChiTietLuong":
+                            user = new ucChiTietLuong();
+                            break;
+                        case "UCDoiMatKhau":
+                            user = new UCDoiMatKhau();
+                            break;
+                        case "ucDuyenTuyenDung":
+                            user = new ucDuyenTuyenDung();
+                            break;
+                        case "ucKyLuong":
+                            user = new ucKyLuong();
+                            break;
+                        case "UCNghiPhep":
+                            user = new UCNghiPhep();
+                            break;
+                        case "ucTaoTuyenDung":
+                            user = new ucTaoTuyenDung();
+                            break;
+                        case "ucUngVien":
+                            user = new ucUngVien();
+                            break;
+                        case "ucXemChamCong":
+                            user = new ucXemChamCong();
+                            break;
+                        case "UCXemKyLuat":
+                            user = new UCXemKyLuat(_stringConnection);
+                            break;
+                        case "ucXemTuyenDung":
+                            user = new ucXemTuyenDung();
+                            break;
+                        case "XemNghiPhep":
+                            user = new XemNghiPhep(_stringConnection);
+                            break;
+                        case "XemThongTinCaNhan":
+                            user = new XemThongTinCaNhan(idNV, tpView, _stringConnection);
+                            break;
+                        case "TaoKyLuat":
+                            user = new TaoKyLuat(_stringConnection);
+                            break;
+                        case "TaoKhenThuong":
+                            user = new TaoKhenThuong(_stringConnection);
+                            break;
+                        case "UCReportDanhSachLuongPBan":
+                            user = new UCReportDanhSachLuongPBan();
+                            break;
+                        case "UCReportDanhSachKyLuat":
+                            user = new UCReportDanhSachKyLuat();
+                            break;
+                        default:
+                            user = null;
+                            break;
+                    }
+
+                    if (user != null)
+                    {
+                        user.Dock = DockStyle.Fill;
+                        _userControls[controlName] = user;
+                        pnContent.Controls.Add(user);
+                    }
+                }
+
                 // Ẩn tất cả các control khác
                 foreach (var control in _userControls.Values)
                 {

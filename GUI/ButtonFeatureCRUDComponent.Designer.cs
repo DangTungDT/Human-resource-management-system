@@ -32,8 +32,8 @@
             this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
             this.btnDanhGia = new Guna.UI2.WinForms.Guna2TileButton();
             this.btnKyLuat = new Guna.UI2.WinForms.Guna2TileButton();
-            this.guna2TileButton4 = new Guna.UI2.WinForms.Guna2TileButton();
-            this.guna2TileButton1 = new Guna.UI2.WinForms.Guna2TileButton();
+            this.btnPhongBan = new Guna.UI2.WinForms.Guna2TileButton();
+            this.btnChucVu = new Guna.UI2.WinForms.Guna2TileButton();
             this.guna2TileButton2 = new Guna.UI2.WinForms.Guna2TileButton();
             this.guna2TileButton3 = new Guna.UI2.WinForms.Guna2TileButton();
             this.guna2TileButton5 = new Guna.UI2.WinForms.Guna2TileButton();
@@ -53,8 +53,8 @@
             this.flowLayoutPanel1.AutoScroll = true;
             this.flowLayoutPanel1.Controls.Add(this.btnDanhGia);
             this.flowLayoutPanel1.Controls.Add(this.btnKyLuat);
-            this.flowLayoutPanel1.Controls.Add(this.guna2TileButton4);
-            this.flowLayoutPanel1.Controls.Add(this.guna2TileButton1);
+            this.flowLayoutPanel1.Controls.Add(this.btnPhongBan);
+            this.flowLayoutPanel1.Controls.Add(this.btnChucVu);
             this.flowLayoutPanel1.Controls.Add(this.guna2TileButton2);
             this.flowLayoutPanel1.Controls.Add(this.guna2TileButton3);
             this.flowLayoutPanel1.Controls.Add(this.guna2TileButton5);
@@ -122,53 +122,55 @@
             this.btnKyLuat.TextFormatNoPrefix = true;
             this.btnKyLuat.Click += new System.EventHandler(this.btnKyLuat_Click);
             // 
-            // guna2TileButton4
+            // btnPhongBan
             // 
-            this.guna2TileButton4.BorderRadius = 5;
-            this.guna2TileButton4.BorderThickness = 1;
-            this.guna2TileButton4.DisabledState.BorderColor = System.Drawing.Color.DarkGray;
-            this.guna2TileButton4.DisabledState.CustomBorderColor = System.Drawing.Color.DarkGray;
-            this.guna2TileButton4.DisabledState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(169)))), ((int)(((byte)(169)))), ((int)(((byte)(169)))));
-            this.guna2TileButton4.DisabledState.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(141)))), ((int)(((byte)(141)))), ((int)(((byte)(141)))));
-            this.guna2TileButton4.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
-            this.guna2TileButton4.Font = new System.Drawing.Font("Segoe UI", 9F);
-            this.guna2TileButton4.ForeColor = System.Drawing.Color.Black;
-            this.guna2TileButton4.Image = global::GUI.Properties.Resources.Permission;
-            this.guna2TileButton4.ImageOffset = new System.Drawing.Point(0, 8);
-            this.guna2TileButton4.ImageSize = new System.Drawing.Size(30, 30);
-            this.guna2TileButton4.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.guna2TileButton4.IndicateFocus = true;
-            this.guna2TileButton4.Location = new System.Drawing.Point(271, 3);
-            this.guna2TileButton4.Name = "guna2TileButton4";
-            this.guna2TileButton4.Size = new System.Drawing.Size(128, 52);
-            this.guna2TileButton4.TabIndex = 9;
-            this.guna2TileButton4.Text = "Phòng ban";
-            this.guna2TileButton4.TextFormatNoPrefix = true;
-            this.guna2TileButton4.Click += new System.EventHandler(this.guna2TileButton4_Click);
+            this.btnPhongBan.BorderRadius = 5;
+            this.btnPhongBan.BorderThickness = 1;
+            this.btnPhongBan.DisabledState.BorderColor = System.Drawing.Color.DarkGray;
+            this.btnPhongBan.DisabledState.CustomBorderColor = System.Drawing.Color.DarkGray;
+            this.btnPhongBan.DisabledState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(169)))), ((int)(((byte)(169)))), ((int)(((byte)(169)))));
+            this.btnPhongBan.DisabledState.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(141)))), ((int)(((byte)(141)))), ((int)(((byte)(141)))));
+            this.btnPhongBan.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
+            this.btnPhongBan.Font = new System.Drawing.Font("Segoe UI", 9F);
+            this.btnPhongBan.ForeColor = System.Drawing.Color.Black;
+            this.btnPhongBan.Image = global::GUI.Properties.Resources.Permission;
+            this.btnPhongBan.ImageOffset = new System.Drawing.Point(0, 8);
+            this.btnPhongBan.ImageSize = new System.Drawing.Size(30, 30);
+            this.btnPhongBan.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+            this.btnPhongBan.IndicateFocus = true;
+            this.btnPhongBan.Location = new System.Drawing.Point(360, 4);
+            this.btnPhongBan.Margin = new System.Windows.Forms.Padding(4);
+            this.btnPhongBan.Name = "btnPhongBan";
+            this.btnPhongBan.Size = new System.Drawing.Size(170, 64);
+            this.btnPhongBan.TabIndex = 9;
+            this.btnPhongBan.Text = "Phòng ban";
+            this.btnPhongBan.TextFormatNoPrefix = true;
+            this.btnPhongBan.Click += new System.EventHandler(this.btnPhongBan_Click);
             // 
-            // guna2TileButton1
+            // btnChucVu
             // 
-            this.guna2TileButton1.BorderRadius = 5;
-            this.guna2TileButton1.BorderThickness = 1;
-            this.guna2TileButton1.DisabledState.BorderColor = System.Drawing.Color.DarkGray;
-            this.guna2TileButton1.DisabledState.CustomBorderColor = System.Drawing.Color.DarkGray;
-            this.guna2TileButton1.DisabledState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(169)))), ((int)(((byte)(169)))), ((int)(((byte)(169)))));
-            this.guna2TileButton1.DisabledState.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(141)))), ((int)(((byte)(141)))), ((int)(((byte)(141)))));
-            this.guna2TileButton1.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
-            this.guna2TileButton1.Font = new System.Drawing.Font("Segoe UI", 9F);
-            this.guna2TileButton1.ForeColor = System.Drawing.Color.Black;
-            this.guna2TileButton1.Image = global::GUI.Properties.Resources.Permission;
-            this.guna2TileButton1.ImageOffset = new System.Drawing.Point(0, 8);
-            this.guna2TileButton1.ImageSize = new System.Drawing.Size(30, 30);
-            this.guna2TileButton1.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.guna2TileButton1.IndicateFocus = true;
-            this.guna2TileButton1.Location = new System.Drawing.Point(405, 3);
-            this.guna2TileButton1.Name = "guna2TileButton1";
-            this.guna2TileButton1.Size = new System.Drawing.Size(128, 52);
-            this.guna2TileButton1.TabIndex = 10;
-            this.guna2TileButton1.Text = "Chức vụ";
-            this.guna2TileButton1.TextFormatNoPrefix = true;
-            this.guna2TileButton1.Click += new System.EventHandler(this.guna2TileButton1_Click);
+            this.btnChucVu.BorderRadius = 5;
+            this.btnChucVu.BorderThickness = 1;
+            this.btnChucVu.DisabledState.BorderColor = System.Drawing.Color.DarkGray;
+            this.btnChucVu.DisabledState.CustomBorderColor = System.Drawing.Color.DarkGray;
+            this.btnChucVu.DisabledState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(169)))), ((int)(((byte)(169)))), ((int)(((byte)(169)))));
+            this.btnChucVu.DisabledState.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(141)))), ((int)(((byte)(141)))), ((int)(((byte)(141)))));
+            this.btnChucVu.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
+            this.btnChucVu.Font = new System.Drawing.Font("Segoe UI", 9F);
+            this.btnChucVu.ForeColor = System.Drawing.Color.Black;
+            this.btnChucVu.Image = global::GUI.Properties.Resources.Permission;
+            this.btnChucVu.ImageOffset = new System.Drawing.Point(0, 8);
+            this.btnChucVu.ImageSize = new System.Drawing.Size(30, 30);
+            this.btnChucVu.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+            this.btnChucVu.IndicateFocus = true;
+            this.btnChucVu.Location = new System.Drawing.Point(538, 4);
+            this.btnChucVu.Margin = new System.Windows.Forms.Padding(4);
+            this.btnChucVu.Name = "btnChucVu";
+            this.btnChucVu.Size = new System.Drawing.Size(170, 64);
+            this.btnChucVu.TabIndex = 10;
+            this.btnChucVu.Text = "Chức vụ";
+            this.btnChucVu.TextFormatNoPrefix = true;
+            this.btnChucVu.Click += new System.EventHandler(this.btnChucVu_Click);
             // 
             // guna2TileButton2
             // 
@@ -431,8 +433,8 @@
         private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel1;
         private Guna.UI2.WinForms.Guna2TileButton btnDanhGia;
         private Guna.UI2.WinForms.Guna2TileButton btnKyLuat;
-        private Guna.UI2.WinForms.Guna2TileButton guna2TileButton4;
-        private Guna.UI2.WinForms.Guna2TileButton guna2TileButton1;
+        private Guna.UI2.WinForms.Guna2TileButton btnPhongBan;
+        private Guna.UI2.WinForms.Guna2TileButton btnChucVu;
         private Guna.UI2.WinForms.Guna2TileButton guna2TileButton2;
         private Guna.UI2.WinForms.Guna2TileButton guna2TileButton3;
         private Guna.UI2.WinForms.Guna2TileButton guna2TileButton5;

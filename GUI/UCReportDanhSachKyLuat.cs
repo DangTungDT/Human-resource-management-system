@@ -12,9 +12,13 @@ namespace GUI
 {
     public partial class UCReportDanhSachKyLuat : UserControl
     {
-        public UCReportDanhSachKyLuat()
+        public readonly string _idNhanVien, _conn;
+
+        public UCReportDanhSachKyLuat(string idNhanVien, string conn)
         {
             InitializeComponent();
+            _idNhanVien = idNhanVien;
+            _conn = conn;
         }
     }
 }

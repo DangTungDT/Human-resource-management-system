@@ -25,7 +25,7 @@ namespace GUI
         private string connectionString;
         private int? selectedId = null;
         private readonly BLLChucVu bllChucVu;
-        public CRUDChucVu(string conn)
+        public CRUDChucVu(string idNhanVien, string conn)
         {
             connectionString = conn;
             InitializeComponent();

@@ -1,4 +1,6 @@
-﻿using Guna.UI2.WinForms;
+﻿using BLL;
+using DTO;
+using Guna.UI2.WinForms;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -14,14 +16,17 @@ namespace GUI
 {
     public partial class XemNghiPhep : UserControl
     {
-        private Guna2DataGridView dgv;
-        private string connectionString;
         private string idNhanVien;
+        private string connectionString;
 
-        public XemNghiPhep(string conn)
+        private Guna2DataGridView dgv;
+        private BLLNghiPhep bllNghiPhep;
+
+        public XemNghiPhep(string conn, string idNV)
         {
             connectionString = conn;
-            idNhanVien = "NVNS000002";
+            idNhanVien = idNV;
+            bllNghiPhep = new BLLNghiPhep(conn);
             InitializeComponent();
             BuildUI();
             LoadDanhSachNghiPhep();
@@ -55,18 +60,21 @@ namespace GUI
 
         private void LoadDanhSachNghiPhep()
         {
-            using (SqlConnection conn = new SqlConnection(connectionString))
+            List<DTONghiPhep> ds = bllNghiPhep.LayDanhSachNghiPhep(idNhanVien);
+
+            DataTable dt = new DataTable();
+            dt.Columns.Add("Ngày bắt đầu", typeof(DateTime));
+            dt.Columns.Add("Ngày kết thúc", typeof(DateTime));
+            dt.Columns.Add("Lý do nghỉ", typeof(string));
+            dt.Columns.Add("Loại nghỉ phép", typeof(string));
+            dt.Columns.Add("Trạng thái", typeof(string));
+
+            foreach (var item in ds)
             {
-                string query = @"
-                    SELECT NgayBatDau, NgayKetThuc, LyDoNghi, LoaiNghiPhep, TrangThai
-                    FROM NghiPhep
-                    WHERE idNhanVien = @id";
-                SqlDataAdapter da = new SqlDataAdapter(query, conn);
-                da.SelectCommand.Parameters.AddWithValue("@id", idNhanVien);
-                DataTable dt = new DataTable();
-                da.Fill(dt);
-                dgv.DataSource = dt;
+                dt.Rows.Add(item.NgayBatDau, item.NgayKetThuc, item.LyDoNghi, item.LoaiNghiPhep, item.TrangThai);
             }
+
+            dgv.DataSource = dt;
         }
     }
 }

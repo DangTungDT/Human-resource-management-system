@@ -1,7 +1,10 @@
-﻿using Guna.UI2.WinForms;
+﻿using BLL;
+using DTO;
+using Guna.UI2.WinForms;
 using System;
 using System.Data.SqlClient;
 using System.Drawing;
+using System.IO;
 using System.Windows.Forms;
 
 namespace GUI
@@ -18,11 +21,13 @@ namespace GUI
         private string idNhanVien;
         private string imagePath = "";
         private string connectionString;
+        private BLLNhanVien bllNhanVien;
 
         public CapNhatThongTinRieng(string idNV, Panel panel, string conn)
         {
             connectionString = conn;
             idNhanVien = idNV;
+            bllNhanVien = new BLLNhanVien(conn);
             _panel = panel;
             InitializeComponent();
             BuildUI();
@@ -196,51 +201,95 @@ namespace GUI
 
         private void BtnUpload_Click(object sender, EventArgs e)
         {
-            OpenFileDialog dlg = new OpenFileDialog();
-            dlg.Filter = "Ảnh (*.jpg;*.png)|*.jpg;*.png";
-            if (dlg.ShowDialog() == DialogResult.OK)
+            using (OpenFileDialog dlg = new OpenFileDialog())
             {
-                imagePath = dlg.FileName;
-                picAvatar.Image = Image.FromFile(imagePath);
+                dlg.Filter = "Ảnh (*.jpg;*.jpeg;*.png)|*.jpg;*.jpeg;*.png";
+                if (dlg.ShowDialog() == DialogResult.OK)
+                {
+                    imagePath = dlg.FileName;
+
+                    // ✅ Dùng stream để tránh khóa file
+                    using (var stream = new FileStream(imagePath, FileMode.Open, FileAccess.Read))
+                    {
+                        picAvatar.Image = Image.FromStream(stream);
+                    }
+                }
             }
         }
 
+        private string SaveImageToFolder(string imagePath, string employeeId)
+        {
+            if (string.IsNullOrEmpty(imagePath))
+                return null;
+
+            string folderPath = Path.Combine(Application.StartupPath, "Images");
+
+            // ✅ Tạo thư mục nếu chưa có
+            if (!Directory.Exists(folderPath))
+                Directory.CreateDirectory(folderPath);
+
+            // ✅ Lấy phần mở rộng của file (jpg/png/...)
+            string extension = Path.GetExtension(imagePath);
+            string newFileName = employeeId + extension; // ví dụ: NV001.jpg
+            string destPath = Path.Combine(folderPath, newFileName);
+
+            // ✅ Nếu đã có ảnh cũ thì xóa trước khi copy ảnh mới
+            if (File.Exists(destPath))
+                File.Delete(destPath);
+
+            // ✅ Sao chép ảnh vào thư mục phần mềm
+            File.Copy(imagePath, destPath, true);
+
+            // ✅ Trả về đường dẫn tương đối (Images\NV001.jpg)
+            return Path.Combine("Images", newFileName);
+        }
+
+
         private void BtnSave_Click(object sender, EventArgs e)
         {
-            using (SqlConnection conn = new SqlConnection(connectionString))
+            try
             {
-                string query = @"UPDATE NhanVien 
-                                 SET TenNhanVien=@ten, NgaySinh=@ngay, GioiTinh=@gt, DiaChi=@dc, Que=@que, Email=@mail
-                                 WHERE id=@id";
-                SqlCommand cmd = new SqlCommand(query, conn);
-                cmd.Parameters.AddWithValue("@ten", txtName.Text);
-                cmd.Parameters.AddWithValue("@ngay", dtDob.Value);
-                cmd.Parameters.AddWithValue("@gt", cbGender.Text);
-                cmd.Parameters.AddWithValue("@dc", txtAddress.Text);
-                cmd.Parameters.AddWithValue("@que", txtQue.Text);
-                cmd.Parameters.AddWithValue("@mail", txtEmail.Text);
-                cmd.Parameters.AddWithValue("@id", idNhanVien);
+                string savedFileName = SaveImageToFolder(imagePath, idNhanVien);
 
-                conn.Open();
-                cmd.ExecuteNonQuery();
-                conn.Close();
+                DTONhanVien nv = new DTONhanVien
+                {
+                    ID = idNhanVien,
+                    TenNhanVien = txtName.Text,
+                    NgaySinh = dtDob.Value,
+                    GioiTinh = cbGender.Text,
+                    DiaChi = txtAddress.Text,
+                    Que = txtQue.Text,
+                    Email = txtEmail.Text,
+                    AnhDaiDien = savedFileName // 🟢 lưu đường dẫn ảnh
+                };
 
-                MessageBox.Show("✅ Cập nhật thành công!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                bllNhanVien.CapNhatThongTin(nv);
+
+                MessageBox.Show("✅ Cập nhật thành công!", "Thông báo");
+
+                var parentForm = this.FindForm();
+                var parentControl = this.Parent;
+
+                //MessageBox.Show($"Form cha: {parentForm?.Name}\nPanel cha: {parentControl?.Name}");
+
+                // 🟢 Làm mới form hiển thị
+                _panel.Controls.Clear();
+                var xemThongTin = new XemThongTinCaNhan(idNhanVien, _panel, connectionString);
+                _panel.Controls.Add(xemThongTin);
 
                 XemThongTinCaNhan xemPage = new XemThongTinCaNhan(idNhanVien, _panel, connectionString);
                 var parent = this.ParentForm as Main;
                 parent?.ShowUserControl("XemThongTinCaNhan");
                 parent.ChildFormComponent(_panel, "ButtonFeatureViewComponent");
             }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Lỗi: " + ex.Message);
+            }
         }
 
         private void BtnBack_Click(object sender, EventArgs e)
         {
-            //XemThongTinCaNhan xemPage = new XemThongTinCaNhan(idNhanVien);
-            //Control parent = this.Parent;
-            //parent.Controls.Clear();
-            //parent.Controls.Add(xemPage);
-
             XemThongTinCaNhan xemPage = new XemThongTinCaNhan(idNhanVien, _panel, connectionString);
             var parent = this.ParentForm as Main;
             parent?.ShowUserControl("XemThongTinCaNhan");
@@ -249,24 +298,37 @@ namespace GUI
 
         private void LoadThongTinCaNhan()
         {
-            using (SqlConnection conn = new SqlConnection(connectionString))
+            var nv = bllNhanVien.LayThongTin(idNhanVien);
+            if (nv != null)
             {
-                string query = @"SELECT TenNhanVien, NgaySinh, GioiTinh, DiaChi, Que, Email FROM NhanVien WHERE id=@id";
-                SqlCommand cmd = new SqlCommand(query, conn);
-                cmd.Parameters.AddWithValue("@id", idNhanVien);
-                conn.Open();
-                SqlDataReader reader = cmd.ExecuteReader();
-                if (reader.Read())
-                {
-                    txtName.Text = reader["TenNhanVien"].ToString();
-                    dtDob.Value = Convert.ToDateTime(reader["NgaySinh"]);
-                    cbGender.Text = reader["GioiTinh"].ToString();
-                    txtAddress.Text = reader["DiaChi"].ToString();
-                    txtQue.Text = reader["Que"].ToString();
-                    txtEmail.Text = reader["Email"].ToString();
-                }
-                reader.Close();
+                txtName.Text = nv.TenNhanVien;
+                dtDob.Value = nv.NgaySinh;
+                cbGender.Text = nv.GioiTinh;
+                txtAddress.Text = nv.DiaChi;
+                txtQue.Text = nv.Que;
+                txtEmail.Text = nv.Email;
             }
+
+            if (!string.IsNullOrEmpty(nv.AnhDaiDien))
+            {
+                string fullPath = Path.Combine(Application.StartupPath, nv.AnhDaiDien);
+                if (File.Exists(fullPath))
+                {
+                    using (var stream = new FileStream(fullPath, FileMode.Open, FileAccess.Read))
+                    {
+                        picAvatar.Image = Image.FromStream(stream);
+                    }
+                }
+                else
+                {
+                    picAvatar.Image = Properties.Resources.user; // ảnh mặc định
+                }
+            }
+            else
+            {
+                picAvatar.Image = Properties.Resources.user;
+            }
+
         }
     }
 }

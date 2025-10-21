@@ -14,6 +14,16 @@ namespace GUI
 {
     public partial class ucChamCongQuanLy : UserControl
     {
+        public readonly string _idNhanVien, _conn;
+
+        public ucChamCongQuanLy(string idNhanVien, string conn)
+        {
+            InitializeComponent();
+
+            _conn = conn;
+            _idNhanVien = idNhanVien;
+        }
+
         string IdManager = "";
         bool Check = false;
         List<EmployeTemp> ListEmploye = new List<EmployeTemp>()
@@ -47,8 +57,9 @@ namespace GUI
         public ucChamCongQuanLy()
         {
             InitializeComponent();
-            
+
         }
+
 
         private void ucChamCongQuanLy_Load(object sender, EventArgs e)
         {

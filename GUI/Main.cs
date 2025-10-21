@@ -15,17 +15,23 @@ namespace GUI
     {
         private Dictionary<string, UserControl> _userControls = new Dictionary<string, UserControl>();
 
-        string idNV = "GD00000001";
-        string _stringConnection = "";
-        public Main(string stringConnection)
+        public readonly string _idNV;
+        public readonly string _stringConnection;
+
+        public Main() { }
+
+        public Main(string idNV, string stringConnection)
         {
+            this.DoubleBuffered = true;
+
+            _idNV = idNV;
             _stringConnection = stringConnection;
+
             InitializeComponent();
-            this.DoubleBuffered = false;
             PreLoadUserControl();
         }
 
-        // hien thi UserContrl trong panel
+        // hien thi UserControl trong panel
         public void ChildFormComponent(Panel pn, string controlName)
         {
             pn.SuspendLayout();
@@ -48,18 +54,32 @@ namespace GUI
             {
                 pn.ResumeLayout();
             }
-
         }
 
-        public void ChildFormMain(UserControl user)
+        public void DisplayUserControl(Panel panel, string controlName)
         {
-            pnContent.Controls.Clear();
-            pnContent.Controls.Add(user);
+            panel.SuspendLayout();
+            try
+            {
+                if (_userControls.ContainsKey(controlName))
+                {
 
-            user.BringToFront();
-            user.Dock = DockStyle.Fill;
-            user.Show();
+                    panel.Controls.Clear();
+                    var user = _userControls[controlName];
+                    panel.Controls.Add(user);
+
+                    user.Visible = true;
+                    user.BringToFront();
+                    user.Dock = DockStyle.Fill;
+                    user.Show();
+                }
+            }
+            finally
+            {
+                panel.ResumeLayout();
+            }
         }
+
 
         // Tai truoc va luu tru UserControl
         public void PreLoadUserControl()
@@ -95,15 +115,20 @@ namespace GUI
             _userControls["ucXemChamCong"] = new ucXemChamCong();
             _userControls["UCXemKyLuat"] = new UCXemKyLuat(_stringConnection);
             _userControls["ucXemTuyenDung"] = new ucXemTuyenDung();
-            _userControls["XemNghiPhep"] = new XemNghiPhep(_stringConnection);
+            _userControls["XemNghiPhep"] = new XemNghiPhep(_stringConnection, idNV);
             _userControls["XemThongTinCaNhan"] = new XemThongTinCaNhan(idNV, tpView, _stringConnection);
             _userControls["TaoKhenThuong"] = new TaoKhenThuong(_stringConnection);
             _userControls["TaoKyLuat"] = new TaoKyLuat(_stringConnection);
+            _userControls["TaoThuongPhat"] = new TaoThuongPhat(_stringConnection);
+            _userControls["TaoPhuCap"] = new TaoPhuCap(_stringConnection);
+            _userControls["TaoNhanVien_KhauTru"] = new TaoNhanVien_KhauTru(_stringConnection);
             _userControls["TaoDanhGiaHieuSuat"] = new TaoDanhGiaHieuSuat(_stringConnection);
-
             _userControls["UCReportDanhSachLuongPBan"] = new UCReportDanhSachLuongPBan();
             _userControls["UCReportDanhSachKyLuat"] = new UCReportDanhSachKyLuat();
-
+            _userControls["ButtonFeatureHomeComponent"] = new ButtonFeatureHomeComponent(pnContent, _idNV, _stringConnection);
+            _userControls["ButtonFeatureViewComponent"] = new ButtonFeatureViewComponent(pnContent, _idNV, _stringConnection);
+            _userControls["ButtonFeatureCRUDComponent"] = new ButtonFeatureCRUDComponent(pnContent, _idNV, _stringConnection);
+            _userControls["ButtonFeatureReportComponent"] = new ButtonFeatureReportComponent(pnContent, _idNV, _stringConnection);
 
             // Them tat ca UserControl vao pnContent nhung an di
             foreach (var control in _userControls.Values)
@@ -264,6 +289,15 @@ namespace GUI
         private void Main_Load(object sender, EventArgs e)
         {
             ChildFormComponent(tpHome, "ButtonFeatureHomeComponent");
+
+            if (_idNV.Contains("NV"))
+            {
+                var rp = tcMenu.TabPages["tpReport"];
+                var ql = tcMenu.TabPages["tpCRUD"];
+
+                tcMenu.TabPages.Remove(rp);
+                tcMenu.TabPages.Remove(ql);
+            }
         }
 
         private void tpView_Click(object sender, EventArgs e)
@@ -281,91 +315,15 @@ namespace GUI
 
         private void tcMenu_Click(object sender, EventArgs e)
         {
-            ChildFormComponent(tpReport, "ButtonFeatureReportComponent");
             ChildFormComponent(tpView, "ButtonFeatureViewComponent");
             ChildFormComponent(tpHome, "ButtonFeatureHomeComponent");
             ChildFormComponent(tpCRUD, "ButtonFeatureCRUDComponent");
+            ChildFormComponent(tpReport, "ButtonFeatureReportComponent");
         }
 
         private void Report_Click(object sender, EventArgs e)
         {
             ChildFormComponent(tpReport, "ButtonFeatureReportComponent");
-        }
-
-        private void LoadControl(UserControl uc)
-        {
-            pnContent.Controls.Clear();   // xóa control cũ
-            uc.Dock = DockStyle.Fill;     // cho UserControl chiếm hết panel
-            pnContent.Controls.Add(uc);   // thêm control mới
-        }
-
-        private void btnCapNhatTTNV_Click(object sender, EventArgs e)
-        {
-            LoadControl(new CapNhatThongTinNV(_stringConnection));
-        }
-
-        private void btnTaoDanhGiaHieuSuat_Click(object sender, EventArgs e)
-        {
-            LoadControl(new TaoDanhGiaHieuSuat(_stringConnection));
-        }
-
-        private void btnTaoKyLuat_Click(object sender, EventArgs e)
-        {
-            LoadControl(new TaoKyLuat(_stringConnection));
-        }
-
-        private void btnTaoKhenThuong_Click(object sender, EventArgs e)
-        {
-            LoadControl(new TaoKhenThuong(_stringConnection));
-        }
-
-        private void btnXemNghiPhep_Click(object sender, EventArgs e)
-        {
-            LoadControl(new XemNghiPhep(_stringConnection));
-        }
-
-        private void btnXemThongTinCaNhan_Click(object sender, EventArgs e)
-        {
-            LoadControl(new XemThongTinCaNhan(idNV, tpView, _stringConnection));
-        }
-
-        private void guna2Button1_Click(object sender, EventArgs e)
-        {
-            LoadControl(new CapNhatThongTinRieng(idNV, tpView, _stringConnection));
-        }
-
-        private void btnTaoHDLD_Click(object sender, EventArgs e)
-        {
-            LoadControl(new BaoCaoHopDong(_stringConnection));
-        }
-
-        private void btnCRUDTaiKhoan_Click(object sender, EventArgs e)
-        {
-            LoadControl(new CRUDTaiKhoan(_stringConnection));
-        }
-
-        private void btnCRUDPhongBan_Click(object sender, EventArgs e)
-        {
-            LoadControl(new CRUDPhongban(_stringConnection));
-        }
-
-        private void btnCRUDChucVu_Click(object sender, EventArgs e)
-        {
-            LoadControl(new CRUDChucVu(_stringConnection));
-        }
-
-        private void btnBaoCaoKhenThuong_Click(object sender, EventArgs e)
-        {
-            LoadControl(new BaoCaoKhenThuong(_stringConnection));
-
-        }
-        private void OpenChildControl(UserControl uc)
-        {
-            pnContent.Padding = new Padding(0, 10, 0, 0);
-            pnContent.Controls.Clear();
-            uc.Dock = DockStyle.Fill;
-            pnContent.Controls.Add(uc);
-            uc.BringToFront();
         }
 
         private void tpReport_Click(object sender, EventArgs e)
@@ -382,5 +340,16 @@ namespace GUI
         {
 
         }
+
+        private void Main_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            if (MessageBox.Show("Bạn có chắc chắn muốn thoát không?", "Xác nhận", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.No)
+            {
+                e.Cancel = true;
+            }
+        }
+
+        // Tat han chuong trinh sau khi an form Main -> khoi thong qua login
+        private void Main_FormClosed(object sender, FormClosedEventArgs e) => Application.Exit();
     }
 }

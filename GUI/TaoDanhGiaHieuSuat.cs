@@ -29,12 +29,14 @@ namespace GUI
         private int? selectedId = null;
         private DataTable dtDanhGia; // lưu dữ liệu toàn bộ để lọc tại chỗ
         private BLLDanhGiaNhanVien bllDanhGia;
+        private BLLNhanVien bllNhanVien;
 
-        public TaoDanhGiaHieuSuat(string conn)
+        public TaoDanhGiaHieuSuat(string idNhanVien, string conn)
         {
             connectionString = conn;
             InitializeComponent();
             bllDanhGia = new BLLDanhGiaNhanVien(conn);
+            bllNhanVien = new BLLNhanVien(conn);
             BuildUI();
             LoadNhanVien();
             LoadDanhGia(); // tải dữ liệu ban đầu
@@ -219,16 +221,9 @@ namespace GUI
         // ===== LOAD NHÂN VIÊN =====
         private void LoadNhanVien()
         {
-            using (SqlConnection conn = new SqlConnection(connectionString))
-            {
-                string query = "SELECT id, TenNhanVien FROM NhanVien WHERE DaXoa = 0";
-                SqlDataAdapter da = new SqlDataAdapter(query, conn);
-                DataTable dt = new DataTable();
-                da.Fill(dt);
-                cbEmployee.DataSource = dt;
-                cbEmployee.DisplayMember = "TenNhanVien";
-                cbEmployee.ValueMember = "id";
-            }
+            cbEmployee.DataSource = bllNhanVien.ComboboxNhanVien();
+            cbEmployee.DisplayMember = "TenNhanVien";
+            cbEmployee.ValueMember = "id";
         }
 
         // ===== LOAD DỮ LIỆU ĐÁNH GIÁ =====

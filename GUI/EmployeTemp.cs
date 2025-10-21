@@ -1,11 +1,11 @@
 ﻿using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
-using System.Configuration;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Linq;
 
 namespace GUI
 {
@@ -26,49 +26,61 @@ namespace GUI
                     {
                         foreach (string instanceName in rk.GetValueNames())
                         {
-                            conn = $"Data Source={Environment.MachineName}\\{instanceName};Initial Catalog=PersonnelManagement;Integrated Security=True;Encrypt=False";
-                            break;
+                            var connect = $"Data Source={Environment.MachineName}\\{instanceName};Initial Catalog=PersonnelManagement;Integrated Security=True;Encrypt=False";
+                            try
+                            {
+                                using (SqlConnection connection = new SqlConnection(connect))
+                                {
+                                    connection.Open();
+                                    conn = connect;
+                                    break;
+                                }
+                            }
+                            catch
+                            {
+                                continue;
+                            }
                         }
                     }
                 }
             }
-
-            return conn;
         }
+        //    return conn;
+        //}
 
         /// <summary>
         /// ==========================CÁCH 3=========================
         /// Sử dụng App.config
         /// </summary>
-        //public static string conn;
+        public static string conn;
 
-        //static ConnectionDB()
-        //{
-        //    conn = TakeConnectionString();
-        //}
+        static ConnectionDB()
+        {
+            conn = TakeConnectionString();
+        }
 
-        //public static string TakeConnectionString()
-        //{
-        //    // Lấy chuỗi kết nối từ App.config
-        //    string connect = ConfigurationManager.ConnectionStrings["PersonnelDB"]?.ConnectionString;
+        public static string TakeConnectionString()
+        {
+            // Lấy chuỗi kết nối từ App.config
+            string connect = ConfigurationManager.ConnectionStrings["PersonnelDB"]?.ConnectionString;
 
-        //    if (string.IsNullOrWhiteSpace(connect))
-        //        throw new Exception("Không tìm thấy cấu hình 'PersonnelDB' trong App.config!");
+            if (string.IsNullOrWhiteSpace(connect))
+                throw new Exception("Không tìm thấy cấu hình 'PersonnelDB' trong App.config!");
 
-        //    // Kiểm tra thử kết nối
-        //    try
-        //    {
-        //        using (SqlConnection sqlConn = new SqlConnection(connect))
-        //        {
-        //            sqlConn.Open();
-        //            return connect;
-        //        }
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        throw new Exception($"Không thể kết nối tới SQL Server! Chi tiết: {ex.Message}");
-        //    }
-        //}
+            // Kiểm tra thử kết nối
+            try
+            {
+                using (SqlConnection sqlConn = new SqlConnection(connect))
+                {
+                    sqlConn.Open();
+                    return connect;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"Không thể kết nối tới SQL Server! Chi tiết: {ex.Message}");
+            }
+        }
         /// <summary>
         /// ==========================CÁCH 2=========================
         /// </summary>

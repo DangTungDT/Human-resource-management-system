@@ -24,6 +24,9 @@ namespace DTO
         public string Que { get; set; }
         public string Email { get; set; }
         public string IdChucVu { get; set; }
+        public string TenChucVu { get; set; }
         public string IdPhongBan { get; set; }
+        public string TenPhongBan { get; set; }
+        public string AnhDaiDien { get; set; } // nếu sau này bạn lưu ảnh
     }
 }

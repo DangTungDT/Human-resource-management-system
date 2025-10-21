@@ -20,10 +20,24 @@ namespace DTO
             IDNguoiTao = iDNguoiTao;
         }
 
+        public DTOThuongPhat(int iD, string idNhanVien, decimal tienThuongPhat, string loai, string lyDo, string iDNguoiTao, DateTime ngayThuong)
+        {
+            ID = iD;
+            IdNhanVien = idNhanVien;
+            TienThuongPhat = tienThuongPhat;
+            Loai = loai;
+            LyDo = lyDo;
+            IDNguoiTao = iDNguoiTao;
+            NgayThuong = ngayThuong;
+        }
+
         public int ID { get; set; }
+        public string IdNhanVien { get; set; }
         public decimal TienThuongPhat { get; set; }
         public string Loai { get; set; }
         public string LyDo { get; set; }
         public string IDNguoiTao { get; set; }
+        public DateTime NgayThuong { get; set; }
+
     }
 }

@@ -12,61 +12,68 @@ namespace GUI
 {
     public partial class ButtonFeatureViewComponent : UserControl
     {
-        private Panel _tpView;
-        public ButtonFeatureViewComponent(Panel tpView)
+        private readonly Panel _tpView;
+        public readonly string _idNhanVien, _conn;
+
+        public ButtonFeatureViewComponent(Panel tpView, string idNhanVien, string conn)
         {
             InitializeComponent();
-            this.DoubleBuffered = false;
+            this.DoubleBuffered = true;
+
+            _conn = conn;
             _tpView = tpView;
+            _idNhanVien = idNhanVien;
         }
 
         private void btnDanhGia_Click(object sender, EventArgs e)
         {
-            var main = this.ParentForm as Main;
-            main?.ShowUserControl("UCDanhGiaHieuSuat");
-            main.ChildFormComponent(_tpView, "ButtonFeatureViewComponent");
+            UCDanhGiaHieuSuat uc = new UCDanhGiaHieuSuat(_idNhanVien, _conn);
+            DisplayUserControlPanel.ChildUserControl(uc, _tpView);
         }
 
         private void btnChiTietLuong_Click(object sender, EventArgs e)
         {
-            var main = this.ParentForm as Main;
-            main?.ShowUserControl("UCChiTietLuongCaNhan");
-            main.ChildFormComponent(_tpView, "ButtonFeatureViewComponent");
+            UCChiTietluongCaNhan uc = new UCChiTietluongCaNhan(_idNhanVien, _conn);
+            DisplayUserControlPanel.ChildUserControl(uc, _tpView);
         }
 
         private void btnKyLuat_Click(object sender, EventArgs e)
         {
-            var main = this.ParentForm as Main;
-            main?.ShowUserControl("UCXemKyLuat");
-            main.ChildFormComponent(_tpView, "ButtonFeatureViewComponent");
+            UCXemKyLuat uc = new UCXemKyLuat(_conn, _idNhanVien);
+            DisplayUserControlPanel.ChildUserControl(uc, _tpView);
         }
 
         private void btnThongTinCaNhan_Click(object sender, EventArgs e)
         {
-            var main = this.ParentForm as Main;
-            main?.ShowUserControl("XemThongTinCaNhan");
-            main.ChildFormComponent(_tpView, "ButtonFeatureViewComponent");
+            XemThongTinCaNhan uc = new XemThongTinCaNhan(_idNhanVien, _tpView, _conn);
+            DisplayUserControlPanel.ChildUserControl(uc, _tpView);
         }
 
         private void btnNghiPhepCaNhan_Click(object sender, EventArgs e)
         {
-            var main = this.ParentForm as Main;
-            main?.ShowUserControl("XemNghiPhep");
-            main.ChildFormComponent(_tpView, "ButtonFeatureViewComponent");
+            XemNghiPhep uc = new XemNghiPhep(_conn, _idNhanVien);
+            DisplayUserControlPanel.ChildUserControl(uc, _tpView);
         }
 
         private void guna2TileButton3_Click(object sender, EventArgs e)
         {
-            var main = this.ParentForm as Main;
-            main?.ShowUserControl("ucXemTuyenDung");
-            main.ChildFormComponent(_tpView, "ButtonFeatureViewComponent");
+            ucXemTuyenDung uc = new ucXemTuyenDung(_idNhanVien, _conn);
+            DisplayUserControlPanel.ChildUserControl(uc, _tpView);
+        }
+
+        private void ButtonFeatureViewComponent_Load(object sender, EventArgs e)
+        {
+            if (_idNhanVien.Contains("NV"))
+            {
+                btnDanhGia.Visible = false;
+                guna2TileButton3.Visible = false;
+            }
         }
 
         private void btnChamCong_Click(object sender, EventArgs e)
         {
-            var main = this.ParentForm as Main;
-            main?.ShowUserControl("ucXemChamCong");
-            main.ChildFormComponent(_tpView, "ButtonFeatureViewComponent");
+            ucXemChamCong uc = new ucXemChamCong(_idNhanVien, _conn);
+            DisplayUserControlPanel.ChildUserControl(uc, _tpView);
         }
     }
 }

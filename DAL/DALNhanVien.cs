@@ -11,13 +11,15 @@ namespace DAL
 {
     public class DALNhanVien
     {
-        public readonly PersonnelManagementDataContextDataContext _dbContext;
         private readonly string connectionString;
-        public DALNhanVien( string conn)
+        public readonly PersonnelManagementDataContextDataContext _dbContext;
+
+        public DALNhanVien(string conn)
         {
-            //_dbContext = new PersonnelManagementDataContextDataContext(stringConnection);
             connectionString = conn;
+            _dbContext = new PersonnelManagementDataContextDataContext(conn);
         }
+
 
         public DataTable GetAll(bool showHidden)
         {
@@ -35,6 +37,123 @@ namespace DAL
                 DataTable dt = new DataTable();
                 da.Fill(dt);
                 return dt;
+            }
+        }
+
+        public DataTable GetById(string id)
+        {
+            using (SqlConnection conn = new SqlConnection(connectionString))
+            {
+                string query = @"SELECT id AS [Mã Nhân viên], TenNhanVien AS [Tên nhân viên], idPhongBan AS [Mã phòng ban], Email
+                                 FROM NhanVien
+                                 WHERE id = @id";
+                SqlDataAdapter da = new SqlDataAdapter(query, conn);
+                da.SelectCommand.Parameters.AddWithValue("@id", id);
+                DataTable dt = new DataTable();
+                try
+                {
+                    conn.Open();
+                    da.Fill(dt);
+                }
+                catch (SqlException ex)
+                {
+                    throw new Exception("Lỗi khi lấy thông tin nhân viên theo ID: " + ex.Message);
+                }
+                return dt;
+            }
+        }
+
+        public DataTable  LoadNhanVien()
+        {
+            using (SqlConnection conn = new SqlConnection(connectionString))
+            {
+                string query = "SELECT id, TenNhanVien FROM NhanVien WHERE DaXoa = 0";
+                SqlDataAdapter da = new SqlDataAdapter(query, conn);
+                DataTable dt = new DataTable();
+                da.Fill(dt);
+
+                return dt;
+            }
+        }
+
+        public DataTable ComboboxNhanVien(int? idPhongBan = null)
+        {
+            using (SqlConnection conn = new SqlConnection(connectionString))
+            {
+                string query = "SELECT id, TenNhanVien FROM NhanVien WHERE (@idPhongBan IS NULL OR idPhongBan = @idPhongBan)";
+                SqlDataAdapter da = new SqlDataAdapter(query, conn);
+                da.SelectCommand.Parameters.AddWithValue("@idPhongBan", idPhongBan.HasValue ? (object)idPhongBan.Value : DBNull.Value);
+
+                DataTable dt = new DataTable();
+                da.Fill(dt);
+                return dt;
+            }
+        }
+
+        // 🔹 Lấy thông tin cá nhân của nhân viên
+        public DTONhanVien LayThongTin(string idNhanVien)
+        {
+            DTONhanVien nv = null;
+            using (SqlConnection conn = new SqlConnection(connectionString))
+            {
+                conn.Open();
+                string query = @"
+                                SELECT nv.ID, nv.TenNhanVien, nv.NgaySinh, nv.GioiTinh, 
+                                       nv.DiaChi, nv.Que, nv.Email, cv.TenChucVu, pb.TenPhongBan, nv.AnhDaiDien
+                                FROM NhanVien nv
+                                LEFT JOIN ChucVu cv ON nv.idChucVu = cv.ID
+                                LEFT JOIN PhongBan pb ON nv.idPhongBan = pb.ID
+                                WHERE nv.ID = @id";
+
+                using(SqlCommand cmd = new SqlCommand(query, conn))
+{
+                    cmd.Parameters.AddWithValue("@id", idNhanVien);
+                    using (SqlDataReader dr = cmd.ExecuteReader())
+                    {
+                        if (dr.Read())
+                        {
+                            nv = new DTONhanVien
+                            {
+                                ID = dr["ID"].ToString(),
+                                TenNhanVien = dr["TenNhanVien"].ToString(),
+                                NgaySinh = Convert.ToDateTime(dr["NgaySinh"]),
+                                GioiTinh = dr["GioiTinh"].ToString(),
+                                DiaChi = dr["DiaChi"].ToString(),
+                                Que = dr["Que"].ToString(),
+                                Email = dr["Email"].ToString(),
+                                TenChucVu = dr["TenChucVu"].ToString(),
+                                TenPhongBan = dr["TenPhongBan"].ToString(),
+                                AnhDaiDien = dr["AnhDaiDien"] == DBNull.Value ? null : dr["AnhDaiDien"].ToString()
+                            };
+                        }
+                    }
+                }
+            }
+
+            return nv;
+        }
+
+        // 🔹 Cập nhật thông tin cá nhân
+        public void UpdateNhanVien(DTONhanVien nv)
+        {
+            using (SqlConnection conn = new SqlConnection(connectionString))
+            {
+                string query = @"UPDATE NhanVien 
+                 SET TenNhanVien=@ten, NgaySinh=@ngay, GioiTinh=@gt, 
+                     DiaChi=@dc, Que=@que, Email=@mail, AnhDaiDien=@anh
+                 WHERE id=@id";
+                SqlCommand cmd = new SqlCommand(query, conn);
+                cmd.Parameters.AddWithValue("@ten", nv.TenNhanVien);
+                cmd.Parameters.AddWithValue("@ngay", nv.NgaySinh);
+                cmd.Parameters.AddWithValue("@gt", nv.GioiTinh);
+                cmd.Parameters.AddWithValue("@dc", nv.DiaChi);
+                cmd.Parameters.AddWithValue("@que", nv.Que);
+                cmd.Parameters.AddWithValue("@mail", nv.Email);
+                cmd.Parameters.AddWithValue("@anh", (object)nv.AnhDaiDien ?? DBNull.Value);
+                cmd.Parameters.AddWithValue("@id", nv.ID);
+
+                conn.Open();
+                cmd.ExecuteNonQuery();
             }
         }
 
@@ -130,7 +249,7 @@ namespace DAL
                                     .Select(s => s[0])
                                     .ToArray()).ToUpper();
 
-            
+
 
             // Gộp lại: VD "Nhân viên Marketing" => NVM
             string prefix = prefixCV;
@@ -179,5 +298,22 @@ namespace DAL
             return maNV;
         }
 
+        // Lay ds nhan vien
+        public List<NhanVien> LayDsNhanVien() => _dbContext.NhanViens.ToList();
+
+        // Lay nhan vien qua id
+        public NhanVien LayNhanVienQuaID(string idNhanVien)
+        {
+            if (idNhanVien != null)
+            {
+                var nhanVien = _dbContext.NhanViens.FirstOrDefault(nv => nv.id == idNhanVien);
+
+                if (nhanVien != null)
+                {
+                    return nhanVien;
+                }
+            }
+            return null;
+        }
     }
 }

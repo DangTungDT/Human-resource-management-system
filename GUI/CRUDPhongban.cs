@@ -19,7 +19,7 @@ namespace GUI
         private readonly BLLPhongBan bllPhongBan;
         private DataTable dtPhongBan;
 
-        public CRUDPhongban(string conn)
+        public CRUDPhongban(string idNhanVien, string conn)
         {
             connectionString = conn;
             InitializeComponent();

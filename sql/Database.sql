@@ -58,6 +58,17 @@ create table TaiKhoan
 	primary key(id)
 )
 go
+CREATE TABLE QuenMatKhau
+(
+    id int identity(1,1) not null,
+    taiKhoan varchar(50) not null,
+    otp varchar(6) not null,
+    thoiGianHetHan datetime not null,
+    daXacNhan bit default 0,
+    primary key(id),
+    FOREIGN KEY (taiKhoan) REFERENCES TaiKhoan(taiKhoan)
+)
+GO
 
 create table ChamCong
 (
@@ -174,7 +185,7 @@ go
 
 Create table KhauTru
 (
-	id int not null,
+	id int identity(1,1) not null,
 	loaiKhauTru nvarchar(50) not null,
 	soTien decimal(18,2) default 0 not null,
 	moTa nvarchar(255),

@@ -12,10 +12,12 @@ namespace DAL
     public class DALPhongBan
     {
         private readonly string connectionString;
+        private readonly PersonnelManagementDataContextDataContext _dbContextPB;
 
         public DALPhongBan(string conn)
         {
             connectionString = conn;
+            _dbContextPB = new PersonnelManagementDataContextDataContext(conn);
         }
 
         public DataTable GetAllPhongBan()
@@ -23,6 +25,19 @@ namespace DAL
             using (SqlConnection conn = new SqlConnection(connectionString))
             {
                 string query = "SELECT id AS [Mã phòng ban], TenPhongBan AS [Tên phòng ban], MoTa AS [Mô tả] FROM PhongBan";
+                SqlDataAdapter da = new SqlDataAdapter(query, conn);
+                DataTable dt = new DataTable();
+                da.Fill(dt);
+                return dt;
+            }
+        }
+
+        // Lấy danh sách phòng ban (để hiển thị combobox)
+        public DataTable ComBoBoxPhongBan()
+        {
+            using (SqlConnection conn = new SqlConnection(connectionString))
+            {
+                string query = "SELECT id, TenPhongBan FROM PhongBan";
                 SqlDataAdapter da = new SqlDataAdapter(query, conn);
                 DataTable dt = new DataTable();
                 da.Fill(dt);
@@ -68,5 +83,8 @@ namespace DAL
                 return cmd.ExecuteNonQuery() > 0;
             }
         }
+
+        // Lay ten phong ban
+        public string LayTenPhongBan(int id) => _dbContextPB.PhongBans.Where(p => p.id == id).Select(p => p.TenPhongBan).FirstOrDefault().ToString() ?? string.Empty;
     }
 }

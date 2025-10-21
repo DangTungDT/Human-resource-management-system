@@ -29,6 +29,11 @@ namespace GUI
             _dbContextTK = new BLLTaiKhoan(_conn);
         }
 
+        public FormLogin()
+        {
+            InitializeComponent();
+        }
+
         private void FormLogin_Load(object sender, EventArgs e)
         {
 
@@ -47,7 +52,7 @@ namespace GUI
 
             if (taiKhoan != null)
             {
-                Main formMain = new Main(taiKhoan.id, _conn);
+                Main formMain = new Main(taiKhoan.Id, _conn);
                 formMain.Show(); this.Hide();
             }
             else MessageBox.Show("Tài khản nhân viên không tồn tại !");

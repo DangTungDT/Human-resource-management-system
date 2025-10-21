@@ -84,47 +84,47 @@ namespace GUI
         // Tai truoc va luu tru UserControl
         public void PreLoadUserControl()
         {
-            _userControls["UCHopDong"] = new UCHopDong(_stringConnection);
+            _userControls["UCHopDong"] = new UCHopDong(_idNV, _stringConnection);
             _userControls["ucChucVu"] = new ucChucVu(_stringConnection);
-            _userControls["UCDuyetNghiPhep"] = new UCDuyetNghiPhep();
-            _userControls["UCCapNhatMatKhau"] = new UCCapNhatMatkhau();
-            _userControls["UCDanhGiaHieuSuat"] = new UCDanhGiaHieuSuat(_stringConnection);
-            _userControls["UCChiTietLuongCaNhan"] = new UCChiTietluongCaNhan();
-            _userControls["ButtonFeatureHomeComponent"] = new ButtonFeatureHomeComponent(tpHome);
-            _userControls["ButtonFeatureViewComponent"] = new ButtonFeatureViewComponent(tpView);
-            _userControls["ButtonFeatureReportComponent"] = new ButtonFeatureReportComponent(tpReport);
-            _userControls["ButtonFeatureCRUDComponent"] = new ButtonFeatureCRUDComponent(tpCRUD);
-            _userControls["BaoCaoHopDong"] = new BaoCaoHopDong(_stringConnection);
-            _userControls["BaoCaoKhenThuong"] = new BaoCaoKhenThuong(_stringConnection);
-            _userControls["CapNhatThongTinNV"] = new CapNhatThongTinNV(_stringConnection);
-            _userControls["CapNhatThongTinRieng"] = new CapNhatThongTinRieng(idNV, tpView, _stringConnection);
-            _userControls["CRUDChucVu"] = new CRUDChucVu(_stringConnection);
-            _userControls["CRUDPhongBan"] = new CRUDPhongban(_stringConnection);
-            _userControls["CRUDTaiKhoan"] = new CRUDTaiKhoan(_stringConnection);
-            _userControls["ucChamCongQuanLyHinh"] = new ucChamCongQuanLy(idNV, true);
-            _userControls["ucChamCongQuanLy"] = new ucChamCongQuanLy(idNV);
-            _userControls["ucChiTietLuong"] = new ucChiTietLuong();
-            _userControls["ucChiTietLuongCaNhan"] = new UCChiTietluongCaNhan();
+            _userControls["UCDuyetNghiPhep"] = new UCDuyetNghiPhep(_idNV, _stringConnection);
+            _userControls["UCCapNhatMatKhau"] = new UCCapNhatMatkhau(_idNV, _stringConnection);
+            _userControls["UCDanhGiaHieuSuat"] = new UCDanhGiaHieuSuat(_idNV, _stringConnection);
+            _userControls["UCChiTietLuongCaNhan"] = new UCChiTietluongCaNhan(_idNV, _stringConnection);
+            _userControls["ButtonFeatureHomeComponent"] = new ButtonFeatureHomeComponent(tpHome, _idNV, _stringConnection);
+            _userControls["ButtonFeatureViewComponent"] = new ButtonFeatureViewComponent(tpView, _idNV, _stringConnection);
+            _userControls["ButtonFeatureReportComponent"] = new ButtonFeatureReportComponent(tpReport, _idNV, _stringConnection);
+            _userControls["ButtonFeatureCRUDComponent"] = new ButtonFeatureCRUDComponent(tpCRUD, _idNV, _stringConnection);
+            _userControls["BaoCaoHopDong"] = new BaoCaoHopDong(_idNV, _stringConnection);
+            _userControls["BaoCaoKhenThuong"] = new BaoCaoKhenThuong(_idNV, _stringConnection);
+            _userControls["CapNhatThongTinNV"] = new CapNhatThongTinNV(_idNV, _stringConnection);
+            _userControls["CapNhatThongTinRieng"] = new CapNhatThongTinRieng(_idNV, tpView, _stringConnection);
+            _userControls["CRUDChucVu"] = new CRUDChucVu(_idNV, _stringConnection);
+            _userControls["CRUDPhongBan"] = new CRUDPhongban(_idNV, _stringConnection);
+            _userControls["CRUDTaiKhoan"] = new CRUDTaiKhoan(_idNV, _stringConnection);
+            _userControls["ucChamCongQuanLyHinh"] = new ucChamCongQuanLy(_idNV, true);
+            _userControls["ucChamCongQuanLy"] = new ucChamCongQuanLy(_idNV);
+            _userControls["ucChiTietLuong"] = new ucChiTietLuong(_idNV, _stringConnection);
+            _userControls["ucChiTietLuongCaNhan"] = new UCChiTietluongCaNhan(_idNV, _stringConnection);
             _userControls["UCDoiMatKhau"] = new UCDoiMatKhau();
             _userControls["ucDuyenTuyenDung"] = new ucDuyenTuyenDung();
-            _userControls["UCHopDong"] = new UCHopDong(_stringConnection);
-            _userControls["ucKyLuong"] = new ucKyLuong();
-            _userControls["UCNghiPhep"] = new UCNghiPhep();
+            _userControls["UCHopDong"] = new UCHopDong(_idNV, _stringConnection);
+            _userControls["ucKyLuong"] = new ucKyLuong(_idNV, _stringConnection);
+            _userControls["UCNghiPhep"] = new UCNghiPhep(_idNV, _stringConnection);
             _userControls["ucTaoTuyenDung"] = new ucTaoTuyenDung();
-            _userControls["ucUngVien"] = new ucUngVien();
-            _userControls["ucXemChamCong"] = new ucXemChamCong();
-            _userControls["UCXemKyLuat"] = new UCXemKyLuat(_stringConnection);
-            _userControls["ucXemTuyenDung"] = new ucXemTuyenDung();
-            _userControls["XemNghiPhep"] = new XemNghiPhep(_stringConnection, idNV);
-            _userControls["XemThongTinCaNhan"] = new XemThongTinCaNhan(idNV, tpView, _stringConnection);
+            _userControls["ucUngVien"] = new ucUngVien(_idNV, _stringConnection);
+            _userControls["ucXemChamCong"] = new ucXemChamCong(_idNV, _stringConnection);
+            _userControls["UCXemKyLuat"] = new UCXemKyLuat(_idNV, _stringConnection);
+            _userControls["ucXemTuyenDung"] = new ucXemTuyenDung(_idNV, _stringConnection);
+            _userControls["XemNghiPhep"] = new XemNghiPhep(_stringConnection, _idNV);
+            _userControls["XemThongTinCaNhan"] = new XemThongTinCaNhan(_idNV, tpView, _stringConnection);
             _userControls["TaoKhenThuong"] = new TaoKhenThuong(_stringConnection);
-            _userControls["TaoKyLuat"] = new TaoKyLuat(_stringConnection);
+            _userControls["TaoKyLuat"] = new TaoKyLuat(_idNV, _stringConnection);
             _userControls["TaoThuongPhat"] = new TaoThuongPhat(_stringConnection);
             _userControls["TaoPhuCap"] = new TaoPhuCap(_stringConnection);
             _userControls["TaoNhanVien_KhauTru"] = new TaoNhanVien_KhauTru(_stringConnection);
-            _userControls["TaoDanhGiaHieuSuat"] = new TaoDanhGiaHieuSuat(_stringConnection);
-            _userControls["UCReportDanhSachLuongPBan"] = new UCReportDanhSachLuongPBan();
-            _userControls["UCReportDanhSachKyLuat"] = new UCReportDanhSachKyLuat();
+            _userControls["TaoDanhGiaHieuSuat"] = new TaoDanhGiaHieuSuat(_idNV, _stringConnection);
+            _userControls["UCReportDanhSachLuongPBan"] = new UCReportDanhSachLuongPBan(_idNV, _stringConnection);
+            _userControls["UCReportDanhSachKyLuat"] = new UCReportDanhSachKyLuat(_idNV, _stringConnection);
             _userControls["ButtonFeatureHomeComponent"] = new ButtonFeatureHomeComponent(pnContent, _idNV, _stringConnection);
             _userControls["ButtonFeatureViewComponent"] = new ButtonFeatureViewComponent(pnContent, _idNV, _stringConnection);
             _userControls["ButtonFeatureCRUDComponent"] = new ButtonFeatureCRUDComponent(pnContent, _idNV, _stringConnection);
@@ -155,58 +155,58 @@ namespace GUI
                     switch (controlName)
                     {
                         case "UCHopDong":
-                            user = new UCHopDong(_stringConnection);
+                            user = new UCHopDong(_idNV, _stringConnection);
                             break;
                         case "ucChucVu":
                             user = new ucChucVu(_stringConnection);
                             break;
                         case "UCDuyetNghiPhep":
-                            user = new UCDuyetNghiPhep();
+                            user = new UCDuyetNghiPhep(_idNV, _stringConnection);
                             break;
                         case "UCCapNhatMatKhau":
-                            user = new UCCapNhatMatkhau();
+                            user = new UCCapNhatMatkhau(_idNV, _stringConnection);
                             break;
                         case "UCDanhGiaHieuSuat":
-                            user = new UCDanhGiaHieuSuat(_stringConnection);
+                            user = new UCDanhGiaHieuSuat(_idNV, _stringConnection);
                             break;
                         case "UCChiTietLuongCaNhan":
-                            user = new UCChiTietluongCaNhan();
+                            user = new UCChiTietluongCaNhan(_idNV, _stringConnection);
                             break;
                         case "ButtonFeatureHomeComponent":
-                            user = new ButtonFeatureHomeComponent(tpHome);
+                            user = new ButtonFeatureHomeComponent(tpHome, _idNV, _stringConnection);
                             break;
                         case "ButtonFeatureViewComponent":
-                            user = new ButtonFeatureViewComponent(tpView);
+                            user = new ButtonFeatureViewComponent(tpView, _idNV, _stringConnection);
                             break;
                         case "BaoCaoHopDong":
-                            user = new BaoCaoHopDong(_stringConnection);
+                            user = new BaoCaoHopDong(_idNV, _stringConnection);
                             break;
                         case "BaoCaoKhenThuong":
-                            user = new BaoCaoKhenThuong(_stringConnection);
+                            user = new BaoCaoKhenThuong(_idNV, _stringConnection);
                             break;
                         case "CapNhatThongTinNV":
-                            user = new CapNhatThongTinNV(_stringConnection);
+                            user = new CapNhatThongTinNV(_idNV, _stringConnection);
                             break;
                         case "CapNhatThongTinRieng":
-                            user = new CapNhatThongTinRieng(idNV, tpView, _stringConnection);
+                            user = new CapNhatThongTinRieng(_idNV, tpView, _stringConnection);
                             break;
                         case "CRUDChucVu":
-                            user = new CRUDChucVu(_stringConnection);
+                            user = new CRUDChucVu(_idNV, _stringConnection);
                             break;
                         case "CRUDPhongBan":
-                            user = new CRUDPhongban(_stringConnection);
+                            user = new CRUDPhongban(_idNV, _stringConnection);
                             break;
                         case "CRUDTaiKhoan":
-                            user = new CRUDTaiKhoan(_stringConnection);
+                            user = new CRUDTaiKhoan(_idNV, _stringConnection);
                             break;
                         case "ucChamCongQuanLyHinh":
-                            user = new ucChamCongQuanLy(idNV, true);
+                            user = new ucChamCongQuanLy(_idNV, true);
                             break;
                         case "ucChamCongQuanLy":
-                            user = new ucChamCongQuanLy(idNV);
+                            user = new ucChamCongQuanLy(_idNV);
                             break;
                         case "ucChiTietLuong":
-                            user = new ucChiTietLuong();
+                            user = new ucChiTietLuong(_idNV, _stringConnection);
                             break;
                         case "UCDoiMatKhau":
                             user = new UCDoiMatKhau();
@@ -215,43 +215,43 @@ namespace GUI
                             user = new ucDuyenTuyenDung();
                             break;
                         case "ucKyLuong":
-                            user = new ucKyLuong();
+                            user = new ucKyLuong(_idNV, _stringConnection);
                             break;
                         case "UCNghiPhep":
-                            user = new UCNghiPhep();
+                            user = new UCNghiPhep(_idNV, _stringConnection);
                             break;
                         case "ucTaoTuyenDung":
                             user = new ucTaoTuyenDung();
                             break;
                         case "ucUngVien":
-                            user = new ucUngVien();
+                            user = new ucUngVien(_idNV, _stringConnection);
                             break;
                         case "ucXemChamCong":
-                            user = new ucXemChamCong();
+                            user = new ucXemChamCong(_idNV, _stringConnection);
                             break;
                         case "UCXemKyLuat":
-                            user = new UCXemKyLuat(_stringConnection);
+                            user = new UCXemKyLuat(_idNV, _stringConnection);
                             break;
                         case "ucXemTuyenDung":
-                            user = new ucXemTuyenDung();
+                            user = new ucXemTuyenDung(_idNV, _stringConnection);
                             break;
                         case "XemNghiPhep":
-                            user = new XemNghiPhep(_stringConnection);
+                            user = new XemNghiPhep(_idNV, _stringConnection);
                             break;
                         case "XemThongTinCaNhan":
-                            user = new XemThongTinCaNhan(idNV, tpView, _stringConnection);
+                            user = new XemThongTinCaNhan(_idNV, tpView, _stringConnection);
                             break;
                         case "TaoKyLuat":
-                            user = new TaoKyLuat(_stringConnection);
+                            user = new TaoKyLuat(_idNV, _stringConnection);
                             break;
                         case "TaoKhenThuong":
                             user = new TaoKhenThuong(_stringConnection);
                             break;
                         case "UCReportDanhSachLuongPBan":
-                            user = new UCReportDanhSachLuongPBan();
+                            user = new UCReportDanhSachLuongPBan(_idNV, _stringConnection);
                             break;
                         case "UCReportDanhSachKyLuat":
-                            user = new UCReportDanhSachKyLuat();
+                            user = new UCReportDanhSachKyLuat(_idNV, _stringConnection);
                             break;
                         default:
                             user = null;

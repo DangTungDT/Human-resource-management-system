@@ -44,43 +44,43 @@ namespace GUI
                     }
                 }
             }
+            return conn;
         }
-        //    return conn;
         //}
 
-        /// <summary>
-        /// ==========================CÁCH 3=========================
-        /// Sử dụng App.config
-        /// </summary>
-        public static string conn;
+        ///// <summary>
+        ///// ==========================CÁCH 3=========================
+        ///// Sử dụng App.config
+        ///// </summary>
+        //public static string conn;
 
-        static ConnectionDB()
-        {
-            conn = TakeConnectionString();
-        }
+        //static ConnectionDB()
+        //{
+        //    conn = TakeConnectionString();
+        //}
 
-        public static string TakeConnectionString()
-        {
-            // Lấy chuỗi kết nối từ App.config
-            string connect = ConfigurationManager.ConnectionStrings["PersonnelDB"]?.ConnectionString;
+        //public static string TakeConnectionString()
+        //{
+        //    // Lấy chuỗi kết nối từ App.config
+        //    string connect = ConfigurationManager.ConnectionStrings["PersonnelDB"]?.ConnectionString;
 
-            if (string.IsNullOrWhiteSpace(connect))
-                throw new Exception("Không tìm thấy cấu hình 'PersonnelDB' trong App.config!");
+        //    if (string.IsNullOrWhiteSpace(connect))
+        //        throw new Exception("Không tìm thấy cấu hình 'PersonnelDB' trong App.config!");
 
-            // Kiểm tra thử kết nối
-            try
-            {
-                using (SqlConnection sqlConn = new SqlConnection(connect))
-                {
-                    sqlConn.Open();
-                    return connect;
-                }
-            }
-            catch (Exception ex)
-            {
-                throw new Exception($"Không thể kết nối tới SQL Server! Chi tiết: {ex.Message}");
-            }
-        }
+        //    // Kiểm tra thử kết nối
+        //    try
+        //    {
+        //        using (SqlConnection sqlConn = new SqlConnection(connect))
+        //        {
+        //            sqlConn.Open();
+        //            return connect;
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        throw new Exception($"Không thể kết nối tới SQL Server! Chi tiết: {ex.Message}");
+        //    }
+        //}
         /// <summary>
         /// ==========================CÁCH 2=========================
         /// </summary>

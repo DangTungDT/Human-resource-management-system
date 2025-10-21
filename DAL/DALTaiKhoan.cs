@@ -57,7 +57,6 @@ namespace DAL
                 cmd.Parameters.AddWithValue("@tk", tk.TaiKhoan);
                 cmd.Parameters.AddWithValue("@mk", tk.MatKhau);
                 cmd.Parameters.AddWithValue("@idNV", tk.IdNhanVien);
-<<<<<<< HEAD
                 try
                 {
                     conn.Open();
@@ -67,11 +66,6 @@ namespace DAL
                 {
                     throw new Exception("Lỗi khi thêm tài khoản: " + ex.Message);
                 }
-=======
-                conn.Open();
-                cmd.ExecuteNonQuery();
-
->>>>>>> origin/main
             }
         }
 
@@ -250,7 +244,7 @@ namespace DAL
         public List<TaiKhoan> DsTaiKhoan() => _dbContext.TaiKhoans.ToList();
 
         // Tim tai khoan qua idNhanVien
-        public NhanVien TimTaiKhoanQuaIDNVien(string idNHanVien) => _dbContext.NhanViens.FirstOrDefault(p => p.id == idNHanVien);
+        public NhanVien TimTaiKhoanQuaIDNVien(string idNHanVien) => _dbContext.NhanViens.FirstOrDefault(p => p.Id == idNHanVien);
     }
     
 }

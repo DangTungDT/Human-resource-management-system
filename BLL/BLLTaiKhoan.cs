@@ -36,24 +36,24 @@ namespace BLL
 
         public void CreateDefaultAccount(string idNV, string tenNhanVien)
         {
-            _dal.CreateDefaultAccount(idNV, tenNhanVien);
+            _dalTK.CreateDefaultAccount(idNV, tenNhanVien);
         }
 
         public bool ValidateLogin(string taiKhoan, string matKhau)
         {
-            DataTable dt = _dal.GetByTaiKhoan(taiKhoan);
+            DataTable dt = _dalTK.GetByTaiKhoan(taiKhoan);
             string hashedPassword = HashPassword(matKhau);
             return dt.Rows.Count > 0 && dt.Rows[0].Field<string>("Mật khẩu") == hashedPassword;
         }
 
-        public DataTable GetByTaiKhoan(string taiKhoan) => _dal.GetByTaiKhoan(taiKhoan);
+        public DataTable GetByTaiKhoan(string taiKhoan) => _dalTK.GetByTaiKhoan(taiKhoan);
 
-        public DataTable GetById(string id) => _dal.GetById(id);
+        public DataTable GetById(string id) => _dalTK.GetById(id);
 
         public bool UpdateMatKhau(int id, string matKhauMoi)
         {
             matKhauMoi = HashPassword(matKhauMoi); // Mã hóa mật khẩu mới
-            _dal.UpdateMatKhau(id, matKhauMoi);
+            _dalTK.UpdateMatKhau(id, matKhauMoi);
             return true; // Giả định thành công, có thể kiểm tra thêm
         }
 

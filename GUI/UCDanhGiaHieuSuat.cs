@@ -69,11 +69,11 @@ namespace GUI
                 txtGioiTinh.Text = dgvDSHieuSuatNV.Rows[e.RowIndex].Cells["GioiTinh"].Value?.ToString() ?? string.Empty;
                 txtNgaySinh.Text = DateTime.Parse(dgvDSHieuSuatNV.Rows[e.RowIndex].Cells["NgaySinh"].Value?.ToString()).ToShortDateString();
 
-                var dsNhanVien = _dbContextNV.KtraDsNhanVien().Where(p => _dbContextNV.KtraNhanVienQuaID(_idNhanVien).idPhongBan == p.idPhongBan).ToList();
+                var dsNhanVien = _dbContextNV.KtraDsNhanVien().Where(p => _dbContextNV.KtraNhanVienQuaID(_idNhanVien).IdPhongBan == p.IdPhongBan).ToList();
 
                 if (!string.IsNullOrEmpty(_idSelected))
                 {
-                    var namLamViec = _dbContextHD.KtraDsHopDongLaoDong().FirstOrDefault(p => p.IDNhanVien == _idSelected);
+                    var namLamViec = _dbContextHD.KtraDsHopDongLaoDong().FirstOrDefault(p => p.IdNhanVien == _idSelected);
 
                     var namBD = namLamViec.NgayBatDau.Year;
                     var namHT = DateTime.Now.Year;
@@ -94,10 +94,10 @@ namespace GUI
 
             var anonymous = new object();
             var dsHieuSuat = _dbContextDG.KtraDsDanhGiaNhanVien();
-            var idPhongBan = _dbContextNV.KtraNhanVienQuaID(_idNhanVien).idPhongBan;
+            var idPhongBan = _dbContextNV.KtraNhanVienQuaID(_idNhanVien).IdPhongBan;
             var tenPhongBan = _dbContextPB.KtraPhongBan(idPhongBan).ToLowerInvariant();
-            var dsTruongPhong = _dbContextNV.KtraDsNhanVien().Where(p => p.id.Contains("TP")).ToList();
-            var dsNhanVienPB = _dbContextNV.KtraDsNhanVien().Where(p => p.idPhongBan == idPhongBan).ToList();
+            var dsTruongPhong = _dbContextNV.KtraDsNhanVien().Where(p => p.Id.Contains("TP")).ToList();
+            var dsNhanVienPB = _dbContextNV.KtraDsNhanVien().Where(p => p.IdPhongBan == idPhongBan).ToList();
 
             foreach (var loai in loaiChucVu)
             {
@@ -109,16 +109,16 @@ namespace GUI
 
                     if (loai == "GD")
                     {
-                        anonymous = dsNhanVien.Where(p => dsHieuSuat.Where(h => h.IDNguoiDanhGia == _idNhanVien).Select(s => s.IDNhanVien).Contains(p.id))
-                           .GroupBy(p => p.id).Select(p => new
+                        anonymous = dsNhanVien.Where(p => dsHieuSuat.Where(h => h.IDNguoiDanhGia == _idNhanVien).Select(s => s.IDNhanVien).Contains(p.Id))
+                           .GroupBy(p => p.Id).Select(p => new
                            {
                                ID = p.Key,
-                               NhanVien = _dbContextNV.KtraDsNhanVien().Where(n => n.id == p.Key).FirstOrDefault().TenNhanVien,
+                               NhanVien = _dbContextNV.KtraDsNhanVien().Where(n => n.Id == p.Key).FirstOrDefault().TenNhanVien,
                                DiemTBCaNam = Math.Round(dsHieuSuat.Where(w => w.IDNhanVien == p.Key).Average(s => s.DiemSo), 2),
-                               GioiTinh = dsTruongPhong.Where(w => w.id == p.Key).Select(s => s.GioiTinh).FirstOrDefault(),
-                               NgaySinh = dsTruongPhong.Where(w => w.id == p.Key).Select(s => s.NgaySinh).FirstOrDefault(),
-                               Email = dsTruongPhong.Where(w => w.id == p.Key).Select(s => s.Email).FirstOrDefault(),
-                               ChucVu = dsTruongPhong.Where(w => w.id == p.Key).Select(s => s.ChucVu.TenChucVu).FirstOrDefault(),
+                               GioiTinh = dsTruongPhong.Where(w => w.Id == p.Key).Select(s => s.GioiTinh).FirstOrDefault(),
+                               NgaySinh = dsTruongPhong.Where(w => w.Id == p.Key).Select(s => s.NgaySinh).FirstOrDefault(),
+                               Email = dsTruongPhong.Where(w => w.Id == p.Key).Select(s => s.Email).FirstOrDefault(),
+                               ChucVu = dsTruongPhong.Where(w => w.Id == p.Key).Select(s => s.ChucVu.TenChucVu).FirstOrDefault(),
 
                            }).ToList();
 
@@ -127,16 +127,16 @@ namespace GUI
                     }
                     else
                     {
-                        anonymous = dsNhanVien.Where(p => !p.id.StartsWith(loai) && dsHieuSuat.Where(h => h.IDNguoiDanhGia == _idNhanVien).Select(s => s.IDNhanVien).Contains(p.id))
-                           .GroupBy(p => p.id).Select(p => new
+                        anonymous = dsNhanVien.Where(p => !p.Id.StartsWith(loai) && dsHieuSuat.Where(h => h.IDNguoiDanhGia == _idNhanVien).Select(s => s.IDNhanVien).Contains(p.Id))
+                           .GroupBy(p => p.Id).Select(p => new
                            {
                                ID = p.Key,
-                               NhanVien = _dbContextNV.KtraDsNhanVien().Where(n => n.id == p.Key).FirstOrDefault().TenNhanVien,
+                               NhanVien = _dbContextNV.KtraDsNhanVien().Where(n => n.Id == p.Key).FirstOrDefault().TenNhanVien,
                                DiemTBCaNam = Math.Round(dsHieuSuat.Where(w => w.IDNhanVien == p.Key && w.NgayTao.Year == DateTime.Now.Year).Average(s => s.DiemSo), 2),
-                               GioiTinh = dsNhanVienPB.Where(w => w.id == p.Key).Select(s => s.GioiTinh).FirstOrDefault(),
-                               NgaySinh = dsNhanVienPB.Where(w => w.id == p.Key).Select(s => s.NgaySinh).FirstOrDefault(),
-                               Email = dsNhanVienPB.Where(w => w.id == p.Key).Select(s => s.Email).FirstOrDefault(),
-                               ChucVu = dsNhanVienPB.Where(w => w.id == p.Key).Select(s => s.ChucVu.TenChucVu).FirstOrDefault(),
+                               GioiTinh = dsNhanVienPB.Where(w => w.Id == p.Key).Select(s => s.GioiTinh).FirstOrDefault(),
+                               NgaySinh = dsNhanVienPB.Where(w => w.Id == p.Key).Select(s => s.NgaySinh).FirstOrDefault(),
+                               Email = dsNhanVienPB.Where(w => w.Id == p.Key).Select(s => s.Email).FirstOrDefault(),
+                               ChucVu = dsNhanVienPB.Where(w => w.Id == p.Key).Select(s => s.ChucVu.TenChucVu).FirstOrDefault(),
 
                            }).ToList();
 
@@ -192,18 +192,18 @@ namespace GUI
             {
                 if (_idNhanVien.Contains("GD"))
                 {
-                    var dsTruongPhong = _dbContextNV.KtraDsNhanVien().Where(p => p.id.Contains("TP")).ToList();
+                    var dsTruongPhong = _dbContextNV.KtraDsNhanVien().Where(p => p.Id.Contains("TP")).ToList();
 
                     if (phanLoai == "name")
                     {
-                        dsNV = _dbContextNV.KtraDsNhanVien().Where(p => LocKyTuKhongDau(p.TenNhanVien).Contains(locChuoi) && dsTruongPhong.Select(s => s.id).Contains(p.id)).ToList();
+                        dsNV = _dbContextNV.KtraDsNhanVien().Where(p => LocKyTuKhongDau(p.TenNhanVien).Contains(locChuoi) && dsTruongPhong.Select(s => s.Id).Contains(p.Id)).ToList();
                     }
-                    else dsNV = _dbContextNV.KtraDsNhanVien().Where(p => LocKyTuKhongDau(p.Email).Contains(locChuoi) && dsTruongPhong.Select(s => s.id).Contains(p.id)).ToList();
+                    else dsNV = _dbContextNV.KtraDsNhanVien().Where(p => LocKyTuKhongDau(p.Email).Contains(locChuoi) && dsTruongPhong.Select(s => s.Id).Contains(p.Id)).ToList();
                 }
                 else
                 {
-                    var idPhongBan = _dbContextNV.KtraNhanVienQuaID(_idNhanVien).idPhongBan;
-                    var dsNhanVienPB = _dbContextNV.KtraDsNhanVien().Where(p => p.idPhongBan == idPhongBan).ToList();
+                    var idPhongBan = _dbContextNV.KtraNhanVienQuaID(_idNhanVien).IdPhongBan;
+                    var dsNhanVienPB = _dbContextNV.KtraDsNhanVien().Where(p => p.IdPhongBan == idPhongBan).ToList();
 
                     if (phanLoai == "name")
                     {
@@ -342,7 +342,7 @@ namespace GUI
 
         private void dgvDSHieuSuatNV_DoubleClick(object sender, EventArgs e)
         {
-            var nhanVien = _dbContextNV.KtraDsNhanVien().FirstOrDefault(p => p.id == _idSelected);
+            var nhanVien = _dbContextNV.KtraDsNhanVien().FirstOrDefault(p => p.Id == _idSelected);
             if (nhanVien != null)
             {
                 if (MessageBox.Show($"Bạn có muốn xem đánh giá chi tiết của nhân viên {nhanVien.TenNhanVien} không ?", "Câu hỏi", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
@@ -358,10 +358,10 @@ namespace GUI
                             _formCTiet.Close();
                         }
 
-                        _formCTiet = new FrmXemDanhGiaChiTietNV(_conn, nhanVien.id, _idNhanVien);
+                        _formCTiet = new FrmXemDanhGiaChiTietNV(_conn, nhanVien.Id, _idNhanVien);
                         _formCTiet.Show();
 
-                        _idView = nhanVien.id;
+                        _idView = nhanVien.Id;
 
                     }
                 }

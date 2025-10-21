@@ -122,16 +122,48 @@ go
 --------------------------------------------------------------------------------
 -- Bảng HopDongLaoDong (mỗi nhân viên 1 hợp đồng)
 --------------------------------------------------------------------------------
-insert into HopDongLaoDong(LoaiHopDong, NgayKy, NgayBatDau, NgayKetThuc, idNhanVien, MoTa)
-select
-    case when id like 'GD%' or id like 'TP%' then N'Hợp đồng lao động không xác định thời hạn'
-         else N'Hợp đồng lao động xác định thời hạn' end,
-    '01/01/2024', '01/01/2024',
-    case when id like 'GD%' or id like 'TP%' then null else '31/12/2026' end,
-    id,
-    N'Hợp đồng chính thức'
-from NhanVien;
-go
+INSERT INTO HopDongLaoDong
+(
+    LoaiHopDong,
+    NgayKy,
+    NgayBatDau,
+    NgayKetThuc,
+    Luong,
+    HinhAnh,
+    IdNhanVien,
+    MoTa
+)
+SELECT
+    CASE 
+        WHEN id LIKE 'GD%' OR id LIKE 'TP%' 
+            THEN N'Hợp đồng lao động không xác định thời hạn'
+        ELSE 
+            N'Hợp đồng lao động xác định thời hạn' 
+    END AS LoaiHopDong,
+
+    '2024-01-01' AS NgayKy,
+    '2024-01-01' AS NgayBatDau,
+
+    CASE 
+        WHEN id LIKE 'GD%' OR id LIKE 'TP%' 
+            THEN NULL
+        ELSE 
+            '2026-12-31' 
+    END AS NgayKetThuc,
+
+    CASE
+        WHEN id LIKE 'GD%' THEN 30000000   -- Giám đốc: 30 triệu
+        WHEN id LIKE 'TP%' THEN 20000000   -- Trưởng phòng: 20 triệu
+        WHEN id LIKE 'NV%' THEN 10000000   -- Nhân viên: 10 triệu
+        ELSE 8000000                       -- Mặc định: 8 triệu
+    END AS Luong,
+
+    NULL AS HinhAnh,
+    id AS IdNhanVien,
+    N'Hợp đồng chính thức' AS MoTa
+FROM NhanVien;
+GO
+
 
 --------------------------------------------------------------------------------
 -- Bảng ChamCong (mỗi nhân viên 2 bản ghi tháng 9/2025)

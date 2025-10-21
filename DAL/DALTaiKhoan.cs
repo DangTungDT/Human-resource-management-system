@@ -118,6 +118,6 @@ namespace DAL
         public List<TaiKhoan> DsTaiKhoan() => _dbContext.TaiKhoans.ToList();
 
         // Tim tai khoan qua idNhanVien
-        public NhanVien TimTaiKhoanQuaIDNVien(string idNHanVien) => _dbContext.NhanViens.FirstOrDefault(p => p.id == idNHanVien);
+        public NhanVien TimTaiKhoanQuaIDNVien(string idNHanVien) => _dbContext.NhanViens.FirstOrDefault(p => p.Id == idNHanVien);
     }
 }

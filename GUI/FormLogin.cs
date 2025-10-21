@@ -22,16 +22,14 @@ namespace GUI
         private readonly string _conn = ConnectionDB.TakeConnectionString();
         //private readonly string _conn = "Data Source=LAPTOP-PNFFHRG1\\MSSQLSERVER01;Initial Catalog=PersonnelManagement;Integrated Security=True;Encrypt=False";
 
-        public FormLogin(string idNhanVien)
+        public FormLogin()
         {
             InitializeComponent();
-
             _dbContextTK = new BLLTaiKhoan(_conn);
         }
 
         private void FormLogin_Load(object sender, EventArgs e)
         {
-
         }
 
         private void btnDangNhap_Click(object sender, EventArgs e)
@@ -47,7 +45,7 @@ namespace GUI
 
             if (taiKhoan != null)
             {
-                Main formMain = new Main(taiKhoan.id, _conn);
+                Main formMain = new Main(taiKhoan.Id, _conn);
                 formMain.Show(); this.Hide();
             }
             else MessageBox.Show("Tài khản nhân viên không tồn tại !");

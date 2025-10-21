@@ -11,13 +11,11 @@ namespace BLL
     public class BLLThuongPhat
     {
         public readonly DALThuongPhat _dbContext;
-        public BLLThuongPhat(string stringConnection)
-        {
-            _dbContext = new DALThuongPhat(stringConnection);
-        }
+
+        public BLLThuongPhat(string stringConnection) => _dbContext = new DALThuongPhat(stringConnection);
 
         // Danh sach thuong phat
-        public List<DTOThuongPhat> CheckListThuongPhat()
+        public List<ThuongPhat> CheckListThuongPhat()
         {
             var list = _dbContext.DanhSachThuongPhat().ToList();
             if (list.Any() && list != null)

@@ -32,8 +32,8 @@ namespace GUI
 
             dgvDanhSachHDLD.DataSource = _dbContext.KtraDsHopDongLaoDong().Select(p => new
             {
-                p.IDNhanVien,
-                NhanVien = dsNhanVien.FirstOrDefault(q => q.ID == p.IDNhanVien)?.TenNhanVien ?? string.Empty,
+                p.IdNhanVien,
+                NhanVien = dsNhanVien.FirstOrDefault(q => q.ID == p.IdNhanVien)?.TenNhanVien ?? string.Empty,
                 p.LoaiHopDong,
                 p.MoTa,
                 p.NgayKy,

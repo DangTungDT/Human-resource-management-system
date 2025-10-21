@@ -47,8 +47,10 @@
     <Compile Include="DALHopDongLaoDong.cs" />
     <Compile Include="DALNghiPhep.cs" />
     <Compile Include="DALNhanVien.cs" />
+    <Compile Include="DALNhanVien_KhauTru.cs" />
     <Compile Include="DALNhanVien_ThuongPhat.cs" />
     <Compile Include="DALPhongBan.cs" />
+    <Compile Include="DALPhuCap.cs" />
     <Compile Include="DALTaiKhoan.cs" />
     <Compile Include="DALThuongPhat.cs" />
     <Compile Include="PersonnelManagementDataContext.designer.cs">

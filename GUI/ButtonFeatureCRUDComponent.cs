@@ -17,6 +17,7 @@ namespace GUI
         {
             InitializeComponent();
             _tpCRUD = tpCRUD;
+
         }
 
         private void btnDanhGia_Click(object sender, EventArgs e)
@@ -93,6 +94,27 @@ namespace GUI
         {
             var main = this.ParentForm as Main;
             main?.ShowUserControl("CapNhatThongTinNV");
+            main.ChildFormComponent(_tpCRUD, "ButtonFeatureCRUDComponent");
+        }
+
+        private void btnTaoThuongPhat_Click_1(object sender, EventArgs e)
+        {
+            var main = this.ParentForm as Main;
+            main?.ShowUserControl("TaoThuongPhat");
+            main.ChildFormComponent(_tpCRUD, "ButtonFeatureCRUDComponent");
+        }
+
+        private void btnTaoPhuCap_Click(object sender, EventArgs e)
+        {
+            var main = this.ParentForm as Main;
+            main?.ShowUserControl("TaoPhuCap");
+            main.ChildFormComponent(_tpCRUD, "ButtonFeatureCRUDComponent");
+        }
+
+        private void btnTaoNhanVien_KhauTru_Click(object sender, EventArgs e)
+        {
+            var main = this.ParentForm as Main;
+            main?.ShowUserControl("TaoNhanVien_KhauTru");
             main.ChildFormComponent(_tpCRUD, "ButtonFeatureCRUDComponent");
         }
     }

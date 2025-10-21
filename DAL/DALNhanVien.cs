@@ -38,7 +38,30 @@ namespace DAL
             }
         }
 
-        public DataTable LoadNhanVien()
+        public DataTable GetById(string id)
+        {
+            using (SqlConnection conn = new SqlConnection(connectionString))
+            {
+                string query = @"SELECT id AS [Mã Nhân viên], TenNhanVien AS [Tên nhân viên], idPhongBan AS [Mã phòng ban], Email
+                                 FROM NhanVien
+                                 WHERE id = @id";
+                SqlDataAdapter da = new SqlDataAdapter(query, conn);
+                da.SelectCommand.Parameters.AddWithValue("@id", id);
+                DataTable dt = new DataTable();
+                try
+                {
+                    conn.Open();
+                    da.Fill(dt);
+                }
+                catch (SqlException ex)
+                {
+                    throw new Exception("Lỗi khi lấy thông tin nhân viên theo ID: " + ex.Message);
+                }
+                return dt;
+            }
+        }
+
+        public DataTable  LoadNhanVien()
         {
             using (SqlConnection conn = new SqlConnection(connectionString))
             {
@@ -47,6 +70,20 @@ namespace DAL
                 DataTable dt = new DataTable();
                 da.Fill(dt);
 
+                return dt;
+            }
+        }
+
+        public DataTable ComboboxNhanVien(int? idPhongBan = null)
+        {
+            using (SqlConnection conn = new SqlConnection(connectionString))
+            {
+                string query = "SELECT id, TenNhanVien FROM NhanVien WHERE (@idPhongBan IS NULL OR idPhongBan = @idPhongBan)";
+                SqlDataAdapter da = new SqlDataAdapter(query, conn);
+                da.SelectCommand.Parameters.AddWithValue("@idPhongBan", idPhongBan.HasValue ? (object)idPhongBan.Value : DBNull.Value);
+
+                DataTable dt = new DataTable();
+                da.Fill(dt);
                 return dt;
             }
         }

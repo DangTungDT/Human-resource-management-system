@@ -26,5 +26,14 @@ namespace GUI
         private void FormLogin_Load(object sender, EventArgs e)
         {
         }
+
+        private void lblQuenMatKhau_Click(object sender, EventArgs e)
+        {
+            QuenMatKhau formQuenMatKhau = new QuenMatKhau(ConnectionDB.TakeConnectionString());
+            formQuenMatKhau.Show();
+
+            // Đóng form đăng nhập hiện tại
+            this.Hide();
+        }
     }
 }

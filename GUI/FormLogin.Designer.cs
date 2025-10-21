@@ -32,7 +32,7 @@
             this.txtUsername = new Guna.UI2.WinForms.Guna2TextBox();
             this.label2 = new System.Windows.Forms.Label();
             this.txtPassword = new Guna.UI2.WinForms.Guna2TextBox();
-            this.label3 = new System.Windows.Forms.Label();
+            this.lblQuenMatKhau = new System.Windows.Forms.Label();
             this.btnLogin = new Guna.UI2.WinForms.Guna2Button();
             this.label4 = new System.Windows.Forms.Label();
             this.SuspendLayout();
@@ -94,14 +94,15 @@
             this.txtPassword.TabIndex = 2;
             this.txtPassword.UseSystemPasswordChar = true;
             // 
-            // label3
+            // lblQuenMatKhau
             // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(299, 247);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(103, 16);
-            this.label3.TabIndex = 3;
-            this.label3.Text = "Quên mật khẩu?";
+            this.lblQuenMatKhau.AutoSize = true;
+            this.lblQuenMatKhau.Location = new System.Drawing.Point(299, 247);
+            this.lblQuenMatKhau.Name = "lblQuenMatKhau";
+            this.lblQuenMatKhau.Size = new System.Drawing.Size(103, 16);
+            this.lblQuenMatKhau.TabIndex = 3;
+            this.lblQuenMatKhau.Text = "Quên mật khẩu?";
+            this.lblQuenMatKhau.Click += new System.EventHandler(this.lblQuenMatKhau_Click);
             // 
             // btnLogin
             // 
@@ -136,7 +137,7 @@
             this.ClientSize = new System.Drawing.Size(451, 450);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.btnLogin);
-            this.Controls.Add(this.label3);
+            this.Controls.Add(this.lblQuenMatKhau);
             this.Controls.Add(this.txtPassword);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.txtUsername);
@@ -156,7 +157,7 @@
         private Guna.UI2.WinForms.Guna2TextBox txtUsername;
         private System.Windows.Forms.Label label2;
         private Guna.UI2.WinForms.Guna2TextBox txtPassword;
-        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Label lblQuenMatKhau;
         private Guna.UI2.WinForms.Guna2Button btnLogin;
         private System.Windows.Forms.Label label4;
     }

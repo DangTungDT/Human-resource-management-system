@@ -15,60 +15,60 @@ namespace GUI
         //Ngân : DESKTOP-UM1I61K\THANHNGAN
         //Tuấn : LAPTOP-PNFFHRG1\MSSQLSERVER01
 
-        public static string conn = "Data Source=DESKTOP-UM1I61K\\THANHNGAN;Initial Catalog=PersonnelManagement;Integrated Security=True;Encrypt=False";
-        public static string TakeConnectionString()
-        {
-            using (RegistryKey localMachine64 = RegistryKey.OpenBaseKey(RegistryHive.LocalMachine, RegistryView.Registry64))
-            {
-                using (RegistryKey rk = localMachine64.OpenSubKey(@"SOFTWARE\Microsoft\Microsoft SQL Server\Instance Names\SQL"))
-                {
-                    if (rk != null)
-                    {
-                        foreach (string instanceName in rk.GetValueNames())
-                        {
-                            conn = $"Data Source={Environment.MachineName}\\{instanceName};Initial Catalog=PersonnelManagement;Integrated Security=True;Encrypt=False";
-                            break;
-                        }
-                    }
-                }
-            }
+        //public static string conn = "Data Source=DESKTOP-UM1I61K\\THANHNGAN;Initial Catalog=PersonnelManagement;Integrated Security=True;Encrypt=False";
+        //public static string TakeConnectionString()
+        //{
+        //    using (RegistryKey localMachine64 = RegistryKey.OpenBaseKey(RegistryHive.LocalMachine, RegistryView.Registry64))
+        //    {
+        //        using (RegistryKey rk = localMachine64.OpenSubKey(@"SOFTWARE\Microsoft\Microsoft SQL Server\Instance Names\SQL"))
+        //        {
+        //            if (rk != null)
+        //            {
+        //                foreach (string instanceName in rk.GetValueNames())
+        //                {
+        //                    conn = $"Data Source={Environment.MachineName}\\{instanceName};Initial Catalog=PersonnelManagement;Integrated Security=True;Encrypt=False";
+        //                    break;
+        //                }
+        //            }
+        //        }
+        //    }
 
-            return conn;
-        }
+        //    return conn;
+        //}
 
         /// <summary>
         /// ==========================CÁCH 3=========================
         /// Sử dụng App.config
         /// </summary>
-        //public static string conn;
+        public static string conn;
 
-        //static ConnectionDB()
-        //{
-        //    conn = TakeConnectionString();
-        //}
+        static ConnectionDB()
+        {
+            conn = TakeConnectionString();
+        }
 
-        //public static string TakeConnectionString()
-        //{
-        //    // Lấy chuỗi kết nối từ App.config
-        //    string connect = ConfigurationManager.ConnectionStrings["PersonnelDB"]?.ConnectionString;
+        public static string TakeConnectionString()
+        {
+            // Lấy chuỗi kết nối từ App.config
+            string connect = ConfigurationManager.ConnectionStrings["PersonnelDB"]?.ConnectionString;
 
-        //    if (string.IsNullOrWhiteSpace(connect))
-        //        throw new Exception("Không tìm thấy cấu hình 'PersonnelDB' trong App.config!");
+            if (string.IsNullOrWhiteSpace(connect))
+                throw new Exception("Không tìm thấy cấu hình 'PersonnelDB' trong App.config!");
 
-        //    // Kiểm tra thử kết nối
-        //    try
-        //    {
-        //        using (SqlConnection sqlConn = new SqlConnection(connect))
-        //        {
-        //            sqlConn.Open();
-        //            return connect;
-        //        }
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        throw new Exception($"Không thể kết nối tới SQL Server! Chi tiết: {ex.Message}");
-        //    }
-        //}
+            // Kiểm tra thử kết nối
+            try
+            {
+                using (SqlConnection sqlConn = new SqlConnection(connect))
+                {
+                    sqlConn.Open();
+                    return connect;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"Không thể kết nối tới SQL Server! Chi tiết: {ex.Message}");
+            }
+        }
         /// <summary>
         /// ==========================CÁCH 2=========================
         /// </summary>

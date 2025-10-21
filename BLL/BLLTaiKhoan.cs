@@ -7,31 +7,34 @@ using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml;
 
 namespace BLL
 {
     public class BLLTaiKhoan
     {
-        private readonly DALTaiKhoan _dal;
+        private readonly DALTaiKhoan _dalTK;
+        private readonly DALNhanVien _dalNV;
 
         public BLLTaiKhoan(string conn)
         {
-            _dal = new DALTaiKhoan(conn);
+            _dalNV = new DALNhanVien(conn);
+            _dalTK = new DALTaiKhoan(conn);
         }
 
-        public DataTable GetAllAccounts() => _dal.GetAll();
+        public DataTable GetAllAccounts() => _dalTK.GetAll();
 
         public void SaveAccount(DTOTaiKhoan tk, bool isNew)
         {
             tk.MatKhau = HashPassword(tk.MatKhau); // Mã hoá mật khẩu SHA256
 
             if (isNew)
-                _dal.Insert(tk);
+                _dalTK.Insert(tk);
             else
-                _dal.Update(tk);
+                _dalTK.Update(tk);
         }
 
-        public void DeleteAccount(int id) => _dal.Delete(id);
+        public void DeleteAccount(int id) => _dalTK.Delete(id);
 
         public void CreateDefaultAccount(string idNV)
         {
@@ -41,10 +44,10 @@ namespace BLL
                 IdNhanVien = idNV,
                 MatKhau = HashPassword("1")
             };
-            _dal.Insert(tk);
+            _dalTK.Insert(tk);
         }
 
-        private string HashPassword(string password)
+        public string HashPassword(string password)
         {
             using (SHA256 sha256 = SHA256.Create())
             {
@@ -53,6 +56,23 @@ namespace BLL
             }
         }
 
+        // Kiem tra du lieu dau vao cua id nhan vien, ten tai khoan, mat khau
+        public NhanVien KtraDuLieuTaiKhoan(string userName, string password)
+        {
+            try
+            {
+                var taiKhoan = _dalTK.DsTaiKhoan().FirstOrDefault(p => p.taiKhoan1 == userName && p.matKhau == password);
+                if (taiKhoan != null)
+                {
+                    return _dalNV.LayNhanVienQuaID(taiKhoan.idNhanVien);
+                }
 
+                return null;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Lỗi lấy tìm tài khản nhân viên: " + ex.Message);
+            }
+        }
     }
 }

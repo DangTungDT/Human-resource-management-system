@@ -84,6 +84,13 @@
     <Compile Include="ButtonFeatureViewComponent.Designer.cs">
       <DependentUpon>ButtonFeatureViewComponent.cs</DependentUpon>
     </Compile>
+    <Compile Include="DisplayUserControlPanel.cs" />
+    <Compile Include="FrmXemDanhGiaChiTietNV.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FrmXemDanhGiaChiTietNV.Designer.cs">
+      <DependentUpon>FrmXemDanhGiaChiTietNV.cs</DependentUpon>
+    </Compile>
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -100,6 +107,12 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>RPBaoCaoLuong.rpt</DependentUpon>
       <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="TestGiaoDien.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="TestGiaoDien.Designer.cs">
+      <DependentUpon>TestGiaoDien.cs</DependentUpon>
     </Compile>
     <Compile Include="UCCapNhatMatkhau.cs">
       <SubType>UserControl</SubType>
@@ -260,6 +273,9 @@
     <EmbeddedResource Include="ButtonFeatureViewComponent.resx">
       <DependentUpon>ButtonFeatureViewComponent.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="FrmXemDanhGiaChiTietNV.resx">
+      <DependentUpon>FrmXemDanhGiaChiTietNV.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="RPBaoCaoKyLuat.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>RPBaoCaoKyLuat.cs</LastGenOutput>
@@ -267,6 +283,12 @@
     <EmbeddedResource Include="RPBaoCaoLuong.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>RPBaoCaoLuong.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="TaoKyLuat.resx">
+      <DependentUpon>TaoKyLuat.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="TestGiaoDien.resx">
+      <DependentUpon>TestGiaoDien.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UCCapNhatMatkhau.resx">
       <DependentUpon>UCCapNhatMatkhau.cs</DependentUpon>
@@ -459,6 +481,9 @@
     <EmbeddedResource Include="ucXemTuyenDung.resx">
       <DependentUpon>ucXemTuyenDung.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="XemNghiPhep.resx">
+      <DependentUpon>XemNghiPhep.cs</DependentUpon>
+    </EmbeddedResource>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -477,6 +502,10 @@
     <ProjectReference Include="..\BLL\BLL.csproj">
       <Project>{7ad545cf-f7ef-451a-8ebf-82db115d933f}</Project>
       <Name>BLL</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DAL\DAL.csproj">
+      <Project>{3E92D399-EB39-4D77-B3AA-802D3D2EC8E9}</Project>
+      <Name>DAL</Name>
     </ProjectReference>
     <ProjectReference Include="..\DTO\DTO.csproj">
       <Project>{8399077e-d08d-4538-b02b-e04cbc462b4a}</Project>

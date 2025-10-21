@@ -29,7 +29,7 @@ namespace GUI
         private readonly BLLPhongBan bllPhongBan;
         private BLLNhanVien bllNhanVien;
 
-        public TaoKhenThuong(string conn)
+        public TaoKhenThuong(string idNhanVien, string conn)
         {
             connectionString = conn;
             InitializeComponent();

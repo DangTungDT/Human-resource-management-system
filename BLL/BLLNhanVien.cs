@@ -12,8 +12,8 @@ namespace BLL
 {
     public class BLLNhanVien
     {
-        private readonly DALNhanVien _dal;
-        private readonly BLLTaiKhoan _tkBus;
+        public readonly DALNhanVien _dal;
+        public readonly BLLTaiKhoan _tkBus;
 
         public BLLNhanVien(string conn)
         {
@@ -60,7 +60,7 @@ namespace BLL
 
         public void AnNhanVien(string id)
         {
-             _dal.AnNhanVien(id);
+            _dal.AnNhanVien(id);
         }
 
         public void KhoiPhucNhanVien(string id)
@@ -68,7 +68,40 @@ namespace BLL
             _dal.KhoiPhucNhanVien(id);
         }
 
-        
+        public NhanVien KtraNhanVienQuaID(string id)
+        {
+            try
+            {
+                if (id == null)
+                {
+                    throw new Exception("Không có dữ liệu nào trong d/s nhân viên qua id được truyền !");
+                }
 
+                return _dal.LayNhanVienQuaID(id);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
+        // Ktra ds Nhan Vien
+        public List<NhanVien> KtraDsNhanVien()
+        {
+            try
+            {
+                if (_dal.LayDsNhanVien().Any())
+                {
+                    return _dal.LayDsNhanVien();
+                }
+                else throw new Exception("Không có dữ liệu nào trong d/s nhân viên !");
+
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Lỗi lấy d/s nhân viên : " + ex.Message);
+            }
+        }
     }
 }

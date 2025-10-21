@@ -12,10 +12,12 @@ namespace DAL
     public class DALPhongBan
     {
         private readonly string connectionString;
+        private readonly PersonnelManagementDataContextDataContext _dbContextPB;
 
         public DALPhongBan(string conn)
         {
             connectionString = conn;
+            _dbContextPB = new PersonnelManagementDataContextDataContext(conn);
         }
 
         public DataTable GetAllPhongBan()
@@ -81,5 +83,8 @@ namespace DAL
                 return cmd.ExecuteNonQuery() > 0;
             }
         }
+
+        // Lay ten phong ban
+        public string LayTenPhongBan(int id) => _dbContextPB.PhongBans.Where(p => p.id == id).Select(p => p.TenPhongBan).FirstOrDefault().ToString() ?? string.Empty;
     }
 }

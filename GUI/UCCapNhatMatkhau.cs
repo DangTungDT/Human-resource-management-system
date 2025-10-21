@@ -12,11 +12,15 @@ namespace GUI
 {
     public partial class UCCapNhatMatkhau : UserControl
     {
-        public UCCapNhatMatkhau()
+        public readonly string _idNhanVien, _conn;
+        public UCCapNhatMatkhau(string idNhanVien, string conn)
         {
             InitializeComponent();
+
+            _conn = conn;
+            _idNhanVien = idNhanVien;
         }
 
-        
+
     }
 }

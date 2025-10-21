@@ -29,7 +29,7 @@ namespace GUI
         private BLLKyLuat bllKyLuat;
         private BLLNhanVien bllNhanVien;
 
-        public TaoKyLuat(string conn)
+        public TaoKyLuat(string idNhanVien, string conn)
         {
             connectionString = conn;
             InitializeComponent();

@@ -14,12 +14,16 @@ namespace GUI
 {
     public partial class UCXemKyLuat : UserControl
     {
-        private BLLThuongPhat _dbContext;
+        private readonly BLLThuongPhat _dbContext;
+        public readonly string _idNhanVien, _conn;
 
-        public UCXemKyLuat(string stringConnection)
+        public UCXemKyLuat(string stringConnection, string idNhanVien)
         {
-            _dbContext = new BLLThuongPhat(stringConnection);
             InitializeComponent();
+
+            _conn = stringConnection;
+            _idNhanVien = idNhanVien;
+            _dbContext = new BLLThuongPhat(stringConnection);
         }
 
         private void UCXemKyLuat_Load(object sender, EventArgs e)

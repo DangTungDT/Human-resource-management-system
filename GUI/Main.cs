@@ -65,6 +65,7 @@ namespace GUI
         public void PreLoadUserControl()
         {
             _userControls["UCHopDong"] = new UCHopDong(_stringConnection);
+            _userControls["ucChucVu"] = new ucChucVu(_stringConnection);
             _userControls["UCDuyetNghiPhep"] = new UCDuyetNghiPhep();
             _userControls["UCCapNhatMatKhau"] = new UCCapNhatMatkhau();
             _userControls["UCDanhGiaHieuSuat"] = new UCDanhGiaHieuSuat(_stringConnection);
@@ -130,6 +131,9 @@ namespace GUI
                     {
                         case "UCHopDong":
                             user = new UCHopDong(_stringConnection);
+                            break;
+                        case "ucChucVu":
+                            user = new ucChucVu(_stringConnection);
                             break;
                         case "UCDuyetNghiPhep":
                             user = new UCDuyetNghiPhep();

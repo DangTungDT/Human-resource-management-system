@@ -11,24 +11,37 @@ namespace DTO
     {
         public DTOHopDongLaoDong() { }
 
-        public DTOHopDongLaoDong(int iD, string loaiHopDong, string moTa, DateTime ngayKy, DateTime ngayBatDau, DateTime ngayKetThuc, string iDNhanVien)
+        public DTOHopDongLaoDong(
+            int id,
+            string loaiHopDong,
+            DateTime ngayKy,
+            DateTime ngayBatDau,
+            DateTime? ngayKetThuc,
+            decimal luong,
+            string hinhAnh,
+            string idNhanVien,
+            string moTa)
         {
-            ID = iD;
+            Id = id;
             LoaiHopDong = loaiHopDong;
-            MoTa = moTa;
             NgayKy = ngayKy;
             NgayBatDau = ngayBatDau;
             NgayKetThuc = ngayKetThuc;
-            IDNhanVien = iDNhanVien;
+            Luong = luong;
+            HinhAnh = hinhAnh;
+            IdNhanVien = idNhanVien;
+            MoTa = moTa;
         }
 
-        public int ID { get; set; }
+        public int Id { get; set; }
         public string LoaiHopDong { get; set; }
-        public string MoTa { get; set; }
         public DateTime NgayKy { get; set; }
         public DateTime NgayBatDau { get; set; }
         public DateTime? NgayKetThuc { get; set; }
-        public string IDNhanVien { get; set; }
-
+        public decimal Luong { get; set; }
+        public string HinhAnh { get; set; }
+        public string IdNhanVien { get; set; }
+        public string MoTa { get; set; }
     }
+
 }

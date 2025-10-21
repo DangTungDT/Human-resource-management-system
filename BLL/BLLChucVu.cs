@@ -20,14 +20,34 @@ namespace BLL
 
         public DataTable GetAll(string keyword = "") => dal.GetAll(keyword);
         public DataTable GetDepartments() => dal.GetDepartments();
-        public void SaveChucVu(DTOChucVu cv, bool isNew)
+
+        public bool Insert(DTOChucVu cv)
         {
-            if (isNew)
-                dal.Insert(cv);
-            else
-                dal.Update(cv);
+            if (!KiemTraHopLe(cv)) return false;
+            return dal.Insert(cv);
+        }
+
+        public bool Update(DTOChucVu cv)
+        {
+            if (!KiemTraHopLe(cv)) return false;
+            return dal.Update(cv);
         }
 
         public void Delete(int id) => dal.Delete(id);
+
+        public static bool KiemTraHopLe(DTOChucVu chucVu)
+        {
+            if (chucVu == null) return false;
+
+            if (string.IsNullOrWhiteSpace(chucVu.TenChucVu)) return false;
+
+            if (chucVu.LuongCoBan < 0) return false;
+
+            if (chucVu.TyLeHoaHong < 0) return false;
+
+            if (chucVu.IdPhongBan <= 0)  return false;
+
+            return true;
+        }
     }
 }

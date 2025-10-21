@@ -113,6 +113,12 @@
     <Compile Include="UCChiTietluongCaNhan.Designer.cs">
       <DependentUpon>UCChiTietluongCaNhan.cs</DependentUpon>
     </Compile>
+    <Compile Include="ucChucVu.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="ucChucVu.Designer.cs">
+      <DependentUpon>ucChucVu.cs</DependentUpon>
+    </Compile>
     <Compile Include="UCDoiMatKhau.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -273,6 +279,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="UCChiTietluongCaNhan.resx">
       <DependentUpon>UCChiTietluongCaNhan.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ucChucVu.resx">
+      <DependentUpon>ucChucVu.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UCDoiMatKhau.resx">
       <DependentUpon>UCDoiMatKhau.cs</DependentUpon>

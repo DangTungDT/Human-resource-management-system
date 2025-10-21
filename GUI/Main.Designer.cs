@@ -30,18 +30,12 @@
         {
             this.tcMenu = new Guna.UI2.WinForms.Guna2TabControl();
             this.tpHome = new System.Windows.Forms.TabPage();
-            this.btnCRUDChucVu = new Guna.UI2.WinForms.Guna2Button();
-            this.btnCRUDPhongBan = new Guna.UI2.WinForms.Guna2Button();
             this.tpView = new System.Windows.Forms.TabPage();
             this.tpReport = new System.Windows.Forms.TabPage();
-            this.btnBaoCaoKhenThuong = new Guna.UI2.WinForms.Guna2Button();
-            this.btnTaoHDLD = new Guna.UI2.WinForms.Guna2Button();
             this.tpCRUD = new System.Windows.Forms.TabPage();
             this.tpSystem = new System.Windows.Forms.TabPage();
             this.pnContent = new Guna.UI2.WinForms.Guna2Panel();
             this.tcMenu.SuspendLayout();
-            this.tpHome.SuspendLayout();
-            this.tpReport.SuspendLayout();
             this.SuspendLayout();
             // 
             // tcMenu
@@ -83,8 +77,6 @@
             // tpHome
             // 
             this.tpHome.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
-            this.tpHome.Controls.Add(this.btnCRUDChucVu);
-            this.tpHome.Controls.Add(this.btnCRUDPhongBan);
             this.tpHome.ForeColor = System.Drawing.Color.Black;
             this.tpHome.Location = new System.Drawing.Point(4, 34);
             this.tpHome.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
@@ -94,38 +86,6 @@
             this.tpHome.TabIndex = 0;
             this.tpHome.Text = "Trang chủ";
             this.tpHome.Click += new System.EventHandler(this.tpHome_Click);
-            // 
-            // btnCRUDChucVu
-            // 
-            this.btnCRUDChucVu.DisabledState.BorderColor = System.Drawing.Color.DarkGray;
-            this.btnCRUDChucVu.DisabledState.CustomBorderColor = System.Drawing.Color.DarkGray;
-            this.btnCRUDChucVu.DisabledState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(169)))), ((int)(((byte)(169)))), ((int)(((byte)(169)))));
-            this.btnCRUDChucVu.DisabledState.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(141)))), ((int)(((byte)(141)))), ((int)(((byte)(141)))));
-            this.btnCRUDChucVu.Font = new System.Drawing.Font("Segoe UI", 9F);
-            this.btnCRUDChucVu.ForeColor = System.Drawing.Color.White;
-            this.btnCRUDChucVu.Location = new System.Drawing.Point(1456, 21);
-            this.btnCRUDChucVu.Margin = new System.Windows.Forms.Padding(4);
-            this.btnCRUDChucVu.Name = "btnCRUDChucVu";
-            this.btnCRUDChucVu.Size = new System.Drawing.Size(177, 55);
-            this.btnCRUDChucVu.TabIndex = 7;
-            this.btnCRUDChucVu.Text = "Cập nhật chức vụ";
-            this.btnCRUDChucVu.Click += new System.EventHandler(this.btnCRUDChucVu_Click);
-            // 
-            // btnCRUDPhongBan
-            // 
-            this.btnCRUDPhongBan.DisabledState.BorderColor = System.Drawing.Color.DarkGray;
-            this.btnCRUDPhongBan.DisabledState.CustomBorderColor = System.Drawing.Color.DarkGray;
-            this.btnCRUDPhongBan.DisabledState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(169)))), ((int)(((byte)(169)))), ((int)(((byte)(169)))));
-            this.btnCRUDPhongBan.DisabledState.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(141)))), ((int)(((byte)(141)))), ((int)(((byte)(141)))));
-            this.btnCRUDPhongBan.Font = new System.Drawing.Font("Segoe UI", 9F);
-            this.btnCRUDPhongBan.ForeColor = System.Drawing.Color.White;
-            this.btnCRUDPhongBan.Location = new System.Drawing.Point(1253, 21);
-            this.btnCRUDPhongBan.Margin = new System.Windows.Forms.Padding(4);
-            this.btnCRUDPhongBan.Name = "btnCRUDPhongBan";
-            this.btnCRUDPhongBan.Size = new System.Drawing.Size(177, 55);
-            this.btnCRUDPhongBan.TabIndex = 6;
-            this.btnCRUDPhongBan.Text = "Cập nhật phòng ban";
-            this.btnCRUDPhongBan.Click += new System.EventHandler(this.btnCRUDPhongBan_Click);
             // 
             // tpView
             // 
@@ -143,8 +103,6 @@
             // tpReport
             // 
             this.tpReport.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
-            this.tpReport.Controls.Add(this.btnBaoCaoKhenThuong);
-            this.tpReport.Controls.Add(this.btnTaoHDLD);
             this.tpReport.ForeColor = System.Drawing.Color.Black;
             this.tpReport.Location = new System.Drawing.Point(4, 34);
             this.tpReport.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
@@ -153,38 +111,6 @@
             this.tpReport.TabIndex = 3;
             this.tpReport.Text = "Báo cáo";
             this.tpReport.Click += new System.EventHandler(this.tpReport_Click);
-            // 
-            // btnBaoCaoKhenThuong
-            // 
-            this.btnBaoCaoKhenThuong.DisabledState.BorderColor = System.Drawing.Color.DarkGray;
-            this.btnBaoCaoKhenThuong.DisabledState.CustomBorderColor = System.Drawing.Color.DarkGray;
-            this.btnBaoCaoKhenThuong.DisabledState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(169)))), ((int)(((byte)(169)))), ((int)(((byte)(169)))));
-            this.btnBaoCaoKhenThuong.DisabledState.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(141)))), ((int)(((byte)(141)))), ((int)(((byte)(141)))));
-            this.btnBaoCaoKhenThuong.Font = new System.Drawing.Font("Segoe UI", 9F);
-            this.btnBaoCaoKhenThuong.ForeColor = System.Drawing.Color.White;
-            this.btnBaoCaoKhenThuong.Location = new System.Drawing.Point(247, 21);
-            this.btnBaoCaoKhenThuong.Margin = new System.Windows.Forms.Padding(4);
-            this.btnBaoCaoKhenThuong.Name = "btnBaoCaoKhenThuong";
-            this.btnBaoCaoKhenThuong.Size = new System.Drawing.Size(177, 55);
-            this.btnBaoCaoKhenThuong.TabIndex = 6;
-            this.btnBaoCaoKhenThuong.Text = "Khen Thưởng";
-            this.btnBaoCaoKhenThuong.Click += new System.EventHandler(this.btnBaoCaoKhenThuong_Click);
-            // 
-            // btnTaoHDLD
-            // 
-            this.btnTaoHDLD.DisabledState.BorderColor = System.Drawing.Color.DarkGray;
-            this.btnTaoHDLD.DisabledState.CustomBorderColor = System.Drawing.Color.DarkGray;
-            this.btnTaoHDLD.DisabledState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(169)))), ((int)(((byte)(169)))), ((int)(((byte)(169)))));
-            this.btnTaoHDLD.DisabledState.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(141)))), ((int)(((byte)(141)))), ((int)(((byte)(141)))));
-            this.btnTaoHDLD.Font = new System.Drawing.Font("Segoe UI", 9F);
-            this.btnTaoHDLD.ForeColor = System.Drawing.Color.White;
-            this.btnTaoHDLD.Location = new System.Drawing.Point(29, 21);
-            this.btnTaoHDLD.Margin = new System.Windows.Forms.Padding(4);
-            this.btnTaoHDLD.Name = "btnTaoHDLD";
-            this.btnTaoHDLD.Size = new System.Drawing.Size(177, 55);
-            this.btnTaoHDLD.TabIndex = 5;
-            this.btnTaoHDLD.Text = "Hợp đồng lao động";
-            this.btnTaoHDLD.Click += new System.EventHandler(this.btnTaoHDLD_Click);
             // 
             // tpCRUD
             // 
@@ -234,8 +160,6 @@
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             this.Load += new System.EventHandler(this.Main_Load);
             this.tcMenu.ResumeLayout(false);
-            this.tpHome.ResumeLayout(false);
-            this.tpReport.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -247,10 +171,6 @@
         private System.Windows.Forms.TabPage tpReport;
         private System.Windows.Forms.TabPage tpSystem;
         private Guna.UI2.WinForms.Guna2Panel pnContent;
-        private Guna.UI2.WinForms.Guna2Button btnTaoHDLD;
-        private Guna.UI2.WinForms.Guna2Button btnCRUDPhongBan;
-        private Guna.UI2.WinForms.Guna2Button btnCRUDChucVu;
-        private Guna.UI2.WinForms.Guna2Button btnBaoCaoKhenThuong;
         private System.Windows.Forms.TabPage tpHome;
         private System.Windows.Forms.TabPage tpCRUD;
     }

@@ -17,15 +17,19 @@ namespace DAL
         private string _stringConnection = "";
 
         // Danh sach hop dong lao dong
-        public IQueryable<DTOHopDongLaoDong> DanhSachHopDongLaoDong() => _dbContext.HopDongLaoDongs.Select(p => new DTOHopDongLaoDong
+        public IQueryable<DTOHopDongLaoDong> DanhSachHopDongLaoDong() =>
+        _dbContext.HopDongLaoDongs.Select(p => new DTOHopDongLaoDong
         {
-            ID = p.id,
+            Id = p.id,
             LoaiHopDong = p.LoaiHopDong,
             NgayKy = p.NgayKy,
             NgayBatDau = p.NgayBatDau,
             NgayKetThuc = p.NgayKetThuc,
-            IDNhanVien = p.idNhanVien,
+            Luong = p.Luong,
+            HinhAnh = p.HinhAnh,
+            IdNhanVien = p.IdNhanVien,
             MoTa = p.MoTa
         });
+
     }
 }

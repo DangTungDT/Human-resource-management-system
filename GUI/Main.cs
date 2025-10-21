@@ -84,6 +84,46 @@ namespace GUI
         // Tai truoc va luu tru UserControl
         public void PreLoadUserControl()
         {
+            _userControls["UCHopDong"] = new UCHopDong(_stringConnection);
+            _userControls["UCDuyetNghiPhep"] = new UCDuyetNghiPhep();
+            _userControls["UCCapNhatMatKhau"] = new UCCapNhatMatkhau();
+            _userControls["UCDanhGiaHieuSuat"] = new UCDanhGiaHieuSuat(_stringConnection);
+            _userControls["UCChiTietLuongCaNhan"] = new UCChiTietluongCaNhan();
+            _userControls["ButtonFeatureHomeComponent"] = new ButtonFeatureHomeComponent(tpHome);
+            _userControls["ButtonFeatureViewComponent"] = new ButtonFeatureViewComponent(tpView);
+            _userControls["ButtonFeatureReportComponent"] = new ButtonFeatureReportComponent(tpReport);
+            _userControls["ButtonFeatureCRUDComponent"] = new ButtonFeatureCRUDComponent(tpCRUD);
+            _userControls["BaoCaoHopDong"] = new BaoCaoHopDong(_stringConnection);
+            _userControls["BaoCaoKhenThuong"] = new BaoCaoKhenThuong(_stringConnection);
+            _userControls["CapNhatThongTinNV"] = new CapNhatThongTinNV(_stringConnection);
+            _userControls["CapNhatThongTinRieng"] = new CapNhatThongTinRieng(idNV, tpView, _stringConnection);
+            _userControls["CRUDChucVu"] = new CRUDChucVu(_stringConnection);
+            _userControls["CRUDPhongBan"] = new CRUDPhongban(_stringConnection);
+            _userControls["CRUDTaiKhoan"] = new CRUDTaiKhoan(_stringConnection);
+            _userControls["ucChamCongQuanLyHinh"] = new ucChamCongQuanLy(idNV, true);
+            _userControls["ucChamCongQuanLy"] = new ucChamCongQuanLy(idNV);
+            _userControls["ucChiTietLuong"] = new ucChiTietLuong();
+            _userControls["ucChiTietLuongCaNhan"] = new UCChiTietluongCaNhan();
+            _userControls["UCDoiMatKhau"] = new UCDoiMatKhau();
+            _userControls["ucDuyenTuyenDung"] = new ucDuyenTuyenDung();
+            _userControls["UCHopDong"] = new UCHopDong(_stringConnection);
+            _userControls["ucKyLuong"] = new ucKyLuong();
+            _userControls["UCNghiPhep"] = new UCNghiPhep();
+            _userControls["ucTaoTuyenDung"] = new ucTaoTuyenDung();
+            _userControls["ucUngVien"] = new ucUngVien();
+            _userControls["ucXemChamCong"] = new ucXemChamCong();
+            _userControls["UCXemKyLuat"] = new UCXemKyLuat(_stringConnection);
+            _userControls["ucXemTuyenDung"] = new ucXemTuyenDung();
+            _userControls["XemNghiPhep"] = new XemNghiPhep(_stringConnection, idNV);
+            _userControls["XemThongTinCaNhan"] = new XemThongTinCaNhan(idNV, tpView, _stringConnection);
+            _userControls["TaoKhenThuong"] = new TaoKhenThuong(_stringConnection);
+            _userControls["TaoKyLuat"] = new TaoKyLuat(_stringConnection);
+            _userControls["TaoThuongPhat"] = new TaoThuongPhat(_stringConnection);
+            _userControls["TaoPhuCap"] = new TaoPhuCap(_stringConnection);
+            _userControls["TaoNhanVien_KhauTru"] = new TaoNhanVien_KhauTru(_stringConnection);
+            _userControls["TaoDanhGiaHieuSuat"] = new TaoDanhGiaHieuSuat(_stringConnection);
+            _userControls["UCReportDanhSachLuongPBan"] = new UCReportDanhSachLuongPBan();
+            _userControls["UCReportDanhSachKyLuat"] = new UCReportDanhSachKyLuat();
             _userControls["ButtonFeatureHomeComponent"] = new ButtonFeatureHomeComponent(pnContent, _idNV, _stringConnection);
             _userControls["ButtonFeatureViewComponent"] = new ButtonFeatureViewComponent(pnContent, _idNV, _stringConnection);
             _userControls["ButtonFeatureCRUDComponent"] = new ButtonFeatureCRUDComponent(pnContent, _idNV, _stringConnection);

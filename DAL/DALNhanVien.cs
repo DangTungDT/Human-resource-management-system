@@ -40,7 +40,30 @@ namespace DAL
             }
         }
 
-        public DataTable LoadNhanVien()
+        public DataTable GetById(string id)
+        {
+            using (SqlConnection conn = new SqlConnection(connectionString))
+            {
+                string query = @"SELECT id AS [Mã Nhân viên], TenNhanVien AS [Tên nhân viên], idPhongBan AS [Mã phòng ban], Email
+                                 FROM NhanVien
+                                 WHERE id = @id";
+                SqlDataAdapter da = new SqlDataAdapter(query, conn);
+                da.SelectCommand.Parameters.AddWithValue("@id", id);
+                DataTable dt = new DataTable();
+                try
+                {
+                    conn.Open();
+                    da.Fill(dt);
+                }
+                catch (SqlException ex)
+                {
+                    throw new Exception("Lỗi khi lấy thông tin nhân viên theo ID: " + ex.Message);
+                }
+                return dt;
+            }
+        }
+
+        public DataTable  LoadNhanVien()
         {
             using (SqlConnection conn = new SqlConnection(connectionString))
             {
@@ -53,6 +76,20 @@ namespace DAL
             }
         }
 
+        public DataTable ComboboxNhanVien(int? idPhongBan = null)
+        {
+            using (SqlConnection conn = new SqlConnection(connectionString))
+            {
+                string query = "SELECT id, TenNhanVien FROM NhanVien WHERE (@idPhongBan IS NULL OR idPhongBan = @idPhongBan)";
+                SqlDataAdapter da = new SqlDataAdapter(query, conn);
+                da.SelectCommand.Parameters.AddWithValue("@idPhongBan", idPhongBan.HasValue ? (object)idPhongBan.Value : DBNull.Value);
+
+                DataTable dt = new DataTable();
+                da.Fill(dt);
+                return dt;
+            }
+        }
+
         // 🔹 Lấy thông tin cá nhân của nhân viên
         public DTONhanVien LayThongTin(string idNhanVien)
         {
@@ -61,15 +98,15 @@ namespace DAL
             {
                 conn.Open();
                 string query = @"
-            SELECT nv.ID, nv.TenNhanVien, nv.NgaySinh, nv.GioiTinh, 
-                   nv.DiaChi, nv.Que, nv.Email, cv.TenChucVu, pb.TenPhongBan
-            FROM NhanVien nv
-            LEFT JOIN ChucVu cv ON nv.idChucVu = cv.ID
-            LEFT JOIN PhongBan pb ON nv.idPhongBan = pb.ID
-            WHERE nv.ID = @id";
+                                SELECT nv.ID, nv.TenNhanVien, nv.NgaySinh, nv.GioiTinh, 
+                                       nv.DiaChi, nv.Que, nv.Email, cv.TenChucVu, pb.TenPhongBan, nv.AnhDaiDien
+                                FROM NhanVien nv
+                                LEFT JOIN ChucVu cv ON nv.idChucVu = cv.ID
+                                LEFT JOIN PhongBan pb ON nv.idPhongBan = pb.ID
+                                WHERE nv.ID = @id";
 
-                using (SqlCommand cmd = new SqlCommand(query, conn))
-                {
+                using(SqlCommand cmd = new SqlCommand(query, conn))
+{
                     cmd.Parameters.AddWithValue("@id", idNhanVien);
                     using (SqlDataReader dr = cmd.ExecuteReader())
                     {
@@ -85,7 +122,8 @@ namespace DAL
                                 Que = dr["Que"].ToString(),
                                 Email = dr["Email"].ToString(),
                                 TenChucVu = dr["TenChucVu"].ToString(),
-                                TenPhongBan = dr["TenPhongBan"].ToString()
+                                TenPhongBan = dr["TenPhongBan"].ToString(),
+                                AnhDaiDien = dr["AnhDaiDien"] == DBNull.Value ? null : dr["AnhDaiDien"].ToString()
                             };
                         }
                     }
@@ -101,9 +139,9 @@ namespace DAL
             using (SqlConnection conn = new SqlConnection(connectionString))
             {
                 string query = @"UPDATE NhanVien 
-                                 SET TenNhanVien=@ten, NgaySinh=@ngay, GioiTinh=@gt, 
-                                     DiaChi=@dc, Que=@que, Email=@mail
-                                 WHERE id=@id";
+                 SET TenNhanVien=@ten, NgaySinh=@ngay, GioiTinh=@gt, 
+                     DiaChi=@dc, Que=@que, Email=@mail, AnhDaiDien=@anh
+                 WHERE id=@id";
                 SqlCommand cmd = new SqlCommand(query, conn);
                 cmd.Parameters.AddWithValue("@ten", nv.TenNhanVien);
                 cmd.Parameters.AddWithValue("@ngay", nv.NgaySinh);
@@ -111,6 +149,7 @@ namespace DAL
                 cmd.Parameters.AddWithValue("@dc", nv.DiaChi);
                 cmd.Parameters.AddWithValue("@que", nv.Que);
                 cmd.Parameters.AddWithValue("@mail", nv.Email);
+                cmd.Parameters.AddWithValue("@anh", (object)nv.AnhDaiDien ?? DBNull.Value);
                 cmd.Parameters.AddWithValue("@id", nv.ID);
 
                 conn.Open();

@@ -1,12 +1,13 @@
-﻿using BLL;
-using DTO;
-using Guna.UI2.WinForms;
+﻿using BLL;                           // Tham chiếu tới thư viện BLL (Business Logic Layer) của project
+using DTO;                           // Tham chiếu tới Data Transfer Objects - các model dữ liệu
+using Guna.UI2.WinForms;             // Thư viện UI Guna2 dùng cho controls đẹp
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Data.SqlClient;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -14,337 +15,649 @@ using System.Windows.Forms;
 
 namespace GUI
 {
+    // UserControl dùng để "Tạo khen thưởng" cho nhân viên
     public partial class TaoKhenThuong : UserControl
     {
-        private Guna2ComboBox cbEmployee, cbPhongBan;
-        private Guna2DateTimePicker dtReward;
-        private Guna2TextBox txtReason, txtAmount;
-        private Guna2Button btnSave, btnUndo, btnSearch;
-        private Guna2DataGridView dgv;
+        // === Các trường BLL ===
+        private readonly BLLNhanVien_ThuongPhat bll;   // BLL xử lý nghiệp vụ liên quan khen thưởng / phạt
+        private readonly BLLPhongBan bllPhongBan;     // BLL xử lý nghiệp vụ Phòng ban (để load combobox)
+        private readonly BLLNhanVien bllNhanVien;     // BLL xử lý nghiệp vụ nhân viên (danh sách nhân viên)
 
-        private string connectionString;
-        private string idNguoiTao = "GD00000001";
-        private int? selectedId = null;
-        private readonly BLLKhenThuong bllKhenThuong;
-        private readonly BLLPhongBan bllPhongBan;
-        private BLLNhanVien bllNhanVien;
+        // === Controls UI (khai báo ở đây để dùng trong toàn class) ===
+        private Guna2ComboBox cbPhongBan;             // Combobox chọn phòng ban
+        private Guna2ComboBox cbLyDo;                 // Combobox chọn lý do thưởng có sẵn
+        private Guna2TextBox txtAmount, txtNewLyDo;   // Textbox nhập số tiền, textbox nhập lý do mới
+        private CheckedListBox clbNhanVien;           // CheckedListBox để chọn nhiều nhân viên
+        private Guna2DateTimePicker dtNgay;           // DateTimePicker chọn ngày áp dụng
+        private Guna2Button btnSave, btnUndo, btnSearch; // Nút lưu, hoàn tác, tìm kiếm
+        private Guna2DataGridView dgv;                // DataGridView hiển thị danh sách khen thưởng (hoặc danh sách đã áp dụng)
 
-        public TaoKhenThuong(string idNhanVien, string conn)
+        private string idNguoiTao = "GD00000001";     // ID người tạo tạm đặt (có thể lấy từ session/user)
+        private bool isUpdating = false;  // true nếu đang cập nhật
+        private int currentGroupId = -1;  // lưu Id nhóm đang edit
+
+        // Constructor: nhận connection string, khởi tạo BLL và build giao diện
+        public TaoKhenThuong(string conn)
         {
-            connectionString = conn;
-            InitializeComponent();
-            bllKhenThuong = new BLLKhenThuong(conn);
+            InitializeComponent();   // Khởi tạo các thành phần (nếu dùng designer)
+            // Khởi tạo các service BLL với connection string truyền vào
+            bll = new BLLNhanVien_ThuongPhat(conn);
             bllPhongBan = new BLLPhongBan(conn);
             bllNhanVien = new BLLNhanVien(conn);
-            BuildUI();
-            LoadPhongBan();
-            LoadNhanVien();
-            LoadKhenThuong();
+
+            BuildUI();          // Tạo UI bằng code (không dùng designer)
+            LoadPhongBan();     // Load danh sách phòng ban vào cbPhongBan
+            LoadLyDo();         // Load danh sách lý do thưởng vào cbLyDo
+            LoadNhanVienList(); // Load danh sách nhân viên vào CheckedListBox
+            LoadData();         // Load dữ liệu hiển thị lên dgv
+        }
+        public TaoKhenThuong(string idNhanVien, string conn)
+        {
+            InitializeComponent();   // Khởi tạo các thành phần (nếu dùng designer)
+            // Khởi tạo các service BLL với connection string truyền vào
+            bll = new BLLNhanVien_ThuongPhat(conn);
+            bllPhongBan = new BLLPhongBan(conn);
+            bllNhanVien = new BLLNhanVien(conn);
+
+            BuildUI();          // Tạo UI bằng code (không dùng designer)
+            LoadPhongBan();     // Load danh sách phòng ban vào cbPhongBan
+            LoadLyDo();         // Load danh sách lý do thưởng vào cbLyDo
+            LoadNhanVienList(); // Load danh sách nhân viên vào CheckedListBox
+            LoadData();         // Load dữ liệu hiển thị lên dgv
         }
 
-        // ======================= DỰNG GIAO DIỆN =======================
+        // === XÂY DỰNG GIAO DIỆN CHÍNH CHO USERCONTROL "Tạo Khen Thưởng" ===
         private void BuildUI()
         {
+            // Dock toàn bộ UserControl để tự động chiếm hết vùng chứa
             this.Dock = DockStyle.Fill;
-            this.BackColor = Color.WhiteSmoke;
+            this.BackColor = Color.FromArgb(245, 247, 250); // màu nền tổng thể nhạt, tone xám sáng
 
-            Label lblTitle = new Label()
+            // === TIÊU ĐỀ TRÊN CÙNG ===
+            Label lblTitle = new Label
             {
-                Text = "KHEN THƯỞNG NHÂN VIÊN",
-                Font = new Font("Segoe UI", 14, FontStyle.Bold),
-                ForeColor = Color.DarkBlue,
-                Dock = DockStyle.Top,
-                Height = 50,
-                TextAlign = ContentAlignment.MiddleCenter
+                Text = "🎖️ TẠO KHEN THƯỞNG NHÂN VIÊN", // tiêu đề trang
+                Dock = DockStyle.Top,                   // chiếm trọn chiều ngang, cố định ở trên cùng
+                Height = 65,                            // chiều cao của thanh tiêu đề
+                Font = new Font("Segoe UI", 20, FontStyle.Bold),  // font chữ lớn, đậm
+                ForeColor = Color.FromArgb(50, 70, 140),          // màu chữ xanh navy nhẹ
+                TextAlign = ContentAlignment.MiddleCenter,        // căn giữa chữ
+                BackColor = Color.White,                          // nền trắng cho tiêu đề
             };
 
-            // ==== THANH TÌM KIẾM ====
-            Label lblSearch = new Label()
+            // === KHỐI PANEL TRẮNG CHỨA CÁC Ô NHẬP LIỆU ===
+            Guna2Panel pnlFormCard = new Guna2Panel
             {
-                Text = "📋 Tìm kiếm theo phòng ban:",
-                AutoSize = true,
-                Font = new Font("Segoe UI", 10, FontStyle.Bold),
-                ForeColor = Color.FromArgb(50, 50, 50),
-                Margin = new Padding(10, 10, 0, 0)
+                BorderRadius = 12,                                // bo góc nhẹ
+                FillColor = Color.White,                          // nền trắng
+                ShadowDecoration = { Depth = 10, Enabled = true },// tạo đổ bóng nhẹ
+                Dock = DockStyle.Fill,                            // chiếm toàn bộ phần còn lại trong layout
+                Padding = new Padding(50, 30, 50, 30)             // khoảng cách giữa mép và nội dung
             };
 
-            cbPhongBan = new Guna2ComboBox()
+            // === DÙNG TABLELAYOUT ĐỂ SẮP XẾP LABEL + INPUT THEO 2 CỘT ===
+            TableLayoutPanel tlForm = new TableLayoutPanel
             {
-                Width = 250,
-                BorderRadius = 6,
-                Margin = new Padding(10, 5, 10, 5),
-                DropDownStyle = ComboBoxStyle.DropDownList
+                Dock = DockStyle.Fill,         // chiếm hết panel chứa
+                ColumnCount = 2,               // 2 cột: label bên trái, input bên phải
+                RowCount = 6,                  // 6 dòng nhập liệu
+                BackColor = Color.White,
+                Padding = new Padding(0, 10, 0, 0)
+            };
+            tlForm.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 160)); // cột label cố định 160px
+            tlForm.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100));  // cột input chiếm phần còn lại
+
+            // Mỗi dòng cao 50px, riêng dòng nhân viên cao hơn (100px)
+            for (int i = 0; i < 6; i++)
+                tlForm.RowStyles.Add(new RowStyle(SizeType.Absolute, i == 1 ? 100 : 50));
+
+            // Hàm helper tạo label chuẩn
+            Label MakeLabel(string text) => new Label
+            {
+                Text = text,
+                Dock = DockStyle.Fill,
+                Font = new Font("Segoe UI Semibold", 10.5f),
+                TextAlign = ContentAlignment.MiddleRight, // căn phải để sát ô nhập
+                ForeColor = Color.FromArgb(60, 60, 60)
             };
 
-            btnSearch = new Guna2Button()
-            {
-                Text = "🔍 Tìm kiếm",
-                BorderRadius = 8,
-                FillColor = Color.SteelBlue,
-                ForeColor = Color.White,
-                Height = 36,
-                Width = 120,
-                Margin = new Padding(10, 5, 0, 5)
-            };
-            btnSearch.Click += BtnSearch_Click;
+            // === CÁC CONTROL INPUT ===
 
-            FlowLayoutPanel searchPanel = new FlowLayoutPanel()
+            // Panel chứa combo box và nút tìm kiếm cạnh nhau
+            FlowLayoutPanel pnlPhongBanSearch = new FlowLayoutPanel
             {
-                Dock = DockStyle.Top,
-                AutoSize = true,
+                Dock = DockStyle.Fill,
                 FlowDirection = FlowDirection.LeftToRight,
-                Padding = new Padding(20, 5, 0, 10)
+                AutoSize = true
             };
-            searchPanel.Controls.Add(lblSearch);
-            searchPanel.Controls.Add(cbPhongBan);
-            searchPanel.Controls.Add(btnSearch);
 
-            // ==== INPUT FORM ====
-            cbEmployee = new Guna2ComboBox() { Dock = DockStyle.Fill, DropDownStyle = ComboBoxStyle.DropDownList };
-            dtReward = new Guna2DateTimePicker() { Format = DateTimePickerFormat.Custom, CustomFormat = "dd/MM/yyyy", Dock = DockStyle.Fill };
-            txtAmount = new Guna2TextBox() { PlaceholderText = "Số tiền thưởng (VD: 500000)", Dock = DockStyle.Fill };
-            txtReason = new Guna2TextBox() { PlaceholderText = "Lý do khen thưởng", Dock = DockStyle.Fill, Multiline = true, Height = 60 };
-
-            btnSave = new Guna2Button()
+            // ComboBox chọn phòng ban
+            cbPhongBan = new Guna2ComboBox
             {
-                Text = "💾 Lưu khen thưởng",
                 BorderRadius = 8,
-                FillColor = Color.MediumSeaGreen,
-                ForeColor = Color.White,
-                Width = 150,
-                Height = 40,
-                Cursor = Cursors.Hand
+                Size = new Size(250, 36),
+                DropDownStyle = ComboBoxStyle.DropDownList,
+                Font = new Font("Segoe UI", 10)
             };
-            btnSave.Click += BtnSave_Click;
 
-            btnUndo = new Guna2Button()
+            // Nút tìm kiếm
+            Guna2Button btnSearch = new Guna2Button
+            {
+                Size = new Size(40, 36),
+                Margin = new Padding(8, 0, 0, 0),
+                Image = Properties.Resources.search, // icon mặc định
+                ImageSize = new Size(18, 18),
+                FillColor = Color.MediumSlateBlue,
+                BorderRadius = 8,
+                Cursor = Cursors.Hand // giúp hiển thị bàn tay khi hover
+            };
+
+            // Sự kiện click
+            btnSearch.Click += btnTimKiem_Click;
+
+            // Sự kiện hover vào
+            btnSearch.MouseEnter += (s, e) =>
+            {
+                btnSearch.Image = Properties.Resources.magnifying_glass; // đổi icon khi hover
+                btnSearch.FillColor = Color.SlateBlue; // tùy chọn: đổi màu nền
+            };
+
+            // Sự kiện rời chuột
+            btnSearch.MouseLeave += (s, e) =>
+            {
+                btnSearch.Image = Properties.Resources.search; // trở lại icon cũ
+                btnSearch.FillColor = Color.MediumSlateBlue; // khôi phục màu
+            };
+
+            // Thêm combo và nút vào panel
+            pnlPhongBanSearch.Controls.Add(cbPhongBan);
+            pnlPhongBanSearch.Controls.Add(btnSearch);
+
+            // CheckedListBox để chọn nhiều nhân viên trong phòng ban
+            clbNhanVien = new CheckedListBox
+            {
+                Dock = DockStyle.Fill,
+                BorderStyle = BorderStyle.FixedSingle,
+                Font = new Font("Segoe UI", 9),
+                BackColor = Color.White
+            };
+
+            // ComboBox chọn lý do thưởng có sẵn
+            cbLyDo = new Guna2ComboBox
+            {
+                BorderRadius = 8,
+                DropDownStyle = ComboBoxStyle.DropDownList,
+                Dock = DockStyle.Fill,
+                Font = new Font("Segoe UI", 10)
+            };
+            cbLyDo.SelectedIndexChanged += CbLyDo_SelectedIndexChanged; // sự kiện đổi lý do
+
+            // Textbox để nhập lý do mới (khi người dùng chọn “Thêm lý do mới”)
+            txtNewLyDo = new Guna2TextBox
+            {
+                BorderRadius = 8,
+                Dock = DockStyle.Fill,
+                PlaceholderText = "Nhập lý do mới...",
+                Font = new Font("Segoe UI", 10),
+                DisabledState = { FillColor = Color.FromArgb(245, 245, 245) } // màu nền khi disable
+            };
+
+            // Textbox nhập số tiền thưởng
+            txtAmount = new Guna2TextBox
+            {
+                BorderRadius = 8,
+                Dock = DockStyle.Fill,
+                PlaceholderText = "Nhập số tiền thưởng...",
+                Font = new Font("Segoe UI", 10)
+            };
+
+            // DateTimePicker chọn ngày áp dụng thưởng
+            dtNgay = new Guna2DateTimePicker
+            {
+                BorderRadius = 8,
+                Dock = DockStyle.Fill,
+                Format = DateTimePickerFormat.Custom,
+                CustomFormat = "dd/MM/yyyy", // định dạng ngày VN
+                Font = new Font("Segoe UI", 10)
+            };
+
+            // === THÊM CÁC CONTROL VÀO TABLELAYOUT ===
+            // Thêm panel chứa cả 2 vào TableLayoutPanel (thay vì chỉ cbPhongBan)
+            tlForm.Controls.Add(MakeLabel("Tìm theo phòng ban:"), 0, 0);
+            tlForm.Controls.Add(pnlPhongBanSearch, 1, 0);
+            tlForm.Controls.Add(MakeLabel("Nhân viên:"), 0, 1);
+            tlForm.Controls.Add(clbNhanVien, 1, 1);
+            tlForm.Controls.Add(MakeLabel("Lý do có sẵn:"), 0, 2);
+            tlForm.Controls.Add(cbLyDo, 1, 2);
+            tlForm.Controls.Add(MakeLabel("Hoặc lý do mới:"), 0, 3);
+            tlForm.Controls.Add(txtNewLyDo, 1, 3);
+            tlForm.Controls.Add(MakeLabel("Số tiền:"), 0, 4);
+            tlForm.Controls.Add(txtAmount, 1, 4);
+            tlForm.Controls.Add(MakeLabel("Ngày áp dụng:"), 0, 5);
+            tlForm.Controls.Add(dtNgay, 1, 5);
+
+            pnlFormCard.Controls.Add(tlForm); // đưa layout vào panel card
+
+            // === KHU NÚT CHỨC NĂNG (Lưu / Hoàn tác) ===
+            FlowLayoutPanel pnlButtons = new FlowLayoutPanel
+            {
+                Dock = DockStyle.Top,
+                FlowDirection = FlowDirection.RightToLeft, // nút Lưu nằm ngoài cùng bên phải
+                Padding = new Padding(0, 10, 40, 0),
+                BackColor = Color.Transparent,
+                Height = 60
+            };
+
+            btnSave = new Guna2Button
+            {
+                Text = "💾 Lưu thưởng",
+                Width = 180,
+                Height = 45,
+                BorderRadius = 8,
+                FillColor = Color.FromArgb(45, 140, 90), // xanh lá đậm
+                Font = new Font("Segoe UI Semibold", 10.5f),
+                ForeColor = Color.White
+            };
+            btnSave.Click += btnSave_Click; // sự kiện lưu
+
+            btnUndo = new Guna2Button
             {
                 Text = "↩️ Hoàn tác",
+                Width = 160,
+                Height = 45,
                 BorderRadius = 8,
-                FillColor = Color.Gray,
-                ForeColor = Color.White,
-                Width = 150,
-                Height = 40,
-                Cursor = Cursors.Hand
+                FillColor = Color.FromArgb(130, 130, 130),
+                Font = new Font("Segoe UI Semibold", 10.5f),
+                ForeColor = Color.White
             };
             btnUndo.Click += BtnUndo_Click;
 
-            dgv = new Guna2DataGridView()
+            // Thêm 2 nút vào panel
+            pnlButtons.Controls.Add(btnSave);
+            pnlButtons.Controls.Add(btnUndo);
+
+            // === TẠO DATAGRIDVIEW DƯỚI CÙNG ĐỂ HIỂN THỊ DANH SÁCH THƯỞNG ===
+            dgv = new Guna2DataGridView
             {
                 Dock = DockStyle.Fill,
-                AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill,
-                RowTemplate = { Height = 35 },
-                SelectionMode = DataGridViewSelectionMode.FullRowSelect,
-                MultiSelect = false,
                 ReadOnly = true,
-                AllowUserToAddRows = false
+                AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill,
+                AllowUserToAddRows = false,
+                ColumnHeadersHeight = 38,
+                BorderStyle = BorderStyle.None,
+                GridColor = Color.FromArgb(230, 235, 245),
+                AlternatingRowsDefaultCellStyle = new DataGridViewCellStyle
+                {
+                    BackColor = Color.FromArgb(248, 250, 255) // màu xen kẽ hàng
+                }
             };
+
+            // Header của DataGridView: màu xanh đậm, chữ trắng
+            dgv.ColumnHeadersDefaultCellStyle = new DataGridViewCellStyle
+            {
+                BackColor = Color.FromArgb(45, 85, 155),
+                ForeColor = Color.White,
+                Font = new Font("Segoe UI", 10, FontStyle.Bold),
+                Alignment = DataGridViewContentAlignment.MiddleCenter
+            };
+
+            // Style cho ô dữ liệu
+            dgv.DefaultCellStyle = new DataGridViewCellStyle
+            {
+                Font = new Font("Segoe UI", 9),
+                BackColor = Color.White,
+                ForeColor = Color.Black,
+                SelectionBackColor = Color.FromArgb(94, 148, 255), // màu khi chọn
+                SelectionForeColor = Color.Black
+            };
+
             dgv.CellClick += Dgv_CellClick;
             dgv.CellMouseEnter += Dgv_CellMouseEnter;
             dgv.CellMouseLeave += Dgv_CellMouseLeave;
+            DinhDangCotDgv();
 
-            // ==== FORM INPUT ====
-            TableLayoutPanel form = new TableLayoutPanel()
-            {
-                Dock = DockStyle.Top,
-                Padding = new Padding(10, 10, 0, 90),
-                AutoScroll = true,
-                ColumnCount = 3,
-                RowCount = 5,
-                Height = 250
-            };
-            form.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 7));
-            form.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 70));
-            form.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 23));
-
-            form.Controls.Add(new Label() { Text = "Nhân viên:", ForeColor = Color.DarkBlue, AutoSize = true }, 0, 0);
-            form.Controls.Add(cbEmployee, 1, 0);
-            form.Controls.Add(new Label() { Text = "Ngày thưởng:", ForeColor = Color.DarkBlue, AutoSize = true }, 0, 1);
-            form.Controls.Add(dtReward, 1, 1);
-            form.Controls.Add(new Label() { Text = "Số tiền thưởng:", ForeColor = Color.DarkBlue, AutoSize = true }, 0, 2);
-            form.Controls.Add(txtAmount, 1, 2);
-            form.Controls.Add(new Label() { Text = "Lý do:", ForeColor = Color.DarkBlue, AutoSize = true }, 0, 3);
-            form.Controls.Add(txtReason, 1, 3);
-
-            FlowLayoutPanel btnPanel = new FlowLayoutPanel()
+            // === GHÉP TẤT CẢ THÀNH GIAO DIỆN CHÍNH ===
+            TableLayoutPanel mainLayout = new TableLayoutPanel
             {
                 Dock = DockStyle.Fill,
-                FlowDirection = FlowDirection.RightToLeft
-            };
-            btnPanel.Controls.Add(btnSave);
-            btnPanel.Controls.Add(btnUndo);
-            form.Controls.Add(btnPanel, 1, 4);
-
-            // ==== MAIN ====
-            TableLayoutPanel main = new TableLayoutPanel()
-            {
-                Dock = DockStyle.Fill,
-                RowCount = 3,
+                RowCount = 4,
                 ColumnCount = 1
             };
-            main.RowStyles.Add(new RowStyle(SizeType.Absolute, 50));
-            main.RowStyles.Add(new RowStyle(SizeType.Absolute, 70)); // Thanh tìm kiếm
-            main.RowStyles.Add(new RowStyle(SizeType.Percent, 100));
 
-            main.Controls.Add(lblTitle, 0, 0);
-            main.Controls.Add(searchPanel, 0, 1);
+            // Xác định kích thước từng vùng
+            mainLayout.RowStyles.Add(new RowStyle(SizeType.Absolute, 65));   // tiêu đề
+            mainLayout.RowStyles.Add(new RowStyle(SizeType.Absolute, 430));  // form nhập liệu
+            mainLayout.RowStyles.Add(new RowStyle(SizeType.Percent, 70));    // vùng nút
+            mainLayout.RowStyles.Add(new RowStyle(SizeType.Percent, 350));   // vùng DataGridView
 
-            TableLayoutPanel content = new TableLayoutPanel()
-            {
-                Dock = DockStyle.Fill,
-                RowCount = 2,
-                ColumnCount = 1
-            };
-            content.RowStyles.Add(new RowStyle(SizeType.Absolute, 300));
-            content.RowStyles.Add(new RowStyle(SizeType.Percent, 100));
-            content.Controls.Add(form, 0, 0);
-            content.Controls.Add(dgv, 0, 1);
+            // Thêm vào layout chính
+            mainLayout.Controls.Add(lblTitle, 0, 0);
+            mainLayout.Controls.Add(pnlFormCard, 0, 1);
+            mainLayout.Controls.Add(pnlButtons, 0, 2);
+            mainLayout.Controls.Add(dgv, 0, 3);
 
-            main.Controls.Add(content, 0, 2);
-            this.Controls.Add(main);
+            // Đưa layout vào UserControl
+            this.Controls.Add(mainLayout);
         }
 
-        // ======================= LOAD PHÒNG BAN =======================
+        private void DinhDangCotDgv()
+        {
+            if (dgv.Columns.Count == 0) return;
+
+            dgv.Columns["id"].Visible = false;
+
+            dgv.Columns["TenNhanVien"].HeaderText = "Nhân viên";
+            dgv.Columns["TenPhongBan"].HeaderText = "Phòng ban";
+            dgv.Columns["LyDo"].HeaderText = "Lý do";
+            dgv.Columns["SoTien"].HeaderText = "Số tiền";
+            dgv.Columns["Loai"].HeaderText = "Loại";
+            dgv.Columns["NgayApDung"].HeaderText = "Ngày áp dụng";
+
+            dgv.Columns["SoTien"].DefaultCellStyle.Format = "N0";
+            dgv.Columns["NgayApDung"].DefaultCellStyle.Format = "dd/MM/yyyy";
+
+            dgv.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            dgv.ColumnHeadersDefaultCellStyle.BackColor = Color.FromArgb(45, 85, 155);
+            dgv.ColumnHeadersDefaultCellStyle.ForeColor = Color.White;
+            dgv.ColumnHeadersDefaultCellStyle.Font = new Font("Segoe UI", 10, FontStyle.Bold);
+            dgv.EnableHeadersVisualStyles = false;
+
+            dgv.DefaultCellStyle.SelectionBackColor = Color.FromArgb(230, 240, 255);
+            dgv.DefaultCellStyle.SelectionForeColor = Color.Black;
+        }
+
+        // Load danh sách phòng ban vào combobox
         private void LoadPhongBan()
         {
-            cbPhongBan.DataSource = bllPhongBan.ComboboxPhongBan();
-            cbPhongBan.DisplayMember = "TenPhongBan";
-            cbPhongBan.ValueMember = "id";
-            cbPhongBan.SelectedIndex = 0;
+            var dt = bllPhongBan.ComboboxPhongBan();    // gọi BLL trả về DataTable
+
+            // Tạo một dòng "Xem tất cả" thủ công
+            DataRow allRow = dt.NewRow();
+            allRow["id"] = DBNull.Value;                          // giá trị rỗng để khi SelectedValue = "" => hiểu là xem tất cả
+            allRow["TenPhongBan"] = "Xem tất cả";
+            dt.Rows.InsertAt(allRow, 0);                // chèn lên đầu danh sách
+
+            cbPhongBan.DataSource = dt;                 // bind datatable
+            cbPhongBan.DisplayMember = "TenPhongBan";   // trường hiển thị cho người dùng
+            cbPhongBan.ValueMember = "id";              // giá trị tương ứng (dùng khi lấy SelectedValue)
+            cbPhongBan.SelectedIndex = 0;               // mặc định chọn "Xem tất cả"
         }
 
-        // ======================= TÌM KIẾM =======================
-        private void BtnSearch_Click(object sender, EventArgs e)
+        // Load danh sách lý do (Thưởng) vào combobox cbLyDo
+        private void LoadLyDo()
         {
-            if (cbPhongBan.SelectedValue == null || cbPhongBan.SelectedIndex == 0)
-                LoadKhenThuong();
-            else
-                LoadKhenThuong(cbPhongBan.SelectedValue.ToString());
+            var dt = bll.GetAllLyDo("Thưởng"); // gọi BLL lấy lý do theo loại "Thưởng"
+            // Copy DataTable để thêm dòng "Thêm lý do mới"
+            DataTable dt2 = dt.Copy();
+            DataRow r = dt2.NewRow();
+            r["id"] = -1;                            // id = -1 biểu thị "Thêm mới"
+            r["lyDo"] = "-- Thêm lý do mới --";     // hiển thị cho người dùng
+            r["tienThuongPhat"] = 0;                 // giá trị tiền mặc định
+            dt2.Rows.Add(r);                         // thêm dòng ở cuối (có thể InsertAt để ở đầu) => dt2.Rows.InsertAt(r, 0);.
+
+            // Bind combobox
+            cbLyDo.DisplayMember = "lyDo";
+            cbLyDo.ValueMember = "id";
+            cbLyDo.DataSource = dt2;
+            cbLyDo.SelectedIndex = -1;               // không chọn item nào khi load xong
         }
 
-        // ======================= LOAD KHEN THƯỞNG =======================
-        private void LoadKhenThuong(string idPhongBan = "")
+        // Load danh sách nhân viên vào CheckedListBox (hiển thị "id - TenNhanVien")
+        private void LoadNhanVienList()
         {
-            dgv.DataSource = bllKhenThuong.GetAll(idPhongBan);
+            var dt = bllNhanVien.ComboboxNhanVien(); // lấy DataTable nhân viên
+            clbNhanVien.Items.Clear();
+            foreach (System.Data.DataRow row in dt.Rows)
+            {
+                // Lấy id và name từ row và thêm CLBItem (class helper) vào CheckedListBox
+                string id = row["id"].ToString();
+                string name = row["TenNhanVien"].ToString();
+                clbNhanVien.Items.Add(new CLBItem(id, name));
+            }
+        }
 
+        // Load dữ liệu hiển thị lên dgv (ví dụ: danh sách nhóm thưởng hoặc records)
+        private void LoadData(string idPhongBan = "")
+        {
+            dgv.DataSource = bll.GetAll("Thưởng", idPhongBan); // bind DataTable trả về từ BLL
+
+            // ensure delete column exists: nếu chưa có cột "Xoa" (icon) thì thêm vào
             if (!dgv.Columns.Contains("Xoa"))
             {
-                DataGridViewImageColumn colDelete = new DataGridViewImageColumn()
+                DataGridViewImageColumn colDelete = new DataGridViewImageColumn
                 {
                     Name = "Xoa",
                     HeaderText = "Xóa",
-                    Image = Properties.Resources.delete,
                     ImageLayout = DataGridViewImageCellLayout.Zoom,
                     Width = 50
                 };
+                // cố gắng set icon từ resources nếu có, nếu không có thì bỏ qua (không ném lỗi)
+                try { colDelete.Image = Properties.Resources.delete; } catch { }
                 dgv.Columns.Add(colDelete);
-                dgv.Columns["Xoa"].DisplayIndex = dgv.Columns.Count - 1;
             }
         }
 
-        // ======================= LOAD NHÂN VIÊN =======================
-        private void LoadNhanVien()
+        // Event: khi combobox lý do thay đổi -> fill tiền hoặc bật ô nhập lý do mới
+        private void CbLyDo_SelectedIndexChanged(object sender, EventArgs e)
         {
-            cbEmployee.DataSource = bllNhanVien.ComboboxNhanVien();
-            cbEmployee.DisplayMember = "TenNhanVien";
-            cbEmployee.ValueMember = "id";
+            if (cbLyDo.SelectedItem == null) return;  // nếu chưa chọn item thì thoát
+
+            // Khi binding với DataTable, SelectedValue đôi khi là DataRowView (trong quá trình bind)
+            if (cbLyDo.SelectedValue == null || cbLyDo.SelectedValue is DataRowView)
+                return; // bỏ qua nếu SelectedValue chưa phải là giá trị id thực sự
+
+            int id = Convert.ToInt32(cbLyDo.SelectedValue); // chuyển SelectedValue về int (id)
+
+            if (id == -1) // Nếu chọn "Thêm mới"
+            {
+                txtNewLyDo.Enabled = true;           // bật textbox nhập lý do mới
+                txtNewLyDo.FillColor = Color.White;  // set nền trắng (để rõ là có thể nhập)
+                txtAmount.Enabled = true;            // bật textbox số tiền để nhập
+                txtAmount.Text = "";                 // xóa giá trị hiện có
+            }
+            else
+            {
+                // Nếu chọn lý do có sẵn
+                txtNewLyDo.Enabled = false;          // tắt nhập lý do mới
+                txtNewLyDo.Text = "";                // clear nội dung ô lý do mới
+
+                // Lấy DataRowView ứng với item được chọn để đọc giá trị tỉ lệ tiền
+                var drv = cbLyDo.SelectedItem as DataRowView;
+                if (drv != null)
+                {
+                    decimal tien = 0;
+                    // parse giá trị tiền từ trường 'tienThuongPhat' (nếu có)
+                    decimal.TryParse(drv["tienThuongPhat"]?.ToString(), out tien);
+                    txtAmount.Text = tien.ToString("0.##"); // format hiển thị
+                    txtAmount.Enabled = false;              // không cho sửa nếu chọn lý do có sẵn
+                }
+            }
         }
 
-        // ======================= LƯU / CẬP NHẬT =======================
-        private void BtnSave_Click(object sender, EventArgs e)
+
+        // Lưu: lấy danh sách nhân viên được check, nếu chọn lý do mới thì insert lý do mới trước,
+        // sau đó gọi BLL.SaveMulti để lưu nhiều nhân viên cùng lúc
+        private void btnSave_Click(object sender, EventArgs e)
         {
-            if (cbEmployee.SelectedValue == null)
+            List<string> selectedNhanViens = new List<string>();
+            foreach (CLBItem item in clbNhanVien.CheckedItems)
             {
-                MessageBox.Show("Vui lòng chọn nhân viên!", "Cảnh báo");
+                selectedNhanViens.Add(item.Id);
+            }
+
+            // 🟢 Xác định lý do được sử dụng
+            string lyDo = string.Empty;
+
+            if (!string.IsNullOrWhiteSpace(txtNewLyDo.Text))
+            {
+                // Nếu nhập lý do mới
+                lyDo = txtNewLyDo.Text.Trim();
+
+                // Cập nhật combobox (nếu cần)
+                LoadLyDo();
+            }
+            else if (cbLyDo.SelectedItem != null)
+            {
+                // Nếu chọn lý do có sẵn
+                lyDo = cbLyDo.Text;
+            }
+            else
+            {
+                MessageBox.Show("Vui lòng chọn hoặc nhập lý do!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
 
-            if (!decimal.TryParse(txtAmount.Text, out decimal soTien))
+            decimal soTien = decimal.Parse(txtAmount.Text);
+            DateTime ngayApDung = dtNgay.Value;
+
+            if (!isUpdating)
             {
-                MessageBox.Show("Vui lòng nhập số tiền hợp lệ!", "Lỗi");
-                return;
+                bll.SaveMulti("Thưởng",selectedNhanViens, lyDo,soTien, ngayApDung, idNguoiTao);
             }
-
-            var kt = new DTOKhenThuong
+            else
             {
-                Id = selectedId ?? 0,
-                IdNhanVien = cbEmployee.SelectedValue.ToString(),
-                SoTien = soTien,
-                LyDo = txtReason.Text.Trim(),
-                NgayThuong = dtReward.Value,
-                IdNguoiTao = idNguoiTao
-            };
-
-            bool isNew = selectedId == null;
-            bllKhenThuong.Save(kt, isNew);
-            MessageBox.Show(isNew ? "✅ Đã thêm khen thưởng!" : "✏️ Đã cập nhật!");
-
-            LoadKhenThuong();
+                bll.UpdateMultiSmart("Thưởng",currentGroupId, selectedNhanViens, lyDo, soTien , ngayApDung);
+                isUpdating = false;
+                btnSave.Text = "Thêm mới";
+            }
+            LoadLyDo();
+            LoadData();
             ClearForm();
         }
 
-        // ======================= CLICK DGV =======================
+        // DataGridView: xử lý click (dùng để xóa record khi click vào icon Xóa)
         private void Dgv_CellClick(object sender, DataGridViewCellEventArgs e)
         {
             if (e.RowIndex < 0 || e.ColumnIndex < 0) return;
+            if (dgv.Rows[e.RowIndex].IsNewRow) return;
 
             if (dgv.Columns[e.ColumnIndex].Name == "Xoa")
             {
+                // Xử lý xóa
                 int id = Convert.ToInt32(dgv.Rows[e.RowIndex].Cells["id"].Value);
-                if (MessageBox.Show("Bạn có chắc muốn xóa khen thưởng này?", "Xác nhận", MessageBoxButtons.YesNo) == DialogResult.Yes)
+                if (MessageBox.Show("Xóa nhóm thưởng này?", "Xác nhận", MessageBoxButtons.YesNo) == DialogResult.Yes)
                 {
-                    bllKhenThuong.Delete(id);
-                    LoadKhenThuong();
+                    bll.Delete(id);
+                    LoadData();
                 }
                 return;
             }
 
-            DataGridViewRow row = dgv.Rows[e.RowIndex];
-            selectedId = Convert.ToInt32(row.Cells["id"].Value);
-            cbEmployee.Text = row.Cells["TenNhanVien"].Value?.ToString();
-            txtReason.Text = row.Cells["Lý do"].Value?.ToString();
-            txtAmount.Text = row.Cells["Số tiền thưởng"].Value?.ToString();
+            // 1️⃣ Lấy dữ liệu dòng hiện tại
+            currentGroupId = Convert.ToInt32(dgv.Rows[e.RowIndex].Cells["id"].Value);
+            txtAmount.Text = dgv.Rows[e.RowIndex].Cells["SoTien"].Value.ToString();
+            cbLyDo.Text = dgv.Rows[e.RowIndex].Cells["LyDo"].Value.ToString();
+            dtNgay.Value = Convert.ToDateTime(dgv.Rows[e.RowIndex].Cells["NgayApDung"].Value);
 
-            btnSave.Text = "✏️ Cập nhật";
-            btnSave.FillColor = Color.Orange;
+            // 2️⃣ Lấy danh sách nhân viên thuộc nhóm này
+            var empIds = bll.GetNhanVienByThuongPhatId(currentGroupId);
+
+            // 3️⃣ Reset check
+            for (int i = 0; i < clbNhanVien.Items.Count; i++)
+            {
+                var item = clbNhanVien.Items[i] as CLBItem;
+                clbNhanVien.SetItemChecked(i, empIds.Contains(item.Id));
+            }
+
+            // 4️⃣ Chuyển sang chế độ cập nhật
+            isUpdating = true;
+            btnSave.Text = "Cập nhật";
         }
 
-        // ======================= HOVER ICON =======================
+        // Nút hoàn tác: reset form
+        private void BtnUndo_Click(object sender, EventArgs e) => ClearForm();
+
+        // ClearForm: bỏ chọn nhân viên, đặt các control về giá trị mặc định
+        private void ClearForm()
+        {
+            for (int i = 0; i < clbNhanVien.Items.Count; i++) clbNhanVien.SetItemChecked(i, false);
+            cbLyDo.SelectedIndex = 0;   // chọn item đầu (có thể là "-- Thêm lý do mới --" hoặc một lý do)
+            txtNewLyDo.Text = "";
+            txtAmount.Text = "";
+            dtNgay.Value = DateTime.Now; // đặt lại ngày hiện tại
+            btnSave.Text = "Thêm mới";
+        }
+
+        // DataGridView: khi di chuột vào cột Xóa thì đổi con trỏ và icon
         private void Dgv_CellMouseEnter(object sender, DataGridViewCellEventArgs e)
         {
+            // kiểm tra index hợp lệ và tên cột là "Xoa"
             if (e.RowIndex >= 0 && e.ColumnIndex >= 0 && dgv.Columns[e.ColumnIndex].Name == "Xoa")
             {
-                dgv.Cursor = Cursors.Hand;
-                dgv.Rows[e.RowIndex].Cells[e.ColumnIndex].Value = Properties.Resources.trash;
+                dgv.Cursor = Cursors.Hand; // đổi con trỏ chuột
+                try { dgv.Rows[e.RowIndex].Cells[e.ColumnIndex].Value = Properties.Resources.trash; } catch { }
+                // cố gắng gán icon trash (nếu resource có), try-catch để tránh ném lỗi
             }
         }
 
+        // DataGridView: khi chuột rời cột Xóa thì phục hồi icon mặc định
         private void Dgv_CellMouseLeave(object sender, DataGridViewCellEventArgs e)
         {
             if (e.RowIndex >= 0 && e.ColumnIndex >= 0 && dgv.Columns[e.ColumnIndex].Name == "Xoa")
             {
                 dgv.Cursor = Cursors.Default;
-                dgv.Rows[e.RowIndex].Cells[e.ColumnIndex].Value = Properties.Resources.delete;
+                try { dgv.Rows[e.RowIndex].Cells[e.ColumnIndex].Value = Properties.Resources.delete; } catch { }
             }
         }
 
-        // ======================= HOÀN TÁC =======================
-        private void BtnUndo_Click(object sender, EventArgs e)
+        
+
+        private void btnTimKiem_Click(object sender, EventArgs e)
         {
-            if (MessageBox.Show("Bạn có chắc muốn hoàn tác và xóa dữ liệu đang nhập?", "Xác nhận", MessageBoxButtons.YesNo) == DialogResult.Yes)
-                ClearForm();
+            try
+            {
+                // Lấy giá trị được chọn trong combobox
+                var selectedValue = cbPhongBan.SelectedValue;
+                string idPhongBan = (selectedValue == DBNull.Value || selectedValue == null)
+                    ? null
+                    : selectedValue.ToString();
+
+                // Lấy tên phòng ban để hiển thị thông báo
+                string tenPhongBan = cbPhongBan.Text?.Trim();
+
+                DataTable dtResult;
+
+                // Nếu chọn “Xem tất cả” hoặc chưa chọn phòng ban
+                if (string.IsNullOrEmpty(idPhongBan))
+                {
+                    dtResult = bll.GetAll("Thưởng");
+                    MessageBox.Show("Đang hiển thị danh sách khen thưởng của tất cả phòng ban.",
+                                    "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+                else
+                {
+                    dtResult = bll.GetAll("Thưởng", idPhongBan);
+
+                    if (dtResult.Rows.Count == 0)
+                    {
+                        MessageBox.Show($"Không tìm thấy nhân viên được khen thưởng trong phòng ban '{tenPhongBan}'.",
+                                        "Kết quả trống", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    }
+                    else
+                    {
+                        MessageBox.Show($"Đã tìm thấy {dtResult.Rows.Count} nhân viên được khen thưởng trong phòng ban '{tenPhongBan}'.",
+                                        "Thành công", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
+                }
+
+                // Gán kết quả vào DataGridView
+                dgv.DataSource = dtResult;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Đã xảy ra lỗi khi tìm kiếm: " + ex.Message,
+                                "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
-        private void ClearForm()
+
+        // helper class cho CheckedListBox item: lưu Id + Name, ToString() trả về "id - Name"
+        private class CLBItem
         {
-            cbEmployee.SelectedIndex = -1;
-            txtAmount.Clear();
-            txtReason.Clear();
-            dtReward.Value = DateTime.Now;
-            selectedId = null;
-            btnSave.Text = "💾 Lưu khen thưởng";
-            btnSave.FillColor = Color.MediumSeaGreen;
-            dgv.ClearSelection();
+            public string Id { get; }
+            public string Name { get; }
+            public CLBItem(string id, string name) { Id = id; Name = name; }
+            public override string ToString() => $"{Id} - {Name}";
         }
     }
 }

@@ -40,6 +40,7 @@ create table NhanVien
 	Que nvarchar(100) not null,
 	GioiTinh nvarchar(4) not null,
 	Email varchar(100) not null,
+	AnhDaiDien VARCHAR(255) NULL,
 	idChucVu int not null,
 	idPhongBan int not null,
 	DaXoa bit default 0 not null,
@@ -57,11 +58,24 @@ create table TaiKhoan
 	primary key(id)
 )
 go
+CREATE TABLE QuenMatKhau
+(
+    id int identity(1,1) not null,
+    taiKhoan varchar(50) not null,
+    otp varchar(6) not null,
+    thoiGianHetHan datetime not null,
+    daXacNhan bit default 0,
+    primary key(id),
+    FOREIGN KEY (taiKhoan) REFERENCES TaiKhoan(taiKhoan)
+)
+GO
 
 create table ChamCong
 (
 	id int identity(1,1) not null,
 	NgayChamCong date not null,
+	GioRa time,
+	GioVao time,
 	idNhanVien varchar(10) not null,
 	primary key(id)
 )
@@ -74,6 +88,8 @@ create table HopDongLaoDong
 	NgayKy date not null,
 	NgayBatDau date not null,
 	NgayKetThuc date,
+	LuongThoaThuan DECIMAL(18,2) NOT NULL DEFAULT 0,
+	hinhANh varchar(255),
 	idNhanVien varchar(10),
 	MoTa nvarchar(255),
 	primary key(id),
@@ -169,7 +185,7 @@ go
 
 Create table KhauTru
 (
-	id int not null,
+	id int identity(1,1) not null,
 	loaiKhauTru nvarchar(50) not null,
 	soTien decimal(18,2) default 0 not null,
 	moTa nvarchar(255),

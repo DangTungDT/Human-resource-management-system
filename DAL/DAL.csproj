@@ -46,6 +46,12 @@
     <Compile Include="DALChucVu.cs" />
     <Compile Include="DALDanhGiaNhanVien.cs" />
     <Compile Include="DALHopDongLaoDong.cs" />
+<<<<<<< HEAD
+    <Compile Include="DALNghiPhep.cs" />
+    <Compile Include="DALNhanVien.cs" />
+    <Compile Include="DALNhanVien_KhauTru.cs" />
+    <Compile Include="DALNhanVien_ThuongPhat.cs" />
+=======
     <Compile Include="DALKhauTru.cs" />
     <Compile Include="DALKhenThuong.cs" />
     <Compile Include="DALKyLuat.cs" />
@@ -53,7 +59,9 @@
     <Compile Include="DALNghiPhep.cs" />
     <Compile Include="DALNhanVien.cs" />
     <Compile Include="DALNhanVien_PhuCap.cs" />
+>>>>>>> origin/main
     <Compile Include="DALPhongBan.cs" />
+    <Compile Include="DALPhuCap.cs" />
     <Compile Include="DALTaiKhoan.cs" />
     <Compile Include="DALThuongPhat.cs" />
     <Compile Include="DALTuyenDung.cs" />

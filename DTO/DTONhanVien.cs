@@ -27,6 +27,6 @@ namespace DTO
         public string TenChucVu { get; set; }
         public string IdPhongBan { get; set; }
         public string TenPhongBan { get; set; }
-        //public string AnhDaiDien { get; set; } // nếu sau này bạn lưu ảnh
+        public string AnhDaiDien { get; set; } // nếu sau này bạn lưu ảnh
     }
 }

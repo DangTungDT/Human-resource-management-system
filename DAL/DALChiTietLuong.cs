@@ -21,6 +21,10 @@ namespace DAL
         // Tim Chi Tiet Luong qua id
         public ChiTietLuong TimChiTietLuongQuaID(int id) => _dbContext.ChiTietLuongs.FirstOrDefault(p => p.id == id);
 
+        // Tim Nhan vien Chi TIet Luong
+        public ChiTietLuong TimChiTietLuongQuaID(string idNhanVien) => _dbContext.ChiTietLuongs.FirstOrDefault(p => p.idNhanVien == idNhanVien);
+
+
         // Them Chi Tiet Luong
         public bool ThemChiTietLuong(DTOChiTietLuong DTO)
         {
@@ -49,6 +53,36 @@ namespace DAL
             catch { return false; }
         }
 
+        public bool ThemDsChiTietLuong(DTOChiTietLuong DTO)
+        {
+            try
+            {
+                var layDsNVien = new List<ChiTietLuong>()
+                {
+                    new ChiTietLuong()
+                    {
+                        ngayNhanLuong = DTO.NgayNhanLuong,
+                        luongTruocKhauTru = DTO.LuongTruocKhauTru,
+                        luongSauKhauTru = DTO.LuongSauKhauTru,
+                        tongKhauTru = DTO.TongKhauTru,
+                        tongPhuCap = DTO.TongPhuCap,
+                        tongKhenThuong = DTO.TongKhenThuong,
+                        tongTienPhat = DTO.TongTienPhat,
+                        trangThai = DTO.TrangThai,
+                        ghiChu = DTO.GhiChu,
+                        idNhanVien = DTO.IDNhanVien,
+                        idKyLuong = DTO.IDKyLuong
+                    }
+                };
+
+                _dbContext.ChiTietLuongs.InsertAllOnSubmit(layDsNVien);
+                _dbContext.SubmitChanges();
+
+                return true;
+            }
+            catch { return false; }
+        }
+
         // Cap nhat Chi Tiet Luong
         public bool CapNhatChiTietLuong(DTOChiTietLuong DTO)
         {
@@ -59,6 +93,7 @@ namespace DAL
                 {
                     chiTietLuong.ngayNhanLuong = DTO.NgayNhanLuong;
                     chiTietLuong.luongTruocKhauTru = DTO.LuongTruocKhauTru;
+                    chiTietLuong.luongSauKhauTru = DTO.LuongSauKhauTru;
                     chiTietLuong.tongKhauTru = DTO.TongKhauTru;
                     chiTietLuong.tongPhuCap = DTO.TongPhuCap;
                     chiTietLuong.tongKhenThuong = DTO.TongKhenThuong;
@@ -79,11 +114,11 @@ namespace DAL
         }
 
         // Xoa Chi Tiet Luong
-        public bool XoaChiTietLuong(DTOChiTietLuong DTO)
+        public bool XoaChiTietLuong(ChiTietLuong DTO)
         {
             try
             {
-                var chiTietLuong = TimChiTietLuongQuaID(DTO.ID);
+                var chiTietLuong = TimChiTietLuongQuaID(DTO.id);
                 if (chiTietLuong != null)
                 {
                     _dbContext.ChiTietLuongs.DeleteOnSubmit(chiTietLuong);

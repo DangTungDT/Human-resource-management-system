@@ -11,12 +11,37 @@ namespace BLL
 {
     public class BLLPhuCap
     {
-        private readonly DALPhuCap dal;
+        public readonly DALPhuCap _dbContext;
+       private readonly DALPhuCap dal;
 
         public BLLPhuCap(string stringConnection)
         {
             dal = new DALPhuCap(stringConnection);
+           _dbContext = new DALPhuCap(stringConnection)
         }
+
+        // Danh sach phu cap
+        public List<PhuCap> KtraDsPhuCap()
+        {
+            try
+            {
+                var list = _dbContext.DsPhuCap().ToList();
+
+                if (list.Any() && list != null)
+                {
+                    return list;
+                }
+                else return null;
+
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Lỗi kiểm tra d/s phụ cấp: " + ex.Message);
+            }
+
+        }
+
+       
 
         public DataTable GetAll() => dal.GetAll();
 
@@ -42,4 +67,5 @@ namespace BLL
 
         public DataTable Search(string keyword) => dal.Search(keyword);
     }
+}
 }

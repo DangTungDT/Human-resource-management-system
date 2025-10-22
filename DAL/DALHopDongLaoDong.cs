@@ -17,6 +17,8 @@ namespace DAL
         }
 
         // Danh sach hop dong lao dong
+        public List<HopDongLaoDong> DsHopDongLaoDong() => _dbContext.HopDongLaoDongs.ToList();
+      
         public IQueryable<DTOHopDongLaoDong> DanhSachHopDongLaoDong() =>
         _dbContext.HopDongLaoDongs.Select(p => new DTOHopDongLaoDong
         {

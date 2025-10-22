@@ -15,7 +15,7 @@ namespace BLL
         public BLLKyLuong(string conn) => _dbContext = new DALKyLuong(conn);
 
         // Ktra ds Ky Luong
-        public List<KyLuong> KtraDsKhauTru()
+        public List<KyLuong> KtraDsKyLuong()
         {
             try
             {

@@ -16,7 +16,7 @@ namespace BLL
             _dbContext = new DALHopDongLaoDong(stringConnection);
         }
         // Danh sach hop dong lao dong
-        public List<DTOHopDongLaoDong> KtraDsHopDongLaoDong()
+        public List<HopDongLaoDong> KtraDsHopDongLaoDong()
         {
             var list = _dbContext.DsHopDongLaoDong().ToList();
             if (list.Any() && list != null)

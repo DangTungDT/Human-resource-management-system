@@ -4,8 +4,10 @@ using System;
 using System.CodeDom;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace BLL
 {
@@ -32,6 +34,33 @@ namespace BLL
             }
         }
 
+        // Kiem tra du lieu chi tiet luong cua nhan vien do da duoc them hay chua
+        public ChiTietLuong KtraDuLieuChiTietLuongNV(string id)
+        {
+            try
+            {
+                if (!string.IsNullOrEmpty(id))
+                {
+                    var nhanVien = _dbContext.TimChiTietLuongQuaID(id);
+                    if (nhanVien != null)
+                    {
+                        var dataChiTietLuong = KtraDsChiTietLuong().FirstOrDefault(p => p.idNhanVien == nhanVien.idNhanVien && p.ngayNhanLuong.Year == DateTime.Now.Year && p.ngayNhanLuong.Month == DateTime.Now.Month + 1);
+                        if (dataChiTietLuong != null)
+                        {
+                            return dataChiTietLuong;
+                        }
+                        return null;
+                    }
+                    else throw new Exception($"Không tìm thấy dữ liệu chi tiết lương qua id: {id}");
+                }
+                else return null;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Lỗi tìm id chi tiết lương: " + ex.Message);
+            }
+        }
+
         // Ktra them Chi Tiet Luong
         public bool KtraThemChiTietLuong(DTOChiTietLuong DTO)
         {
@@ -39,7 +68,7 @@ namespace BLL
             {
                 var ktraCTL = _dbContext.TimChiTietLuongQuaID(DTO.ID);
 
-                if (ktraCTL != null)
+                if (ktraCTL == null)
                 {
                     var KtraThemCTL = _dbContext.ThemChiTietLuong(DTO);
                     if (KtraThemCTL)
@@ -83,11 +112,11 @@ namespace BLL
         }
 
         // Ktra xoa Chi Tiet Luong
-        public bool KtraXoaChiTietLuong(DTOChiTietLuong DTO)
+        public bool KtraXoaChiTietLuong(ChiTietLuong DTO)
         {
             try
             {
-                var ktraCTL = _dbContext.TimChiTietLuongQuaID(DTO.ID);
+                var ktraCTL = _dbContext.TimChiTietLuongQuaID(DTO.id);
 
                 if (ktraCTL != null)
                 {
@@ -119,7 +148,29 @@ namespace BLL
                     {
                         return true;
                     }
-                    else throw new Exception($"Không tìm thấy dữ liệu chi tiết lương qua id: {id}");
+                    else return false;
+                }
+                else throw new Exception($"Kiểm tra lại dữ liệu đầu vào của id được nhập !");
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Lỗi tìm id chi tiết lương: " + ex.Message);
+            }
+        }
+
+        // Tim du lieu Chi Tiet Luong qua id
+        public ChiTietLuong KtraChiTietLuongQuaIDNhanVien(string id)
+        {
+            try
+            {
+                if (!string.IsNullOrEmpty(id))
+                {
+                    var ktraID = _dbContext.TimChiTietLuongQuaID(id);
+                    if (ktraID != null)
+                    {
+                        return ktraID;
+                    }
+                    else return null;
                 }
                 else throw new Exception($"Kiểm tra lại dữ liệu đầu vào của id được nhập !");
             }

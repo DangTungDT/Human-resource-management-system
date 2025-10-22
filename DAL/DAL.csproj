@@ -56,7 +56,9 @@
     <Compile Include="DALKyLuong.cs" />
     <Compile Include="DALNghiPhep.cs" />
     <Compile Include="DALNhanVien.cs" />
+    <Compile Include="DALNhanVien_KhauTru.cs" />
     <Compile Include="DALNhanVien_PhuCap.cs" />
+    <Compile Include="DALNhanVien_ThuongPhat.cs" />
     <Compile Include="DALPhongBan.cs" />
     <Compile Include="DALPhuCap.cs" />
     <Compile Include="DALTaiKhoan.cs" />

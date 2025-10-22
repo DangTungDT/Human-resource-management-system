@@ -28,16 +28,16 @@ namespace GUI
 
         private void UCXemKyLuat_Load(object sender, EventArgs e)
         {
-            var dsKyLuat = _dbContext.CheckListThuongPhat().Where(p => p.Loai == "Phạt").ToList();
-            var idNguoiTao = dsKyLuat.Select(p => p.IDNguoiTao).ToList();
+            var dsKyLuat = _dbContext.CheckListThuongPhat().Where(p => p.loai == "Phạt").ToList();
+            var idNguoiTao = dsKyLuat.Select(p => p.idNguoiTao).ToList();
             var dsNhanVien = _dbContext.CheckListNhanVien().Where(d => idNguoiTao.Contains(d.ID)).ToList();
 
             dgvDanhSachKyLuat.DataSource = dsKyLuat.Select(p => new
             {
-                SoTienPhat = p.TienThuongPhat,
-                p.Loai,
-                p.LyDo,
-                NguoiDanhGia = dsNhanVien.FirstOrDefault(q => q.ID == p.IDNguoiTao)?.TenNhanVien
+                SoTienPhat = p.tienThuongPhat,
+                p.loai,
+                p.lyDo,
+                NguoiDanhGia = dsNhanVien.FirstOrDefault(q => q.ID == p.idNguoiTao)?.TenNhanVien
 
             }).ToList();
         }

@@ -22,10 +22,6 @@ namespace DAL
             _dbContext = new PersonnelManagementDataContextDataContext(stringConnection);
         }
 
-
-
-        public NhanVien DanhSachDanhGiaNV1(string id) => _dbContextNV.LayNhanVienQuaID(id);
-
         public IQueryable<DTODanhGiaNhanVien> DanhSachDanhGiaNV() => _dbContext.DanhGiaNhanViens.Select(p => new DTODanhGiaNhanVien
         {
             ID = p.id,

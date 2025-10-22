@@ -21,6 +21,8 @@ namespace DTO
         }
 
         public int ID { get; set; }
+      
+        public int Id { get; set; }
         public decimal SoTien { get; set; }
         public string LyDoPhuCap { get; set; }
     }

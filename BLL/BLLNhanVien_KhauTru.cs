@@ -1,6 +1,9 @@
 ﻿using DAL;
+using DTO;
 using System;
 using System.Collections.Generic;
+using System.Data;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -29,6 +32,52 @@ namespace BLL
                 }
             }
             else return null;
+        }
+    
+        private readonly DALNhanVien_KhauTru dal;
+
+        public BLLNhanVien_KhauTru(string stringConnection)
+        {
+            dal = new DALNhanVien_KhauTru(stringConnection);
+        }
+
+        public DataTable GetAll(string idPhongBan = "")
+        {
+            return dal.GetAll(idPhongBan);
+        }
+
+        public bool Insert(DTONhanVien_KhauTru nkt)
+        {
+            if (string.IsNullOrWhiteSpace(nkt.IdNhanVien))
+                return false;
+            if (nkt.IdKhauTru <= 0)
+                return false;
+            return dal.Insert(nkt);
+        }
+
+        public bool Update(int id, DTONhanVien_KhauTru nkt)
+        {
+            if (string.IsNullOrWhiteSpace(nkt.IdNhanVien))
+                return false;
+            if (nkt.IdKhauTru <= 0)
+                return false;
+            return dal.Update(id, nkt);
+        }
+
+        public bool Delete(int id)
+        {
+            return dal.Delete(id);
+        }
+
+        public DataTable GetAllLyDo()
+        {
+            return dal.GetAllLyDo();
+        }
+
+        // Helper method to access connection string from DAL
+        public string GetConnectionString()
+        {
+            return dal.GetType().GetField("connectionString", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance).GetValue(dal).ToString();
         }
     }
 }

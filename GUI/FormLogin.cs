@@ -28,6 +28,11 @@ namespace GUI
             _dbContextTK = new BLLTaiKhoan(_conn);
         }
 
+        public FormLogin()
+        {
+            InitializeComponent();
+        }
+
         private void FormLogin_Load(object sender, EventArgs e)
         {
         }
@@ -50,6 +55,15 @@ namespace GUI
             }
             else MessageBox.Show("Tài khản nhân viên không tồn tại !");
 
+        }
+
+        private void lblQuenMatKhau_Click(object sender, EventArgs e)
+        {
+            QuenMatKhau formQuenMatKhau = new QuenMatKhau(ConnectionDB.TakeConnectionString());
+            formQuenMatKhau.Show();
+
+            // Đóng form đăng nhập hiện tại
+            this.Hide();
         }
     }
 }

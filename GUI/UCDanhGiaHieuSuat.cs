@@ -362,6 +362,7 @@ namespace GUI
                         _formCTiet.Show();
 
                         _idView = nhanVien.Id;
+
                     }
                 }
             }

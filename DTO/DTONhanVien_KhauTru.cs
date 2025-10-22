@@ -21,6 +21,10 @@ namespace DTO
         public int ID { get; set; }
         public int IDNhanVien { get; set; }
         public int IDKhauTru { get; set; }
+      
+        public int Id { get; set; }
+        public string IdNhanVien { get; set; }
+        public int IdKhauTru { get; set; }
         public DateTime ThangApDung { get; set; }
     }
 }

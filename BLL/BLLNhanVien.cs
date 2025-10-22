@@ -26,9 +26,19 @@ namespace BLL
             return _dal.GetAll(showHidden);
         }
 
+        public DataTable GetById(string id)
+        {
+            return _dal.GetById(id);
+        }
+
         public DataTable ComboboxNhanVien()
         {
             return _dal.LoadNhanVien();
+        }
+
+        public DataTable ComboboxNhanVien(int? idPhongBan = null)
+        {
+            return _dal.ComboboxNhanVien(idPhongBan);
         }
 
         public DTONhanVien LayThongTin(string idNV)
@@ -49,7 +59,7 @@ namespace BLL
             nv.ID = _dal.SinhMaNhanVien(tenChucVu, TenPhongBan);
             bool added = _dal.Insert(nv);
             if (added)
-                _tkBus.CreateDefaultAccount(nv.ID);
+                _tkBus.CreateDefaultAccount(nv.ID, nv.TenNhanVien);
             return added;
         }
 

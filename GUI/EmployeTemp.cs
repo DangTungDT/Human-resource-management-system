@@ -44,14 +44,14 @@ namespace GUI
                     }
                 }
             }
-
             return conn;
         }
+        //}
 
-        /// <summary>
-        /// ==========================CÁCH 3=========================
-        /// Sử dụng App.config
-        /// </summary>
+        ///// <summary>
+        ///// ==========================CÁCH 3=========================
+        ///// Sử dụng App.config
+        ///// </summary>
         //public static string conn;
 
         //static ConnectionDB()

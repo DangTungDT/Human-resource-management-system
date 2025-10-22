@@ -4,6 +4,7 @@ using Guna.UI2.WinForms;
 using System;
 using System.Data.SqlClient;
 using System.Drawing;
+using System.IO;
 using System.Windows.Forms;
 
 namespace GUI
@@ -200,19 +201,56 @@ namespace GUI
 
         private void BtnUpload_Click(object sender, EventArgs e)
         {
-            OpenFileDialog dlg = new OpenFileDialog();
-            dlg.Filter = "Ảnh (*.jpg;*.png)|*.jpg;*.png";
-            if (dlg.ShowDialog() == DialogResult.OK)
+            using (OpenFileDialog dlg = new OpenFileDialog())
             {
-                imagePath = dlg.FileName;
-                picAvatar.Image = Image.FromFile(imagePath);
+                dlg.Filter = "Ảnh (*.jpg;*.jpeg;*.png)|*.jpg;*.jpeg;*.png";
+                if (dlg.ShowDialog() == DialogResult.OK)
+                {
+                    imagePath = dlg.FileName;
+
+                    // ✅ Dùng stream để tránh khóa file
+                    using (var stream = new FileStream(imagePath, FileMode.Open, FileAccess.Read))
+                    {
+                        picAvatar.Image = Image.FromStream(stream);
+                    }
+                }
             }
         }
+
+        private string SaveImageToFolder(string imagePath, string employeeId)
+        {
+            if (string.IsNullOrEmpty(imagePath))
+                return null;
+
+            string folderPath = Path.Combine(Application.StartupPath, "Images");
+
+            // ✅ Tạo thư mục nếu chưa có
+            if (!Directory.Exists(folderPath))
+                Directory.CreateDirectory(folderPath);
+
+            // ✅ Lấy phần mở rộng của file (jpg/png/...)
+            string extension = Path.GetExtension(imagePath);
+            string newFileName = employeeId + extension; // ví dụ: NV001.jpg
+            string destPath = Path.Combine(folderPath, newFileName);
+
+            // ✅ Nếu đã có ảnh cũ thì xóa trước khi copy ảnh mới
+            if (File.Exists(destPath))
+                File.Delete(destPath);
+
+            // ✅ Sao chép ảnh vào thư mục phần mềm
+            File.Copy(imagePath, destPath, true);
+
+            // ✅ Trả về đường dẫn tương đối (Images\NV001.jpg)
+            return Path.Combine("Images", newFileName);
+        }
+
 
         private void BtnSave_Click(object sender, EventArgs e)
         {
             try
             {
+                string savedFileName = SaveImageToFolder(imagePath, idNhanVien);
+
                 DTONhanVien nv = new DTONhanVien
                 {
                     ID = idNhanVien,
@@ -221,7 +259,8 @@ namespace GUI
                     GioiTinh = cbGender.Text,
                     DiaChi = txtAddress.Text,
                     Que = txtQue.Text,
-                    Email = txtEmail.Text
+                    Email = txtEmail.Text,
+                    AnhDaiDien = savedFileName // 🟢 lưu đường dẫn ảnh
                 };
 
                 bllNhanVien.CapNhatThongTin(nv);
@@ -251,11 +290,6 @@ namespace GUI
 
         private void BtnBack_Click(object sender, EventArgs e)
         {
-            //XemThongTinCaNhan xemPage = new XemThongTinCaNhan(idNhanVien);
-            //Control parent = this.Parent;
-            //parent.Controls.Clear();
-            //parent.Controls.Add(xemPage);
-
             XemThongTinCaNhan xemPage = new XemThongTinCaNhan(idNhanVien, _panel, connectionString);
             var parent = this.ParentForm as Main;
             parent?.ShowUserControl("XemThongTinCaNhan");
@@ -274,7 +308,27 @@ namespace GUI
                 txtQue.Text = nv.Que;
                 txtEmail.Text = nv.Email;
             }
-        
+
+            if (!string.IsNullOrEmpty(nv.AnhDaiDien))
+            {
+                string fullPath = Path.Combine(Application.StartupPath, nv.AnhDaiDien);
+                if (File.Exists(fullPath))
+                {
+                    using (var stream = new FileStream(fullPath, FileMode.Open, FileAccess.Read))
+                    {
+                        picAvatar.Image = Image.FromStream(stream);
+                    }
+                }
+                else
+                {
+                    picAvatar.Image = Properties.Resources.user; // ảnh mặc định
+                }
+            }
+            else
+            {
+                picAvatar.Image = Properties.Resources.user;
+            }
+
         }
     }
 }

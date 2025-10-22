@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data.SqlTypes;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -25,5 +24,15 @@ namespace DTO
         public string IDNhanVien { get; set; }
         public int IDThuongPhat { get; set; }
         public DateTime ThangApDung { get; set; }
+      
+        public int Id { get; set; }
+        public string IdNhanVien { get; set; }
+        public string Loai { get; set; }
+        public decimal SoTien { get; set; }
+        public string LyDo { get; set; }
+        public DateTime NgayTao { get; set; }
+        public string IdNguoiTao { get; set; }
+
+
     }
 }

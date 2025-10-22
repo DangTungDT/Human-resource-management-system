@@ -33,15 +33,16 @@ go
 
 create table NhanVien
 (
-	id varchar(10) not null,
+	Id varchar(10) not null,
 	TenNhanVien nvarchar(255) not null,
 	NgaySinh date not null,
 	DiaChi nvarchar(255) not null,
 	Que nvarchar(100) not null,
 	GioiTinh nvarchar(4) not null,
-	Email varchar(100) not null,
-	idChucVu int not null,
-	idPhongBan int not null,
+	Email varchar(100) not null unique,
+	AnhDaiDien varchar(255),
+	IdChucVu int not null,
+	IdPhongBan int not null,
 	DaXoa bit default 0 not null,
 	constraint chk_NgaySinhNV check (NgaySinh <= dateadd(year, -16, getdate())),
 	primary key(id)
@@ -57,11 +58,24 @@ create table TaiKhoan
 	primary key(id)
 )
 go
+CREATE TABLE QuenMatKhau
+(
+    id int identity(1,1) not null,
+    taiKhoan varchar(50) not null,
+    otp varchar(6) not null,
+    thoiGianHetHan datetime not null,
+    daXacNhan bit default 0,
+    primary key(id),
+    FOREIGN KEY (taiKhoan) REFERENCES TaiKhoan(taiKhoan)
+)
+GO
 
 create table ChamCong
 (
 	id int identity(1,1) not null,
 	NgayChamCong date not null,
+	GioRa time,
+	GioVao time,
 	idNhanVien varchar(10) not null,
 	primary key(id)
 )
@@ -74,7 +88,9 @@ create table HopDongLaoDong
 	NgayKy date not null,
 	NgayBatDau date not null,
 	NgayKetThuc date,
-	idNhanVien varchar(10),
+	Luong decimal(18,2) not null,
+	HinhAnh varchar(255),
+	IdNhanVien varchar(10),
 	MoTa nvarchar(255),
 	primary key(id),
 	constraint chk_NgayKetThuc check (NgayBatDau <= NgayKetThuc)
@@ -151,9 +167,9 @@ CREATE TABLE UngVien (
     soDienThoai NVARCHAR(20),
     duongDanCV NVARCHAR(255), -- Lưu file CV của ứng viên
     idChucVuUngTuyen int NOT NULL,
+	idTuyenDung int not null,
     ngayUngTuyen DATE DEFAULT GETDATE(),
     trangThai NVARCHAR(50) DEFAULT N'Đang xét duyệt'
-    
 )
 go
 
@@ -169,7 +185,7 @@ go
 
 Create table KhauTru
 (
-	id int not null,
+	id int identity(1,1) not null,
 	loaiKhauTru nvarchar(50) not null,
 	soTien decimal(18,2) default 0 not null,
 	moTa nvarchar(255),

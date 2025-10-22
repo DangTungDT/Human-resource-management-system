@@ -27,23 +27,11 @@ namespace DAL
             NgayKy = p.NgayKy,
             NgayBatDau = p.NgayBatDau,
             NgayKetThuc = p.NgayKetThuc,
-            Luong = p.Luong,
+            Luong = p.LuongThoaThuan,
             HinhAnh = p.HinhAnh,
-            IdNhanVien = p.IdNhanVien,
+            IdNhanVien = p.idNhanVien,
             MoTa = p.MoTa
         });
-        public IQueryable<DTOHopDongLaoDong> DsHopDongLaoDong() => _dbContext.HopDongLaoDongs.Select(p => new DTOHopDongLaoDong
-        {
-            Id = p.id,
-            LoaiHopDong = p.LoaiHopDong,
-            NgayKy = p.NgayKy,
-            NgayBatDau = p.NgayBatDau,
-            NgayKetThuc = p.NgayKetThuc,
-            Luong = p.Luong,
-            HinhAnh = p.HinhAnh,
-            IdNhanVien = p.IdNhanVien,
-            MoTa = p.MoTa
-        });
-
+       
     }
 }

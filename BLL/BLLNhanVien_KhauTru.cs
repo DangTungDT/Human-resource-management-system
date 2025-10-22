@@ -14,7 +14,11 @@ namespace BLL
     {
         public readonly DALNhanVien_KhauTru _dbContext;
 
-        public BLLNhanVien_KhauTru(string conn) => _dbContext = new DALNhanVien_KhauTru(conn);
+        public BLLNhanVien_KhauTru(string stringConnection)
+        {
+            dal = new DALNhanVien_KhauTru(stringConnection);
+            _dbContext = new DALNhanVien_KhauTru(stringConnection);
+        }
 
         // Danh sach nhan vien_khau tru
         public List<NhanVien_KhauTru> KtraDsNhanVien_KhauTru()
@@ -36,10 +40,6 @@ namespace BLL
     
         private readonly DALNhanVien_KhauTru dal;
 
-        public BLLNhanVien_KhauTru(string stringConnection)
-        {
-            dal = new DALNhanVien_KhauTru(stringConnection);
-        }
 
         public DataTable GetAll(string idPhongBan = "")
         {

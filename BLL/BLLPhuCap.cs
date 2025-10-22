@@ -17,7 +17,7 @@ namespace BLL
         public BLLPhuCap(string stringConnection)
         {
             dal = new DALPhuCap(stringConnection);
-           _dbContext = new DALPhuCap(stringConnection)
+            _dbContext = new DALPhuCap(stringConnection);
         }
 
         // Danh sach phu cap
@@ -67,5 +67,5 @@ namespace BLL
 
         public DataTable Search(string keyword) => dal.Search(keyword);
     }
-}
+
 }

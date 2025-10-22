@@ -11,10 +11,13 @@ namespace BLL
 {
     public class BLLNhanVien_ThuongPhat
     {
+        private readonly DALNhanVien_ThuongPhat dal;
         public readonly DALNhanVien_ThuongPhat _dbContext;
-
-        public BLLNhanVien_ThuongPhat(string conn) => _dbContext = new DALNhanVien_ThuongPhat(conn);
-
+        public BLLNhanVien_ThuongPhat(string conn)
+        {
+            dal = new DALNhanVien_ThuongPhat(conn);
+            _dbContext = new DALNhanVien_ThuongPhat(conn);
+        }
         // Danh sach nhan vien_thuong phat
         public List<NhanVien_ThuongPhat> KtraDsNhanVien_ThuongPhat()
         {
@@ -32,8 +35,7 @@ namespace BLL
             }
             else return null;
         }
-        private readonly DALNhanVien_ThuongPhat dal;
-        public BLLNhanVien_ThuongPhat(string conn) => dal = new DALNhanVien_ThuongPhat(conn);
+     
 
         public DataTable GetAll(string loai, string idPhongBan = "") => dal.GetAll(loai, idPhongBan);
         public List<string> GetNhanVienByThuongPhatId(int thuongPhatId)

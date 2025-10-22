@@ -33,7 +33,7 @@ go
 
 create table NhanVien
 (
-	Id varchar(10) not null,
+	id varchar(10) not null,
 	TenNhanVien nvarchar(255) not null,
 	NgaySinh date not null,
 	DiaChi nvarchar(255) not null,
@@ -41,8 +41,8 @@ create table NhanVien
 	GioiTinh nvarchar(4) not null,
 	Email varchar(100) not null unique,
 	AnhDaiDien varchar(255),
-	IdChucVu int not null,
-	IdPhongBan int not null,
+	idChucVu int not null,
+	idPhongBan int not null,
 	DaXoa bit default 0 not null,
 	constraint chk_NgaySinhNV check (NgaySinh <= dateadd(year, -16, getdate())),
 	primary key(id)
@@ -90,7 +90,7 @@ create table HopDongLaoDong
 	NgayKetThuc date,
 	Luong decimal(18,2) not null,
 	HinhAnh varchar(255),
-	IdNhanVien varchar(10),
+	idNhanVien varchar(10),
 	MoTa nvarchar(255),
 	primary key(id),
 	constraint chk_NgayKetThuc check (NgayBatDau <= NgayKetThuc)

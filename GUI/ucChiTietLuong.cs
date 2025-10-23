@@ -292,7 +292,7 @@ namespace GUI
             var tenPhongBan = _dbContextPB.KtraPhongBan(idPhongBan).ToLowerInvariant();
             var dsTruongPhong = _dbContextNV.KtraDsNhanVien().Where(p => p.id.Contains("TP")).ToList();
             var dsNhanVienPB = _dbContextNV.KtraDsNhanVien().Where(p => p.idPhongBan == idPhongBan).ToList();
-            
+
             foreach (var loai in loaiChucVu)
             {
                 if (_idNhanVien.StartsWith(loai))
@@ -442,11 +442,6 @@ namespace GUI
         }
 
         private void btnUpdate_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void btnDelete_Click(object sender, EventArgs e)
         {
 
         }

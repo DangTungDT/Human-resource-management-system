@@ -1,4 +1,6 @@
-﻿using System;
+﻿using BLL;
+using DTO;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -12,21 +14,16 @@ namespace GUI
 {
     public partial class ucKyLuong : UserControl
     {
-        public readonly string _idNhanVien, _conn;
+        private readonly string _idNhanVien, _conn;
+        private readonly BLLKyLuong _dbContextKL;
 
-        List<PayPeriod> list = new List<PayPeriod>()
-        {
-            new PayPeriod() {StartDate = new DateTime(2025, 7, 1), EndDate = new DateTime(2025, 8, 1), Status = "Hoàn tất" },
-            new PayPeriod() {StartDate = new DateTime(2025, 8, 1), EndDate = new DateTime(2025, 9, 1), Status = "Hoàn tất" },
-            new PayPeriod() {StartDate = new DateTime(2025, 9, 1), EndDate = new DateTime(2025, 10, 1), Status = "Hoàn tất" },
-            new PayPeriod() {StartDate = new DateTime(2025, 10, 1), EndDate = new DateTime(2025, 11, 1), Status = "Đang chi trả" }
-        };
         public ucKyLuong(string idNhanVien, string conn)
         {
             InitializeComponent();
 
             _conn = conn;
             _idNhanVien = idNhanVien;
+            _dbContextKL = new BLLKyLuong(conn);
         }
 
         private void guna2Panel1_Paint(object sender, PaintEventArgs e)
@@ -34,9 +31,58 @@ namespace GUI
 
         }
 
+        private void guna2DateTimePicker1_ValueChanged(object sender, EventArgs e)
+        {
+
+        }
+
         private void ucKyLuong_Load(object sender, EventArgs e)
         {
-            dgvPayPeriod.DataSource = list;
+            cmbTrangThai.DataSource = new List<string> { "Đã trả", "Chưa giải quyết" };
+            dgvKyLuong.DataSource = ChayLaiDuLieu();
+
+            if (dgvKyLuong.Columns["id"] != null)
+            {
+                if (dgvKyLuong.Columns["id"].Visible == true)
+                {
+                    dgvKyLuong.Columns["id"].Visible = false;
+                }
+            }
+        }
+
+        private void btnXuLy_Click(object sender, EventArgs e)
+        {
+            dtpNgayChiTra.Enabled = true;
+        }
+
+        private void btnThem_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                if (_dbContextKL.KtraThemKyLuong(new DTOKyLuong(0, dtpBatDau.Value, dtpKetThuc.Value, dtpNgayChiTra.Value, cmbTrangThai.Text)))
+                {
+                    MessageBox.Show("Thêm kỳ lương thành công.");
+                    dgvKyLuong.DataSource = ChayLaiDuLieu();
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Lỗi: " + ex.Message);
+            }
+        }
+
+        public object ChayLaiDuLieu()
+        {
+            var dsKyLuong = _dbContextKL.KtraDsKyLuong().OrderByDescending(p => p.ngayBatDau).ToList();
+
+            var year = DateTime.Now.Year;
+            var month = DateTime.Now.Month;
+
+            dtpBatDau.Value = new DateTime(year, month, 1);
+            dtpKetThuc.Value = new DateTime(year, month, DateTime.DaysInMonth(year, month));
+            dtpNgayChiTra.Value = new DateTime(year, month, DateTime.DaysInMonth(year, month)).AddDays(5);
+
+            return dsKyLuong;
         }
     }
 }

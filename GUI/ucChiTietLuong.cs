@@ -16,10 +16,12 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Web.Configuration;
+using System.Web.Hosting;
 using System.Web.ModelBinding;
 using System.Web.WebSockets;
 using System.Windows.Forms;
 using System.Windows.Forms.VisualStyles;
+using System.Xml;
 using static System.Net.Mime.MediaTypeNames;
 
 namespace GUI
@@ -68,32 +70,26 @@ namespace GUI
         {
             if (ChayLaiDuLieu(null) is List<NhanVienLuongCT>)
             {
-                var data = (List<NhanVienLuongCT>)ChayLaiDuLieu(null);
 
-                foreach (var nv in data)
-                {
-                    nv.Checked = _dbContextCTL.KtraDsChiTietLuong()
-                        .Any(ct => ct.idNhanVien == nv.ID &&
-                                   ct.ngayNhanLuong.Month == DateTime.Now.Month + 1 &&
-                                   ct.ngayNhanLuong.Year == DateTime.Now.Year);
-                }
-
-                dgvSalaryDetails.DataSource = data;
+                dgvSalaryDetails.DataSource = (List<NhanVienLuongCT>)ChayLaiDuLieu();
+                dgvSalaryDetails.Columns["Checked"].ReadOnly = false;
             }
             else dgvSalaryDetails.DataSource = ChayLaiDuLieu(null);
 
+
             if (dgvSalaryDetails.Columns["ID"] != null)
             {
-                if (dgvSalaryDetails.Columns["ID"].Visible == true)
+                if (dgvSalaryDetails.Columns["ID"].Visible)
                 {
                     dgvSalaryDetails.Columns["ID"].Visible = false;
                 }
-
-                if (dgvSalaryDetails.Columns["Checked"].ReadOnly == true)
-                {
-                    dgvSalaryDetails.Columns["Checked"].ReadOnly = false;
-                }
             }
+
+            var loc = new List<string> { "Admin", "Giám đốc" };
+
+            cmbPhongBan.DataSource = _dbContextPB.KtraDsPhongBan().Where(p => !loc.Contains(p.TenPhongBan)).ToList();
+            cmbPhongBan.DisplayMember = "TenPhongBan";
+            cmbPhongBan.ValueMember = "id";
 
             btnUpdate.Enabled = false;
             btnDelete.Enabled = false;
@@ -104,74 +100,104 @@ namespace GUI
             if (e != null && e.RowIndex > -1)
             {
                 _idSelected = dgvSalaryDetails.Rows[e.RowIndex].Cells["ID"]?.Value.ToString();
-                txtTenNhanVien.Text = dgvSalaryDetails.Rows[e.RowIndex].Cells["NhanVien"]?.Value.ToString() ?? "Không hiẻn thị";
 
+                var thangSau = DateTime.Now.Month != 12 ? DateTime.Now.Month + 1 : 1;
+                var xacNhanKyLuong = _dbContextKL.KtraDsKyLuong().FirstOrDefault(p => p.ngayChiTra.Value.Month == thangSau && p.ngayChiTra.Value.Year == DateTime.Now.Year);
 
-                if (!string.IsNullOrEmpty(_idSelected))
+                if (xacNhanKyLuong != null)
                 {
-                    double tongTienThuong = 0;
-                    double tongTienPhat = 0;
-                    double tongKhauTru = 0;
-                    double tongPhuCap = 0;
+                    txtTenNhanVien.Text = dgvSalaryDetails.Rows[e.RowIndex].Cells["NhanVien"]?.Value.ToString();
 
-                    _dbContextNV_TP.KtraDsNhanVien_ThuongPhat().Where(p => p.idNhanVien == _idSelected).Select(p => p.idThuongPhat).ToList().ForEach(id =>
+                    if (!string.IsNullOrEmpty(_idSelected))
                     {
-                        tongTienThuong += (double)_dbContextTP.CheckListThuongPhat().Where(p => p.loai.Equals("Thưởng", StringComparison.OrdinalIgnoreCase) && p.id == id).Sum(s => s.tienThuongPhat);
-                        tongTienPhat += (double)_dbContextTP.CheckListThuongPhat().Where(p => p.loai.Equals("Phạt", StringComparison.OrdinalIgnoreCase) && p.id == id).Sum(s => s.tienThuongPhat);
-                    });
+                        double tongTienThuong = 0;
+                        double tongTienPhat = 0;
+                        double tongKhauTru = 0;
+                        double tongPhuCap = 0;
 
-                    var timeCurrent = DateTime.Now;
-                    var luongTruocKT = (double)_dbContextHD.KtraDsHopDongLaoDong().FirstOrDefault(p => p.IdNhanVien == _idSelected).Luong;
-
-                    _dbContextNV_KT.KtraDsNhanVien_KhauTru().Where(p => p.idNhanVien == _idSelected).ToList().ForEach(id =>
-                    {
-                        _dbContextKT.KtraDsKhauTru().Where(p => p.id == id.idKhauTru).ToList().ForEach(kt =>
+                        _dbContextNV_TP.KtraDsNhanVien_ThuongPhat().Where(p => p.idNhanVien == _idSelected).Select(p => p.idThuongPhat).ToList().ForEach(id =>
                         {
-                            tongKhauTru += (double)kt.soTien;
+                            tongTienThuong += (double)_dbContextTP.CheckListThuongPhat().Where(p => p.loai.Equals("Thưởng", StringComparison.OrdinalIgnoreCase) && p.id == id).Sum(s => s.tienThuongPhat);
+                            tongTienPhat += (double)_dbContextTP.CheckListThuongPhat().Where(p => p.loai.Equals("Phạt", StringComparison.OrdinalIgnoreCase) && p.id == id).Sum(s => s.tienThuongPhat);
                         });
-                    });
 
-                    _dbContextNV_PC.KtraDsNV_PC().Where(p => p.idNhanVien == _idSelected).ToList().ForEach(id =>
-                    {
-                        _dbContextPC.KtraDsPhuCap().Where(p => p.id == id.idPhuCap).ToList().ForEach(pc =>
+                        var timeCurrent = DateTime.Now;
+                        var luongTruocKT = _dbContextHD.KtraDsHopDongLaoDong().FirstOrDefault(p => p.IdNhanVien == _idSelected);
+
+                        _dbContextNV_KT.KtraDsNhanVien_KhauTru().Where(p => p.idNhanVien == _idSelected).ToList().ForEach(id =>
                         {
-                            tongPhuCap += (double)pc.soTien;
+                            _dbContextKT.KtraDsKhauTru().Where(p => p.id == id.idKhauTru).ToList().ForEach(kt =>
+                            {
+                                tongKhauTru += (double)kt.soTien;
+                            });
                         });
-                    });
 
-                    var luongSauKT = luongTruocKT - tongKhauTru;
+                        _dbContextNV_PC.KtraDsNV_PC().Where(p => p.idNhanVien == _idSelected).ToList().ForEach(id =>
+                        {
+                            _dbContextPC.KtraDsPhuCap().Where(p => p.id == id.idPhuCap).ToList().ForEach(pc =>
+                            {
+                                tongPhuCap += (double)pc.soTien;
+                            });
+                        });
 
-                    txtTrangThai.Text = "Đang chi trả";
-                    txtPhuCap.Text = tongPhuCap.ToString();
-                    txtTienPhat.Text = tongTienPhat.ToString();
-                    txtTongKhauTru.Text = tongKhauTru.ToString();
-                    txtTienThuong.Text = tongTienThuong.ToString();
-                    txtLuongSauKhauTru.Text = luongSauKT.ToString();
-                    txtLuongTruocKhauTru.Text = luongTruocKT.ToString();
-                    txtThucLanh.Text = string.Format(new CultureInfo("vi-VN"), "{0:C0}", luongSauKT + tongPhuCap + tongTienThuong - tongTienPhat);
+                        double luongSauKT = 0;
+
+                        if (luongTruocKT != null)
+                        {
+                            luongSauKT = (double)luongTruocKT.Luong - tongKhauTru;
+                        }
+                        else
+                        {
+                            luongSauKT = 0;
+                        }
 
 
-                    var NgayKyLuong = _dbContextKL.KtraDsKyLuong().FirstOrDefault(p => p.ngayBatDau != null && p.ngayBatDau.Value.Year == timeCurrent.Year && p.ngayBatDau.Value.Month == timeCurrent.Month);
-                    if (NgayKyLuong != null)
-                    {
-                        txtNgayNhanLuong.Text = DateTime.Parse(NgayKyLuong.ngayChiTra.ToString()).ToShortDateString();
+                        var kyLuong = _dbContextCTL.KtraDsChiTietLuong().FirstOrDefault(ct =>
+                                        ct.idNhanVien == _idSelected &&
+                                        ct.ngayNhanLuong.Month == thangSau &&
+                                        ct.ngayNhanLuong.Year == DateTime.Now.Year);
+
+                        KyLuong trangThaiKyLuong = null;
+                        if (kyLuong != null)
+                        {
+                            trangThaiKyLuong = _dbContextKL.KtraKyLuongQuaID(kyLuong.idKyLuong);
+                        }
+
+                        txtTrangThai.Text = trangThaiKyLuong != null ? kyLuong.trangThai : "Chưa giải quyết";
+                        txtPhuCap.Text = string.Format(new CultureInfo("vi-VN"), "{0:N0}", tongPhuCap);
+                        txtTienPhat.Text = string.Format(new CultureInfo("vi-VN"), "{0:N0}", tongTienPhat);
+                        txtTongKhauTru.Text = string.Format(new CultureInfo("vi-VN"), "{0:N0}", tongKhauTru);
+                        txtTienThuong.Text = string.Format(new CultureInfo("vi-VN"), "{0:N0}", tongTienThuong);
+                        txtLuongSauKhauTru.Text = string.Format(new CultureInfo("vi-VN"), "{0:N0}", luongSauKT);
+                        txtLuongTruocKhauTru.Text = string.Format(new CultureInfo("vi-VN"), "{0:N0}", luongTruocKT != null ? luongTruocKT.Luong : 0);
+                        txtThucLanh.Text = string.Format(new CultureInfo("vi-VN"), "{0:C0}", luongSauKT + tongPhuCap + tongTienThuong - tongTienPhat);
+
+
+                        var NgayKyLuong = _dbContextKL.KtraDsKyLuong().FirstOrDefault(p => p.ngayBatDau != null && p.ngayBatDau.Value.Year == timeCurrent.Year && p.ngayBatDau.Value.Month == timeCurrent.Month);
+                        if (NgayKyLuong != null)
+                        {
+                            txtNgayNhanLuong.Text = DateTime.Parse(NgayKyLuong.ngayChiTra.ToString()).ToShortDateString();
+                        }
+
+                        var idPhongBan = _dbContextNV.KtraNhanVienQuaID(_idSelected).IdPhongBan;
+                        var tenPhongBan = _dbContextPB.KtraPhongBan(idPhongBan);
+                        var dsNhanVienPB = _dbContextNV.KtraDsNhanVien().Where(p => p.IdPhongBan == idPhongBan).ToList();
+                        txtPhongBanNV.Text = tenPhongBan;
                     }
 
-                    var idPhongBan = _dbContextNV.KtraNhanVienQuaID(_idNhanVien).IdPhongBan;
-                    var tenPhongBan = _dbContextPB.KtraPhongBan(idPhongBan).ToLowerInvariant();
-                    txtPhongBanNV.Text = tenPhongBan;
                 }
+                else MessageBox.Show($"Chưa có dữ liệu kỳ lương tháng {DateTime.Now.Month}", "Cảnh báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
 
-                btnUpdate.Enabled = false;
+                btnUpdate.Enabled = true;
                 btnDelete.Enabled = true;
 
-                foreach (var control in guna2Panel1.Controls)
-                {
-                    if (control is Guna2TextBox text && !string.IsNullOrEmpty(text.Text))
-                    {
-                        text.ReadOnly = false;
-                    }
-                }
+                //foreach (var control in guna2Panel1.Controls)
+                //{
+                //    if (control is Guna2TextBox text && !string.IsNullOrEmpty(text.Text))
+                //    {
+                //        text.ReadOnly = false;
+                //    }
+                //}
             }
 
         }
@@ -233,7 +259,7 @@ namespace GUI
                         {
                             if (_dbContextCTL.KtraDuLieuChiTietLuongNV(idNhanVien) == null)
                             {
-                                var themThanhCong = _dbContextCTL.KtraThemChiTietLuong(new DTOChiTietLuong(0, ngayNhanLuong, luongTruocKT, luongSauKT, tongKhauTru, tongPhuCap, tongTienThuong, tongTienPhat, txtTrangThai?.Text ?? null, rtGhiChu?.Text ?? null, idNhanVien, idKyLuong));
+                                var themThanhCong = _dbContextCTL.KtraThemChiTietLuong(new DTOChiTietLuong(0, ngayNhanLuong, luongTruocKT, luongSauKT, tongKhauTru, tongPhuCap, tongTienThuong, tongTienPhat, "Đang giải quyết", rtGhiChu?.Text ?? null, idNhanVien, idKyLuong));
                                 if (themThanhCong)
                                 {
                                     dsDaThemThanhCong.Add(idNhanVien);
@@ -246,6 +272,7 @@ namespace GUI
 
                     dgvSalaryDetails.DataSource = ChayLaiDuLieu();
                     MessageBox.Show("Thêm dữ liệu thành công.");
+                    Empty();
 
                     foreach (var idNhanVien in dsDaThemThanhCong)
                     {
@@ -261,7 +288,6 @@ namespace GUI
                 MessageBox.Show("Lỗi: " + ex.Message);
                 return;
             }
-            finally { Empty(); }
         }
 
         public void Empty()
@@ -275,75 +301,43 @@ namespace GUI
             }
         }
 
-        private void cmbPhongBan_SelectedIndexChanged(object sender, EventArgs e)
-        {
-
-        }
-
         // Load du lieu theo chuc vu GD, TP
         private object ChayLaiDuLieu(List<NhanVien> dsNhanVienLoc = null)
         {
-            string[] loaiChucVu = { "GD", "TP" };
+            txtPhongBanNV.Text = string.Empty;
+
+            string[] loaiChucVu = { "GD", "NS" };
 
             var anonymous = new object();
             var dsNhanVien = _dbContextNV.KtraDsNhanVien();
-            var dsChiTietLuong = _dbContextCTL.KtraDsChiTietLuong();
-            var idPhongBan = _dbContextNV.KtraNhanVienQuaID(_idNhanVien).IdPhongBan;
-            var tenPhongBan = _dbContextPB.KtraPhongBan(idPhongBan).ToLowerInvariant();
-            var dsTruongPhong = _dbContextNV.KtraDsNhanVien().Where(p => p.Id.Contains("TP")).ToList();
-            var dsNhanVienPB = _dbContextNV.KtraDsNhanVien().Where(p => p.IdPhongBan == idPhongBan).ToList();
-
-            foreach (var loai in loaiChucVu)
+            if (!string.IsNullOrEmpty(_idSelected))
             {
-                if (_idNhanVien.StartsWith(loai))
-                {
-                    var stringNVFilter = _idNhanVien.Substring(loai.Length);
-                    var isDsNhanVien = dsNhanVienLoc == null ? dsNhanVienPB : dsNhanVienLoc;
-
-                    if (loai == "GD")
-                    {
-                        anonymous = dsNhanVien.Where(p => !p.Id.StartsWith(loai)).GroupBy(p => p.Id).Select(p => new
-                        {
-                            ID = p.Key,
-                            NhanVien = p.Select(s => s.TenNhanVien).FirstOrDefault(),
-                            GioiTinh = p.Select(s => s.GioiTinh).FirstOrDefault(),
-                            NgaySinh = p.Select(s => s.NgaySinh).FirstOrDefault(),
-                            Email = p.Select(s => s.Email).FirstOrDefault(),
-                            ChucVu = p.Select(s => s.ChucVu.TenChucVu).FirstOrDefault(),
-                            //    Checked = _dbContextCTL.KtraDsChiTietLuong()
-                            //    .Any(ct => ct._idSelected == p.Key && ct.ngayNhanLuong.Month == DateTime.Now.Month + 1 && ct.ngayNhanLuong.Year == DateTime.Now.Year)
-                        }).ToList();
-                    }
-                    else
-                    {
-                        anonymous = isDsNhanVien
-                            .Where(p => !p.Id.StartsWith(loai))
-                            .Select(p => new NhanVienLuongCT
-                            {
-                                ID = p.Id,
-                                NhanVien = p.TenNhanVien,
-                                GioiTinh = p.GioiTinh,
-                                NgaySinh = p.NgaySinh,
-                                Email = p.Email,
-                                ChucVu = p.ChucVu.TenChucVu,
-                                Checked = _dbContextCTL.KtraDsChiTietLuong().Any(ct =>
-                                    ct.idNhanVien == p.Id &&
-                                    ct.ngayNhanLuong.Month == DateTime.Now.Month + 1 &&
-                                    ct.ngayNhanLuong.Year == DateTime.Now.Year)
-                            })
-                            .ToList();
-
-                        txtPhongBanNV.Text = tenPhongBan;
-                    }
-
-                    //cmbTenNV.DataSource = loai == "GD" ? dsNhanVien : isDsNhanVien;
-                    //cmbTenNV.DisplayMember = "TenNhanVien";
-                    //cmbTenNV.ValueMember = "ID";
-
-                    //lblDsNV.Text = $"{moDau} {tenPhongBan} đánh giá {chucVu} trong tháng {DateTime.Now.Month}";
-                    break;
-                }
+                var idPhongBan = _dbContextNV.KtraNhanVienQuaID(_idSelected).IdPhongBan;
+                var tenPhongBan = _dbContextPB.KtraPhongBan(idPhongBan).ToLowerInvariant();
+                var dsNhanVienPB = _dbContextNV.KtraDsNhanVien().Where(p => p.IdPhongBan == idPhongBan).ToList();
+                txtPhongBanNV.Text = tenPhongBan;
             }
+
+            var stringNVFilter = _idNhanVien.Substring(2);
+            var isDsNhanVien = dsNhanVienLoc == null ? dsNhanVien : dsNhanVienLoc;
+            var thangSau = DateTime.Now.Month != 12 ? DateTime.Now.Month + 1 : 1;
+
+            anonymous = isDsNhanVien
+                .Where(p => !p.Id.StartsWith("GD"))
+                .Select(p => new NhanVienLuongCT
+                {
+                    ID = p.Id,
+                    NhanVien = p.TenNhanVien,
+                    GioiTinh = p.GioiTinh,
+                    NgaySinh = p.NgaySinh,
+                    Email = p.Email,
+                    ChucVu = p.ChucVu.TenChucVu,
+                    Checked = _dbContextCTL.KtraDsChiTietLuong().Any(ct =>
+                        ct.idNhanVien == p.Id &&
+                        ct.ngayNhanLuong.Month == thangSau &&
+                        ct.ngayNhanLuong.Year == DateTime.Now.Year)
+
+                }).ToList();
 
             var timeCurrent = DateTime.Now;
             var NgayKyLuong = _dbContextKL.KtraDsKyLuong().FirstOrDefault(p => p.ngayBatDau != null && p.ngayBatDau.Value.Year == timeCurrent.Year && p.ngayBatDau.Value.Month == timeCurrent.Month);
@@ -355,21 +349,20 @@ namespace GUI
             return anonymous;
         }
 
-        private void txtLuongTruocKhauTru_KeyPress(object sender, KeyPressEventArgs e) => NganNhapChu(e);
-
-
         public void LayKiTuSo(object sender)
         {
-            var text = sender as Guna2TextBox;
-            if (text == null) return;
+            //var text = sender as Guna2TextBox;
+            //if (text == null) return;
 
-            if (Regex.IsMatch(text.Text, @"\D"))
-            {
-                var index = Math.Max(0, text.SelectionStart - 1);
-                text.Text = Regex.Replace(text.Text, "[^0-9]", "");
-                text.SelectionStart = Math.Min(index, text.Text.Length);
-            }
+            //if (Regex.IsMatch(text.Text, @"\D"))
+            //{
+            //    var index = Math.Max(0, text.SelectionStart - 1);
+            //    text.Text = Regex.Replace(text.Text, "[^0-9]", "");
+            //    text.SelectionStart = Math.Min(index, text.Text.Length);
+            //}
         }
+
+        private void txtLuongTruocKhauTru_KeyPress(object sender, KeyPressEventArgs e) => NganNhapChu(e);
 
         private void txtLuongTruocKhauTru_TextChanged(object sender, EventArgs e) => LayKiTuSo(sender);
 
@@ -397,7 +390,8 @@ namespace GUI
         {
             if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar))
             {
-                e.Handled = true;
+                //e.Handled = true;
+                e.Handled = false;
             }
         }
 
@@ -418,23 +412,13 @@ namespace GUI
                         if (!_layDsChiTietLuong.Contains(idNhanVien))
                         {
                             _layDsChiTietLuong.Add(idNhanVien);
-
                         }
-
                     }
-                    else
-                    {
-                        _layDsChiTietLuong.Remove(idNhanVien);
-                    }
+                    else _layDsChiTietLuong.Remove(idNhanVien);
                 }
-                //btnAdd.Click += btnAdd_Click;
             }
         }
 
-        private void BtnAdd_Click(object sender, EventArgs e)
-        {
-            throw new NotImplementedException();
-        }
 
         private void guna2HtmlLabel17_Click(object sender, EventArgs e)
         {
@@ -455,27 +439,16 @@ namespace GUI
                 {
                     var dsXoa = _dbContextCTL.KtraDsChiTietLuong().FirstOrDefault(p => p.idNhanVien == chiTietLuong.idNhanVien && p.ngayNhanLuong.Year == DateTime.Now.Year && p.ngayNhanLuong.Month == DateTime.Now.Month + 1);
 
-                    //var dsXoa = dgvSalaryDetails.Rows
-                    //    .Cast<DataGridViewRow>()
-                    //    .Where(r => Convert.ToBoolean(r.Cells["Checked"].Value) == true)
-                    //    .Select(r => r.Cells["ID"].Value?.ToString())
-                    //    .Where(id => !string.IsNullOrEmpty(id))
-                    //    .ToList();
-
                     if (dsXoa == null)
                     {
                         MessageBox.Show($"Nhân viên {_dbContextNV.KtraNhanVienQuaID(_idSelected).TenNhanVien} chưa được thêm. !");
                         return;
                     }
 
-                    var confirm = MessageBox.Show("Bạn có chắc chắn muốn xóa các bản ghi đã chọn không?",
-                                                  "Xác nhận xóa",
-                                                  MessageBoxButtons.YesNo,
-                                                  MessageBoxIcon.Warning);
-
-                    if (confirm != DialogResult.Yes)
+                    if (MessageBox.Show($"Bạn có chắc chắn muốn hủy bỏ {_dbContextNV.KtraNhanVienQuaID(_idSelected).TenNhanVien} đã chọn không?", "Xác nhận", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.No)
+                    {
                         return;
-
+                    }
 
                     var chiTiet = _dbContextCTL.KtraDuLieuChiTietLuongNV(_idSelected);
                     if (chiTiet != null)
@@ -499,6 +472,116 @@ namespace GUI
             catch (Exception ex)
             {
                 MessageBox.Show("Lỗi khi xóa: " + ex.Message);
+            }
+        }
+
+        private void panel1_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+
+        private void txtTenNV_TextChanged(object sender, EventArgs e)
+        {
+            var locTenNVKhongDau = LocKyTuKhongDau(txtTenNV.Text.Trim().ToLowerInvariant());
+
+            var dsNhanVien = _dbContextNV.KtraDsNhanVien().Where(p =>
+            {
+                var tenNVKhongDau = LocKyTuKhongDau(p.TenNhanVien.Trim().ToLowerInvariant());
+                return tenNVKhongDau.Contains(locTenNVKhongDau);
+            }).ToList();
+
+            dgvSalaryDetails.DataSource = ChayLaiDuLieu(dsNhanVien);
+        }
+
+        // Thay doi text co cac ki tu co dau thanh khong dau
+        public string LocKyTuKhongDau(string value)
+        {
+            if (string.IsNullOrEmpty(value)) return string.Empty;
+
+            var normalized = value.ToLowerInvariant().Normalize(NormalizationForm.FormD);
+            var builder = new StringBuilder();
+
+            foreach (char c in normalized)
+            {
+                if (CharUnicodeInfo.GetUnicodeCategory(c) != UnicodeCategory.NonSpacingMark)
+                {
+                    builder.Append(c);
+                }
+            }
+
+            return builder.ToString().Replace(" ", "").Replace("đ", "d");
+        }
+
+        private void cmbTrangThai_SelectionChangeCommitted(object sender, EventArgs e)
+        {
+            List<NhanVien> dsNhanVien = null;
+            var thangSau = DateTime.Now.Month != 12 ? DateTime.Now.Month + 1 : 1;
+
+            var trangThaiSelected = cmbTrangThai.SelectedItem.ToString();
+
+            if (trangThaiSelected.Equals("Đang giải quyết", StringComparison.OrdinalIgnoreCase))
+            {
+                dsNhanVien = _dbContextNV.KtraDsNhanVien().Where(p =>
+                {
+                    return _dbContextCTL.KtraDsChiTietLuong().Any(ct => ct.idNhanVien == p.Id && ct.ngayNhanLuong.Month == thangSau && ct.ngayNhanLuong.Year == DateTime.Now.Year);
+                }).ToList();
+            }
+            else
+            {
+                dsNhanVien = _dbContextNV.KtraDsNhanVien().Where(p =>
+                {
+                    return !_dbContextCTL.KtraDsChiTietLuong().Any(ct => ct.idNhanVien == p.Id && ct.ngayNhanLuong.Month == thangSau && ct.ngayNhanLuong.Year == DateTime.Now.Year);
+                }).ToList();
+            }
+
+            dgvSalaryDetails.DataSource = ChayLaiDuLieu(dsNhanVien);
+        }
+
+        private void cmbPhongBan_SelectionChangeCommitted(object sender, EventArgs e)
+        {
+
+            var dsNhanVien = _dbContextNV.KtraDsNhanVien().Where(p =>
+            {
+                return _dbContextPB.KtraDsPhongBan().Any(k => k.id == p.IdPhongBan && p.IdPhongBan == Convert.ToInt32(cmbPhongBan.SelectedValue));
+
+            }).ToList();
+
+            txtTenNV.Text = string.Empty;
+            dgvSalaryDetails.DataSource = ChayLaiDuLieu(dsNhanVien);
+        }
+
+        private void btnLoadDuLieu_Click(object sender, EventArgs e) => dgvSalaryDetails.DataSource = ChayLaiDuLieu();
+
+        private void btnUpdate_Click_1(object sender, EventArgs e)
+        {
+            try
+            {
+                var chiTietLuong = _dbContextCTL.KtraChiTietLuongQuaIDNhanVien(_idSelected);
+                if (chiTietLuong != null)
+                {
+                    var dsXoa = _dbContextCTL.KtraDsChiTietLuong().FirstOrDefault(p => p.idNhanVien == chiTietLuong.idNhanVien && p.ngayNhanLuong.Year == DateTime.Now.Year && p.ngayNhanLuong.Month == DateTime.Now.Month + 1);
+
+                    if (dsXoa == null)
+                    {
+                        MessageBox.Show($"Nhân viên {_dbContextNV.KtraNhanVienQuaID(_idSelected).TenNhanVien} chưa được chọn. !");
+                        return;
+                    }
+
+                    if (_dbContextCTL.KtraCapNhatChiTietLuongGhiChu(new DTOChiTietLuong(chiTietLuong.id, rtGhiChu.Text)))
+                    {
+                        MessageBox.Show("Cập nhật chi tiết lương thành công. ");
+
+                        dgvSalaryDetails.DataSource = ChayLaiDuLieu();
+                        rtGhiChu.Text = string.Empty;
+                    }
+                    else MessageBox.Show("Cập nhật thất bại !");
+                }
+                else MessageBox.Show("Hãy thêm bảng lương trước khi cập nhật !");
+
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Lỗi: " + ex.Message);
             }
         }
 

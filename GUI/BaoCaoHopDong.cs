@@ -24,12 +24,13 @@ namespace GUI
         public BaoCaoHopDong(string stringConnection, string idNhanVien)
         {
             InitializeComponent();
-            BuildUI();
-            LoadFilterData();
-            LoadHopDong();
 
             _idNhanVien = idNhanVien;
             _connectionString = stringConnection;
+
+            BuildUI();
+            LoadFilterData();
+            LoadHopDong();
         }
 
         private void BuildUI()

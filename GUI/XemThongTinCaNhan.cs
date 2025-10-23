@@ -103,7 +103,7 @@ namespace GUI
                 Dock = DockStyle.Fill,
                 TextAlign = ContentAlignment.MiddleLeft,
                 Padding = new Padding(0),
-                Margin = new Padding(30,15,15,15)
+                Margin = new Padding(30, 15, 15, 15)
             };
 
             //Label hiển thị giá trị (cột phải), ví dụ: “Nguyễn Văn A”, “01/01/1990”,
@@ -209,9 +209,7 @@ namespace GUI
         private void BtnUpdate_Click(object sender, EventArgs e)
         {
             CapNhatThongTinRieng capNhatPage = new CapNhatThongTinRieng(idNhanVien, _panel, connectionString);
-            var parent = this.ParentForm as Main;
-            parent?.ShowUserControl("CapNhatThongTinRieng");
-            parent.ChildFormComponent(_panel, "ButtonFeatureViewComponent");
+            DisplayUserControlPanel.ChildUserControl(capNhatPage, _panel);
         }
 
         // ===============================

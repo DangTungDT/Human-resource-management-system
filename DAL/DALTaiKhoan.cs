@@ -243,12 +243,12 @@ namespace DAL
         // Lay ds tai khoan
         public List<TaiKhoan> DsTaiKhoan()
         {
-            var list =  _dbContext.TaiKhoans.ToList();
+            var list = _dbContext.TaiKhoans.ToList();
             return list;
         }
 
         // Tim tai khoan qua idNhanVien
-        public NhanVien TimTaiKhoanQuaIDNVien(string idNHanVien) => _dbContext.NhanViens.FirstOrDefault(p => p.id == idNHanVien);
+        public NhanVien TimTaiKhoanQuaIDNVien(string idNHanVien) => _dbContext.NhanViens.FirstOrDefault(p => p.Id == idNHanVien);
     }
-    
+
 }

@@ -130,7 +130,7 @@
             this.btnDangNhap.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.btnDangNhap.ForeColor = System.Drawing.Color.White;
             this.btnDangNhap.Location = new System.Drawing.Point(197, 350);
-            this.btnDangNhap.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btnDangNhap.Margin = new System.Windows.Forms.Padding(4);
             this.btnDangNhap.Name = "btnDangNhap";
             this.btnDangNhap.Size = new System.Drawing.Size(215, 54);
             this.btnDangNhap.TabIndex = 2;
@@ -139,12 +139,15 @@
             // 
             // lblQuenMatKhau
             // 
+            this.lblQuenMatKhau.AutoSize = false;
             this.lblQuenMatKhau.BackColor = System.Drawing.Color.Transparent;
-            this.lblQuenMatKhau.Location = new System.Drawing.Point(446, 281);
+            this.lblQuenMatKhau.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(163)));
+            this.lblQuenMatKhau.Location = new System.Drawing.Point(380, 284);
             this.lblQuenMatKhau.Name = "lblQuenMatKhau";
-            this.lblQuenMatKhau.Size = new System.Drawing.Size(92, 18);
+            this.lblQuenMatKhau.Size = new System.Drawing.Size(170, 25);
             this.lblQuenMatKhau.TabIndex = 59;
             this.lblQuenMatKhau.Text = "Quên mật khẩu";
+            this.lblQuenMatKhau.TextAlignment = System.Drawing.ContentAlignment.MiddleRight;
             this.lblQuenMatKhau.Click += new System.EventHandler(this.lblQuenMatKhau_Click);
             // 
             // FormLogin
@@ -167,7 +170,6 @@
             this.Text = "Đăng nhập";
             this.Load += new System.EventHandler(this.FormLogin_Load);
             this.ResumeLayout(false);
-            this.PerformLayout();
 
         }
 

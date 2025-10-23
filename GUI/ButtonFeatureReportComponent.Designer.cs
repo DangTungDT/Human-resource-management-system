@@ -47,9 +47,10 @@
             this.flowLayoutPanel1.Controls.Add(this.guna2TileButton1);
             this.flowLayoutPanel1.Controls.Add(this.guna2TileButton2);
             this.flowLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.flowLayoutPanel1.Location = new System.Drawing.Point(5, 5);
+            this.flowLayoutPanel1.Location = new System.Drawing.Point(0, 0);
+            this.flowLayoutPanel1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.flowLayoutPanel1.Name = "flowLayoutPanel1";
-            this.flowLayoutPanel1.Size = new System.Drawing.Size(1056, 62);
+            this.flowLayoutPanel1.Size = new System.Drawing.Size(1421, 77);
             this.flowLayoutPanel1.TabIndex = 5;
             // 
             // btnChiTietLuong
@@ -69,9 +70,10 @@
             this.btnChiTietLuong.ImageSize = new System.Drawing.Size(30, 30);
             this.btnChiTietLuong.ImeMode = System.Windows.Forms.ImeMode.NoControl;
             this.btnChiTietLuong.IndicateFocus = true;
-            this.btnChiTietLuong.Location = new System.Drawing.Point(3, 3);
+            this.btnChiTietLuong.Location = new System.Drawing.Point(4, 4);
+            this.btnChiTietLuong.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.btnChiTietLuong.Name = "btnChiTietLuong";
-            this.btnChiTietLuong.Size = new System.Drawing.Size(135, 52);
+            this.btnChiTietLuong.Size = new System.Drawing.Size(180, 64);
             this.btnChiTietLuong.TabIndex = 3;
             this.btnChiTietLuong.Text = "Chấm công";
             this.btnChiTietLuong.TextFormatNoPrefix = true;
@@ -94,9 +96,10 @@
             this.btnDanhGia.ImageSize = new System.Drawing.Size(30, 30);
             this.btnDanhGia.ImeMode = System.Windows.Forms.ImeMode.NoControl;
             this.btnDanhGia.IndicateFocus = true;
-            this.btnDanhGia.Location = new System.Drawing.Point(144, 3);
+            this.btnDanhGia.Location = new System.Drawing.Point(192, 4);
+            this.btnDanhGia.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.btnDanhGia.Name = "btnDanhGia";
-            this.btnDanhGia.Size = new System.Drawing.Size(135, 52);
+            this.btnDanhGia.Size = new System.Drawing.Size(180, 64);
             this.btnDanhGia.TabIndex = 4;
             this.btnDanhGia.Text = "Tuyển dụng";
             this.btnDanhGia.TextFormatNoPrefix = true;
@@ -119,9 +122,10 @@
             this.btnKyLuat.ImageSize = new System.Drawing.Size(30, 30);
             this.btnKyLuat.ImeMode = System.Windows.Forms.ImeMode.NoControl;
             this.btnKyLuat.IndicateFocus = true;
-            this.btnKyLuat.Location = new System.Drawing.Point(285, 3);
+            this.btnKyLuat.Location = new System.Drawing.Point(380, 4);
+            this.btnKyLuat.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.btnKyLuat.Name = "btnKyLuat";
-            this.btnKyLuat.Size = new System.Drawing.Size(135, 52);
+            this.btnKyLuat.Size = new System.Drawing.Size(180, 64);
             this.btnKyLuat.TabIndex = 5;
             this.btnKyLuat.Text = "Hợp đồng nhân viên";
             this.btnKyLuat.TextFormatNoPrefix = true;
@@ -143,9 +147,10 @@
             this.guna2TileButton4.ImageSize = new System.Drawing.Size(30, 30);
             this.guna2TileButton4.ImeMode = System.Windows.Forms.ImeMode.NoControl;
             this.guna2TileButton4.IndicateFocus = true;
-            this.guna2TileButton4.Location = new System.Drawing.Point(426, 3);
+            this.guna2TileButton4.Location = new System.Drawing.Point(568, 4);
+            this.guna2TileButton4.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.guna2TileButton4.Name = "guna2TileButton4";
-            this.guna2TileButton4.Size = new System.Drawing.Size(135, 52);
+            this.guna2TileButton4.Size = new System.Drawing.Size(180, 64);
             this.guna2TileButton4.TabIndex = 9;
             this.guna2TileButton4.Text = "Khen thưởng";
             this.guna2TileButton4.TextFormatNoPrefix = true;
@@ -167,9 +172,10 @@
             this.guna2TileButton1.ImageSize = new System.Drawing.Size(30, 30);
             this.guna2TileButton1.ImeMode = System.Windows.Forms.ImeMode.NoControl;
             this.guna2TileButton1.IndicateFocus = true;
-            this.guna2TileButton1.Location = new System.Drawing.Point(567, 3);
+            this.guna2TileButton1.Location = new System.Drawing.Point(756, 4);
+            this.guna2TileButton1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.guna2TileButton1.Name = "guna2TileButton1";
-            this.guna2TileButton1.Size = new System.Drawing.Size(135, 52);
+            this.guna2TileButton1.Size = new System.Drawing.Size(180, 64);
             this.guna2TileButton1.TabIndex = 10;
             this.guna2TileButton1.Text = "DS Lương";
             this.guna2TileButton1.TextFormatNoPrefix = true;
@@ -191,9 +197,10 @@
             this.guna2TileButton2.ImageSize = new System.Drawing.Size(30, 30);
             this.guna2TileButton2.ImeMode = System.Windows.Forms.ImeMode.NoControl;
             this.guna2TileButton2.IndicateFocus = true;
-            this.guna2TileButton2.Location = new System.Drawing.Point(708, 3);
+            this.guna2TileButton2.Location = new System.Drawing.Point(944, 4);
+            this.guna2TileButton2.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.guna2TileButton2.Name = "guna2TileButton2";
-            this.guna2TileButton2.Size = new System.Drawing.Size(135, 52);
+            this.guna2TileButton2.Size = new System.Drawing.Size(180, 64);
             this.guna2TileButton2.TabIndex = 11;
             this.guna2TileButton2.Text = "DS Kỷ luật";
             this.guna2TileButton2.TextFormatNoPrefix = true;
@@ -201,13 +208,12 @@
             // 
             // ButtonFeatureReportComponent
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.flowLayoutPanel1);
-            this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.Name = "ButtonFeatureReportComponent";
-            this.Padding = new System.Windows.Forms.Padding(5);
-            this.Size = new System.Drawing.Size(1066, 72);
+            this.Size = new System.Drawing.Size(1421, 77);
             this.Load += new System.EventHandler(this.ButtonFeatureReportComponent_Load);
             this.flowLayoutPanel1.ResumeLayout(false);
             this.ResumeLayout(false);

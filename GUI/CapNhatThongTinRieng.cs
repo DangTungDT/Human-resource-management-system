@@ -278,9 +278,7 @@ namespace GUI
                 _panel.Controls.Add(xemThongTin);
 
                 XemThongTinCaNhan xemPage = new XemThongTinCaNhan(idNhanVien, _panel, connectionString);
-                var parent = this.ParentForm as Main;
-                parent?.ShowUserControl("XemThongTinCaNhan");
-                parent.ChildFormComponent(_panel, "ButtonFeatureViewComponent");
+                DisplayUserControlPanel.ChildUserControl(xemPage, _panel);
             }
             catch (Exception ex)
             {
@@ -291,9 +289,7 @@ namespace GUI
         private void BtnBack_Click(object sender, EventArgs e)
         {
             XemThongTinCaNhan xemPage = new XemThongTinCaNhan(idNhanVien, _panel, connectionString);
-            var parent = this.ParentForm as Main;
-            parent?.ShowUserControl("XemThongTinCaNhan");
-            parent.ChildFormComponent(_panel, "ButtonFeatureViewComponent");
+            DisplayUserControlPanel.ChildUserControl(xemPage, _panel);
         }
 
         private void LoadThongTinCaNhan()

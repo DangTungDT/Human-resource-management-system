@@ -32,11 +32,11 @@ namespace GUI
             cmbNam.Items.Add("");
             LoadThangNamPhanLoai(0, 0, 3);
 
-            grbNhanVien.Text = "Nhân viên: " + _dbContextNV.KtraDsNhanVien().FirstOrDefault(p => p.id == _idNhanVien).TenNhanVien;
+            grbNhanVien.Text = "Nhân viên: " + _dbContextNV.KtraDsNhanVien().FirstOrDefault(p => p.Id == _idNhanVien).TenNhanVien;
 
             if (!string.IsNullOrEmpty(_idNhanVien))
             {
-                var namLamViec = _dbContextHD.KtraDsHopDongLaoDong().FirstOrDefault(p => p.idNhanVien == _idNhanVien);
+                var namLamViec = _dbContextHD.KtraDsHopDongLaoDong().FirstOrDefault(p => p.IdNhanVien == _idNhanVien);
 
                 var namBD = namLamViec.NgayBatDau.Year;
                 var namHT = DateTime.Now.Year;
@@ -58,7 +58,7 @@ namespace GUI
         private object ChayLaiDuLieu(int nam, int thang, int phanLoai)
         {
             var anonymous = new object();
-            var nhanVien = _dbContextNV.KtraDsNhanVien().FirstOrDefault(p => p.id == _idNhguoiDanhGia);
+            var nhanVien = _dbContextNV.KtraDsNhanVien().FirstOrDefault(p => p.Id == _idNhguoiDanhGia);
             var dsNhanVienDG = _dbContextDG.KtraDsDanhGiaNhanVien().Where(p => p.IDNhanVien == _idNhanVien).ToList();
 
             if (nam > 0 && thang > 0 && phanLoai == 1)

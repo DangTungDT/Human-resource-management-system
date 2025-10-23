@@ -223,9 +223,17 @@ namespace GUI
             }
             if (_idUngVien > 0)
             {
-                _bllUngVien.Delete(_idUngVien);
-                MessageBox.Show("Xóa thành công!", "Thông báo");
-                dgvUngVien.DataSource = _bllUngVien.GetAll();
+                if(_bllUngVien.Delete(_idUngVien))
+                {
+                    _idUngVien = 0;
+                    MessageBox.Show("Xóa thành công!", "Thông báo");
+                    dgvUngVien.DataSource = _bllUngVien.GetAll();
+                }
+                else
+                {
+                    MessageBox.Show("Xóa thất bại!", "Thông báo");
+                }
+                
             }
             else if (_idUngVien == 0)
             {
@@ -291,6 +299,18 @@ namespace GUI
             }
         }
 
+        private void btnFind_Click(object sender, EventArgs e)
+        {
+            dgvUngVien.DataSource = _bllUngVien.GetUngTuyenByChucVu(int.Parse(cmbFindPosition.SelectedValue.ToString()));
+
+        }
+
+        private void btnResetDGV_Click(object sender, EventArgs e)
+        {
+            dgvUngVien.DataSource = _bllUngVien.GetAll();
+
+        }
+
         private void ucUngVien_Load(object sender, EventArgs e)
         {
             rdoMale.Checked = true;
@@ -302,6 +322,10 @@ namespace GUI
             cbTuyenDung.DataSource = _bllTuyenDung.KtraDsTuyenDung();
             cbTuyenDung.DisplayMember = "tieuDe";
             cbTuyenDung.ValueMember = "id";
+
+            cmbFindPosition.DataSource = _bllChucVu.GetAll();
+            cmbFindPosition.DisplayMember = "Tên chức vụ";
+            cmbFindPosition.ValueMember = "Mã chức vụ";
 
             dtpNgayUngTuyen.Value = DateTime.Now;
 

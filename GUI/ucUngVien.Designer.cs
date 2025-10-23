@@ -28,21 +28,19 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle19 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle20 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle21 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
             this.guna2HtmlLabel6 = new Guna.UI2.WinForms.Guna2HtmlLabel();
             this.dgvUngVien = new Guna.UI2.WinForms.Guna2DataGridView();
             this.guna2Panel2 = new Guna.UI2.WinForms.Guna2Panel();
-            this.cmbFindStatus = new Guna.UI2.WinForms.Guna2ComboBox();
+            this.cmbFindPosition = new Guna.UI2.WinForms.Guna2ComboBox();
             this.btnFind = new Guna.UI2.WinForms.Guna2Button();
-            this.guna2HtmlLabel9 = new Guna.UI2.WinForms.Guna2HtmlLabel();
             this.guna2HtmlLabel8 = new Guna.UI2.WinForms.Guna2HtmlLabel();
             this.btnApprove = new Guna.UI2.WinForms.Guna2Button();
             this.btnDelete = new Guna.UI2.WinForms.Guna2Button();
             this.btnUpdate = new Guna.UI2.WinForms.Guna2Button();
             this.btnAdd = new Guna.UI2.WinForms.Guna2Button();
-            this.txtFindName = new Guna.UI2.WinForms.Guna2TextBox();
             this.guna2HtmlLabel7 = new Guna.UI2.WinForms.Guna2HtmlLabel();
             this.guna2HtmlLabel5 = new Guna.UI2.WinForms.Guna2HtmlLabel();
             this.guna2Panel1 = new Guna.UI2.WinForms.Guna2Panel();
@@ -68,6 +66,7 @@
             this.txtName = new Guna.UI2.WinForms.Guna2TextBox();
             this.guna2HtmlLabel2 = new Guna.UI2.WinForms.Guna2HtmlLabel();
             this.guna2HtmlLabel1 = new Guna.UI2.WinForms.Guna2HtmlLabel();
+            this.btnResetDGV = new Guna.UI2.WinForms.Guna2Button();
             ((System.ComponentModel.ISupportInitialize)(this.dgvUngVien)).BeginInit();
             this.guna2Panel2.SuspendLayout();
             this.guna2Panel1.SuspendLayout();
@@ -86,26 +85,26 @@
             // 
             // dgvUngVien
             // 
-            dataGridViewCellStyle19.BackColor = System.Drawing.Color.White;
-            this.dgvUngVien.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle19;
-            dataGridViewCellStyle20.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle20.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(88)))), ((int)(((byte)(255)))));
-            dataGridViewCellStyle20.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle20.ForeColor = System.Drawing.Color.White;
-            dataGridViewCellStyle20.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle20.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle20.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dgvUngVien.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle20;
+            dataGridViewCellStyle1.BackColor = System.Drawing.Color.White;
+            this.dgvUngVien.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(88)))), ((int)(((byte)(255)))));
+            dataGridViewCellStyle2.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle2.ForeColor = System.Drawing.Color.White;
+            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dgvUngVien.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle2;
             this.dgvUngVien.ColumnHeadersHeight = 4;
             this.dgvUngVien.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.EnableResizing;
-            dataGridViewCellStyle21.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle21.BackColor = System.Drawing.Color.White;
-            dataGridViewCellStyle21.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle21.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(71)))), ((int)(((byte)(69)))), ((int)(((byte)(94)))));
-            dataGridViewCellStyle21.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(231)))), ((int)(((byte)(229)))), ((int)(((byte)(255)))));
-            dataGridViewCellStyle21.SelectionForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(71)))), ((int)(((byte)(69)))), ((int)(((byte)(94)))));
-            dataGridViewCellStyle21.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dgvUngVien.DefaultCellStyle = dataGridViewCellStyle21;
+            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle3.BackColor = System.Drawing.Color.White;
+            dataGridViewCellStyle3.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle3.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(71)))), ((int)(((byte)(69)))), ((int)(((byte)(94)))));
+            dataGridViewCellStyle3.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(231)))), ((int)(((byte)(229)))), ((int)(((byte)(255)))));
+            dataGridViewCellStyle3.SelectionForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(71)))), ((int)(((byte)(69)))), ((int)(((byte)(94)))));
+            dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dgvUngVien.DefaultCellStyle = dataGridViewCellStyle3;
             this.dgvUngVien.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dgvUngVien.GridColor = System.Drawing.Color.FromArgb(((int)(((byte)(231)))), ((int)(((byte)(229)))), ((int)(((byte)(255)))));
             this.dgvUngVien.Location = new System.Drawing.Point(1314, 62);
@@ -142,44 +141,37 @@
             // guna2Panel2
             // 
             this.guna2Panel2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
-            this.guna2Panel2.Controls.Add(this.cmbFindStatus);
+            this.guna2Panel2.Controls.Add(this.cmbFindPosition);
+            this.guna2Panel2.Controls.Add(this.btnResetDGV);
             this.guna2Panel2.Controls.Add(this.btnFind);
-            this.guna2Panel2.Controls.Add(this.guna2HtmlLabel9);
             this.guna2Panel2.Controls.Add(this.guna2HtmlLabel8);
             this.guna2Panel2.Controls.Add(this.btnApprove);
             this.guna2Panel2.Controls.Add(this.btnDelete);
             this.guna2Panel2.Controls.Add(this.btnUpdate);
             this.guna2Panel2.Controls.Add(this.btnAdd);
-            this.guna2Panel2.Controls.Add(this.txtFindName);
             this.guna2Panel2.Dock = System.Windows.Forms.DockStyle.Left;
             this.guna2Panel2.Location = new System.Drawing.Point(0, 0);
             this.guna2Panel2.Name = "guna2Panel2";
             this.guna2Panel2.Size = new System.Drawing.Size(327, 723);
             this.guna2Panel2.TabIndex = 19;
             // 
-            // cmbFindStatus
+            // cmbFindPosition
             // 
-            this.cmbFindStatus.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            this.cmbFindPosition.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.cmbFindStatus.BackColor = System.Drawing.Color.Transparent;
-            this.cmbFindStatus.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed;
-            this.cmbFindStatus.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cmbFindStatus.FocusedColor = System.Drawing.Color.FromArgb(((int)(((byte)(94)))), ((int)(((byte)(148)))), ((int)(((byte)(255)))));
-            this.cmbFindStatus.FocusedState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(94)))), ((int)(((byte)(148)))), ((int)(((byte)(255)))));
-            this.cmbFindStatus.Font = new System.Drawing.Font("Segoe UI", 10F);
-            this.cmbFindStatus.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(68)))), ((int)(((byte)(88)))), ((int)(((byte)(112)))));
-            this.cmbFindStatus.ItemHeight = 30;
-            this.cmbFindStatus.Items.AddRange(new object[] {
-            "Đang duyệt",
-            "Phỏng vấn",
-            "Thử việc",
-            "Trúng tuyển",
-            "Loại"});
-            this.cmbFindStatus.Location = new System.Drawing.Point(32, 489);
-            this.cmbFindStatus.Name = "cmbFindStatus";
-            this.cmbFindStatus.Size = new System.Drawing.Size(266, 36);
-            this.cmbFindStatus.TabIndex = 19;
-            this.cmbFindStatus.TabStop = false;
+            this.cmbFindPosition.BackColor = System.Drawing.Color.Transparent;
+            this.cmbFindPosition.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed;
+            this.cmbFindPosition.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cmbFindPosition.FocusedColor = System.Drawing.Color.FromArgb(((int)(((byte)(94)))), ((int)(((byte)(148)))), ((int)(((byte)(255)))));
+            this.cmbFindPosition.FocusedState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(94)))), ((int)(((byte)(148)))), ((int)(((byte)(255)))));
+            this.cmbFindPosition.Font = new System.Drawing.Font("Segoe UI", 10F);
+            this.cmbFindPosition.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(68)))), ((int)(((byte)(88)))), ((int)(((byte)(112)))));
+            this.cmbFindPosition.ItemHeight = 30;
+            this.cmbFindPosition.Location = new System.Drawing.Point(32, 489);
+            this.cmbFindPosition.Name = "cmbFindPosition";
+            this.cmbFindPosition.Size = new System.Drawing.Size(266, 36);
+            this.cmbFindPosition.TabIndex = 19;
+            this.cmbFindPosition.TabStop = false;
             // 
             // btnFind
             // 
@@ -198,19 +190,7 @@
             this.btnFind.TabIndex = 18;
             this.btnFind.TabStop = false;
             this.btnFind.Text = "Lọc ứng viên";
-            // 
-            // guna2HtmlLabel9
-            // 
-            this.guna2HtmlLabel9.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.guna2HtmlLabel9.AutoSize = false;
-            this.guna2HtmlLabel9.BackColor = System.Drawing.Color.Transparent;
-            this.guna2HtmlLabel9.Location = new System.Drawing.Point(37, 559);
-            this.guna2HtmlLabel9.Name = "guna2HtmlLabel9";
-            this.guna2HtmlLabel9.Size = new System.Drawing.Size(237, 28);
-            this.guna2HtmlLabel9.TabIndex = 14;
-            this.guna2HtmlLabel9.TabStop = false;
-            this.guna2HtmlLabel9.Text = "Họ tên";
+            this.btnFind.Click += new System.EventHandler(this.btnFind_Click);
             // 
             // guna2HtmlLabel8
             // 
@@ -223,7 +203,7 @@
             this.guna2HtmlLabel8.Size = new System.Drawing.Size(237, 27);
             this.guna2HtmlLabel8.TabIndex = 14;
             this.guna2HtmlLabel8.TabStop = false;
-            this.guna2HtmlLabel8.Text = "Trạng thái";
+            this.guna2HtmlLabel8.Text = "Chức vụ";
             // 
             // btnApprove
             // 
@@ -292,30 +272,6 @@
             this.btnAdd.TabStop = false;
             this.btnAdd.Text = "Tạo ứng viên";
             this.btnAdd.Click += new System.EventHandler(this.btnAdd_Click);
-            // 
-            // txtFindName
-            // 
-            this.txtFindName.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtFindName.Cursor = System.Windows.Forms.Cursors.IBeam;
-            this.txtFindName.DefaultText = "";
-            this.txtFindName.DisabledState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(208)))), ((int)(((byte)(208)))), ((int)(((byte)(208)))));
-            this.txtFindName.DisabledState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(226)))), ((int)(((byte)(226)))), ((int)(((byte)(226)))));
-            this.txtFindName.DisabledState.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(138)))), ((int)(((byte)(138)))), ((int)(((byte)(138)))));
-            this.txtFindName.DisabledState.PlaceholderForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(138)))), ((int)(((byte)(138)))), ((int)(((byte)(138)))));
-            this.txtFindName.FocusedState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(94)))), ((int)(((byte)(148)))), ((int)(((byte)(255)))));
-            this.txtFindName.Font = new System.Drawing.Font("Segoe UI", 9F);
-            this.txtFindName.HoverState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(94)))), ((int)(((byte)(148)))), ((int)(((byte)(255)))));
-            this.txtFindName.Location = new System.Drawing.Point(32, 593);
-            this.txtFindName.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.txtFindName.Name = "txtFindName";
-            this.txtFindName.PasswordChar = '\0';
-            this.txtFindName.PlaceholderText = "";
-            this.txtFindName.SelectedText = "";
-            this.txtFindName.Size = new System.Drawing.Size(266, 36);
-            this.txtFindName.TabIndex = 7;
-            this.txtFindName.TabStop = false;
-            this.txtFindName.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtFindName_KeyPress);
             // 
             // guna2HtmlLabel7
             // 
@@ -720,6 +676,25 @@
             this.guna2HtmlLabel1.Text = "Ứng viên";
             this.guna2HtmlLabel1.TextAlignment = System.Drawing.ContentAlignment.MiddleCenter;
             // 
+            // btnResetDGV
+            // 
+            this.btnResetDGV.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnResetDGV.BorderRadius = 10;
+            this.btnResetDGV.DisabledState.BorderColor = System.Drawing.Color.DarkGray;
+            this.btnResetDGV.DisabledState.CustomBorderColor = System.Drawing.Color.DarkGray;
+            this.btnResetDGV.DisabledState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(169)))), ((int)(((byte)(169)))), ((int)(((byte)(169)))));
+            this.btnResetDGV.DisabledState.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(141)))), ((int)(((byte)(141)))), ((int)(((byte)(141)))));
+            this.btnResetDGV.Font = new System.Drawing.Font("Segoe UI", 9F);
+            this.btnResetDGV.ForeColor = System.Drawing.Color.White;
+            this.btnResetDGV.Location = new System.Drawing.Point(32, 594);
+            this.btnResetDGV.Name = "btnResetDGV";
+            this.btnResetDGV.Size = new System.Drawing.Size(266, 45);
+            this.btnResetDGV.TabIndex = 18;
+            this.btnResetDGV.TabStop = false;
+            this.btnResetDGV.Text = "Xem tất cả ứng viên";
+            this.btnResetDGV.Click += new System.EventHandler(this.btnFind_Click);
+            // 
             // ucUngVien
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -743,9 +718,8 @@
         private Guna.UI2.WinForms.Guna2HtmlLabel guna2HtmlLabel6;
         private Guna.UI2.WinForms.Guna2DataGridView dgvUngVien;
         private Guna.UI2.WinForms.Guna2Panel guna2Panel2;
-        private Guna.UI2.WinForms.Guna2ComboBox cmbFindStatus;
+        private Guna.UI2.WinForms.Guna2ComboBox cmbFindPosition;
         private Guna.UI2.WinForms.Guna2Button btnFind;
-        private Guna.UI2.WinForms.Guna2HtmlLabel guna2HtmlLabel9;
         private Guna.UI2.WinForms.Guna2HtmlLabel guna2HtmlLabel8;
         private Guna.UI2.WinForms.Guna2Button btnDelete;
         private Guna.UI2.WinForms.Guna2Button btnUpdate;
@@ -762,7 +736,6 @@
         private Guna.UI2.WinForms.Guna2HtmlLabel guna2HtmlLabel2;
         private Guna.UI2.WinForms.Guna2HtmlLabel guna2HtmlLabel1;
         private Guna.UI2.WinForms.Guna2Button btnApprove;
-        private Guna.UI2.WinForms.Guna2TextBox txtFindName;
         private Guna.UI2.WinForms.Guna2HtmlLabel guna2HtmlLabel12;
         private Guna.UI2.WinForms.Guna2HtmlLabel guna2HtmlLabel11;
         private Guna.UI2.WinForms.Guna2ComboBox cbTuyenDung;
@@ -777,5 +750,6 @@
         private Guna.UI2.WinForms.Guna2ComboBox cbStatus;
         private Guna.UI2.WinForms.Guna2TextBox txtEmail;
         private Guna.UI2.WinForms.Guna2TextBox txtImageCV;
+        private Guna.UI2.WinForms.Guna2Button btnResetDGV;
     }
 }

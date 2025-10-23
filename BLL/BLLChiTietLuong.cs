@@ -41,7 +41,7 @@ namespace BLL
             {
                 if (!string.IsNullOrEmpty(id))
                 {
-                    var nhanVien = _dbContext.TimChiTietLuongQuaID(id);
+                    var nhanVien = _dbContext.TimChiTietLuongQuaIDNhanVien(id);
                     if (nhanVien != null)
                     {
                         var dataChiTietLuong = KtraDsChiTietLuong().FirstOrDefault(p => p.idNhanVien == nhanVien.idNhanVien && p.ngayNhanLuong.Year == DateTime.Now.Year && p.ngayNhanLuong.Month == DateTime.Now.Month + 1);
@@ -158,6 +158,28 @@ namespace BLL
             }
         }
 
+        // Tim du lieu Chi Tiet Luong qua id ky luong
+        public bool KtraChiTietLuongQuaIDKyLuong(int id)
+        {
+            try
+            {
+                if (id > 0)
+                {
+                    var ktraID = _dbContext.TimChiTietLuongQuaIDKyLuong(id);
+                    if (ktraID != null)
+                    {
+                        return true;
+                    }
+                    else return false;
+                }
+                else throw new Exception($"Kiểm tra lại dữ liệu đầu vào của id được nhập !");
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Lỗi tìm id chi tiết lương kỳ lương: " + ex.Message);
+            }
+        }
+
         // Tim du lieu Chi Tiet Luong qua id
         public ChiTietLuong KtraChiTietLuongQuaIDNhanVien(string id)
         {
@@ -165,7 +187,7 @@ namespace BLL
             {
                 if (!string.IsNullOrEmpty(id))
                 {
-                    var ktraID = _dbContext.TimChiTietLuongQuaID(id);
+                    var ktraID = _dbContext.TimChiTietLuongQuaIDNhanVien(id);
                     if (ktraID != null)
                     {
                         return ktraID;
@@ -176,7 +198,7 @@ namespace BLL
             }
             catch (Exception ex)
             {
-                throw new Exception("Lỗi tìm id chi tiết lương: " + ex.Message);
+                throw new Exception("Lỗi tìm id chi tiết lương nhân viên: " + ex.Message);
             }
         }
     }

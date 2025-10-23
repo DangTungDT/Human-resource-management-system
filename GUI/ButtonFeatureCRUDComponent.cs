@@ -37,16 +37,10 @@ namespace GUI
             DisplayUserControlPanel.ChildUserControl(uc, _tpCRUD);
         }
 
-        private void guna2TileButton4_Click(object sender, EventArgs e)
+        private void btnPhongBan_Click(object sender, EventArgs e)
         {
             CRUDPhongban uc = new CRUDPhongban(_idNhanVien, _conn);
             DisplayUserControlPanel.ChildUserControl(uc, _tpCRUD);
-        }
-        private void btnPhongBan_Click(object sender, EventArgs e)
-        {
-            var main = this.ParentForm as Main;
-            main?.ShowUserControl("CRUDPhongBan");
-            main.ChildFormComponent(_tpCRUD, "ButtonFeatureCRUDComponent");
         }
         private void guna2TileButton1_Click(object sender, EventArgs e)
         {
@@ -55,9 +49,8 @@ namespace GUI
         }
         private void btnChucVu_Click(object sender, EventArgs e)
         {
-            var main = this.ParentForm as Main;
-            main?.ShowUserControl("ucChucVu");
-            main.ChildFormComponent(_tpCRUD, "ButtonFeatureCRUDComponent");
+            ucChucVu uc = new ucChucVu(_conn);
+            DisplayUserControlPanel.ChildUserControl(uc, _tpCRUD);
         }
 
         private void guna2TileButton2_Click(object sender, EventArgs e)
@@ -96,11 +89,6 @@ namespace GUI
             DisplayUserControlPanel.ChildUserControl(uc, _tpCRUD);
         }
 
-        private void flowLayoutPanel1_Paint(object sender, PaintEventArgs e)
-        {
-
-        }
-
         private void btnCapNhatThongTinNV_Click(object sender, EventArgs e)
         {
             CapNhatThongTinNV uc = new CapNhatThongTinNV(_idNhanVien, _conn);
@@ -109,23 +97,21 @@ namespace GUI
 
         private void btnTaoThuongPhat_Click_1(object sender, EventArgs e)
         {
-            var main = this.ParentForm as Main;
-            main?.ShowUserControl("TaoThuongPhat");
-            main.ChildFormComponent(_tpCRUD, "ButtonFeatureCRUDComponent");
+            TaoThuongPhat uc = new TaoThuongPhat( _conn);
+            DisplayUserControlPanel.ChildUserControl(uc, _tpCRUD);
         }
 
         private void btnTaoPhuCap_Click(object sender, EventArgs e)
         {
-            var main = this.ParentForm as Main;
-            main?.ShowUserControl("TaoPhuCap");
-            main.ChildFormComponent(_tpCRUD, "ButtonFeatureCRUDComponent");
+            TaoPhuCap uc = new TaoPhuCap(_conn);
+            DisplayUserControlPanel.ChildUserControl(uc, _tpCRUD);
         }
 
         private void btnTaoNhanVien_KhauTru_Click(object sender, EventArgs e)
         {
-            var main = this.ParentForm as Main;
-            main?.ShowUserControl("TaoNhanVien_KhauTru");
-            main.ChildFormComponent(_tpCRUD, "ButtonFeatureCRUDComponent");
+            TaoNhanVien_KhauTru uc = new TaoNhanVien_KhauTru(_conn);
+            DisplayUserControlPanel.ChildUserControl(uc, _tpCRUD);
+
         }
     }
 }

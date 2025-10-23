@@ -15,7 +15,7 @@ namespace BLL
         public BLLKyLuong(string conn) => _dbContext = new DALKyLuong(conn);
 
         // Ktra ds Ky Luong
-        public List<KyLuong> KtraDsKhauTru()
+        public List<KyLuong> KtraDsKyLuong()
         {
             try
             {
@@ -39,7 +39,7 @@ namespace BLL
             {
                 var ktraKL = _dbContext.TimKyLuongQuaID(DTO.ID);
 
-                if (ktraKL != null)
+                if (ktraKL == null)
                 {
                     var KtraThemKL = _dbContext.ThemKyLuong(DTO);
                     if (KtraThemKL)

@@ -14,6 +14,7 @@ namespace GUI
     {
         public readonly UCNghiPhep _nghiPhep;
         public readonly UCDanhGiaHieuSuat _hieusuat;
+        public readonly ucChiTietLuong _luong;
 
         public string conn = "Data Source=LAPTOP-PNFFHRG1\\MSSQLSERVER01;Initial Catalog=PersonnelManagement;Integrated Security=True;Encrypt=False";
 
@@ -23,6 +24,7 @@ namespace GUI
 
             _nghiPhep = new UCNghiPhep(idNhanvien, conn);
             _hieusuat = new UCDanhGiaHieuSuat(idNhanvien, conn);
+            _luong = new ucChiTietLuong(idNhanvien, conn);
             //_nghiPhep = new UCNghiPhep(idNhanvien, ConnectionDB.TakeConnectionString());
         }
 
@@ -36,6 +38,6 @@ namespace GUI
             uc.Show();
         }
 
-        private void TestGiaoDien_Load(object sender, EventArgs e) => DisplayInterface(_nghiPhep);
+        private void TestGiaoDien_Load(object sender, EventArgs e) => DisplayInterface(_luong);
     }
 }

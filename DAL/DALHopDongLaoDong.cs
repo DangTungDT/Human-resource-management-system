@@ -17,20 +17,10 @@ namespace DAL
         }
 
         // Danh sach hop dong lao dong
+        public List<HopDongLaoDong> DsHopDongLaoDong() => _dbContext.HopDongLaoDongs.ToList();
+
         public IQueryable<DTOHopDongLaoDong> DanhSachHopDongLaoDong() =>
         _dbContext.HopDongLaoDongs.Select(p => new DTOHopDongLaoDong
-        {
-            Id = p.id,
-            LoaiHopDong = p.LoaiHopDong,
-            NgayKy = p.NgayKy,
-            NgayBatDau = p.NgayBatDau,
-            NgayKetThuc = p.NgayKetThuc,
-            Luong = p.Luong,
-            HinhAnh = p.HinhAnh,
-            IdNhanVien = p.IdNhanVien,
-            MoTa = p.MoTa
-        });
-        public IQueryable<DTOHopDongLaoDong> DsHopDongLaoDong() => _dbContext.HopDongLaoDongs.Select(p => new DTOHopDongLaoDong
         {
             Id = p.id,
             LoaiHopDong = p.LoaiHopDong,

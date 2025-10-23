@@ -17,7 +17,7 @@ namespace GUI
         BLLPhongBan bllPhongBan;
         BLLChucVu bllChucVu;
         int idChucVu;
-        public ucChucVu(string conn)
+        public  ucChucVu(string conn)
         {
             bllPhongBan = new BLLPhongBan(conn);
             bllChucVu = new BLLChucVu(conn);

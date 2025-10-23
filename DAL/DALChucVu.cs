@@ -21,6 +21,9 @@ namespace DAL
             _dbContext = new PersonnelManagementDataContextDataContext(conn);
         }
 
+
+        public IQueryable GetPositionByDepartment(int departmentId) => _dbContext.ChucVus.Where(x => x.idPhongBan == departmentId);
+
         // Lấy danh sách chức vụ (theo từ khóa)
         public DataTable GetAll(string keyword = "")
         {
@@ -129,5 +132,11 @@ namespace DAL
         }
 
         public List<ChucVu> LayDsChucVu() => _dbContext.ChucVus.ToList();
+
+        public bool CheckPosition(string namePosition, int departmentId)
+        {
+            if (_dbContext.ChucVus.Any(x => x.TenChucVu == namePosition && x.idPhongBan == departmentId)) return false;
+            return true;
+        }
     }
 }

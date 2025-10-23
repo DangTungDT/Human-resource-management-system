@@ -18,81 +18,94 @@ namespace DAL
 
         public IQueryable GetAll() => db.UngViens;
 
-        public IQueryable GetUngTuyenByChucVu(int idChucVu) => db.UngViens.Where(x => x.idChucVuUngTuyen == idChucVu);
+        public IQueryable GetUngTuyenByChucVu(int idChucVu)
+            => db.UngViens.Where(x => x.idChucVuUngTuyen == idChucVu);
 
-        public IQueryable GetUngTuyenByTuyenDung(int idTuyenDung) => db.UngViens.Where(x => x.idTuyenDung == idTuyenDung);
+        public IQueryable GetUngTuyenByTuyenDung(int idTuyenDung)
+            => db.UngViens.Where(x => x.idTuyenDung == idTuyenDung);
 
         public bool Update(DTOUngVien dto)
         {
             try
             {
-                UngVien check = db.UngViens.Where(x => x.id == dto.Id).FirstOrDefault();
+                var check = db.UngViens.FirstOrDefault(x => x.id == dto.Id);
                 if (check != null)
                 {
-                    check.hoTen = dto.HoTen;
+                    check.tenNhanVien = dto.TenNhanVien;
+                    check.ngaySinh = dto.NgaySinh;
+                    check.diaChi = dto.DiaChi;
+                    check.que = dto.Que;
+                    check.gioiTinh = dto.GioiTinh;
                     check.email = dto.Email;
-                    check.soDienThoai = dto.SoDienThoai;
                     check.duongDanCV = dto.DuongDanCV;
-                    check.idChucVuUngTuyen = dto.IdChucVuTuyenDung;
+                    check.idChucVuUngTuyen = dto.IdChucVuUngTuyen;
                     check.idTuyenDung = dto.IdTuyenDung;
                     check.ngayUngTuyen = dto.NgayUngTuyen;
                     check.trangThai = dto.TrangThai;
+
                     db.SubmitChanges();
                     return true;
                 }
                 return false;
             }
-            catch (Exception ex)
+            catch
             {
                 return false;
             }
         }
+
         public bool Delete(int id)
         {
             try
             {
-                UngVien check = db.UngViens.Where(x => x.id == id).FirstOrDefault();
+                var check = db.UngViens.FirstOrDefault(x => x.id == id);
                 if (check != null)
                 {
                     db.UngViens.DeleteOnSubmit(check);
                     db.SubmitChanges();
                     return true;
                 }
-                return false; ;
+                return false;
             }
-            catch (Exception ex)
+            catch
             {
                 return false;
             }
         }
+
         public bool Add(DTOUngVien dto)
         {
             try
             {
-                bool flag = db.UngViens.Any(x => x.email == dto.Email);
-                if(!flag)
+                bool exist = db.UngViens.Any(x => x.email == dto.Email);
+                if (!exist)
                 {
                     UngVien newItem = new UngVien()
                     {
-                        hoTen = dto.HoTen,
+                        tenNhanVien = dto.TenNhanVien,
+                        ngaySinh = dto.NgaySinh,
+                        diaChi = dto.DiaChi,
+                        que = dto.Que,
+                        gioiTinh = dto.GioiTinh,
                         email = dto.Email,
-                        soDienThoai = dto.SoDienThoai,
                         duongDanCV = dto.DuongDanCV,
-                        idChucVuUngTuyen = dto.IdChucVuTuyenDung,
+                        idChucVuUngTuyen = dto.IdChucVuUngTuyen,
                         idTuyenDung = dto.IdTuyenDung,
                         ngayUngTuyen = dto.NgayUngTuyen,
                         trangThai = dto.TrangThai
                     };
+
                     db.UngViens.InsertOnSubmit(newItem);
                     db.SubmitChanges();
                     return true;
                 }
                 return false;
             }
-            catch (Exception ex)
+            catch
             {
                 return false;
             }
         }
     }
+
 }

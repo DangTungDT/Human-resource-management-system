@@ -29,7 +29,7 @@ namespace DAL
             NgayKetThuc = p.NgayKetThuc,
             Luong = p.Luong,
             HinhAnh = p.HinhAnh,
-            IdNhanVien = p.IdNhanVien,
+            IdNhanVien = p.idNhanVien,
             MoTa = p.MoTa
         });
 

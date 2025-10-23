@@ -162,9 +162,12 @@ go
 
 CREATE TABLE UngVien (
     id INT PRIMARY KEY IDENTITY(1,1),
-    hoTen NVARCHAR(150) NOT NULL,
-    email NVARCHAR(100) NOT NULL,
-    soDienThoai NVARCHAR(20),
+    tenNhanVien nvarchar(255) not null,
+	ngaySinh date not null,
+	diaChi nvarchar(255) not null,
+	que nvarchar(100) not null,
+	gioiTinh nvarchar(4) not null,
+	email varchar(100) not null unique,
     duongDanCV NVARCHAR(255), -- Lưu file CV của ứng viên
     idChucVuUngTuyen int NOT NULL,
 	idTuyenDung int not null,

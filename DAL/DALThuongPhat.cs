@@ -25,7 +25,7 @@ namespace DAL
 
         public IQueryable<DTONhanVien> DanhSachNhanVien() => _dbContext.NhanViens.Select(p => new DTONhanVien
         {
-            ID = p.Id,
+            ID = p.id,
             TenNhanVien = p.TenNhanVien
         });
 

@@ -121,7 +121,7 @@ namespace GUI
                     });
 
                     var timeCurrent = DateTime.Now;
-                    var luongTruocKT = (double)_dbContextHD.KtraDsHopDongLaoDong().FirstOrDefault(p => p.IdNhanVien == _idSelected).Luong;
+                    var luongTruocKT = (double)_dbContextHD.KtraDsHopDongLaoDong().FirstOrDefault(p => p.idNhanVien == _idSelected).Luong;
 
                     _dbContextNV_KT.KtraDsNhanVien_KhauTru().Where(p => p.idNhanVien == _idSelected).ToList().ForEach(id =>
                     {
@@ -157,7 +157,7 @@ namespace GUI
                         txtNgayNhanLuong.Text = DateTime.Parse(NgayKyLuong.ngayChiTra.ToString()).ToShortDateString();
                     }
 
-                    var idPhongBan = _dbContextNV.KtraNhanVienQuaID(_idNhanVien).IdPhongBan;
+                    var idPhongBan = _dbContextNV.KtraNhanVienQuaID(_idNhanVien).idPhongBan;
                     var tenPhongBan = _dbContextPB.KtraPhongBan(idPhongBan).ToLowerInvariant();
                     txtPhongBanNV.Text = tenPhongBan;
                 }
@@ -209,7 +209,7 @@ namespace GUI
                         });
 
 
-                        decimal luongTruocKT = _dbContextHD.KtraDsHopDongLaoDong().FirstOrDefault(p => p.IdNhanVien == idNhanVien).Luong;
+                        decimal luongTruocKT = _dbContextHD.KtraDsHopDongLaoDong().FirstOrDefault(p => p.idNhanVien == idNhanVien).Luong;
 
                         _dbContextNV_KT.KtraDsNhanVien_KhauTru().Where(p => p.idNhanVien == idNhanVien).ToList().ForEach(id =>
                         {
@@ -288,10 +288,10 @@ namespace GUI
             var anonymous = new object();
             var dsNhanVien = _dbContextNV.KtraDsNhanVien();
             var dsChiTietLuong = _dbContextCTL.KtraDsChiTietLuong();
-            var idPhongBan = _dbContextNV.KtraNhanVienQuaID(_idNhanVien).IdPhongBan;
+            var idPhongBan = _dbContextNV.KtraNhanVienQuaID(_idNhanVien).idPhongBan;
             var tenPhongBan = _dbContextPB.KtraPhongBan(idPhongBan).ToLowerInvariant();
-            var dsTruongPhong = _dbContextNV.KtraDsNhanVien().Where(p => p.Id.Contains("TP")).ToList();
-            var dsNhanVienPB = _dbContextNV.KtraDsNhanVien().Where(p => p.IdPhongBan == idPhongBan).ToList();
+            var dsTruongPhong = _dbContextNV.KtraDsNhanVien().Where(p => p.id.Contains("TP")).ToList();
+            var dsNhanVienPB = _dbContextNV.KtraDsNhanVien().Where(p => p.idPhongBan == idPhongBan).ToList();
 
             foreach (var loai in loaiChucVu)
             {
@@ -302,7 +302,7 @@ namespace GUI
 
                     if (loai == "GD")
                     {
-                        anonymous = dsNhanVien.Where(p => !p.Id.StartsWith(loai)).GroupBy(p => p.Id).Select(p => new
+                        anonymous = dsNhanVien.Where(p => !p.id.StartsWith(loai)).GroupBy(p => p.id).Select(p => new
                         {
                             ID = p.Key,
                             NhanVien = p.Select(s => s.TenNhanVien).FirstOrDefault(),
@@ -317,17 +317,17 @@ namespace GUI
                     else
                     {
                         anonymous = isDsNhanVien
-                            .Where(p => !p.Id.StartsWith(loai))
+                            .Where(p => !p.id.StartsWith(loai))
                             .Select(p => new NhanVienLuongCT
                             {
-                                ID = p.Id,
+                                ID = p.id,
                                 NhanVien = p.TenNhanVien,
                                 GioiTinh = p.GioiTinh,
                                 NgaySinh = p.NgaySinh,
                                 Email = p.Email,
                                 ChucVu = p.ChucVu.TenChucVu,
                                 Checked = _dbContextCTL.KtraDsChiTietLuong().Any(ct =>
-                                    ct.idNhanVien == p.Id &&
+                                    ct.idNhanVien == p.id &&
                                     ct.ngayNhanLuong.Month == DateTime.Now.Month + 1 &&
                                     ct.ngayNhanLuong.Year == DateTime.Now.Year)
                             })

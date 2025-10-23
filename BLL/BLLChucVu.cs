@@ -21,7 +21,15 @@ namespace BLL
             dal = new DALChucVu(conn);
         }
 
+        public bool CheckPosition(string namePosition, int departmentId)
+        {
+            if (string.IsNullOrEmpty(namePosition) || departmentId < 1) return false;
+            return dal.CheckPosition(namePosition, departmentId);
+        }
+
         public DataTable GetAll(string keyword = "") => dal.GetAll(keyword);
+
+        public IQueryable GetPositionByDepartment(int id) => dal.GetPositionByDepartment(id);
         public DataTable GetDepartments() => dal.GetDepartments();
 
         public bool Insert(DTOChucVu cv)

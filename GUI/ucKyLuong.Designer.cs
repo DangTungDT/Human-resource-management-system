@@ -279,6 +279,8 @@
             this.dtpNgayChiTra.Size = new System.Drawing.Size(432, 44);
             this.dtpNgayChiTra.TabIndex = 49;
             this.dtpNgayChiTra.Value = new System.DateTime(2025, 10, 2, 11, 50, 23, 195);
+            this.dtpNgayChiTra.CloseUp += new System.EventHandler(this.dtpNgayChiTra_CloseUp);
+            this.dtpNgayChiTra.ContextMenuStripChanged += new System.EventHandler(this.dtpNgayChiTra_ContextMenuStripChanged);
             // 
             // btnXoa
             // 

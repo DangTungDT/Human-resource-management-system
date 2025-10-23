@@ -111,6 +111,31 @@ namespace BLL
             }
         }
 
+        // Ktra cap nhat Chi Tiet Luong 
+        public bool KtraCapNhatChiTietLuongGhiChu(DTOChiTietLuong DTO)
+        {
+            try
+            {
+                var ktraCTL = _dbContext.TimChiTietLuongQuaID(DTO.ID);
+
+                if (ktraCTL != null)
+                {
+                    var KtraThemCTL = _dbContext.CapNhatChiTietLuongGhiChu(DTO);
+                    if (KtraThemCTL)
+                    {
+                        return true;
+                    }
+                    else throw new Exception("Lỗi cập nhật chi tiết lương ghi chú !");
+                }
+                else throw new Exception("Không tìm thấy dữ liệu chi tiết lương trong hệ thống !");
+
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Lỗi cập nhật chi tiết lương ghi chú: " + ex.Message);
+            }
+        }
+
         // Ktra xoa Chi Tiet Luong
         public bool KtraXoaChiTietLuong(ChiTietLuong DTO)
         {
@@ -187,10 +212,10 @@ namespace BLL
             {
                 if (!string.IsNullOrEmpty(id))
                 {
-                    var ktraID = _dbContext.TimChiTietLuongQuaIDNhanVien(id);
-                    if (ktraID != null)
+                    var dataChiTietLuong = KtraDsChiTietLuong().FirstOrDefault(p => p.idNhanVien == id && p.ngayNhanLuong.Year == DateTime.Now.Year && p.ngayNhanLuong.Month == DateTime.Now.Month + 1);
+                    if (dataChiTietLuong != null)
                     {
-                        return ktraID;
+                        return dataChiTietLuong;
                     }
                     else return null;
                 }

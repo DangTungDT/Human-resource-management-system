@@ -86,5 +86,8 @@ namespace DAL
 
         // Lay ten phong ban
         public string LayTenPhongBan(int id) => _dbContextPB.PhongBans.Where(p => p.id == id).Select(p => p.TenPhongBan).FirstOrDefault().ToString() ?? string.Empty;
+
+        // Lay ds phong ban
+        public List<PhongBan> LayDsPhongBan() => _dbContextPB.PhongBans.ToList();
     }
 }

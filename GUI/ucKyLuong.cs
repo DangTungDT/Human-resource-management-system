@@ -160,6 +160,25 @@ namespace GUI
             return false;
         }
 
+        private void dtpNgayChiTra_ContextMenuStripChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void dtpNgayChiTra_CloseUp(object sender, EventArgs e)
+        {
+            if (dtpNgayChiTra.Value.Date < dtpKetThuc.Value.Date)
+            {
+                MessageBox.Show("Không được chọn thời gian nhỏ hơn ngày kết thúc !", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                dtpNgayChiTra.Value = dtpKetThuc.Value.AddDays(1);
+            }
+            else if (dtpNgayChiTra.Value.Date > new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1).AddMonths(1).AddDays(9))
+            {
+                MessageBox.Show("Không được chọn thời gian lớn hơn ngày 10 của tháng sau !", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                dtpNgayChiTra.Value = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1).AddMonths(1).AddDays(4);
+            }
+        }
+
         private void btnXoa_Click(object sender, EventArgs e)
         {
             try

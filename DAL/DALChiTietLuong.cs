@@ -116,6 +116,28 @@ namespace DAL
             }
         }
 
+
+        public bool CapNhatChiTietLuongGhiChu(DTOChiTietLuong DTO)
+        {
+            try
+            {
+                var chiTietLuong = TimChiTietLuongQuaID(DTO.ID);
+                if (chiTietLuong != null)
+                {
+                    chiTietLuong.ghiChu = DTO.GhiChu;
+
+                    _dbContext.SubmitChanges();
+
+                    return true;
+                }
+                else return false;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
         // Xoa Chi Tiet Luong
         public bool XoaChiTietLuong(ChiTietLuong DTO)
         {

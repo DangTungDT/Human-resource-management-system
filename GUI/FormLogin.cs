@@ -45,7 +45,7 @@ namespace GUI
 
             if (taiKhoan != null)
             {
-                Main formMain = new Main(taiKhoan.id, _conn);
+                Main formMain = new Main(taiKhoan.Id, _conn);
                 formMain.Show(); this.Hide();
             }
             else MessageBox.Show("Tài khản nhân viên không tồn tại !");

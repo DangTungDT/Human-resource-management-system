@@ -71,6 +71,23 @@ namespace GUI
             }
         }
 
+        private void btnSua_Click(object sender, EventArgs e)
+        {
+            try
+            {
+
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+            finally
+            {
+                dtpNgayChiTra.Enabled = false;
+            }
+        }
+
         public object ChayLaiDuLieu()
         {
             var dsKyLuong = _dbContextKL.KtraDsKyLuong().OrderByDescending(p => p.ngayBatDau).ToList();
@@ -82,7 +99,35 @@ namespace GUI
             dtpKetThuc.Value = new DateTime(year, month, DateTime.DaysInMonth(year, month));
             dtpNgayChiTra.Value = new DateTime(year, month, DateTime.DaysInMonth(year, month)).AddDays(5);
 
+            if (KtraLuongThang13())
+            {
+
+            }
             return dsKyLuong;
+        }
+
+        private bool ktraDuLieu()
+        {
+            var isThangNull = _dbContextKL.KtraDsKyLuong().FirstOrDefault(p => p.ngayBatDau.Value.Month == DateTime.Now.Month);
+
+            if (isThangNull == null)
+            {
+                return true;
+            }
+
+            return false;
+        }
+
+        private bool KtraLuongThang13()
+        {
+            var lastMonthInYear = _dbContextKL.KtraDsKyLuong().FirstOrDefault(p => p.ngayBatDau.Value.Month == 12 && p.ngayBatDau.Value.Year == DateTime.Now.Year);
+
+            if (lastMonthInYear == null)
+            {
+                return false;
+            }
+
+            return true;
         }
     }
 }

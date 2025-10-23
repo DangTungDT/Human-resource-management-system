@@ -364,7 +364,7 @@
             this.guna2HtmlLabel3.Name = "guna2HtmlLabel3";
             this.guna2HtmlLabel3.Size = new System.Drawing.Size(229, 25);
             this.guna2HtmlLabel3.TabIndex = 17;
-            this.guna2HtmlLabel3.Text = "Lương trước khấu trừ";
+            this.guna2HtmlLabel3.Text = "Lương cơ bản:";
             // 
             // txtTienThuong
             // 
@@ -616,7 +616,7 @@
             this.panel1.Controls.Add(this.guna2HtmlLabel8);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel1.Location = new System.Drawing.Point(1268, 86);
-            this.panel1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.panel1.Margin = new System.Windows.Forms.Padding(4);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(772, 217);
             this.panel1.TabIndex = 21;

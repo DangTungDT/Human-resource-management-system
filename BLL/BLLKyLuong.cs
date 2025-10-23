@@ -39,7 +39,7 @@ namespace BLL
             {
                 var ktraKL = _dbContext.TimKyLuongQuaID(DTO.ID);
 
-                if (ktraKL != null)
+                if (ktraKL == null)
                 {
                     var KtraThemKL = _dbContext.ThemKyLuong(DTO);
                     if (KtraThemKL)

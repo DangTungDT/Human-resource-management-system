@@ -13,6 +13,12 @@ namespace DTO
 
         public DTOChiTietLuong(int id) => ID = id;
 
+        public DTOChiTietLuong(int id, string ghiChu)
+        {
+            ID = id;
+            GhiChu = ghiChu;
+        }
+
         public DTOChiTietLuong(int iD, DateTime ngayNhanLuong, decimal luongTruocKhauTru, decimal luongSauKhauTru, decimal tongKhauTru, decimal tongPhuCap, decimal tongKhenThuong, decimal tongTienPhat, string trangThai, string ghiChu, string iDNhanVien, int iDKyLuong)
         {
             ID = iD;

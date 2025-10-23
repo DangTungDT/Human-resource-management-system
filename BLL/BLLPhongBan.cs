@@ -19,6 +19,25 @@ namespace BLL
             dal = new DALPhongBan(conn);
         }
 
+        public List<PhongBan> KtraDsPhongBan()
+        {
+            try
+            {
+                var dsPhongBan = dal.LayDsPhongBan();
+                if (dsPhongBan.Any() && dsPhongBan.Count > 0)
+                {
+                    return dsPhongBan;
+                }
+
+                return null;
+            }
+            catch (Exception ex)
+            {
+
+                throw new Exception("Lỗi: " + ex.Message);
+            }
+        }
+
         public DataTable GetAllPhongBan() => dal.GetAllPhongBan();
 
         public DataTable ComboboxPhongBan()

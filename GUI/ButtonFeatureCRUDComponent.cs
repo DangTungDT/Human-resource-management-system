@@ -97,7 +97,7 @@ namespace GUI
 
         private void btnTaoThuongPhat_Click_1(object sender, EventArgs e)
         {
-            TaoThuongPhat uc = new TaoThuongPhat( _conn);
+            TaoThuongPhat uc = new TaoThuongPhat(_conn);
             DisplayUserControlPanel.ChildUserControl(uc, _tpCRUD);
         }
 
@@ -105,6 +105,15 @@ namespace GUI
         {
             TaoPhuCap uc = new TaoPhuCap(_conn);
             DisplayUserControlPanel.ChildUserControl(uc, _tpCRUD);
+        }
+
+        private void ButtonFeatureCRUDComponent_Load(object sender, EventArgs e)
+        {
+            if (_idNhanVien.Contains("GD") || _idNhanVien.Contains("NS"))
+            {
+                guna2TileButton2.Visible = true;
+                guna2TileButton3.Visible = true;
+            }
         }
 
         private void btnTaoNhanVien_KhauTru_Click(object sender, EventArgs e)

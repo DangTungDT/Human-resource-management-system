@@ -73,7 +73,7 @@ namespace DAL
             }
         }
 
-        public bool Add(DTOUngVien dto)
+        public string Add(DTOUngVien dto)
         {
             try
             {
@@ -97,13 +97,13 @@ namespace DAL
 
                     db.UngViens.InsertOnSubmit(newItem);
                     db.SubmitChanges();
-                    return true;
+                    return "passed";
                 }
-                return false;
+                return "Email already exists";
             }
             catch
             {
-                return false;
+                return "failed";
             }
         }
     }

@@ -46,11 +46,11 @@ namespace BLL
             return false;
         }
 
-        public bool Add(DTOUngVien dto)
+        public string Add(DTOUngVien dto)
         {
             if (IsValid(dto))
                 return dal.Add(dto);
-            return false;
+            return "Invalid data";
         }
 
         public static bool IsValid(DTOUngVien uv)

@@ -131,7 +131,12 @@ namespace GUI
         {
             ChildFormComponent(tpHome, "ButtonFeatureHomeComponent");
 
-            if (_idNV.Contains("NV"))
+            if (_idNV.Contains("NVNS"))
+            {
+                var rp = tcMenu.TabPages["tpReport"];
+                tcMenu.TabPages.Remove(rp);
+            }
+            else if (_idNV.Contains("NV"))
             {
                 var rp = tcMenu.TabPages["tpReport"];
                 var ql = tcMenu.TabPages["tpCRUD"];

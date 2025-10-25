@@ -1,6 +1,7 @@
 ﻿using BLL;
 using DAL;
 using DTO;
+using Guna.UI2.WinForms;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -100,7 +101,8 @@ namespace GUI
             if (rdoFemale.Checked)
             {
                 gioiTinh = "nu";
-            }else if(rdoMale.Checked)
+            }
+            else if (rdoMale.Checked)
             {
                 gioiTinh = "nam";
             }
@@ -123,10 +125,11 @@ namespace GUI
                 TrangThai = cbStatus.Text
             };
 
-            if(_bllUngVien.Add(dto))
+            if (_bllUngVien.Add(dto))
             {
                 MessageBox.Show("Thêm thành công!", "Thông báo");
                 dgvUngVien.DataSource = _bllUngVien.GetAll();
+                ClearTextBox();
             }
             else
             {
@@ -136,19 +139,7 @@ namespace GUI
 
         private void dtpDateOfBirth_ValueChanged(object sender, EventArgs e)
         {
-            DateTime ngaySinh = dtpDateOfBirth.Value;
-            DateTime ngayHienTai = DateTime.Today;
 
-            int tuoi = ngayHienTai.Year - ngaySinh.Year;
-            if (ngaySinh > ngayHienTai.AddYears(-tuoi))
-                tuoi--;
-
-            if (tuoi < 16)
-            {
-                MessageBox.Show("Nhân viên phải từ 16 tuổi trở lên!", "Cảnh báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                // Đặt lại giá trị DateTimePicker về ngày hợp lệ (ví dụ 16 năm trước)
-                dtpDateOfBirth.Value = ngayHienTai.AddYears(-16);
-            }
         }
 
         private void dtpNgayUngTuyen_KeyPress(object sender, KeyPressEventArgs e)
@@ -201,6 +192,7 @@ namespace GUI
                 {
                     MessageBox.Show("Cập nhật thành công!", "Thông báo");
                     dgvUngVien.DataSource = _bllUngVien.GetAll();
+                    ClearTextBox();
                 }
                 else
                 {
@@ -223,17 +215,18 @@ namespace GUI
             }
             if (_idUngVien > 0)
             {
-                if(_bllUngVien.Delete(_idUngVien))
+                if (_bllUngVien.Delete(_idUngVien))
                 {
                     _idUngVien = 0;
                     MessageBox.Show("Xóa thành công!", "Thông báo");
                     dgvUngVien.DataSource = _bllUngVien.GetAll();
+                    ClearTextBox();
                 }
                 else
                 {
                     MessageBox.Show("Xóa thất bại!", "Thông báo");
                 }
-                
+
             }
             else if (_idUngVien == 0)
             {
@@ -260,11 +253,12 @@ namespace GUI
                 dtpDateOfBirth.Text = row.Cells["ngaySinh"].Value.ToString();
                 txtAddress.Text = row.Cells["diaChi"].Value.ToString();
                 txtHometown.Text = row.Cells["que"].Value.ToString();
-                if(row.Cells["gioiTinh"].Value.ToString().ToLower() == "nu")
+                if (row.Cells["gioiTinh"].Value.ToString().ToLower() == "nu")
                 {
                     gioiTinh = "nu";
                     rdoFemale.Checked = true;
-                }else if(row.Cells["gioiTinh"].Value.ToString().ToLower() == "nam")
+                }
+                else if (row.Cells["gioiTinh"].Value.ToString().ToLower() == "nam")
                 {
                     gioiTinh = "nam";
                     rdoMale.Checked = true;
@@ -299,6 +293,27 @@ namespace GUI
             }
         }
 
+        public void ClearTextBox()
+        {
+            foreach (var item in guna2Panel1.Controls)
+            {
+                if (item is Guna2TextBox text && !string.IsNullOrEmpty(text.Text))
+                {
+                    text.Clear();
+                }
+            }
+
+            foreach (var item in guna2Panel1.Controls)
+            {
+                if (item is Guna2ComboBox cmb && !string.IsNullOrEmpty(cmb.Text))
+                {
+                    cmb.SelectedIndex = -1;
+                }
+            }
+
+            _idUngVien = 0;
+        }
+
         private void btnFind_Click(object sender, EventArgs e)
         {
             dgvUngVien.DataSource = _bllUngVien.GetUngTuyenByChucVu(int.Parse(cmbFindPosition.SelectedValue.ToString()));
@@ -311,10 +326,27 @@ namespace GUI
 
         }
 
+        private void dtpDateOfBirth_CloseUp(object sender, EventArgs e)
+        {
+            DateTime ngaySinh = dtpDateOfBirth.Value;
+            DateTime ngayHienTai = DateTime.Today;
+
+            int tuoi = ngayHienTai.Year - ngaySinh.Year;
+            if (ngaySinh > ngayHienTai.AddYears(-tuoi))
+                tuoi--;
+
+            if (tuoi < 16)
+            {
+                MessageBox.Show("Nhân viên phải từ 16 tuổi trở lên!", "Cảnh báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                // Đặt lại giá trị DateTimePicker về ngày hợp lệ (ví dụ 16 năm trước)
+                dtpDateOfBirth.Value = ngayHienTai.AddYears(-16);
+            }
+        }
+
         private void ucUngVien_Load(object sender, EventArgs e)
         {
             rdoMale.Checked = true;
-            
+
             cbChucVuUngTuyen.DataSource = _bllChucVu.GetAll();
             cbChucVuUngTuyen.DisplayMember = "Tên chức vụ";
             cbChucVuUngTuyen.ValueMember = "Mã chức vụ";
@@ -329,7 +361,10 @@ namespace GUI
 
             dtpNgayUngTuyen.Value = DateTime.Now;
 
-            dgvUngVien.DataSource = _bllUngVien.GetAll();
+            var f = _bllUngVien.GetAll();
+            dgvUngVien.DataSource = f;
+
+            
         }
     }
 }

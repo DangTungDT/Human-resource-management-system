@@ -19,7 +19,7 @@ namespace DTO
             GhiChu = ghiChu;
         }
 
-        public DTOChiTietLuong(int iD, DateTime ngayNhanLuong, decimal luongTruocKhauTru, decimal luongSauKhauTru, decimal tongKhauTru, decimal tongPhuCap, decimal tongKhenThuong, decimal tongTienPhat, string trangThai, string ghiChu, string iDNhanVien, int iDKyLuong)
+        public DTOChiTietLuong(int iD, DateTime ngayNhanLuong, decimal luongTruocKhauTru, decimal luongSauKhauTru, decimal tongKhauTru, decimal tongPhuCap, decimal tongKhenThuong, decimal tongTienPhat, string trangThai, string ghiChu, string iDNhanVien, int iDKyLuong, bool giamDocSua)
         {
             ID = iD;
             NgayNhanLuong = ngayNhanLuong;
@@ -33,6 +33,7 @@ namespace DTO
             GhiChu = ghiChu;
             IDNhanVien = iDNhanVien;
             IDKyLuong = iDKyLuong;
+            GiamDocSua = giamDocSua;
         }
 
         public int ID { get; set; }
@@ -47,6 +48,7 @@ namespace DTO
         public string GhiChu { get; set; }
         public string IDNhanVien { get; set; }
         public int IDKyLuong { get; set; }
+        public bool GiamDocSua { get; set; }
 
     }
 }

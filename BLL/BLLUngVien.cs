@@ -2,6 +2,7 @@
 using DTO;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -18,7 +19,7 @@ namespace BLL
             dal = new DALUngVien(conn);
         }
 
-        public IQueryable GetAll() => dal.GetAll();
+        public List<UngVien> GetAll() => dal.GetAll();
 
         public IQueryable GetUngTuyenByChucVu(int idChucVu)
         {

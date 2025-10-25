@@ -78,7 +78,7 @@ namespace GUI
             {
                 Text = "🎖️ TẠO KHEN THƯỞNG NHÂN VIÊN", // tiêu đề trang
                 Dock = DockStyle.Top,                   // chiếm trọn chiều ngang, cố định ở trên cùng
-                Height = 65,                            // chiều cao của thanh tiêu đề
+                Height = 45,                            // chiều cao của thanh tiêu đề
                 Font = new Font("Segoe UI", 20, FontStyle.Bold),  // font chữ lớn, đậm
                 ForeColor = Color.FromArgb(50, 70, 140),          // màu chữ xanh navy nhẹ
                 TextAlign = ContentAlignment.MiddleCenter,        // căn giữa chữ
@@ -328,7 +328,7 @@ namespace GUI
             mainLayout.RowStyles.Add(new RowStyle(SizeType.Absolute, 65));   // tiêu đề
             mainLayout.RowStyles.Add(new RowStyle(SizeType.Absolute, 430));  // form nhập liệu
             mainLayout.RowStyles.Add(new RowStyle(SizeType.Percent, 70));    // vùng nút
-            mainLayout.RowStyles.Add(new RowStyle(SizeType.Percent, 350));   // vùng DataGridView
+            mainLayout.RowStyles.Add(new RowStyle(SizeType.Percent, 180));   // vùng DataGridView
 
             // Thêm vào layout chính
             mainLayout.Controls.Add(lblTitle, 0, 0);
@@ -512,11 +512,11 @@ namespace GUI
 
             if (!isUpdating)
             {
-                bll.SaveMulti("Thưởng",selectedNhanViens, lyDo,soTien, ngayApDung, idNguoiTao);
+                bll.SaveMulti("Thưởng", selectedNhanViens, lyDo, soTien, ngayApDung, idNguoiTao);
             }
             else
             {
-                bll.UpdateMultiSmart("Thưởng",currentGroupId, selectedNhanViens, lyDo, soTien , ngayApDung);
+                bll.UpdateMultiSmart("Thưởng", currentGroupId, selectedNhanViens, lyDo, soTien, ngayApDung);
                 isUpdating = false;
                 btnSave.Text = "Thêm mới";
             }
@@ -600,7 +600,7 @@ namespace GUI
             }
         }
 
-        
+
 
         private void btnTimKiem_Click(object sender, EventArgs e)
         {

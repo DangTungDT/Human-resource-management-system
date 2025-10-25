@@ -35,6 +35,7 @@
             this.dgvUngVien = new Guna.UI2.WinForms.Guna2DataGridView();
             this.guna2Panel2 = new Guna.UI2.WinForms.Guna2Panel();
             this.cmbFindPosition = new Guna.UI2.WinForms.Guna2ComboBox();
+            this.btnResetDGV = new Guna.UI2.WinForms.Guna2Button();
             this.btnFind = new Guna.UI2.WinForms.Guna2Button();
             this.guna2HtmlLabel8 = new Guna.UI2.WinForms.Guna2HtmlLabel();
             this.btnApprove = new Guna.UI2.WinForms.Guna2Button();
@@ -66,7 +67,6 @@
             this.txtName = new Guna.UI2.WinForms.Guna2TextBox();
             this.guna2HtmlLabel2 = new Guna.UI2.WinForms.Guna2HtmlLabel();
             this.guna2HtmlLabel1 = new Guna.UI2.WinForms.Guna2HtmlLabel();
-            this.btnResetDGV = new Guna.UI2.WinForms.Guna2Button();
             ((System.ComponentModel.ISupportInitialize)(this.dgvUngVien)).BeginInit();
             this.guna2Panel2.SuspendLayout();
             this.guna2Panel1.SuspendLayout();
@@ -95,8 +95,7 @@
             dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
             dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
             this.dgvUngVien.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle2;
-            this.dgvUngVien.ColumnHeadersHeight = 4;
-            this.dgvUngVien.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.EnableResizing;
+            this.dgvUngVien.ColumnHeadersHeight = 30;
             dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle3.BackColor = System.Drawing.Color.White;
             dataGridViewCellStyle3.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -107,12 +106,12 @@
             this.dgvUngVien.DefaultCellStyle = dataGridViewCellStyle3;
             this.dgvUngVien.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dgvUngVien.GridColor = System.Drawing.Color.FromArgb(((int)(((byte)(231)))), ((int)(((byte)(229)))), ((int)(((byte)(255)))));
-            this.dgvUngVien.Location = new System.Drawing.Point(1314, 62);
+            this.dgvUngVien.Location = new System.Drawing.Point(1322, 62);
             this.dgvUngVien.Name = "dgvUngVien";
             this.dgvUngVien.RowHeadersVisible = false;
             this.dgvUngVien.RowHeadersWidth = 51;
             this.dgvUngVien.RowTemplate.Height = 24;
-            this.dgvUngVien.Size = new System.Drawing.Size(154, 723);
+            this.dgvUngVien.Size = new System.Drawing.Size(146, 723);
             this.dgvUngVien.TabIndex = 5;
             this.dgvUngVien.TabStop = false;
             this.dgvUngVien.ThemeStyle.AlternatingRowsStyle.BackColor = System.Drawing.Color.White;
@@ -126,8 +125,8 @@
             this.dgvUngVien.ThemeStyle.HeaderStyle.BorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
             this.dgvUngVien.ThemeStyle.HeaderStyle.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.dgvUngVien.ThemeStyle.HeaderStyle.ForeColor = System.Drawing.Color.White;
-            this.dgvUngVien.ThemeStyle.HeaderStyle.HeaightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.EnableResizing;
-            this.dgvUngVien.ThemeStyle.HeaderStyle.Height = 4;
+            this.dgvUngVien.ThemeStyle.HeaderStyle.HeaightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
+            this.dgvUngVien.ThemeStyle.HeaderStyle.Height = 30;
             this.dgvUngVien.ThemeStyle.ReadOnly = false;
             this.dgvUngVien.ThemeStyle.RowsStyle.BackColor = System.Drawing.Color.White;
             this.dgvUngVien.ThemeStyle.RowsStyle.BorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.SingleHorizontal;
@@ -172,6 +171,25 @@
             this.cmbFindPosition.Size = new System.Drawing.Size(266, 36);
             this.cmbFindPosition.TabIndex = 19;
             this.cmbFindPosition.TabStop = false;
+            // 
+            // btnResetDGV
+            // 
+            this.btnResetDGV.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnResetDGV.BorderRadius = 10;
+            this.btnResetDGV.DisabledState.BorderColor = System.Drawing.Color.DarkGray;
+            this.btnResetDGV.DisabledState.CustomBorderColor = System.Drawing.Color.DarkGray;
+            this.btnResetDGV.DisabledState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(169)))), ((int)(((byte)(169)))), ((int)(((byte)(169)))));
+            this.btnResetDGV.DisabledState.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(141)))), ((int)(((byte)(141)))), ((int)(((byte)(141)))));
+            this.btnResetDGV.Font = new System.Drawing.Font("Segoe UI", 9F);
+            this.btnResetDGV.ForeColor = System.Drawing.Color.White;
+            this.btnResetDGV.Location = new System.Drawing.Point(32, 594);
+            this.btnResetDGV.Name = "btnResetDGV";
+            this.btnResetDGV.Size = new System.Drawing.Size(266, 45);
+            this.btnResetDGV.TabIndex = 18;
+            this.btnResetDGV.TabStop = false;
+            this.btnResetDGV.Text = "Xem tất cả ứng viên";
+            this.btnResetDGV.Click += new System.EventHandler(this.btnFind_Click);
             // 
             // btnFind
             // 
@@ -325,7 +343,7 @@
             this.guna2Panel1.Dock = System.Windows.Forms.DockStyle.Left;
             this.guna2Panel1.Location = new System.Drawing.Point(0, 62);
             this.guna2Panel1.Name = "guna2Panel1";
-            this.guna2Panel1.Size = new System.Drawing.Size(1314, 723);
+            this.guna2Panel1.Size = new System.Drawing.Size(1322, 723);
             this.guna2Panel1.TabIndex = 4;
             // 
             // rdoOther
@@ -428,6 +446,7 @@
             this.dtpDateOfBirth.TabIndex = 1;
             this.dtpDateOfBirth.Value = new System.DateTime(2025, 10, 7, 23, 10, 40, 156);
             this.dtpDateOfBirth.ValueChanged += new System.EventHandler(this.dtpDateOfBirth_ValueChanged);
+            this.dtpDateOfBirth.CloseUp += new System.EventHandler(this.dtpDateOfBirth_CloseUp);
             // 
             // guna2HtmlLabel14
             // 
@@ -561,7 +580,6 @@
             this.txtHometown.Location = new System.Drawing.Point(360, 323);
             this.txtHometown.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.txtHometown.Name = "txtHometown";
-            this.txtHometown.PasswordChar = '\0';
             this.txtHometown.PlaceholderText = "";
             this.txtHometown.SelectedText = "";
             this.txtHometown.Size = new System.Drawing.Size(436, 36);
@@ -582,7 +600,6 @@
             this.txtImageCV.Location = new System.Drawing.Point(850, 236);
             this.txtImageCV.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.txtImageCV.Name = "txtImageCV";
-            this.txtImageCV.PasswordChar = '\0';
             this.txtImageCV.PlaceholderText = "";
             this.txtImageCV.SelectedText = "";
             this.txtImageCV.Size = new System.Drawing.Size(436, 36);
@@ -603,7 +620,6 @@
             this.txtEmail.Location = new System.Drawing.Point(850, 143);
             this.txtEmail.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.txtEmail.Name = "txtEmail";
-            this.txtEmail.PasswordChar = '\0';
             this.txtEmail.PlaceholderText = "";
             this.txtEmail.SelectedText = "";
             this.txtEmail.Size = new System.Drawing.Size(436, 36);
@@ -624,7 +640,6 @@
             this.txtAddress.Location = new System.Drawing.Point(360, 236);
             this.txtAddress.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.txtAddress.Name = "txtAddress";
-            this.txtAddress.PasswordChar = '\0';
             this.txtAddress.PlaceholderText = "";
             this.txtAddress.SelectedText = "";
             this.txtAddress.Size = new System.Drawing.Size(436, 36);
@@ -644,7 +659,6 @@
             this.txtName.Location = new System.Drawing.Point(360, 70);
             this.txtName.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.txtName.Name = "txtName";
-            this.txtName.PasswordChar = '\0';
             this.txtName.PlaceholderText = "";
             this.txtName.SelectedText = "";
             this.txtName.Size = new System.Drawing.Size(436, 36);
@@ -675,25 +689,6 @@
             this.guna2HtmlLabel1.TabStop = false;
             this.guna2HtmlLabel1.Text = "Ứng viên";
             this.guna2HtmlLabel1.TextAlignment = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // btnResetDGV
-            // 
-            this.btnResetDGV.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnResetDGV.BorderRadius = 10;
-            this.btnResetDGV.DisabledState.BorderColor = System.Drawing.Color.DarkGray;
-            this.btnResetDGV.DisabledState.CustomBorderColor = System.Drawing.Color.DarkGray;
-            this.btnResetDGV.DisabledState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(169)))), ((int)(((byte)(169)))), ((int)(((byte)(169)))));
-            this.btnResetDGV.DisabledState.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(141)))), ((int)(((byte)(141)))), ((int)(((byte)(141)))));
-            this.btnResetDGV.Font = new System.Drawing.Font("Segoe UI", 9F);
-            this.btnResetDGV.ForeColor = System.Drawing.Color.White;
-            this.btnResetDGV.Location = new System.Drawing.Point(32, 594);
-            this.btnResetDGV.Name = "btnResetDGV";
-            this.btnResetDGV.Size = new System.Drawing.Size(266, 45);
-            this.btnResetDGV.TabIndex = 18;
-            this.btnResetDGV.TabStop = false;
-            this.btnResetDGV.Text = "Xem tất cả ứng viên";
-            this.btnResetDGV.Click += new System.EventHandler(this.btnFind_Click);
             // 
             // ucUngVien
             // 

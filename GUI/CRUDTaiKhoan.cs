@@ -1,4 +1,5 @@
 ﻿using BLL;
+using DAL;
 using DTO;
 using Guna.UI2.WinForms;
 using System;
@@ -28,6 +29,7 @@ namespace GUI
         {
             connectionString = conn;
             bllTaiKhoan = new BLLTaiKhoan(conn);
+
             InitializeComponent();
             BuildUI();
             LoadNhanVien();
@@ -251,6 +253,14 @@ namespace GUI
                 };
                 dgv.Columns.Add(colDelete);
                 dgv.Columns["Xóa"].DisplayIndex = dgv.Columns.Count - 1;
+
+                if (dgv.Columns["Mã"] != null)
+                {
+                    if (dgv.Columns["Mã"].Visible)
+                    {
+                        dgv.Columns["Mã"].Visible = false;
+                    }
+                }
             }
         }
 

@@ -24,6 +24,11 @@ namespace DAL
 
         public IQueryable GetPositionByDepartment(int departmentId) => _dbContext.ChucVus.Where(x => x.idPhongBan == departmentId);
 
+        public ChucVu GetPositionByIdStaff(string idStaff) => (from p in _dbContext.ChucVus
+                                                                  from s in _dbContext.NhanViens
+                                                                  where s.idChucVu == p.id
+                                                                  select p).FirstOrDefault();
+
         // Lấy danh sách chức vụ (theo từ khóa)
         public DataTable GetAll(string keyword = "")
         {

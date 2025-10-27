@@ -16,7 +16,31 @@ namespace DAL
             db = new PersonnelManagementDataContextDataContext(conn);
         }
 
-        public IQueryable GetAll() => db.UngViens;
+        public IQueryable GetAll()
+        {
+
+            var listUngVien = from uv in db.UngViens
+                              join cv in db.ChucVus on uv.idChucVuUngTuyen equals cv.id
+                              join td in db.TuyenDungs on uv.idTuyenDung equals td.id
+                              select new
+                              {
+                                  uv.id,
+                                  uv.tenNhanVien,
+                                  uv.ngaySinh,
+                                  uv.diaChi,
+                                  uv.que,
+                                  uv.gioiTinh,
+                                  uv.email,
+                                  uv.duongDanCV,
+                                  uv.idChucVuUngTuyen,
+                                  uv.idTuyenDung,
+                                  uv.ngayUngTuyen,
+                                  tenChucVu = cv.TenChucVu,
+                                  tieuDeTuyenDung = td.tieuDe,
+                                  uv.trangThai
+                              };
+            return listUngVien;
+        }
 
         public IQueryable GetUngTuyenByChucVu(int idChucVu)
             => db.UngViens.Where(x => x.idChucVuUngTuyen == idChucVu);

@@ -17,7 +17,7 @@ namespace GUI
     public partial class ucUngVien : UserControl
     {
         private string _idNhanVien, _conn, _urlImage = "";
-        int _idUngVien;
+        int _idUngVien = 0;
         BLLUngVien _bllUngVien;
         BLLChucVu _bllChucVu;
         BLLTuyenDung _bllTuyenDung;
@@ -130,10 +130,6 @@ namespace GUI
             {
                 gioiTinh = "nam";
             }
-            else
-            {
-                gioiTinh = "khac";
-            }
             DTOUngVien dto = new DTOUngVien()
             {
                 TenNhanVien = txtName.Text,
@@ -198,6 +194,11 @@ namespace GUI
 
         private void btnUpdate_Click(object sender, EventArgs e)
         {
+            if(_idUngVien == 0)
+            {
+                MessageBox.Show("Vui lòng chọn ứng viên trước khi cập nhật!");
+                return;
+            }
             if(_urlImage == "")
             {
                 MessageBox.Show("Vui lòng chọn ảnh!");
@@ -393,8 +394,48 @@ namespace GUI
             }
         }
 
+        private void btnApprove_Click(object sender, EventArgs e)
+        {
+            if(_idUngVien == 0)
+            {
+                MessageBox.Show("Vui lòng chọn ứng viên để duyệt!", "Thông báo");
+                return;
+            }
+            DTOUngVien dto = _oldUngVien;
+            dto.TrangThai = "Thử việc";
+            if (dto.TrangThai == "Thử việc")
+            {
+                dto.TrangThai = "Trúng tuyển";
+            }
+            else if (dto.TrangThai == "Trúng tuyển")
+            {
+                MessageBox.Show("Ứng viên đã trúng tuyển, không thể duyệt nữa!", "Thông báo");
+                return;
+            }
+            else if (dto.TrangThai == "Loại")
+            {
+                MessageBox.Show("Ứng viên đã bị loại, không thể duyệt nữa!", "Thông báo");
+                return;
+            }
+
+            if (_bllUngVien.Update(dto))
+            {
+                MessageBox.Show("Duyệt thành công!", "Thông báo");
+                LoadDgvUngVien();
+                CleanInput();
+            }
+            else
+            {
+                MessageBox.Show("Duyệt thất bại!", "Thông báo");
+            }
+
+        }
+
         private void ucUngVien_Load(object sender, EventArgs e)
         {
+            var position = _bllChucVu.GetPositionByIdStaff(_idNhanVien);
+
+
             rdoMale.Checked = true;
             
             cbChucVuUngTuyen.DataSource = _bllChucVu.GetAll();
@@ -408,10 +449,31 @@ namespace GUI
             cmbFindPosition.DataSource = _bllChucVu.GetAll();
             cmbFindPosition.DisplayMember = "Tên chức vụ";
             cmbFindPosition.ValueMember = "Mã chức vụ";
-
             dtpNgayUngTuyen.Value = DateTime.Now;
 
+
+            LoadDgvUngVien();
+
+        }
+
+        private void LoadDgvUngVien()
+        {
             dgvUngVien.DataSource = _bllUngVien.GetAll();
+            dgvUngVien.Columns["idChucVuUngTuyen"].Visible = false;
+            dgvUngVien.Columns["idTuyenDung"].Visible = false;
+            dgvUngVien.Columns["id"].Visible = false;
+            dgvUngVien.Columns["duongDanCV"].Visible = false;
+
+            dgvUngVien.Columns["tenNhanVien"].HeaderText = "Tên ứng viên";
+            dgvUngVien.Columns["ngaySinh"].HeaderText = "Ngày sinh";
+            dgvUngVien.Columns["diaChi"].HeaderText = "Địa chỉ";
+            dgvUngVien.Columns["que"].HeaderText = "Quê quán";
+            dgvUngVien.Columns["gioiTinh"].HeaderText = "Giới tính";
+            dgvUngVien.Columns["email"].HeaderText = "Email";
+            dgvUngVien.Columns["ngayUngTuyen"].HeaderText = "Ngày ứng tuyển";
+            dgvUngVien.Columns["trangThai"].HeaderText = "Trạng thái";
+            dgvUngVien.Columns["tenChucVu"].HeaderText = "Chức vụ ứng tuyển";
+            dgvUngVien.Columns["tieuDeTuyenDung"].HeaderText = "Tuyển dụng";
 
         }
     }

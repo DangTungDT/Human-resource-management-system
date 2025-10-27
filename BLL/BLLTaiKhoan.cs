@@ -34,9 +34,9 @@ namespace BLL
 
         public void DeleteAccount(int id) => _dalTK.Delete(id);
 
-        public void CreateDefaultAccount(string idNV, string tenNhanVien)
+        public void CreateDefaultAccount(string idNV, string tenNhanVien, string tenChucVu)
         {
-            _dalTK.CreateDefaultAccount(idNV, tenNhanVien);
+            _dalTK.CreateDefaultAccount(idNV, tenNhanVien, tenChucVu);
         }
 
         public bool ValidateLogin(string taiKhoan, string matKhau)

@@ -59,7 +59,7 @@ namespace BLL
             nv.ID = _dal.SinhMaNhanVien(tenChucVu, TenPhongBan);
             bool added = _dal.Insert(nv);
             if (added)
-                _tkBus.CreateDefaultAccount(nv.ID, nv.TenNhanVien);
+                _tkBus.CreateDefaultAccount(nv.ID, nv.TenNhanVien, tenChucVu);
             return added;
         }
 
@@ -112,6 +112,12 @@ namespace BLL
             {
                 throw new Exception("Lỗi lấy d/s nhân viên : " + ex.Message);
             }
+        }
+
+        //kiểm tra email
+        public bool KiemTraEmailTonTai(string email)
+        {
+            return _dal.KiemTraEmailTonTai(email);
         }
     }
 }

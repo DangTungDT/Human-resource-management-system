@@ -79,7 +79,7 @@ namespace GUI
                     frmDangNhap.Show();
 
                     // 🔹 Sau khi mở form đăng nhập thì đóng form hiện tại
-                    this.Close();
+                    this.Hide();
                 }
                 else
                 {

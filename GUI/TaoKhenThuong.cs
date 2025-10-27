@@ -314,7 +314,7 @@ namespace GUI
             mainLayout.RowStyles.Add(new RowStyle(SizeType.Absolute, 65));   // tiêu đề
             mainLayout.RowStyles.Add(new RowStyle(SizeType.Absolute, 430));  // form nhập liệu
             mainLayout.RowStyles.Add(new RowStyle(SizeType.Percent, 70));    // vùng nút
-            mainLayout.RowStyles.Add(new RowStyle(SizeType.Percent, 350));   // vùng DataGridView
+            mainLayout.RowStyles.Add(new RowStyle(SizeType.Percent, 100));   // vùng DataGridView
 
             // Thêm vào layout chính
             mainLayout.Controls.Add(lblTitle, 0, 0);

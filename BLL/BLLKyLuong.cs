@@ -2,6 +2,7 @@
 using DTO;
 using System;
 using System.Collections.Generic;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -15,7 +16,7 @@ namespace BLL
         public BLLKyLuong(string conn) => _dbContext = new DALKyLuong(conn);
 
         // Ktra ds Ky Luong
-        public List<KyLuong> KtraDsKhauTru()
+        public List<KyLuong> KtraDsKyLuong()
         {
             try
             {
@@ -39,7 +40,7 @@ namespace BLL
             {
                 var ktraKL = _dbContext.TimKyLuongQuaID(DTO.ID);
 
-                if (ktraKL != null)
+                if (ktraKL == null)
                 {
                     var KtraThemKL = _dbContext.ThemKyLuong(DTO);
                     if (KtraThemKL)
@@ -91,7 +92,6 @@ namespace BLL
 
                 if (ktraNL != null)
                 {
-
                     var KtraThemKL = _dbContext.XoakyLuong(DTO);
                     if (KtraThemKL)
                     {
@@ -109,18 +109,19 @@ namespace BLL
         }
 
         // Tim du lieu Ky Luong qua id
-        public bool KtraKyLuongQuaID(int id)
+        public KyLuong KtraKyLuongQuaID(int id)
         {
             try
             {
                 if (id > 0)
                 {
-                    var ktraID = _dbContext.TimKyLuongQuaID(id);
-                    if (ktraID != null)
+                    var kyLuong = _dbContext.TimKyLuongQuaID(id);
+                    if (kyLuong != null)
                     {
-                        return true;
+                        return kyLuong;
                     }
-                    else throw new Exception($"Không tìm thấy dữ liệu kỳ lương qua ID {id}");
+                    else return null;
+                    //else throw new Exception($"Không tìm thấy dữ liệu kỳ lương qua ID {id}");
                 }
                 else throw new Exception($"Kiểm tra lại dữ liệu đầu vào của id được nhập !");
             }

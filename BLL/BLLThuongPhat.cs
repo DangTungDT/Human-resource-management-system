@@ -20,7 +20,7 @@ namespace BLL
         }
 
         // Danh sach thuong phat
-        public List<DTOThuongPhat> CheckListThuongPhat()
+        public List<ThuongPhat> CheckListThuongPhat()
         {
             var list = _dbContext.DanhSachThuongPhat().ToList();
             if (list.Any() && list != null)

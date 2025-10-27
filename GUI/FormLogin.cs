@@ -22,16 +22,14 @@ namespace GUI
         private readonly string _conn = ConnectionDB.TakeConnectionString();
         //private readonly string _conn = "Data Source=LAPTOP-PNFFHRG1\\MSSQLSERVER01;Initial Catalog=PersonnelManagement;Integrated Security=True;Encrypt=False";
 
-        public FormLogin(string idNhanVien)
+        public FormLogin()
         {
             InitializeComponent();
-
             _dbContextTK = new BLLTaiKhoan(_conn);
         }
 
         private void FormLogin_Load(object sender, EventArgs e)
         {
-
         }
 
         private void btnDangNhap_Click(object sender, EventArgs e)

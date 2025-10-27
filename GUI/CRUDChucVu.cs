@@ -253,13 +253,13 @@ namespace GUI
                 if (selectedId == null)
                 {
                     // === Thêm mới ===
-                    bllChucVu.SaveChucVu(cv, isNew: true);
+                    bllChucVu.Insert(cv);
                     MessageBox.Show("✅ Đã thêm chức vụ mới!");
                 }
                 else
                 {
                     // === Cập nhật ===
-                    bllChucVu.SaveChucVu(cv, isNew: false);
+                    bllChucVu.Update(cv);
                     MessageBox.Show("✏️ Đã cập nhật chức vụ!");
                 }
 

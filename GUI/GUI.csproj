@@ -42,8 +42,8 @@
     <Reference Include="DevExpress.Data.v21.2, Version=21.2.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
     <Reference Include="DevExpress.Printing.v21.2.Core, Version=21.2.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
     <Reference Include="DevExpress.Utils.v21.2, Version=21.2.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
-    <Reference Include="Guna.UI2, Version=2.0.4.7, Culture=neutral, PublicKeyToken=8b9d14aa5142e261, processorArchitecture=MSIL">
-      <HintPath>packages\Guna.UI2.WinForms.2.0.4.7\lib\net48\Guna.UI2.dll</HintPath>
+    <Reference Include="Guna.UI2, Version=2.0.4.6, Culture=neutral, PublicKeyToken=8b9d14aa5142e261, processorArchitecture=MSIL">
+      <HintPath>packages\Guna.UI2.WinForms.2.0.4.6\lib\net48\Guna.UI2.dll</HintPath>
     </Reference>
     <Reference Include="PresentationCore" />
     <Reference Include="System" />
@@ -100,6 +100,12 @@
       <DependentUpon>DoiMatKhau.cs</DependentUpon>
     </Compile>
     <Compile Include="DisplayUserControlPanel.cs" />
+    <Compile Include="FormTest.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormTest.Designer.cs">
+      <DependentUpon>FormTest.cs</DependentUpon>
+    </Compile>
     <Compile Include="FrmXemDanhGiaChiTietNV.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -146,7 +152,7 @@
     </Compile>
     <Compile Include="TaoThuongPhat.Designer.cs">
       <DependentUpon>TaoThuongPhat.cs</DependentUpon>
-      </Compile>
+    </Compile>
     <Compile Include="TestGiaoDien.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -164,6 +170,12 @@
     </Compile>
     <Compile Include="UCChiTietluongCaNhan.Designer.cs">
       <DependentUpon>UCChiTietluongCaNhan.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ucChucVu.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="ucChucVu.Designer.cs">
+      <DependentUpon>ucChucVu.cs</DependentUpon>
     </Compile>
     <Compile Include="UCDoiMatKhau.cs">
       <SubType>UserControl</SubType>
@@ -312,6 +324,9 @@
     <EmbeddedResource Include="ButtonFeatureViewComponent.resx">
       <DependentUpon>ButtonFeatureViewComponent.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="FormTest.resx">
+      <DependentUpon>FormTest.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="FrmXemDanhGiaChiTietNV.resx">
       <DependentUpon>FrmXemDanhGiaChiTietNV.cs</DependentUpon>
     </EmbeddedResource>
@@ -334,6 +349,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="UCChiTietluongCaNhan.resx">
       <DependentUpon>UCChiTietluongCaNhan.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ucChucVu.resx">
+      <DependentUpon>ucChucVu.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UCDoiMatKhau.resx">
       <DependentUpon>UCDoiMatKhau.cs</DependentUpon>

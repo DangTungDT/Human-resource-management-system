@@ -11,13 +11,17 @@ namespace DAL
 {
     public class DALNhanVien_KhauTru
     {
+        public readonly PersonnelManagementDataContextDataContext _dbContext;
+
         private readonly string connectionString;
 
         public DALNhanVien_KhauTru(string stringConnection)
         {
             connectionString = stringConnection;
+          _dbContext = new PersonnelManagementDataContextDataContext(stringConnection);
         }
 
+       public List<NhanVien_KhauTru> DsNhanVien_KhauTru() => _dbContext.NhanVien_KhauTrus.ToList();
         public DataTable GetAll(string idPhongBan = "")
         {
             using (SqlConnection conn = new SqlConnection(connectionString))

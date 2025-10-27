@@ -17,19 +17,7 @@ namespace BLL
         // Ktra ds Tuyen Dung
         public List<TuyenDung> KtraDsTuyenDung()
         {
-            try
-            {
-                if (!_dbContext.DsTuyenDung().Any())
-                {
-                    throw new Exception("Không có dữ liệu d/s tuyển dụng !");
-                }
-                else return _dbContext.DsTuyenDung();
-
-            }
-            catch (Exception ex)
-            {
-                throw new Exception("Lỗi lấy d/s tuyển dụng: " + ex.Message);
-            }
+            return _dbContext.DsTuyenDung();
         }
 
         // Ktra them Tuyen Dung

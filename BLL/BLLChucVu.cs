@@ -21,18 +21,45 @@ namespace BLL
             dal = new DALChucVu(conn);
         }
 
-        public DataTable GetAll(string keyword = "") => dal.GetAll(keyword);
-        public DataTable GetDepartments() => dal.GetDepartments();
-        public void SaveChucVu(DTOChucVu cv, bool isNew)
+        public bool CheckPosition(string namePosition, int departmentId)
         {
-            if (isNew)
-                dal.Insert(cv);
-            else
-                dal.Update(cv);
+            if (string.IsNullOrEmpty(namePosition) || departmentId < 1) return false;
+            return dal.CheckPosition(namePosition, departmentId);
+        }
+
+        public DataTable GetAll(string keyword = "") => dal.GetAll(keyword);
+
+        public IQueryable GetPositionByDepartment(int id) => dal.GetPositionByDepartment(id);
+        public DataTable GetDepartments() => dal.GetDepartments();
+
+        public bool Insert(DTOChucVu cv)
+        {
+            if (!KiemTraHopLe(cv)) return false;
+            return dal.Insert(cv);
+        }
+
+        public bool Update(DTOChucVu cv)
+        {
+            if (!KiemTraHopLe(cv)) return false;
+            return dal.Update(cv);
         }
 
         public void Delete(int id) => dal.Delete(id);
 
+        public static bool KiemTraHopLe(DTOChucVu chucVu)
+        {
+            if (chucVu == null) return false;
+
+            if (string.IsNullOrWhiteSpace(chucVu.TenChucVu)) return false;
+
+            if (chucVu.LuongCoBan < 0) return false;
+
+            if (chucVu.TyLeHoaHong < 0) return false;
+
+            if (chucVu.IdPhongBan <= 0)  return false;
+
+            return true;
+        }
         // Ktra ds Nghi Phep
         public List<ChucVu> LayDsChucVu()
         {

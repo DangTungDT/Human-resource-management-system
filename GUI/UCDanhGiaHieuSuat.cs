@@ -73,7 +73,7 @@ namespace GUI
 
                 if (!string.IsNullOrEmpty(_idSelected))
                 {
-                    var namLamViec = _dbContextHD.KtraDsHopDongLaoDong().FirstOrDefault(p => p.IDNhanVien == _idSelected);
+                    var namLamViec = _dbContextHD.KtraDsHopDongLaoDong().FirstOrDefault(p => p.idNhanVien == _idSelected);
 
                     var namBD = namLamViec.NgayBatDau.Year;
                     var namHT = DateTime.Now.Year;

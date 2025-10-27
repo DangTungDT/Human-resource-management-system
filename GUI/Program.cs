@@ -15,7 +15,7 @@ namespace GUI
             Application.SetCompatibleTextRenderingDefault(false);
 
             // GD00000001, TPCNTT0001, NVKD000004
-            Application.Run(new FormLogin("NVKD000004"));
+            Application.Run(new FormLogin());
             //Application.Run(new TestGiaoDien("TPCNTT0001"));
         }
     }

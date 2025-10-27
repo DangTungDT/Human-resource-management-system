@@ -20,14 +20,8 @@ namespace DAL
             _dbContext = new PersonnelManagementDataContextDataContext(stringConnection);
             connectionString = stringConnection;
         }
-        public IQueryable<DTOThuongPhat> DanhSachThuongPhat() => _dbContext.ThuongPhats.Select(p => new DTOThuongPhat
-        {
-            ID = p.id,
-            TienThuongPhat = p.tienThuongPhat,
-            Loai = p.loai,
-            LyDo = p.lyDo,
-            IDNguoiTao = p.idNguoiTao
-        });
+        public List<ThuongPhat> DanhSachThuongPhat() => _dbContext.ThuongPhats.ToList();
+
 
         public IQueryable<DTONhanVien> DanhSachNhanVien() => _dbContext.NhanViens.Select(p => new DTONhanVien
         {

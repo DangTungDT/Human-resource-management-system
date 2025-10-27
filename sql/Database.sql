@@ -39,8 +39,8 @@ create table NhanVien
 	DiaChi nvarchar(255) not null,
 	Que nvarchar(100) not null,
 	GioiTinh nvarchar(4) not null,
-	Email varchar(100) not null,
-	AnhDaiDien VARCHAR(255) NULL,
+	Email varchar(100) not null unique,
+	AnhDaiDien varchar(255),
 	idChucVu int not null,
 	idPhongBan int not null,
 	DaXoa bit default 0 not null,
@@ -88,8 +88,8 @@ create table HopDongLaoDong
 	NgayKy date not null,
 	NgayBatDau date not null,
 	NgayKetThuc date,
-	LuongThoaThuan DECIMAL(18,2) NOT NULL DEFAULT 0,
-	hinhANh varchar(255),
+	Luong decimal(18,2) not null,
+	HinhAnh varchar(255),
 	idNhanVien varchar(10),
 	MoTa nvarchar(255),
 	primary key(id),
@@ -162,14 +162,17 @@ go
 
 CREATE TABLE UngVien (
     id INT PRIMARY KEY IDENTITY(1,1),
-    hoTen NVARCHAR(150) NOT NULL,
-    email NVARCHAR(100) NOT NULL,
-    soDienThoai NVARCHAR(20),
+    tenNhanVien nvarchar(255) not null,
+	ngaySinh date not null,
+	diaChi nvarchar(255) not null,
+	que nvarchar(100) not null,
+	gioiTinh nvarchar(4) not null,
+	email varchar(100) not null unique,
     duongDanCV NVARCHAR(255), -- Lưu file CV của ứng viên
     idChucVuUngTuyen int NOT NULL,
+	idTuyenDung int not null,
     ngayUngTuyen DATE DEFAULT GETDATE(),
     trangThai NVARCHAR(50) DEFAULT N'Đang xét duyệt'
-    
 )
 go
 

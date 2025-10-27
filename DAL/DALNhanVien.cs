@@ -63,7 +63,7 @@ namespace DAL
             }
         }
 
-        public DataTable  LoadNhanVien()
+        public DataTable LoadNhanVien()
         {
             using (SqlConnection conn = new SqlConnection(connectionString))
             {
@@ -105,8 +105,8 @@ namespace DAL
                                 LEFT JOIN PhongBan pb ON nv.idPhongBan = pb.ID
                                 WHERE nv.ID = @id";
 
-                using(SqlCommand cmd = new SqlCommand(query, conn))
-{
+                using (SqlCommand cmd = new SqlCommand(query, conn))
+                {
                     cmd.Parameters.AddWithValue("@id", idNhanVien);
                     using (SqlDataReader dr = cmd.ExecuteReader())
                     {

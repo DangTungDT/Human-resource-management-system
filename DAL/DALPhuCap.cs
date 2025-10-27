@@ -11,13 +11,18 @@ namespace DAL
 {
     public class DALPhuCap
     {
+        public readonly PersonnelManagementDataContextDataContext _dbContext;
+
         private readonly string connectionString;
 
         public DALPhuCap(string stringConnection)
         {
             connectionString = stringConnection;
+           _dbContext = new PersonnelManagementDataContextDataContext(stringConnection);
+          
         }
 
+      public List<PhuCap> DsPhuCap() => _dbContext.PhuCaps.ToList();
         public DataTable GetAll()
         {
             using (SqlConnection conn = new SqlConnection(connectionString))

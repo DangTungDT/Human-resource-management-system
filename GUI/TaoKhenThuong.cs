@@ -51,6 +51,20 @@ namespace GUI
             LoadNhanVienList(); // Load danh sách nhân viên vào CheckedListBox
             LoadData();         // Load dữ liệu hiển thị lên dgv
         }
+        public TaoKhenThuong(string idNhanVien, string conn)
+        {
+            InitializeComponent();   // Khởi tạo các thành phần (nếu dùng designer)
+            // Khởi tạo các service BLL với connection string truyền vào
+            bll = new BLLNhanVien_ThuongPhat(conn);
+            bllPhongBan = new BLLPhongBan(conn);
+            bllNhanVien = new BLLNhanVien(conn);
+
+            BuildUI();          // Tạo UI bằng code (không dùng designer)
+            LoadPhongBan();     // Load danh sách phòng ban vào cbPhongBan
+            LoadLyDo();         // Load danh sách lý do thưởng vào cbLyDo
+            LoadNhanVienList(); // Load danh sách nhân viên vào CheckedListBox
+            LoadData();         // Load dữ liệu hiển thị lên dgv
+        }
 
         // === XÂY DỰNG GIAO DIỆN CHÍNH CHO USERCONTROL "Tạo Khen Thưởng" ===
         private void BuildUI()

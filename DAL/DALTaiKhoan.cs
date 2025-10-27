@@ -3,19 +3,24 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
+using System.IO.Pipes;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml;
 
 namespace DAL
 {
     public class DALTaiKhoan
     {
         private readonly string connectionString;
+        private readonly PersonnelManagementDataContextDataContext _dbContext;
 
         public DALTaiKhoan(string conn)
         {
             connectionString = conn;
+            _dbContext = new PersonnelManagementDataContextDataContext(conn);
         }
 
         public DataTable GetAll()
@@ -52,6 +57,7 @@ namespace DAL
                 cmd.Parameters.AddWithValue("@tk", tk.TaiKhoan);
                 cmd.Parameters.AddWithValue("@mk", tk.MatKhau);
                 cmd.Parameters.AddWithValue("@idNV", tk.IdNhanVien);
+<<<<<<< HEAD
                 try
                 {
                     conn.Open();
@@ -61,6 +67,11 @@ namespace DAL
                 {
                     throw new Exception("Lỗi khi thêm tài khoản: " + ex.Message);
                 }
+=======
+                conn.Open();
+                cmd.ExecuteNonQuery();
+
+>>>>>>> origin/main
             }
         }
 
@@ -234,6 +245,12 @@ namespace DAL
                 }
             }
         }
+
+        // Lay ds tai khoan
+        public List<TaiKhoan> DsTaiKhoan() => _dbContext.TaiKhoans.ToList();
+
+        // Tim tai khoan qua idNhanVien
+        public NhanVien TimTaiKhoanQuaIDNVien(string idNHanVien) => _dbContext.NhanViens.FirstOrDefault(p => p.id == idNHanVien);
     }
     
 }

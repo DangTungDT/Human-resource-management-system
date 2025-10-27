@@ -19,15 +19,17 @@ namespace GUI
         private Guna2Button btnSearch, btnExcel, btnPDF, btnXuatReport;
         private Guna2DataGridView dgv;
 
-        private string connectionString;
+        private readonly string _idNhanVien, _connectionString;
 
-        public BaoCaoKhenThuong(string conn)
+        public BaoCaoKhenThuong(string conn, string idNhanVien)
         {
-            connectionString = conn;
             InitializeComponent();
             BuildUI();
             LoadPhongBan();
             LoadKhenThuong();
+
+            _connectionString = conn;
+            _idNhanVien = idNhanVien;
         }
 
         private void BuildUI()
@@ -142,7 +144,7 @@ namespace GUI
 
         private void LoadPhongBan()
         {
-            using (SqlConnection conn = new SqlConnection(connectionString))
+            using (SqlConnection conn = new SqlConnection(_connectionString))
             {
                 SqlDataAdapter da = new SqlDataAdapter("SELECT id, TenPhongBan FROM PhongBan", conn);
                 DataTable dt = new DataTable();
@@ -156,7 +158,7 @@ namespace GUI
 
         private void LoadKhenThuong()
         {
-            using (SqlConnection conn = new SqlConnection(connectionString))
+            using (SqlConnection conn = new SqlConnection(_connectionString))
             {
                 conn.Open();
                 StringBuilder query = new StringBuilder(@"

@@ -1,7 +1,9 @@
-﻿using System;
+﻿using Guna.UI2.WinForms;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.DirectoryServices.ActiveDirectory;
 using System.Drawing;
 using System.Linq;
 using System.Text;
@@ -12,71 +14,68 @@ namespace GUI
 {
     public partial class ButtonFeatureHomeComponent : UserControl
     {
-        private Panel _tpHome;
-        public ButtonFeatureHomeComponent(Panel tpHome)
+        private readonly Panel _tpHome;
+        public readonly string _idNhanVien, _conn;
+
+        public ButtonFeatureHomeComponent(Panel tpHome, string idNhanVien, string conn)
         {
             InitializeComponent();
-            this.DoubleBuffered = false;
+            this.DoubleBuffered = true;
+
+            _conn = conn;
             _tpHome = tpHome;
+            _idNhanVien = idNhanVien;
         }
-        private void LoadForm(Form form) => form.Show();
-       
+
         private void btnNghiPhep_Click(object sender, EventArgs e)
         {
-            var main = this.ParentForm as Main;
-            main?.ShowUserControl("UCNghiPhep");
-            main.ChildFormComponent(_tpHome, "ButtonFeatureHomeComponent");
+            UCNghiPhep uc = new UCNghiPhep(_idNhanVien, _conn);
+            DisplayUserControlPanel.ChildUserControl(uc, _tpHome);
         }
 
         private void btnDuyetNghi_Click(object sender, EventArgs e)
         {
-            var main = this.ParentForm as Main;
-            main?.ShowUserControl("UCDuyetNghiPhep");
-            main.ChildFormComponent(_tpHome, "ButtonFeatureHomeComponent");
-        }
-
-        private void btnDoiMK_Click(object sender, EventArgs e)
-        {
-            var main = this.ParentForm as Main;
-            main?.ShowUserControl("UCCapNhatMatKhau");
-            main.ChildFormComponent(_tpHome, "ButtonFeatureHomeComponent");
-        }
-
-        private void btnHopDong_Click(object sender, EventArgs e)
-        {
-            var main = this.ParentForm as Main;
-            main?.ShowUserControl("UCHopDong");
-            main.ChildFormComponent(_tpHome, "ButtonFeatureHomeComponent");
+            UCDuyetNghiPhep uc = new UCDuyetNghiPhep(_idNhanVien, _conn);
+            DisplayUserControlPanel.ChildUserControl(uc, _tpHome);
         }
 
         private void guna2TileButton1_Click(object sender, EventArgs e)
         {
-            var main = this.ParentForm as Main;
-            main?.ShowUserControl("XemThongTinCaNhan");
-            main.ChildFormComponent(_tpHome, "ButtonFeatureHomeComponent");
+            XemThongTinCaNhan uc = new XemThongTinCaNhan(_idNhanVien, _tpHome, _conn);
+            DisplayUserControlPanel.ChildUserControl(uc, _tpHome);
         }
 
         private void guna2TileButton5_Click(object sender, EventArgs e)
         {
-            var main = this.ParentForm as Main;
-            main?.ShowUserControl("ucChamCongQuanLy");
-            main.ChildFormComponent(_tpHome, "ButtonFeatureHomeComponent");
+            ucChamCongQuanLy uc = new ucChamCongQuanLy(_idNhanVien, _conn);
+            DisplayUserControlPanel.ChildUserControl(uc, _tpHome);
         }
 
         private void guna2TileButton6_Click(object sender, EventArgs e)
         {
-            var main = this.ParentForm as Main;
-            main?.ShowUserControl("ucChamCongQuanLyHinh");
-            main.ChildFormComponent(_tpHome, "ButtonFeatureHomeComponent");
+            ////ucChamCongQuanLy uc = new ucChamCongQuanLy(_idNhanVien, _conn);
+            ////ChildUserControl(uc, _tpReport);
+
+            //var main = this.ParentForm as Main;
+            //main?.ShowUserControl("ucChamCongQuanLyHinh");
+            //main.ChildFormComponent(_tpHome, "ButtonFeatureHomeComponent");
+        }
+
+        private void ButtonFeatureHomeComponent_Load(object sender, EventArgs e)
+        {
+            if (_idNhanVien.Contains("NV"))
+            {
+                btnDuyetNghi.Visible = false;
+                guna2TileButton5.Visible = false;
+                guna2TileButton6.Visible = false;
+                guna2TileButton7.Visible = false;
+            }
         }
 
         private void guna2TileButton7_Click(object sender, EventArgs e)
         {
-            var main = this.ParentForm as Main;
-            main?.ShowUserControl("ucDuyenTuyenDung");
-            main.ChildFormComponent(_tpHome, "ButtonFeatureHomeComponent");
+            ucDuyenTuyenDung uc = new ucDuyenTuyenDung(_idNhanVien, _conn);
+            DisplayUserControlPanel.ChildUserControl(uc, _tpHome);
         }
-
-        
     }
 }

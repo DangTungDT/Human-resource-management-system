@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
+using System.Net.Mail;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -12,10 +13,12 @@ namespace DAL
     public class DALChucVu
     {
         private readonly string connectionString;
+        public readonly PersonnelManagementDataContextDataContext _dbContext;
 
         public DALChucVu(string conn)
         {
             connectionString = conn;
+            _dbContext = new PersonnelManagementDataContextDataContext(conn);
         }
 
         // Lấy danh sách chức vụ (theo từ khóa)
@@ -108,5 +111,7 @@ namespace DAL
                 cmd.ExecuteNonQuery();
             }
         }
+
+        public List<ChucVu> LayDsChucVu() => _dbContext.ChucVus.ToList();
     }
 }

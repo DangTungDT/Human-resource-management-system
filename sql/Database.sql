@@ -152,6 +152,7 @@ go
 CREATE TABLE TuyenDung (
     id INT PRIMARY KEY IDENTITY(1,1),
     tieuDe NVARCHAR(150) NOT NULL,
+	soLuong int not null default 1,
     idPhongBan int NOT NULL,
     idChucVu int NOT NULL,
     idNguoiTao varchar(10) NOT NULL, -- Trưởng phòng nhân sự

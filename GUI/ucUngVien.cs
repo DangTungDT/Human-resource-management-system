@@ -495,6 +495,59 @@ namespace GUI
 
         }
 
+        private void btnEliminat_Click(object sender, EventArgs e)
+        {
+            if (_idUngVien == 0)
+            {
+                MessageBox.Show("Vui lòng chọn ứng viên để duyệt!", "Thông báo");
+                return;
+            }
+            DTOUngVien dto = new DTOUngVien()
+            {
+                Id = _idUngVien,
+                TenNhanVien = _oldUngVien.TenNhanVien,
+                NgaySinh = _oldUngVien.NgaySinh,
+                DiaChi = _oldUngVien.DiaChi,
+                Que = _oldUngVien.Que,
+                GioiTinh = _oldUngVien.GioiTinh,
+                Email = _oldUngVien.Email,
+                DuongDanCV = _oldUngVien.DuongDanCV,
+                IdChucVuUngTuyen = _oldUngVien.IdChucVuUngTuyen,
+                IdTuyenDung = _oldUngVien.IdTuyenDung,
+                NgayUngTuyen = _oldUngVien.NgayUngTuyen,
+                TrangThai = _oldUngVien.TrangThai
+            };
+            dto.Id = _idUngVien;
+            dto.TrangThai = "Thử việc";
+            if (_oldUngVien.TrangThai == "Thử việc")
+            {
+                dto.TrangThai = "Trúng tuyển";
+
+            }
+            else if (_oldUngVien.TrangThai == "Trúng tuyển")
+            {
+                MessageBox.Show("Ứng viên đã trúng tuyển, không thể duyệt nữa!", "Thông báo");
+                return;
+            }
+            else if (_oldUngVien.TrangThai == "Loại")
+            {
+                MessageBox.Show("Ứng viên đã bị loại, không thể duyệt nữa!", "Thông báo");
+                return;
+            }
+
+            if (_bllUngVien.Update(dto))
+            {
+                MessageBox.Show("Duyệt thành công!", "Thông báo");
+                LoadDgvUngVien();
+                CleanInput();
+            }
+            else
+            {
+                MessageBox.Show("Duyệt thất bại!", "Thông báo");
+            }
+
+        }
+
         private void dtpDateOfBirth_Leave(object sender, EventArgs e)
         {
             DateTime ngaySinh = dtpDateOfBirth.Value;

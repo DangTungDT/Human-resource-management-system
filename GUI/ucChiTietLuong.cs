@@ -654,23 +654,23 @@ namespace GUI
             }
         }
 
-        private void txtLuongSauKhauTru_TextChanged(object sender, EventArgs e) => LayKiTuSo(sender);
+        private void txtLuongSauKhauTru_TextChanged(object sender, EventArgs e) => DisplayUserControlPanel.LayKiTuSo(sender);
 
         private void txtLuongSauKhauTru_KeyPress(object sender, KeyPressEventArgs e) => NganNhapChu(e);
 
         private void txtLuongTruocKhauTru_KeyPress(object sender, KeyPressEventArgs e) => NganNhapChu(e);
 
-        private void txtLuongTruocKhauTru_TextChanged(object sender, EventArgs e) => LayKiTuSo(sender);
+        private void txtLuongTruocKhauTru_TextChanged(object sender, EventArgs e) => DisplayUserControlPanel.LayKiTuSo(sender);
 
-        private void cmbLuongTraSau_TextChanged(object sender, EventArgs e) => LayKiTuSo(sender);
+        private void cmbLuongTraSau_TextChanged(object sender, EventArgs e) => DisplayUserControlPanel.LayKiTuSo(sender);
 
-        private void txtTongKhauTru_TextChanged(object sender, EventArgs e) => LayKiTuSo(sender);
+        private void txtTongKhauTru_TextChanged(object sender, EventArgs e) => DisplayUserControlPanel.LayKiTuSo(sender);
 
-        private void txtPhuCap_TextChanged(object sender, EventArgs e) => LayKiTuSo(sender);
+        private void txtPhuCap_TextChanged(object sender, EventArgs e) => DisplayUserControlPanel.LayKiTuSo(sender);
 
-        private void txtTienPhat_TextChanged(object sender, EventArgs e) => LayKiTuSo(sender);
+        private void txtTienPhat_TextChanged(object sender, EventArgs e) => DisplayUserControlPanel.LayKiTuSo(sender);
 
-        private void txtTienThuong_TextChanged(object sender, EventArgs e) => LayKiTuSo(sender);
+        private void txtTienThuong_TextChanged(object sender, EventArgs e) => DisplayUserControlPanel.LayKiTuSo(sender);
 
         private void cmbLuongTraSau_KeyPress(object sender, KeyPressEventArgs e) => NganNhapChu(e);
 
@@ -706,18 +706,7 @@ namespace GUI
             return ktra;
         }
 
-        public void LayKiTuSo(object sender)
-        {
-            var text = sender as Guna2TextBox;
-            if (text == null) return;
 
-            if (Regex.IsMatch(text.Text, @"\D"))
-            {
-                var index = Math.Max(0, text.SelectionStart - 1);
-                text.Text = Regex.Replace(text.Text, "[^0-9]", "");
-                text.SelectionStart = Math.Min(index, text.Text.Length);
-            }
-        }
 
         private void ckChonNhanhPB_CheckedChanged(object sender, EventArgs e)
         {

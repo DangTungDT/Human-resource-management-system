@@ -134,11 +134,16 @@ namespace GUI
             }
         }
 
+        private void btnTPTuyenDung_Click(object sender, EventArgs e)
+        {
+            UCTuyenDung_TruongPhong uc = new UCTuyenDung_TruongPhong(_idNhanVien, _conn);
+            DisplayUserControlPanel.ChildUserControl(uc, _tpCRUD);
+        }
+
         private void btnTaoNhanVien_KhauTru_Click(object sender, EventArgs e)
         {
             TaoNhanVien_KhauTru uc = new TaoNhanVien_KhauTru(_conn);
             DisplayUserControlPanel.ChildUserControl(uc, _tpCRUD);
-
         }
     }
 }

@@ -5149,6 +5149,8 @@ namespace DAL
 		
 		private System.Nullable<System.DateTime> _ngayTao;
 		
+		private int _soLuong;
+		
 		private EntityRef<ChucVu> _ChucVu;
 		
 		private EntityRef<NhanVien> _NhanVien;
@@ -5173,6 +5175,8 @@ namespace DAL
     partial void OntrangThaiChanged();
     partial void OnngayTaoChanging(System.Nullable<System.DateTime> value);
     partial void OnngayTaoChanged();
+    partial void OnsoLuongChanging(int value);
+    partial void OnsoLuongChanged();
     #endregion
 		
 		public TuyenDung()
@@ -5331,6 +5335,26 @@ namespace DAL
 					this._ngayTao = value;
 					this.SendPropertyChanged("ngayTao");
 					this.OnngayTaoChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_soLuong", DbType="Int NOT NULL")]
+		public int soLuong
+		{
+			get
+			{
+				return this._soLuong;
+			}
+			set
+			{
+				if ((this._soLuong != value))
+				{
+					this.OnsoLuongChanging(value);
+					this.SendPropertyChanging();
+					this._soLuong = value;
+					this.SendPropertyChanged("soLuong");
+					this.OnsoLuongChanged();
 				}
 			}
 		}

@@ -19,6 +19,9 @@ namespace DAL
         // Tim Tuyen Dung qua id
         public TuyenDung TimTuyenDungQuaID(int id) => _dbContext.TuyenDungs.FirstOrDefault(p => p.id == id);
 
+        // Tim Tuyen Dung qua idNguoiTao
+        public TuyenDung TimTuyenDungQuaIDNV(string id) => _dbContext.TuyenDungs.FirstOrDefault(p => p.idNguoiTao == id);
+
         // Them Tuyen Dung 
         public bool ThemTuyenDung(DTOTuyenDung DTO)
         {
@@ -31,7 +34,8 @@ namespace DAL
                     idChucVu = DTO.IDChucVu,
                     idNguoiTao = DTO.IDNguoiTao,
                     trangThai = DTO.TrangThai,
-                    ngayTao = DTO.NgayTao
+                    ngayTao = DTO.NgayTao,
+                    soLuong = DTO.SoLuong
                 };
 
                 _dbContext.TuyenDungs.InsertOnSubmit(tuyenDung);
@@ -54,6 +58,30 @@ namespace DAL
                     tuyenDung.idPhongBan = DTO.IDPhongBan;
                     tuyenDung.idChucVu = DTO.IDChucVu;
                     tuyenDung.idNguoiTao = DTO.IDNguoiTao;
+                    tuyenDung.trangThai = DTO.TrangThai;
+                    tuyenDung.ngayTao = DTO.NgayTao;
+                    tuyenDung.soLuong = DTO.SoLuong;
+
+                    _dbContext.SubmitChanges();
+
+                    return true;
+                }
+                else return false;
+            }
+            catch
+            {
+                return false;
+            }
+
+        }
+        // Cap nhat trang thai Tuyen Dung 
+        public bool CapNhatTrangThai(DTOTuyenDung DTO)
+        {
+            try
+            {
+                var tuyenDung = TimTuyenDungQuaID(DTO.ID);
+                if (tuyenDung != null)
+                {
                     tuyenDung.trangThai = DTO.TrangThai;
                     tuyenDung.ngayTao = DTO.NgayTao;
 

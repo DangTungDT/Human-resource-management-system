@@ -123,7 +123,7 @@ namespace DAL
         // Kiem tra ID nhan vien trong db
         public bool KiemTraIDNhanVien(string idNhanVien)
         {
-            var checkIDNV = _dbContext.NhanViens.FirstOrDefault(np => np.Id == idNhanVien);
+            var checkIDNV = _dbContext.NhanViens.FirstOrDefault(np => np.id == idNhanVien);
             if (checkIDNV == null) return false;
             return true;
         }

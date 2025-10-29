@@ -306,7 +306,7 @@ namespace DAL
         {
             if (idNhanVien != null)
             {
-                var nhanVien = _dbContext.NhanViens.FirstOrDefault(nv => nv.Id == idNhanVien);
+                var nhanVien = _dbContext.NhanViens.FirstOrDefault(nv => nv.id == idNhanVien);
 
                 if (nhanVien != null)
                 {

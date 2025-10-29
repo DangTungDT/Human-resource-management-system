@@ -248,7 +248,7 @@ namespace DAL
         }
 
         // Tim tai khoan qua idNhanVien
-        public NhanVien TimTaiKhoanQuaIDNVien(string idNHanVien) => _dbContext.NhanViens.FirstOrDefault(p => p.Id == idNHanVien);
+        public NhanVien TimTaiKhoanQuaIDNVien(string idNHanVien) => _dbContext.NhanViens.FirstOrDefault(p => p.id == idNHanVien);
     }
 
 }

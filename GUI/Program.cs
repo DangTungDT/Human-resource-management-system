@@ -16,7 +16,7 @@ namespace GUI
 
             // GD00000001, TPCNTT0001, NVKD000004
             Application.Run(new FormLogin());
-            //Application.Run(new TestGiaoDien("TPCNTT0001"));
+            //Application.Run(new TestGiaoDien("TPNS0001"));
         }
     }
 }

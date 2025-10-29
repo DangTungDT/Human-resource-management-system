@@ -18,12 +18,8 @@ namespace GUI
 {
     public partial class ucChiTietLuong : UserControl
     {
-        private List<string> _layDsChiTietLuong = new List<string>();
-        private List<string> _listReadonly = new List<string> { "txtThucLanh", "txtPhongBanNV", "txtTenNhanVien", "txtNgayNhanLuong", "txtTrangThai" };
-
-        private bool _isLoadData = false;
         private string _idSelected { get; set; }
-        public readonly string _idNhanVien, _conn;
+        private readonly string _idNhanVien, _conn;
 
         private readonly BLLPhuCap _dbContextPC;
         private readonly BLLKyLuong _dbContextKL;
@@ -36,6 +32,9 @@ namespace GUI
         private readonly BLLNhanVien_PhuCap _dbContextNV_PC;
         private readonly BLLNhanVien_KhauTru _dbContextNV_KT;
         private readonly BLLNhanVien_ThuongPhat _dbContextNV_TP;
+
+        private List<string> _layDsChiTietLuong = new List<string>();
+        private List<string> _listReadonly = new List<string> { "txtThucLanh", "txtPhongBanNV", "txtTenNhanVien", "txtNgayNhanLuong", "txtTrangThai" };
 
         public ucChiTietLuong(string idNhanVien, string conn)
         {
@@ -80,6 +79,12 @@ namespace GUI
 
                 dgvSalaryDetails.Columns["ChucVu"].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
                 dgvSalaryDetails.Columns["Checked"].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
+
+                dgvSalaryDetails.Columns["NhanVien"].HeaderText = "Nhân viên";
+                dgvSalaryDetails.Columns["GioiTinh"].HeaderText = "Giới tính";
+                dgvSalaryDetails.Columns["NgaySinh"].HeaderText = "Ngày sinh";
+                dgvSalaryDetails.Columns["ChucVu"].HeaderText = "Chức vụ";
+                dgvSalaryDetails.Columns["Checked"].HeaderText = "Xác nhận";
             }
 
             var loc = new List<string> { "Admin", "Giám đốc" };
@@ -128,8 +133,10 @@ namespace GUI
 
         public void HienThiDGVDuocChon(string idSelected, DataGridViewCellEventArgs e)
         {
-            var changeManagerVal = _dbContextCTL.KtraDsChiTietLuong().Where(p => p.giamDocSua).ToList();
+            var changeManagerVal = _dbContextCTL.KtraDsChiTietLuong().Where(p => p.capNhatLuong).ToList();
 
+            var nv_pc = _dbContextNV_PC.KtraDsNV_PC();
+            var nv_kt = _dbContextNV_KT.KtraDsNhanVien_KhauTru();
             var thangSau = DateTime.Now.Month != 12 ? DateTime.Now.Month + 1 : 1;
             var xacNhanKyLuong = _dbContextKL.KtraDsKyLuong().FirstOrDefault(p => p.ngayChiTra.Value.Month == thangSau && p.ngayChiTra.Value.Year == DateTime.Now.Year);
 
@@ -153,21 +160,28 @@ namespace GUI
                     var timeCurrent = DateTime.Now;
                     var luongTruocKT = _dbContextHD.KtraDsHopDongLaoDong().FirstOrDefault(p => p.idNhanVien == idSelected);
 
-                    _dbContextNV_KT.KtraDsNhanVien_KhauTru().Where(p => p.idNhanVien == idSelected).ToList().ForEach(id =>
-                    {
-                        _dbContextKT.KtraDsKhauTru().Where(p => p.id == id.idKhauTru).ToList().ForEach(kt =>
-                        {
-                            tongKhauTru += (double)kt.soTien;
-                        });
-                    });
 
-                    _dbContextNV_PC.KtraDsNV_PC().Where(p => p.idNhanVien == idSelected).ToList().ForEach(id =>
+                    if (nv_kt != null)
                     {
-                        _dbContextPC.KtraDsPhuCap().Where(p => p.id == id.idPhuCap).ToList().ForEach(pc =>
+                        nv_kt.Where(p => p.idNhanVien == idSelected).ToList().ForEach(id =>
                         {
-                            tongPhuCap += (double)pc.soTien;
+                            _dbContextKT.KtraDsKhauTru().Where(p => p.id == id.idKhauTru).ToList().ForEach(kt =>
+                            {
+                                tongKhauTru += (double)kt.soTien;
+                            });
                         });
-                    });
+                    }
+
+                    if (nv_pc != null)
+                    {
+                        nv_pc.Where(p => p.idNhanVien == idSelected).ToList().ForEach(id =>
+                        {
+                            _dbContextPC.KtraDsPhuCap().Where(p => p.id == id.idPhuCap).ToList().ForEach(pc =>
+                            {
+                                tongPhuCap += (double)pc.soTien;
+                            });
+                        });
+                    }
 
                     double luongSauKT = 0;
 
@@ -224,9 +238,9 @@ namespace GUI
                         grbLuongChiTiet.Text = "NGÀY NHẬN LƯƠNG: " + DateTime.Parse(NgayKyLuong.ngayChiTra.ToString()).ToShortDateString();
                     }
 
-                    var idPhongBan = _dbContextNV.KtraNhanVienQuaID(idSelected).IdPhongBan;
+                    var idPhongBan = _dbContextNV.KtraNhanVienQuaID(idSelected).idPhongBan;
                     var tenPhongBan = _dbContextPB.KtraPhongBan(idPhongBan);
-                    var dsNhanVienPB = _dbContextNV.KtraDsNhanVien().Where(p => p.IdPhongBan == idPhongBan).ToList();
+                    var dsNhanVienPB = _dbContextNV.KtraDsNhanVien().Where(p => p.idPhongBan == idPhongBan).ToList();
                     txtPhongBanNV.Text = tenPhongBan;
                 }
 
@@ -276,17 +290,17 @@ namespace GUI
             string[] loaiChucVu = { "GD", "TPNS", "NVNS" };
 
             anonymous = isDsNhanVien
-                .Where(p => !p.Id.StartsWith("GD"))
+                .Where(p => !p.id.StartsWith("GD"))
                 .Select(p => new NhanVienLuongCT
                 {
-                    ID = p.Id,
+                    ID = p.id,
                     NhanVien = p.TenNhanVien,
                     GioiTinh = p.GioiTinh,
                     NgaySinh = p.NgaySinh,
                     Email = p.Email,
                     ChucVu = p.ChucVu.TenChucVu,
                     Checked = _dbContextCTL.KtraDsChiTietLuong().Any(ct =>
-                        ct.idNhanVien == p.Id &&
+                        ct.idNhanVien == p.id &&
                         ct.ngayNhanLuong.Month == thangSau &&
                         ct.ngayNhanLuong.Year == DateTime.Now.Year)
 
@@ -364,14 +378,14 @@ namespace GUI
             {
                 dsNhanVien = _dbContextNV.KtraDsNhanVien().Where(p =>
                 {
-                    return _dbContextCTL.KtraDsChiTietLuong().Any(ct => ct.idNhanVien == p.Id && ct.ngayNhanLuong.Month == thangSau && ct.ngayNhanLuong.Year == DateTime.Now.Year);
+                    return _dbContextCTL.KtraDsChiTietLuong().Any(ct => ct.idNhanVien == p.id && ct.ngayNhanLuong.Month == thangSau && ct.ngayNhanLuong.Year == DateTime.Now.Year);
                 }).ToList();
             }
             else
             {
                 dsNhanVien = _dbContextNV.KtraDsNhanVien().Where(p =>
                 {
-                    return !_dbContextCTL.KtraDsChiTietLuong().Any(ct => ct.idNhanVien == p.Id && ct.ngayNhanLuong.Month == thangSau && ct.ngayNhanLuong.Year == DateTime.Now.Year);
+                    return !_dbContextCTL.KtraDsChiTietLuong().Any(ct => ct.idNhanVien == p.id && ct.ngayNhanLuong.Month == thangSau && ct.ngayNhanLuong.Year == DateTime.Now.Year);
                 }).ToList();
             }
 
@@ -386,13 +400,14 @@ namespace GUI
             {
                 dsNhanVien = _dbContextNV.KtraDsNhanVien().Where(p =>
                 {
-                    return _dbContextPB.KtraDsPhongBan().Any(k => k.id == p.IdPhongBan && p.IdPhongBan == idPhongBan);
+                    return _dbContextPB.KtraDsPhongBan().Any(k => k.id == p.idPhongBan && p.idPhongBan == idPhongBan);
 
                 }).ToList();
             }
 
             txtTenNV.Text = string.Empty;
             ckChonNhanhPB.Checked = false;
+            cmbTrangThai.SelectedIndex = -1;
             dgvSalaryDetails.DataSource = dsNhanVien == null ? ChayLaiDuLieu() : ChayLaiDuLieu(dsNhanVien);
         }
 
@@ -418,6 +433,10 @@ namespace GUI
 
                 if (KiemTraDuLieuDauVao())
                 {
+                    var nv_tp = _dbContextNV_TP.KtraDsNhanVien_ThuongPhat();
+                    var nv_kt = _dbContextNV_KT.KtraDsNhanVien_KhauTru();
+                    var nv_pc = _dbContextNV_PC.KtraDsNV_PC();
+
                     var timeCurrent = DateTime.Now;
                     var idKyLuong = _dbContextKL.KtraDsKyLuong().FirstOrDefault(p => p.ngayBatDau != null && p.ngayBatDau.Value.Year == timeCurrent.Year && p.ngayBatDau.Value.Month == timeCurrent.Month).id;
 
@@ -431,30 +450,40 @@ namespace GUI
                         decimal tongKhauTru = 0;
                         decimal tongPhuCap = 0;
 
-                        _dbContextNV_TP.KtraDsNhanVien_ThuongPhat().Where(p => p.idNhanVien == idNhanVien).Select(p => p.idThuongPhat).ToList().ForEach(id =>
+                        if (nv_tp != null)
                         {
-                            tongTienThuong += _dbContextTP.CheckListThuongPhat().Where(p => p.loai.Equals("Thưởng", StringComparison.OrdinalIgnoreCase) && p.id == id).Sum(s => s.tienThuongPhat);
-                            tongTienPhat += _dbContextTP.CheckListThuongPhat().Where(p => p.loai.Equals("Phạt", StringComparison.OrdinalIgnoreCase) && p.id == id).Sum(s => s.tienThuongPhat);
-                        });
-
+                            nv_tp.Where(p => p.idNhanVien == idNhanVien).Select(p => p.idThuongPhat).ToList().ForEach(id =>
+                            {
+                                tongTienThuong += _dbContextTP.CheckListThuongPhat().Where(p => p.loai.Equals("Thưởng", StringComparison.OrdinalIgnoreCase) && p.id == id).Sum(s => s.tienThuongPhat);
+                                tongTienPhat += _dbContextTP.CheckListThuongPhat().Where(p => p.loai.Equals("Phạt", StringComparison.OrdinalIgnoreCase) && p.id == id).Sum(s => s.tienThuongPhat);
+                            });
+                        }
 
                         decimal luongTruocKT = _dbContextHD.KtraDsHopDongLaoDong().FirstOrDefault(p => p.idNhanVien == idNhanVien).Luong;
 
-                        _dbContextNV_KT.KtraDsNhanVien_KhauTru().Where(p => p.idNhanVien == idNhanVien).ToList().ForEach(id =>
+                        if (nv_kt != null)
                         {
-                            _dbContextKT.KtraDsKhauTru().Where(p => p.id == id.idKhauTru).ToList().ForEach(kt =>
-                            {
-                                tongTienPhat += kt.soTien;
-                            });
-                        });
 
-                        _dbContextNV_PC.KtraDsNV_PC().Where(p => p.idNhanVien == idNhanVien).ToList().ForEach(id =>
-                        {
-                            _dbContextPC.KtraDsPhuCap().Where(p => p.id == id.idPhuCap).ToList().ForEach(pc =>
+                            nv_kt.Where(p => p.idNhanVien == idNhanVien).ToList().ForEach(id =>
                             {
-                                tongPhuCap += pc.soTien;
+                                _dbContextKT.KtraDsKhauTru().Where(p => p.id == id.idKhauTru).ToList().ForEach(kt =>
+                                {
+                                    tongTienPhat += kt.soTien;
+                                });
                             });
-                        });
+                        }
+
+                        if (nv_pc != null)
+                        {
+
+                            nv_pc.Where(p => p.idNhanVien == idNhanVien).ToList().ForEach(id =>
+                            {
+                                _dbContextPC.KtraDsPhuCap().Where(p => p.id == id.idPhuCap).ToList().ForEach(pc =>
+                                {
+                                    tongPhuCap += pc.soTien;
+                                });
+                            });
+                        }
 
                         var luongSauKT = luongTruocKT - tongKhauTru;
 
@@ -548,7 +577,7 @@ namespace GUI
                                 var thangSau = DateTime.Now.Month != 12 ? DateTime.Now.Month + 1 : 1;
                                 var kyLuong = _dbContextCTL.KtraDsChiTietLuong().FirstOrDefault(ct => ct.idNhanVien == _idSelected && ct.ngayNhanLuong.Month == thangSau && ct.ngayNhanLuong.Year == DateTime.Now.Year);
                                 var trangThaiKyLuong = kyLuong != null ? _dbContextKL.KtraKyLuongQuaID(kyLuong.idKyLuong) : null;
-                                var nhanVienCTL = _dbContextCTL.KtraDsChiTietLuong().Where(p => p.giamDocSua).FirstOrDefault(p => p.idNhanVien == _idSelected);
+                                var nhanVienCTL = _dbContextCTL.KtraDsChiTietLuong().Where(p => p.capNhatLuong).FirstOrDefault(p => p.idNhanVien == _idSelected);
 
                                 if (nhanVienCTL != null)
                                 {
@@ -699,7 +728,7 @@ namespace GUI
             {
                 dsNhanVien = _dbContextNV.KtraDsNhanVien().Where(p =>
                 {
-                    return _dbContextPB.KtraDsPhongBan().Any(k => k.id == p.IdPhongBan && p.IdPhongBan == idPhongBan);
+                    return _dbContextPB.KtraDsPhongBan().Any(k => k.id == p.idPhongBan && p.idPhongBan == idPhongBan);
 
                 }).ToList();
             }

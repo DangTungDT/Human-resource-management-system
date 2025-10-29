@@ -77,7 +77,7 @@ namespace DAL
             using (SqlConnection conn = new SqlConnection(connectionString))
             {
                 var ktraIDPB = _dbContext.ChucVus.FirstOrDefault(cv => cv.idPhongBan == id);
-                var ktraIDNV = _dbContext.NhanViens.FirstOrDefault(cv => cv.IdPhongBan == id);
+                var ktraIDNV = _dbContext.NhanViens.FirstOrDefault(cv => cv.idPhongBan == id);
 
                 if (ktraIDPB != null || ktraIDPB != null)
                 {

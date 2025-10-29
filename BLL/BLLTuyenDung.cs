@@ -27,7 +27,7 @@ namespace BLL
             {
                 var ktraTD = _dbContext.TimTuyenDungQuaID(DTO.ID);
 
-                if (ktraTD != null)
+                if (ktraTD == null)
                 {
                     var KtraThemKD = _dbContext.ThemTuyenDung(DTO);
                     if (KtraThemKD)
@@ -97,17 +97,17 @@ namespace BLL
         }
 
         // Tim du lieu Tuyen Dung qua id
-        public bool KtraTuyenDungQuaID(int id)
+        public TuyenDung KtraTuyenDungQuaID(int id)
         {
             try
             {
                 if (id > 0)
                 {
+                    var tuyenDung = _dbContext.TimTuyenDungQuaID(id);
 
-                    var ktraID = _dbContext.TimTuyenDungQuaID(id);
-                    if (ktraID != null)
+                    if (tuyenDung != null)
                     {
-                        return true;
+                        return tuyenDung;
                     }
                     else throw new Exception($"Không tìm thấy dữ liệu tuyển dụng qua ID {id}");
                 }

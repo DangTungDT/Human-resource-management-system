@@ -169,7 +169,7 @@ namespace GUI
 
             var nhanVien = _dbContextNV.KtraNhanVienQuaID(_idNhanVien);
             var ngayTrongThang = DateTime.DaysInMonth(DateTime.Now.Year, DateTime.Now.Month);
-            var luongCBNV = _dbContextCV.LayDsChucVu().FirstOrDefault(p => p.id == nhanVien.IdChucVu).luongCoBan;
+            var luongCBNV = _dbContextCV.LayDsChucVu().FirstOrDefault(p => p.id == nhanVien.idChucVu).luongCoBan;
             var TruTien = "- " + string.Format(new CultureInfo("vi-VN"), "{0:C0}", (double)luongCBNV / ngayTrongThang);
 
             dgvDSLichSuNP.DataSource = DsNghiPhepTheoIDNV.Where(p => p.LoaiNghiPhep.Equals("Nghỉ phép không lương", StringComparison.OrdinalIgnoreCase) && p.TrangThai.Equals("Duyệt", StringComparison.OrdinalIgnoreCase) && p.NgayBatDau.Month == DateTime.Now.Month && p.NgayBatDau.Year == DateTime.Now.Year)
@@ -181,7 +181,7 @@ namespace GUI
         // Ham tra ve field trong
         public void Empty() => rtLyDo.Text = string.Empty;
 
-        // Bang loc thang
+        // Bang loc thang   
         private void cmbLocThang_SelectionChangeCommitted(object sender, EventArgs e)
         {
             var DsNghiPhep = _dbContextNP.LayDsNghiPhep().Where(p => p.IDNhanVien == _idNhanVien).ToList();

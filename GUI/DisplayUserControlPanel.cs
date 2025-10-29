@@ -1,8 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
+using System.Drawing.Printing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web.SessionState;
 using System.Windows.Forms;
 
 namespace GUI
@@ -19,5 +22,16 @@ namespace GUI
             user.Dock = DockStyle.Fill;
             user.Show();
         }
+
+        public static void ChangeFontFamily(Control parent, string newFontFamily)
+        {
+            parent.Font = new Font(newFontFamily, parent.Font.Size, FontStyle.Regular);
+
+            foreach (Control child in parent.Controls)
+            {
+                ChangeFontFamily(child, newFontFamily);
+            }
+        }
     }
-}
+    
+}   

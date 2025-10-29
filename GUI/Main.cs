@@ -7,6 +7,7 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web;
 using System.Windows.Forms;
 
 namespace GUI
@@ -127,6 +128,8 @@ namespace GUI
         }
 
 
+
+
         private void Main_Load(object sender, EventArgs e)
         {
             ChildFormComponent(tpHome, "ButtonFeatureHomeComponent");
@@ -144,20 +147,19 @@ namespace GUI
                 tcMenu.TabPages.Remove(rp);
                 tcMenu.TabPages.Remove(ql);
             }
+
+            //ChangeFontFamily(this, "Times New Roman");
         }
 
-        private void tpView_Click(object sender, EventArgs e)
-        {
+        private void tpView_Click(object sender, EventArgs e) => ChildFormComponent(tpView, "ButtonFeatureViewComponent");
 
-            ChildFormComponent(tpView, "ButtonFeatureViewComponent");
-        }
+        private void tpHome_Click(object sender, EventArgs e) => ChildFormComponent(tpView, "ButtonFeatureViewComponent");
 
-        private void tpHome_Click(object sender, EventArgs e)
-        {
+        private void Report_Click(object sender, EventArgs e) => ChildFormComponent(tpReport, "ButtonFeatureReportComponent");
 
-            ChildFormComponent(tpView, "ButtonFeatureViewComponent");
+        private void tpReport_Click(object sender, EventArgs e) => ChildFormComponent(tpReport, "ButtonFeatureReportComponent");
 
-        }
+        private void tpCRUD_Click(object sender, EventArgs e) => ChildFormComponent(tpCRUD, "ButtonFeatureCRUDComponent");
 
         private void tcMenu_Click(object sender, EventArgs e)
         {
@@ -165,21 +167,6 @@ namespace GUI
             ChildFormComponent(tpHome, "ButtonFeatureHomeComponent");
             ChildFormComponent(tpCRUD, "ButtonFeatureCRUDComponent");
             ChildFormComponent(tpReport, "ButtonFeatureReportComponent");
-        }
-
-        private void Report_Click(object sender, EventArgs e)
-        {
-            ChildFormComponent(tpReport, "ButtonFeatureReportComponent");
-        }
-
-        private void tpReport_Click(object sender, EventArgs e)
-        {
-            ChildFormComponent(tpReport, "ButtonFeatureReportComponent");
-        }
-
-        private void tpCRUD_Click(object sender, EventArgs e)
-        {
-            ChildFormComponent(tpCRUD, "ButtonFeatureCRUDComponent");
         }
 
         private void tpSystem_Click(object sender, EventArgs e)

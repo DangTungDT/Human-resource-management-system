@@ -487,7 +487,7 @@ namespace GUI
             LoadDanhSachNhanVien(false);
 
             // ===== Xóa trắng form =====
-            //BtnAdd_Click(sender,e);
+            BtnAdd_Click(sender,e);
         }
 
         private bool KiemTraTuoiHopLe(DateTime ngaySinh)

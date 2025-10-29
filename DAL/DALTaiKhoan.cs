@@ -194,6 +194,35 @@ namespace DAL
             }
         }
 
+        public bool KiemTraMatKhauCu(string idNhanVien, string matKhau)
+        {
+            string mk = HashPassword(matKhau);
+            using (SqlConnection conn = new SqlConnection(connectionString))
+            {
+                string sql = "SELECT COUNT(*) FROM TaiKhoan WHERE idNhanVien = @idNV AND MatKhau = @matKhau";
+                SqlCommand cmd = new SqlCommand(sql, conn);
+                cmd.Parameters.AddWithValue("@idNV", idNhanVien);
+                cmd.Parameters.AddWithValue("@matKhau", mk);
+                conn.Open();
+                int count = (int)cmd.ExecuteScalar();
+                return count > 0;
+            }
+        }
+
+        public bool DoiMatKhau(string idNhanVien, string matKhauMoi)
+        {
+            string mk = HashPassword(matKhauMoi);
+            using (SqlConnection conn = new SqlConnection(connectionString))
+            {
+                string sql = "UPDATE TaiKhoan SET MatKhau = @matKhauMoi WHERE idNhanVien = @idNV";
+                SqlCommand cmd = new SqlCommand(sql, conn);
+                cmd.Parameters.AddWithValue("@idNV", idNhanVien);
+                cmd.Parameters.AddWithValue("@matKhauMoi", mk);
+                conn.Open();
+                return cmd.ExecuteNonQuery() > 0;
+            }
+        }
+
         public string HashPassword(string password)
         {
             using (SHA256 sha256 = SHA256.Create())
@@ -226,6 +255,25 @@ namespace DAL
                     throw new Exception("Lỗi khi lấy tài khoản theo tài khoản: " + ex.Message);
                 }
                 return dt;
+            }
+        }
+
+        public bool IsUsernameExists(string username, int? excludeId = null)
+        {
+            using (SqlConnection conn = new SqlConnection(connectionString))
+            {
+                string query = "SELECT COUNT(*) FROM TaiKhoan WHERE TaiKhoan = @username";
+                if (excludeId.HasValue)
+                    query += " AND id <> @id";
+
+                SqlCommand cmd = new SqlCommand(query, conn);
+                cmd.Parameters.AddWithValue("@username", username);
+                if (excludeId.HasValue)
+                    cmd.Parameters.AddWithValue("@id", excludeId.Value);
+
+                conn.Open();
+                int count = (int)cmd.ExecuteScalar();
+                return count > 0;
             }
         }
 

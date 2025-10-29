@@ -6,6 +6,7 @@ using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 using System.Xml;
 
 namespace BLL
@@ -83,6 +84,21 @@ namespace BLL
             {
                 throw new Exception("Lỗi lấy tìm tài khản nhân viên: " + ex.Message);
             }
+        }
+
+        public bool KiemTraMatKhauCu(string idNhanVien, string matKhau)
+        {
+            return _dalTK.KiemTraMatKhauCu(idNhanVien, matKhau);
+        }
+
+        public bool DoiMatKhau(string idNhanVien, string matKhauMoi)
+        {
+            return _dalTK.DoiMatKhau(idNhanVien, matKhauMoi);
+        }
+
+        public bool IsUsernameExists(string username, int? excludeId = null)
+        {
+            return _dalTK.IsUsernameExists(username, excludeId);
         }
     }
 }

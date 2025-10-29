@@ -43,6 +43,7 @@ namespace GUI
             cbTuyenDung.SelectedValue = 1;
             rdoMale.Checked = true;
             txtEmail.Text = "";
+            txtAddress.Text = "";
             cbChucVuUngTuyen.SelectedValue = 1;
             dtpNgayUngTuyen.Value = DateTime.Now;
 
@@ -115,14 +116,30 @@ namespace GUI
         private void btnAdd_Click(object sender, EventArgs e)
         {
             string gioiTinh = "";
-            if(_urlImage == "")
+            int tuoi = DateTime.Now.Year - dtpDateOfBirth.Value.Year;
+            string[] arr = Path.GetFileName(_urlImage).Split('.');
+            string nameImg = Guid.NewGuid().ToString() + "." + arr[1];
+            string fileExtension = "jpg,jpeg,png,bmp,gif";
+            string[] arrFileExtension = fileExtension.Split(',');
+            string[] arrNameFile = nameImg.Split('.');
+            if (!arrFileExtension.Contains(arr[1]))
             {
-                MessageBox.Show("Vui lòng chọn hình ảnh");
+                MessageBox.Show("File bạn chọn không đúng định dạng, vui lòng chọn file có đuôi \n .jpg .jpeg .png .bmp .gif", "Thông báo");
                 return;
             }
-            string[] arr = Path.GetFileName(_urlImage).Split('.');
-
-            string nameImg = Guid.NewGuid().ToString() + "." + arr[1];
+            if (dtpDateOfBirth.Value > DateTime.Today.AddYears(-tuoi))
+                tuoi--;
+            if(tuoi< 16)
+            {
+                MessageBox.Show("Tuổi của ứng viên không được dưới 16 tuổi!", "Thông báo");
+                return;
+            }
+            if (_urlImage == "")
+            {
+                MessageBox.Show("Vui lòng chọn hình ảnh", "Thông báo");
+                return;
+            }
+            
             if (rdoFemale.Checked)
             {
                 gioiTinh = "nu";
@@ -142,11 +159,12 @@ namespace GUI
                 IdChucVuUngTuyen = int.Parse(cbChucVuUngTuyen.SelectedValue.ToString()),
                 IdTuyenDung = int.Parse(cbTuyenDung.SelectedValue.ToString()),
                 NgayUngTuyen = dtpNgayUngTuyen.Value,
-                TrangThai = cbStatus.Text
+                TrangThai = "Đang xét duyệt"
             };
 
             if(_bllUngVien.Add(dto).ToLower() == "passed")
             {
+                
                 string folder = Directory.GetParent(Application.StartupPath).Parent.Parent.FullName;
                 string folderPath = Path.Combine(folder, "Image");
                 string destPath = Path.Combine(folderPath, nameImg);
@@ -172,19 +190,19 @@ namespace GUI
 
         private void dtpDateOfBirth_ValueChanged(object sender, EventArgs e)
         {
-            DateTime ngaySinh = dtpDateOfBirth.Value;
-            DateTime ngayHienTai = DateTime.Today;
+            //DateTime ngaySinh = dtpDateOfBirth.Value;
+            //DateTime ngayHienTai = DateTime.Today;
 
-            int tuoi = ngayHienTai.Year - ngaySinh.Year;
-            if (ngaySinh > ngayHienTai.AddYears(-tuoi))
-                tuoi--;
+            //int tuoi = ngayHienTai.Year - ngaySinh.Year;
+            //if (ngaySinh > ngayHienTai.AddYears(-tuoi))
+            //    tuoi--;
 
-            if (tuoi < 16)
-            {
-                MessageBox.Show("Nhân viên phải từ 16 tuổi trở lên!", "Cảnh báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                // Đặt lại giá trị DateTimePicker về ngày hợp lệ (ví dụ 16 năm trước)
-                dtpDateOfBirth.Value = ngayHienTai.AddYears(-16);
-            }
+            //if (tuoi < 16)
+            //{
+            //    MessageBox.Show("Nhân viên phải từ 16 tuổi trở lên!", "Cảnh báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            //    // Đặt lại giá trị DateTimePicker về ngày hợp lệ (ví dụ 16 năm trước)
+            //    dtpDateOfBirth.Value = ngayHienTai.AddYears(-16);
+            //}
         }
 
         private void dtpNgayUngTuyen_KeyPress(object sender, KeyPressEventArgs e)
@@ -196,12 +214,12 @@ namespace GUI
         {
             if(_idUngVien == 0)
             {
-                MessageBox.Show("Vui lòng chọn ứng viên trước khi cập nhật!");
+                MessageBox.Show("Vui lòng chọn ứng viên trước khi cập nhật!", "Thông báo");
                 return;
             }
             if(_urlImage == "")
             {
-                MessageBox.Show("Vui lòng chọn ảnh!");
+                MessageBox.Show("Vui lòng chọn ảnh!", "Thông báo");
                 return;
             }
             string gioiTinh = "";
@@ -215,6 +233,7 @@ namespace GUI
             }
             DTOUngVien dto = new DTOUngVien()
             {
+                Id = _oldUngVien.Id,
                 TenNhanVien = txtName.Text,
                 NgaySinh = dtpDateOfBirth.Value,
                 DiaChi = txtAddress.Text,
@@ -241,10 +260,19 @@ namespace GUI
             {
                 if (dto.DuongDanCV != _oldUngVien.DuongDanCV)
                 {
+                    string fileExtension = "jpg,jpeg,png,bmp,gif";
+                    string[] arrFileExtension = fileExtension.Split(',');
+                    string[] arr = _urlImage.Split('.');
+                    if (!arrFileExtension.Contains(arr[1]))
+                    {
+                        MessageBox.Show("File bạn chọn không đúng định dạng, vui lòng chọn file có đuôi \n .jpg .jpeg .png .bmp .gif", "Thông báo");
+                        return;
+                    }
                     string path = Directory.GetParent(Application.StartupPath).Parent.Parent.FullName;
                     string pathFolder = Path.Combine(path, "Image");
+                    dto.DuongDanCV = Guid.NewGuid().ToString() +"." + arr[1];
                     string des = Path.Combine(pathFolder, dto.DuongDanCV);
-                    File.Copy(pathFolder, des);
+                    File.Copy(_urlImage, des);
                 }
                 if (_bllUngVien.Update(dto))
                 {
@@ -259,40 +287,47 @@ namespace GUI
             }
             else
             {
-                MessageBox.Show("Không có thay đổi nào.");
+                MessageBox.Show("Không có thay đổi nào.", "Thông báo");
             }
         }
 
         private void btnDelete_Click(object sender, EventArgs e)
         {
-            DialogResult check = MessageBox.Show("Bạn có muốn xóa?", "Thông báo", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+            if(_idUngVien != 0)
+            {
+                DialogResult check = MessageBox.Show("Bạn có muốn xóa?", "Thông báo", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
 
-            if (check == DialogResult.No)
-            {
-                return;
-            }
-            if (_idUngVien > 0)
-            {
-                if(_bllUngVien.Delete(_idUngVien))
+                if (check == DialogResult.No)
                 {
-                    _idUngVien = 0;
-                    MessageBox.Show("Xóa thành công!", "Thông báo");
-                    dgvUngVien.DataSource = _bllUngVien.GetAll();
-                    CleanInput();
+                    return;
+                }
+                if (_idUngVien > 0)
+                {
+                    if (_bllUngVien.Delete(_idUngVien))
+                    {
+                        _idUngVien = 0;
+                        MessageBox.Show("Xóa thành công!", "Thông báo");
+                        dgvUngVien.DataSource = _bllUngVien.GetAll();
+                        CleanInput();
+                    }
+                    else
+                    {
+                        MessageBox.Show("Xóa thất bại!", "Thông báo");
+                    }
+
+                }
+                else if (_idUngVien == 0)
+                {
+                    MessageBox.Show("Vui lòng chọn đối tượng để xóa!", "Thông báo");
                 }
                 else
                 {
                     MessageBox.Show("Xóa thất bại!", "Thông báo");
                 }
-                
-            }
-            else if (_idUngVien == 0)
-            {
-                MessageBox.Show("Vui lòng chọn đối tượng để xóa!", "Thông báo");
             }
             else
             {
-                MessageBox.Show("Xóa thất bại!", "Thông báo");
+                MessageBox.Show("Vui lòng chọn đối tượng để xóa!", "Thông báo");
             }
         }
         private void dgvUngVien_CellClick(object sender, DataGridViewCellEventArgs e)
@@ -334,6 +369,18 @@ namespace GUI
                 }
                 if(fileImage != null)
                 {
+                    string fileExtension = "jpg,jpeg,png,bmp,gif";
+                    string[] arrFileExtension = fileExtension.Split(',');
+                    string[] arr = _urlImage.Split('.');
+                    if (arr.Length < 1)
+                    {
+                        if(!arrFileExtension.Contains(arr[1]))
+                        {
+                            MessageBox.Show("File bạn chọn không đúng định dạng, vui lòng chọn file có đuôi \n .jpg .jpeg .png .bmp .gif", "Thông báo");
+                            return;
+                        }
+                        
+                    }
                     ptbImageCV.Image = fileImage;
                     ptbImageCV.SizeMode = PictureBoxSizeMode.Zoom;
                 }
@@ -345,6 +392,7 @@ namespace GUI
 
                 _oldUngVien = new DTOUngVien()
                 {
+                    Id = _idUngVien,
                     TenNhanVien = row.Cells["tenNhanVien"].Value.ToString(),
                     NgaySinh = DateTime.Parse(row.Cells["ngaySinh"].Value.ToString()),
                     DiaChi = row.Cells["diaChi"].Value.ToString(),
@@ -401,18 +449,34 @@ namespace GUI
                 MessageBox.Show("Vui lòng chọn ứng viên để duyệt!", "Thông báo");
                 return;
             }
-            DTOUngVien dto = _oldUngVien;
+            DTOUngVien dto = new DTOUngVien()
+            {
+                Id = _idUngVien,
+                TenNhanVien = _oldUngVien.TenNhanVien,
+                NgaySinh = _oldUngVien.NgaySinh,
+                DiaChi = _oldUngVien.DiaChi,
+                Que = _oldUngVien.Que,
+                GioiTinh = _oldUngVien.GioiTinh,
+                Email = _oldUngVien.Email,
+                DuongDanCV = _oldUngVien.DuongDanCV,
+                IdChucVuUngTuyen = _oldUngVien.IdChucVuUngTuyen,
+                IdTuyenDung = _oldUngVien.IdTuyenDung,
+                NgayUngTuyen = _oldUngVien.NgayUngTuyen,
+                TrangThai = _oldUngVien.TrangThai
+            };
+            dto.Id = _idUngVien;
             dto.TrangThai = "Thử việc";
-            if (dto.TrangThai == "Thử việc")
+            if (_oldUngVien.TrangThai == "Thử việc")
             {
                 dto.TrangThai = "Trúng tuyển";
+
             }
-            else if (dto.TrangThai == "Trúng tuyển")
+            else if (_oldUngVien.TrangThai == "Trúng tuyển")
             {
                 MessageBox.Show("Ứng viên đã trúng tuyển, không thể duyệt nữa!", "Thông báo");
                 return;
             }
-            else if (dto.TrangThai == "Loại")
+            else if (_oldUngVien.TrangThai == "Loại")
             {
                 MessageBox.Show("Ứng viên đã bị loại, không thể duyệt nữa!", "Thông báo");
                 return;
@@ -429,6 +493,23 @@ namespace GUI
                 MessageBox.Show("Duyệt thất bại!", "Thông báo");
             }
 
+        }
+
+        private void dtpDateOfBirth_Leave(object sender, EventArgs e)
+        {
+            DateTime ngaySinh = dtpDateOfBirth.Value;
+            DateTime ngayHienTai = DateTime.Today;
+
+            int tuoi = ngayHienTai.Year - ngaySinh.Year;
+            if (ngaySinh > ngayHienTai.AddYears(-tuoi))
+                tuoi--;
+
+            if (tuoi < 16)
+            {
+                MessageBox.Show("Nhân viên phải từ 16 tuổi trở lên!", "Cảnh báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                // Đặt lại giá trị DateTimePicker về ngày hợp lệ (ví dụ 16 năm trước)
+                dtpDateOfBirth.Value = ngayHienTai.AddYears(-16);
+            }
         }
 
         private void ucUngVien_Load(object sender, EventArgs e)

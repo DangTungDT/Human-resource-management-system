@@ -21,7 +21,7 @@ namespace GUI
         {
             //"Data Source=DESKTOP-6LE6PT2\\SQLEXPRESS;Initial Catalog=PersonnelManagement;Integrated Security=True;Encrypt=False"
             pnMain.Controls.Clear();
-            ucUngVien uc = new ucUngVien("","Data Source=DESKTOP-6LE6PT2\\SQLEXPRESS;Initial Catalog=PersonnelManagement;Integrated Security=True;Encrypt=False");
+            ucChucVu uc = new ucChucVu("Data Source=DESKTOP-6LE6PT2\\SQLEXPRESS;Initial Catalog=PersonnelManagement;Integrated Security=True;Encrypt=False");
             uc.Dock = DockStyle.Fill;
             pnMain.Controls.Add(uc);
         }

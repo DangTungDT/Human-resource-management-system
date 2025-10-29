@@ -34,7 +34,7 @@ namespace BLL
 
         public bool Update(DTOUngVien dto)
         {
-            if (IsValid(dto))
+            if (IsValid(dto) == "Isvalid data")
                 return dal.Update(dto);
             return false;
         }
@@ -48,28 +48,29 @@ namespace BLL
 
         public string Add(DTOUngVien dto)
         {
-            if (IsValid(dto))
-                return dal.Add(dto);
-            return "Invalid data";
+            string result = IsValid(dto);
+            if (result == "Isvalid data") return dal.Add(dto);
+
+            return result;
         }
 
-        public static bool IsValid(DTOUngVien uv)
+        public static string IsValid(DTOUngVien uv)
         {
             string emailPattern = @"^[a-zA-Z0-9._%+-]+@(gmail\.com|googlemail\.com|[a-zA-Z0-9.-]+\.[a-zA-Z]{2,})$";
-            string[] trangThaiHopLe = { "Đang xét duyệt", "Loại", "Thử việc", "Đậu" };
+            string[] trangThaiHopLe = { "đang xét duyệt", "loại", "thử việc", "đậu", "trúng tuyển" };
 
-            if (uv == null) return false;
-            if (string.IsNullOrWhiteSpace(uv.TenNhanVien)) return false;
-            if (string.IsNullOrWhiteSpace(uv.Email)) return false;
-            if (!Regex.IsMatch(uv.Email, emailPattern)) return false;
-            if (uv.NgaySinh > DateTime.Now) return false;
-            if (string.IsNullOrWhiteSpace(uv.GioiTinh)) return false;
-            if (uv.IdChucVuUngTuyen < 1) return false;
-            if (uv.IdTuyenDung < 1) return false;
-            if (uv.NgayUngTuyen > DateTime.Now) return false;
-            if (string.IsNullOrWhiteSpace(uv.TrangThai) || !trangThaiHopLe.Contains(uv.TrangThai)) return false;
+            if (uv == null) return "Invalid data";
+            if (string.IsNullOrWhiteSpace(uv.TenNhanVien)) return "Invalid data";
+            if (string.IsNullOrWhiteSpace(uv.Email)) return "Invalid data";
+            if (!Regex.IsMatch(uv.Email, emailPattern)) return "Invalid data";
+            if (uv.NgaySinh > DateTime.Now) return "Invalid data";
+            if (string.IsNullOrWhiteSpace(uv.GioiTinh)) return "Invalid data";
+            if (uv.IdChucVuUngTuyen < 1) return "Invalid data";
+            if (uv.IdTuyenDung < 1) return "Invalid data";
+            if (uv.NgayUngTuyen > DateTime.Now) return "Invalid data";
+            if (string.IsNullOrWhiteSpace(uv.TrangThai) || !trangThaiHopLe.Contains(uv.TrangThai.ToLower())) return "Invalid data";
 
-            return true;
+            return "Isvalid data";
         }
     }
 

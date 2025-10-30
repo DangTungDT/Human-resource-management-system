@@ -16,9 +16,36 @@ namespace DAL
             db = new PersonnelManagementDataContextDataContext(conn);
         }
 
+        public IQueryable GetFind(string status, string name, int idChucVu)
+        {
+            var listUngVien = from uv in db.UngViens
+                              join cv in db.ChucVus on uv.idChucVuUngTuyen equals cv.id
+                              join td in db.TuyenDungs on uv.idTuyenDung equals td.id
+                              select new
+                              {
+                                  uv.id,
+                                  uv.tenNhanVien,
+                                  uv.ngaySinh,
+                                  uv.diaChi,
+                                  uv.que,
+                                  uv.gioiTinh,
+                                  uv.email,
+                                  uv.duongDanCV,
+                                  uv.idChucVuUngTuyen,
+                                  uv.idTuyenDung,
+                                  uv.ngayUngTuyen,
+                                  tenChucVu = cv.TenChucVu,
+                                  tieuDeTuyenDung = td.tieuDe,
+                                  uv.trangThai
+                              };
+            if(status != "") listUngVien = listUngVien.Where(x => x.trangThai == status);
+            if(name != "") listUngVien = listUngVien.Where(x => x.tenNhanVien == name);
+            if(idChucVu != 0) listUngVien = listUngVien.Where(x => x.idChucVuUngTuyen == idChucVu);
+
+            return listUngVien;
+        }
         public IQueryable GetAll()
         {
-
             var listUngVien = from uv in db.UngViens
                               join cv in db.ChucVus on uv.idChucVuUngTuyen equals cv.id
                               join td in db.TuyenDungs on uv.idTuyenDung equals td.id
@@ -42,6 +69,36 @@ namespace DAL
             return listUngVien;
         }
 
+        public IQueryable GetUngVienStatus(bool flag)
+        {
+            string requestStatus = "Trúng tuyển";
+            if(!flag)
+            {
+                requestStatus = "Loại";
+            }
+            var listUngVien = from uv in db.UngViens
+                              join cv in db.ChucVus on uv.idChucVuUngTuyen equals cv.id
+                              join td in db.TuyenDungs on uv.idTuyenDung equals td.id
+                              where uv.trangThai.ToLower() == requestStatus.ToLower()
+                              select new
+                              {
+                                  uv.id,
+                                  uv.tenNhanVien,
+                                  uv.ngaySinh,
+                                  uv.diaChi,
+                                  uv.que,
+                                  uv.gioiTinh,
+                                  uv.email,
+                                  uv.duongDanCV,
+                                  uv.idChucVuUngTuyen,
+                                  uv.idTuyenDung,
+                                  uv.ngayUngTuyen,
+                                  tenChucVu = cv.TenChucVu,
+                                  tieuDeTuyenDung = td.tieuDe,
+                                  uv.trangThai
+                              };
+            return listUngVien;
+        }
         public IQueryable GetUngTuyenByChucVu(int idChucVu)
             => db.UngViens.Where(x => x.idChucVuUngTuyen == idChucVu);
 

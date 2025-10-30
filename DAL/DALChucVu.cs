@@ -21,7 +21,10 @@ namespace DAL
             _dbContext = new PersonnelManagementDataContextDataContext(conn);
         }
 
-
+        public string FindNameById(int id)
+        {
+            return _dbContext.ChucVus.Where(x => x.id == id).FirstOrDefault().TenChucVu;
+        }
         public IQueryable GetPositionByDepartment(int departmentId) => _dbContext.ChucVus.Where(x => x.idPhongBan == departmentId);
 
         public ChucVu GetPositionByIdStaff(string idStaff) => (from p in _dbContext.ChucVus

@@ -12,6 +12,8 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.IO;
 using Guna.UI2.WinForms;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.ListView;
 namespace GUI
 {
     public partial class ucUngVien : UserControl
@@ -22,13 +24,16 @@ namespace GUI
         BLLChucVu _bllChucVu;
         BLLTuyenDung _bllTuyenDung;
         DTOUngVien _oldUngVien;
-
+        BLLNhanVien _bllNhanVien;
+        BLLPhongBan _bllPhongBan;
         public ucUngVien(string idNhanVien, string conn)
         {
             _bllUngVien = new BLLUngVien(conn);
             _bllChucVu = new BLLChucVu(conn);
             _bllTuyenDung = new BLLTuyenDung(conn);
             _idNhanVien = idNhanVien;
+            _bllNhanVien = new BLLNhanVien(conn);
+            _bllPhongBan = new BLLPhongBan(conn);
             InitializeComponent();
         }
 
@@ -410,13 +415,12 @@ namespace GUI
 
         private void btnFind_Click(object sender, EventArgs e)
         {
-            dgvUngVien.DataSource = _bllUngVien.GetUngTuyenByChucVu(int.Parse(cmbFindPosition.SelectedValue.ToString()));
-
+            LoadDgvUngVien("find");
         }
 
         private void btnResetDGV_Click(object sender, EventArgs e)
         {
-            dgvUngVien.DataSource = _bllUngVien.GetAll();
+            LoadDgvUngVien("all");
 
         }
 
@@ -469,6 +473,27 @@ namespace GUI
             if(_oldUngVien.TrangThai == "Phỏng vấn")
             {
                 dto.TrangThai = "Thử việc";
+                DTOPhongBan phongBan = _bllPhongBan.FindPhongBanByIdChucVu(dto.IdChucVuUngTuyen);
+                string namePosition = _bllChucVu.FindNameById(dto.IdChucVuUngTuyen);
+                //Tạo nhân sự 
+                DTONhanVien newStaff = new DTONhanVien
+                {
+                    TenNhanVien = dto.TenNhanVien,
+                    NgaySinh = dto.NgaySinh,
+                    DiaChi = dto.DiaChi,
+                    Que = dto.Que,
+                    GioiTinh = dto.GioiTinh,
+                    Email = dto.Email,
+                    AnhDaiDien = dto.DuongDanCV,
+                    IdChucVu = dto.IdChucVuUngTuyen.ToString(),
+                    IdPhongBan = phongBan.Id.ToString()
+                };
+                if(!_bllNhanVien.AddNhanVien(newStaff, namePosition, phongBan.TenPhongBan))
+                {
+                    MessageBox.Show("Thêm nhân viên thất bại!", "Thông báo");
+                    return;
+                }
+
             }else if (_oldUngVien.TrangThai == "Thử việc")
             {
                 dto.TrangThai = "Trúng tuyển";
@@ -488,7 +513,7 @@ namespace GUI
             if (_bllUngVien.Update(dto))
             {
                 MessageBox.Show($"Duyệt thành công, ứng viên hiện đang ở trạng thái\n{dto.TrangThai}!", "Thông báo");
-                LoadDgvUngVien();
+                LoadDgvUngVien("all");
                 CleanInput();
             }
             else
@@ -537,7 +562,7 @@ namespace GUI
                 if (_bllUngVien.Update(dto))
                 {
                     MessageBox.Show($"Loại thành công!", "Thông báo");
-                    LoadDgvUngVien();
+                    LoadDgvUngVien("all");
                     CleanInput();
                 }
                 else
@@ -569,6 +594,22 @@ namespace GUI
 
         }
 
+        private void btnFindUngVienPass_Click(object sender, EventArgs e)
+        {
+            LoadDgvUngVien("pass");
+        }
+
+        private void btnFindUVLoai_Click(object sender, EventArgs e)
+        {
+            //Load datagridview
+            LoadDgvUngVien("eliminat");
+        }
+
+        private void btnResetDGV_Click_1(object sender, EventArgs e)
+        {
+            LoadDgvUngVien("all");
+        }
+
         private void ucUngVien_Load(object sender, EventArgs e)
         {
             var position = _bllChucVu.GetPositionByIdStaff(_idNhanVien);
@@ -590,18 +631,42 @@ namespace GUI
             dtpNgayUngTuyen.Value = DateTime.Now;
 
 
-            LoadDgvUngVien();
+            LoadDgvUngVien("all");
 
         }
 
-        private void LoadDgvUngVien()
+        private void LoadDgvUngVien(string status)
         {
-            dgvUngVien.DataSource = _bllUngVien.GetAll();
+            //Phân biệt load ứng viên (tất cả / bị loại / trúng tuyển)
+            if(status == "pass")
+            {
+                dgvUngVien.DataSource = _bllUngVien.GetUngVienStatus(true);
+            }
+            else if(status == "eliminat")
+            {
+                dgvUngVien.DataSource = _bllUngVien.GetUngVienStatus(false);
+            }
+            else if(status == "find")
+            {
+                //Có lọc
+                string nameFind = txtFindName.Text;
+                string statusFind = cmbFindStatus.SelectedText.ToString();
+                int positionFind = int.Parse(cmbFindPosition.SelectedValue.ToString());
+                dgvUngVien.DataSource = _bllUngVien.GetFind(statusFind, nameFind, positionFind);
+            }
+            else
+            {
+                //Load all để tránh lỗi
+                dgvUngVien.DataSource = _bllUngVien.GetAll();
+            }
+
+            //Ẩn những column không cần thiết hiện
             dgvUngVien.Columns["idChucVuUngTuyen"].Visible = false;
             dgvUngVien.Columns["idTuyenDung"].Visible = false;
             dgvUngVien.Columns["id"].Visible = false;
             dgvUngVien.Columns["duongDanCV"].Visible = false;
 
+            //Chỉnh lại nội dung header cho column
             dgvUngVien.Columns["tenNhanVien"].HeaderText = "Tên ứng viên";
             dgvUngVien.Columns["ngaySinh"].HeaderText = "Ngày sinh";
             dgvUngVien.Columns["diaChi"].HeaderText = "Địa chỉ";
@@ -612,7 +677,6 @@ namespace GUI
             dgvUngVien.Columns["trangThai"].HeaderText = "Trạng thái";
             dgvUngVien.Columns["tenChucVu"].HeaderText = "Chức vụ ứng tuyển";
             dgvUngVien.Columns["tieuDeTuyenDung"].HeaderText = "Tuyển dụng";
-
         }
     }
 }

@@ -465,8 +465,11 @@ namespace GUI
                 TrangThai = _oldUngVien.TrangThai
             };
             dto.Id = _idUngVien;
-            dto.TrangThai = "Thử việc";
-            if (_oldUngVien.TrangThai == "Thử việc")
+            dto.TrangThai = "Phỏng vấn";
+            if(_oldUngVien.TrangThai == "Phỏng vấn")
+            {
+                dto.TrangThai = "Thử việc";
+            }else if (_oldUngVien.TrangThai == "Thử việc")
             {
                 dto.TrangThai = "Trúng tuyển";
 
@@ -484,7 +487,7 @@ namespace GUI
 
             if (_bllUngVien.Update(dto))
             {
-                MessageBox.Show("Duyệt thành công!", "Thông báo");
+                MessageBox.Show($"Duyệt thành công, ứng viên hiện đang ở trạng thái\n{dto.TrangThai}!", "Thông báo");
                 LoadDgvUngVien();
                 CleanInput();
             }
@@ -497,55 +500,51 @@ namespace GUI
 
         private void btnEliminat_Click(object sender, EventArgs e)
         {
-            if (_idUngVien == 0)
+            DialogResult resultCheck = MessageBox.Show("Bạn có muốn loại ứng viên?", "Thông báo", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+            if(resultCheck == DialogResult.Yes)
             {
-                MessageBox.Show("Vui lòng chọn ứng viên để duyệt!", "Thông báo");
-                return;
-            }
-            DTOUngVien dto = new DTOUngVien()
-            {
-                Id = _idUngVien,
-                TenNhanVien = _oldUngVien.TenNhanVien,
-                NgaySinh = _oldUngVien.NgaySinh,
-                DiaChi = _oldUngVien.DiaChi,
-                Que = _oldUngVien.Que,
-                GioiTinh = _oldUngVien.GioiTinh,
-                Email = _oldUngVien.Email,
-                DuongDanCV = _oldUngVien.DuongDanCV,
-                IdChucVuUngTuyen = _oldUngVien.IdChucVuUngTuyen,
-                IdTuyenDung = _oldUngVien.IdTuyenDung,
-                NgayUngTuyen = _oldUngVien.NgayUngTuyen,
-                TrangThai = _oldUngVien.TrangThai
-            };
-            dto.Id = _idUngVien;
-            dto.TrangThai = "Thử việc";
-            if (_oldUngVien.TrangThai == "Thử việc")
-            {
-                dto.TrangThai = "Trúng tuyển";
+                if (_idUngVien == 0)
+                {
+                    MessageBox.Show("Vui lòng chọn ứng viên để loại!", "Thông báo");
+                    return;
+                }
+                if (_oldUngVien.TrangThai == "Loại")
+                {
+                    MessageBox.Show("Ứng viên đã bị loại, không thể loại nữa!", "Thông báo");
+                    return;
+                }
+                else if (_oldUngVien.TrangThai == "Trúng tuyển")
+                {
+                    MessageBox.Show("Ứng viên đã trúng tuyển, không thể loại!", "Thông báo");
+                    return;
+                }
+                DTOUngVien dto = new DTOUngVien()
+                {
+                    Id = _idUngVien,
+                    TenNhanVien = _oldUngVien.TenNhanVien,
+                    NgaySinh = _oldUngVien.NgaySinh,
+                    DiaChi = _oldUngVien.DiaChi,
+                    Que = _oldUngVien.Que,
+                    GioiTinh = _oldUngVien.GioiTinh,
+                    Email = _oldUngVien.Email,
+                    DuongDanCV = _oldUngVien.DuongDanCV,
+                    IdChucVuUngTuyen = _oldUngVien.IdChucVuUngTuyen,
+                    IdTuyenDung = _oldUngVien.IdTuyenDung,
+                    NgayUngTuyen = _oldUngVien.NgayUngTuyen,
+                    TrangThai = "Loại"
+                };
 
+                if (_bllUngVien.Update(dto))
+                {
+                    MessageBox.Show($"Loại thành công!", "Thông báo");
+                    LoadDgvUngVien();
+                    CleanInput();
+                }
+                else
+                {
+                    MessageBox.Show("Loại thất bại!", "Thông báo");
+                }
             }
-            else if (_oldUngVien.TrangThai == "Trúng tuyển")
-            {
-                MessageBox.Show("Ứng viên đã trúng tuyển, không thể duyệt nữa!", "Thông báo");
-                return;
-            }
-            else if (_oldUngVien.TrangThai == "Loại")
-            {
-                MessageBox.Show("Ứng viên đã bị loại, không thể duyệt nữa!", "Thông báo");
-                return;
-            }
-
-            if (_bllUngVien.Update(dto))
-            {
-                MessageBox.Show("Duyệt thành công!", "Thông báo");
-                LoadDgvUngVien();
-                CleanInput();
-            }
-            else
-            {
-                MessageBox.Show("Duyệt thất bại!", "Thông báo");
-            }
-
         }
 
         private void dtpDateOfBirth_Leave(object sender, EventArgs e)
@@ -563,6 +562,11 @@ namespace GUI
                 // Đặt lại giá trị DateTimePicker về ngày hợp lệ (ví dụ 16 năm trước)
                 dtpDateOfBirth.Value = ngayHienTai.AddYears(-16);
             }
+        }
+
+        private void guna2Panel2_Paint(object sender, PaintEventArgs e)
+        {
+
         }
 
         private void ucUngVien_Load(object sender, EventArgs e)

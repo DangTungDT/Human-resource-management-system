@@ -34,14 +34,21 @@
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
             this.guna2HtmlLabel6 = new Guna.UI2.WinForms.Guna2HtmlLabel();
             this.guna2Panel2 = new Guna.UI2.WinForms.Guna2Panel();
+            this.guna2GroupBox2 = new Guna.UI2.WinForms.Guna2GroupBox();
+            this.txtFindName = new Guna.UI2.WinForms.Guna2TextBox();
+            this.cmbFindStatus = new Guna.UI2.WinForms.Guna2ComboBox();
             this.cmbFindPosition = new Guna.UI2.WinForms.Guna2ComboBox();
+            this.btnFindUngVienPass = new Guna.UI2.WinForms.Guna2Button();
+            this.guna2Button1 = new Guna.UI2.WinForms.Guna2Button();
             this.btnResetDGV = new Guna.UI2.WinForms.Guna2Button();
             this.btnFind = new Guna.UI2.WinForms.Guna2Button();
-            this.guna2HtmlLabel8 = new Guna.UI2.WinForms.Guna2HtmlLabel();
+            this.guna2GroupBox1 = new Guna.UI2.WinForms.Guna2GroupBox();
             this.btnApprove = new Guna.UI2.WinForms.Guna2Button();
-            this.btnDelete = new Guna.UI2.WinForms.Guna2Button();
-            this.btnUpdate = new Guna.UI2.WinForms.Guna2Button();
+            this.btnEliminat = new Guna.UI2.WinForms.Guna2Button();
+            this.grbCRUD = new Guna.UI2.WinForms.Guna2GroupBox();
             this.btnAdd = new Guna.UI2.WinForms.Guna2Button();
+            this.btnUpdate = new Guna.UI2.WinForms.Guna2Button();
+            this.btnDelete = new Guna.UI2.WinForms.Guna2Button();
             this.guna2HtmlLabel7 = new Guna.UI2.WinForms.Guna2HtmlLabel();
             this.guna2HtmlLabel5 = new Guna.UI2.WinForms.Guna2HtmlLabel();
             this.guna2Panel1 = new Guna.UI2.WinForms.Guna2Panel();
@@ -68,8 +75,13 @@
             this.txtAddress = new Guna.UI2.WinForms.Guna2TextBox();
             this.txtName = new Guna.UI2.WinForms.Guna2TextBox();
             this.guna2HtmlLabel1 = new Guna.UI2.WinForms.Guna2HtmlLabel();
-            this.btnEliminat = new Guna.UI2.WinForms.Guna2Button();
+            this.label1 = new System.Windows.Forms.Label();
+            this.label2 = new System.Windows.Forms.Label();
+            this.label3 = new System.Windows.Forms.Label();
             this.guna2Panel2.SuspendLayout();
+            this.guna2GroupBox2.SuspendLayout();
+            this.guna2GroupBox1.SuspendLayout();
+            this.grbCRUD.SuspendLayout();
             this.guna2Panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvUngVien)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.ptbImageCV)).BeginInit();
@@ -80,9 +92,10 @@
             this.guna2HtmlLabel6.AutoSize = false;
             this.guna2HtmlLabel6.BackColor = System.Drawing.Color.Transparent;
             this.guna2HtmlLabel6.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.guna2HtmlLabel6.Location = new System.Drawing.Point(360, 450);
+            this.guna2HtmlLabel6.Location = new System.Drawing.Point(401, 366);
+            this.guna2HtmlLabel6.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.guna2HtmlLabel6.Name = "guna2HtmlLabel6";
-            this.guna2HtmlLabel6.Size = new System.Drawing.Size(226, 45);
+            this.guna2HtmlLabel6.Size = new System.Drawing.Size(170, 37);
             this.guna2HtmlLabel6.TabIndex = 14;
             this.guna2HtmlLabel6.TabStop = false;
             this.guna2HtmlLabel6.Text = "Giới tính";
@@ -93,27 +106,82 @@
             this.guna2Panel2.BackColor = System.Drawing.SystemColors.MenuBar;
             this.guna2Panel2.BorderColor = System.Drawing.Color.Black;
             this.guna2Panel2.BorderThickness = 1;
-            this.guna2Panel2.Controls.Add(this.btnEliminat);
-            this.guna2Panel2.Controls.Add(this.cmbFindPosition);
-            this.guna2Panel2.Controls.Add(this.btnResetDGV);
-            this.guna2Panel2.Controls.Add(this.btnFind);
-            this.guna2Panel2.Controls.Add(this.guna2HtmlLabel8);
-            this.guna2Panel2.Controls.Add(this.btnApprove);
-            this.guna2Panel2.Controls.Add(this.btnDelete);
-            this.guna2Panel2.Controls.Add(this.btnUpdate);
-            this.guna2Panel2.Controls.Add(this.btnAdd);
+            this.guna2Panel2.Controls.Add(this.guna2GroupBox2);
+            this.guna2Panel2.Controls.Add(this.guna2GroupBox1);
+            this.guna2Panel2.Controls.Add(this.grbCRUD);
             this.guna2Panel2.CustomBorderColor = System.Drawing.Color.Black;
             this.guna2Panel2.CustomBorderThickness = new System.Windows.Forms.Padding(0, 0, 2, 0);
             this.guna2Panel2.Dock = System.Windows.Forms.DockStyle.Left;
             this.guna2Panel2.Location = new System.Drawing.Point(0, 0);
+            this.guna2Panel2.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.guna2Panel2.Name = "guna2Panel2";
-            this.guna2Panel2.Size = new System.Drawing.Size(341, 871);
+            this.guna2Panel2.Size = new System.Drawing.Size(225, 710);
             this.guna2Panel2.TabIndex = 19;
+            this.guna2Panel2.Paint += new System.Windows.Forms.PaintEventHandler(this.guna2Panel2_Paint);
+            // 
+            // guna2GroupBox2
+            // 
+            this.guna2GroupBox2.BorderRadius = 10;
+            this.guna2GroupBox2.Controls.Add(this.label3);
+            this.guna2GroupBox2.Controls.Add(this.label2);
+            this.guna2GroupBox2.Controls.Add(this.label1);
+            this.guna2GroupBox2.Controls.Add(this.txtFindName);
+            this.guna2GroupBox2.Controls.Add(this.cmbFindStatus);
+            this.guna2GroupBox2.Controls.Add(this.cmbFindPosition);
+            this.guna2GroupBox2.Controls.Add(this.btnFindUngVienPass);
+            this.guna2GroupBox2.Controls.Add(this.guna2Button1);
+            this.guna2GroupBox2.Controls.Add(this.btnResetDGV);
+            this.guna2GroupBox2.Controls.Add(this.btnFind);
+            this.guna2GroupBox2.FillColor = System.Drawing.SystemColors.MenuBar;
+            this.guna2GroupBox2.Font = new System.Drawing.Font("Segoe UI", 9F);
+            this.guna2GroupBox2.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(125)))), ((int)(((byte)(137)))), ((int)(((byte)(149)))));
+            this.guna2GroupBox2.Location = new System.Drawing.Point(17, 289);
+            this.guna2GroupBox2.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.guna2GroupBox2.Name = "guna2GroupBox2";
+            this.guna2GroupBox2.Size = new System.Drawing.Size(191, 443);
+            this.guna2GroupBox2.TabIndex = 31;
+            this.guna2GroupBox2.Text = "Lọc - Tìm kiếm ứng viên";
+            // 
+            // txtFindName
+            // 
+            this.txtFindName.BorderRadius = 7;
+            this.txtFindName.Cursor = System.Windows.Forms.Cursors.IBeam;
+            this.txtFindName.DefaultText = "";
+            this.txtFindName.DisabledState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(208)))), ((int)(((byte)(208)))), ((int)(((byte)(208)))));
+            this.txtFindName.DisabledState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(226)))), ((int)(((byte)(226)))), ((int)(((byte)(226)))));
+            this.txtFindName.DisabledState.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(138)))), ((int)(((byte)(138)))), ((int)(((byte)(138)))));
+            this.txtFindName.DisabledState.PlaceholderForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(138)))), ((int)(((byte)(138)))), ((int)(((byte)(138)))));
+            this.txtFindName.FocusedState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(94)))), ((int)(((byte)(148)))), ((int)(((byte)(255)))));
+            this.txtFindName.Font = new System.Drawing.Font("Segoe UI", 9F);
+            this.txtFindName.HoverState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(94)))), ((int)(((byte)(148)))), ((int)(((byte)(255)))));
+            this.txtFindName.Location = new System.Drawing.Point(9, 145);
+            this.txtFindName.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
+            this.txtFindName.Name = "txtFindName";
+            this.txtFindName.PlaceholderText = "";
+            this.txtFindName.SelectedText = "";
+            this.txtFindName.Size = new System.Drawing.Size(173, 29);
+            this.txtFindName.TabIndex = 39;
+            // 
+            // cmbFindStatus
+            // 
+            this.cmbFindStatus.BackColor = System.Drawing.Color.Transparent;
+            this.cmbFindStatus.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed;
+            this.cmbFindStatus.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cmbFindStatus.FillColor = System.Drawing.Color.WhiteSmoke;
+            this.cmbFindStatus.FocusedColor = System.Drawing.Color.FromArgb(((int)(((byte)(94)))), ((int)(((byte)(148)))), ((int)(((byte)(255)))));
+            this.cmbFindStatus.FocusedState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(94)))), ((int)(((byte)(148)))), ((int)(((byte)(255)))));
+            this.cmbFindStatus.Font = new System.Drawing.Font("Times New Roman", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.cmbFindStatus.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(68)))), ((int)(((byte)(88)))), ((int)(((byte)(112)))));
+            this.cmbFindStatus.ItemHeight = 30;
+            this.cmbFindStatus.Location = new System.Drawing.Point(9, 218);
+            this.cmbFindStatus.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.cmbFindStatus.Name = "cmbFindStatus";
+            this.cmbFindStatus.Size = new System.Drawing.Size(174, 36);
+            this.cmbFindStatus.TabIndex = 38;
+            this.cmbFindStatus.TabStop = false;
             // 
             // cmbFindPosition
             // 
-            this.cmbFindPosition.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
             this.cmbFindPosition.BackColor = System.Drawing.Color.Transparent;
             this.cmbFindPosition.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed;
             this.cmbFindPosition.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
@@ -123,16 +191,53 @@
             this.cmbFindPosition.Font = new System.Drawing.Font("Times New Roman", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.cmbFindPosition.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(68)))), ((int)(((byte)(88)))), ((int)(((byte)(112)))));
             this.cmbFindPosition.ItemHeight = 30;
-            this.cmbFindPosition.Location = new System.Drawing.Point(32, 637);
+            this.cmbFindPosition.Location = new System.Drawing.Point(9, 72);
+            this.cmbFindPosition.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.cmbFindPosition.Name = "cmbFindPosition";
-            this.cmbFindPosition.Size = new System.Drawing.Size(280, 36);
-            this.cmbFindPosition.TabIndex = 19;
+            this.cmbFindPosition.Size = new System.Drawing.Size(174, 36);
+            this.cmbFindPosition.TabIndex = 36;
             this.cmbFindPosition.TabStop = false;
+            // 
+            // btnFindUngVienPass
+            // 
+            this.btnFindUngVienPass.BorderRadius = 10;
+            this.btnFindUngVienPass.BorderThickness = 1;
+            this.btnFindUngVienPass.DisabledState.BorderColor = System.Drawing.Color.DarkGray;
+            this.btnFindUngVienPass.DisabledState.CustomBorderColor = System.Drawing.Color.DarkGray;
+            this.btnFindUngVienPass.DisabledState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(169)))), ((int)(((byte)(169)))), ((int)(((byte)(169)))));
+            this.btnFindUngVienPass.DisabledState.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(141)))), ((int)(((byte)(141)))), ((int)(((byte)(141)))));
+            this.btnFindUngVienPass.FillColor = System.Drawing.Color.LightGray;
+            this.btnFindUngVienPass.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnFindUngVienPass.ForeColor = System.Drawing.Color.Black;
+            this.btnFindUngVienPass.Location = new System.Drawing.Point(9, 329);
+            this.btnFindUngVienPass.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.btnFindUngVienPass.Name = "btnFindUngVienPass";
+            this.btnFindUngVienPass.Size = new System.Drawing.Size(173, 24);
+            this.btnFindUngVienPass.TabIndex = 32;
+            this.btnFindUngVienPass.TabStop = false;
+            this.btnFindUngVienPass.Text = "Xem trúng tuyển";
+            // 
+            // guna2Button1
+            // 
+            this.guna2Button1.BorderRadius = 10;
+            this.guna2Button1.BorderThickness = 1;
+            this.guna2Button1.DisabledState.BorderColor = System.Drawing.Color.DarkGray;
+            this.guna2Button1.DisabledState.CustomBorderColor = System.Drawing.Color.DarkGray;
+            this.guna2Button1.DisabledState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(169)))), ((int)(((byte)(169)))), ((int)(((byte)(169)))));
+            this.guna2Button1.DisabledState.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(141)))), ((int)(((byte)(141)))), ((int)(((byte)(141)))));
+            this.guna2Button1.FillColor = System.Drawing.Color.LightGray;
+            this.guna2Button1.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.guna2Button1.ForeColor = System.Drawing.Color.Black;
+            this.guna2Button1.Location = new System.Drawing.Point(9, 374);
+            this.guna2Button1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.guna2Button1.Name = "guna2Button1";
+            this.guna2Button1.Size = new System.Drawing.Size(173, 24);
+            this.guna2Button1.TabIndex = 33;
+            this.guna2Button1.TabStop = false;
+            this.guna2Button1.Text = "Xem bị loại";
             // 
             // btnResetDGV
             // 
-            this.btnResetDGV.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
             this.btnResetDGV.BorderRadius = 10;
             this.btnResetDGV.BorderThickness = 1;
             this.btnResetDGV.DisabledState.BorderColor = System.Drawing.Color.DarkGray;
@@ -140,20 +245,18 @@
             this.btnResetDGV.DisabledState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(169)))), ((int)(((byte)(169)))), ((int)(((byte)(169)))));
             this.btnResetDGV.DisabledState.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(141)))), ((int)(((byte)(141)))), ((int)(((byte)(141)))));
             this.btnResetDGV.FillColor = System.Drawing.Color.LightGray;
-            this.btnResetDGV.Font = new System.Drawing.Font("Times New Roman", 13.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnResetDGV.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnResetDGV.ForeColor = System.Drawing.Color.Black;
-            this.btnResetDGV.Location = new System.Drawing.Point(32, 742);
+            this.btnResetDGV.Location = new System.Drawing.Point(9, 419);
+            this.btnResetDGV.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.btnResetDGV.Name = "btnResetDGV";
-            this.btnResetDGV.Size = new System.Drawing.Size(280, 45);
-            this.btnResetDGV.TabIndex = 18;
+            this.btnResetDGV.Size = new System.Drawing.Size(173, 24);
+            this.btnResetDGV.TabIndex = 34;
             this.btnResetDGV.TabStop = false;
-            this.btnResetDGV.Text = "Xem tất cả ứng viên";
-            this.btnResetDGV.Click += new System.EventHandler(this.btnFind_Click);
+            this.btnResetDGV.Text = "Xem tất cả";
             // 
             // btnFind
             // 
-            this.btnFind.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
             this.btnFind.BorderRadius = 10;
             this.btnFind.BorderThickness = 1;
             this.btnFind.DisabledState.BorderColor = System.Drawing.Color.DarkGray;
@@ -161,29 +264,30 @@
             this.btnFind.DisabledState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(169)))), ((int)(((byte)(169)))), ((int)(((byte)(169)))));
             this.btnFind.DisabledState.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(141)))), ((int)(((byte)(141)))), ((int)(((byte)(141)))));
             this.btnFind.FillColor = System.Drawing.Color.LightGray;
-            this.btnFind.Font = new System.Drawing.Font("Times New Roman", 13.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnFind.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnFind.ForeColor = System.Drawing.Color.Black;
-            this.btnFind.Location = new System.Drawing.Point(32, 802);
+            this.btnFind.Location = new System.Drawing.Point(9, 277);
+            this.btnFind.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.btnFind.Name = "btnFind";
-            this.btnFind.Size = new System.Drawing.Size(280, 45);
-            this.btnFind.TabIndex = 18;
+            this.btnFind.Size = new System.Drawing.Size(173, 24);
+            this.btnFind.TabIndex = 35;
             this.btnFind.TabStop = false;
             this.btnFind.Text = "Lọc ứng viên";
-            this.btnFind.Click += new System.EventHandler(this.btnFind_Click);
             // 
-            // guna2HtmlLabel8
+            // guna2GroupBox1
             // 
-            this.guna2HtmlLabel8.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.guna2HtmlLabel8.AutoSize = false;
-            this.guna2HtmlLabel8.BackColor = System.Drawing.Color.Transparent;
-            this.guna2HtmlLabel8.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.guna2HtmlLabel8.Location = new System.Drawing.Point(37, 604);
-            this.guna2HtmlLabel8.Name = "guna2HtmlLabel8";
-            this.guna2HtmlLabel8.Size = new System.Drawing.Size(251, 27);
-            this.guna2HtmlLabel8.TabIndex = 14;
-            this.guna2HtmlLabel8.TabStop = false;
-            this.guna2HtmlLabel8.Text = "Chức vụ";
+            this.guna2GroupBox1.BorderRadius = 10;
+            this.guna2GroupBox1.Controls.Add(this.btnApprove);
+            this.guna2GroupBox1.Controls.Add(this.btnEliminat);
+            this.guna2GroupBox1.FillColor = System.Drawing.SystemColors.MenuBar;
+            this.guna2GroupBox1.Font = new System.Drawing.Font("Segoe UI", 9F);
+            this.guna2GroupBox1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(125)))), ((int)(((byte)(137)))), ((int)(((byte)(149)))));
+            this.guna2GroupBox1.Location = new System.Drawing.Point(17, 157);
+            this.guna2GroupBox1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.guna2GroupBox1.Name = "guna2GroupBox1";
+            this.guna2GroupBox1.Size = new System.Drawing.Size(191, 116);
+            this.guna2GroupBox1.TabIndex = 26;
+            this.guna2GroupBox1.Text = "Duyệt hồ sơ ứng viên";
             // 
             // btnApprove
             // 
@@ -194,53 +298,52 @@
             this.btnApprove.DisabledState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(169)))), ((int)(((byte)(169)))), ((int)(((byte)(169)))));
             this.btnApprove.DisabledState.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(141)))), ((int)(((byte)(141)))), ((int)(((byte)(141)))));
             this.btnApprove.FillColor = System.Drawing.Color.LightGray;
-            this.btnApprove.Font = new System.Drawing.Font("Times New Roman", 13.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnApprove.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnApprove.ForeColor = System.Drawing.Color.Black;
-            this.btnApprove.Location = new System.Drawing.Point(32, 200);
+            this.btnApprove.Location = new System.Drawing.Point(9, 51);
+            this.btnApprove.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.btnApprove.Name = "btnApprove";
-            this.btnApprove.Size = new System.Drawing.Size(266, 45);
+            this.btnApprove.Size = new System.Drawing.Size(173, 24);
             this.btnApprove.TabIndex = 18;
             this.btnApprove.TabStop = false;
             this.btnApprove.Text = "Duyệt";
             this.btnApprove.Click += new System.EventHandler(this.btnApprove_Click);
             // 
-            // btnDelete
+            // btnEliminat
             // 
-            this.btnDelete.BorderRadius = 10;
-            this.btnDelete.BorderThickness = 1;
-            this.btnDelete.DisabledState.BorderColor = System.Drawing.Color.DarkGray;
-            this.btnDelete.DisabledState.CustomBorderColor = System.Drawing.Color.DarkGray;
-            this.btnDelete.DisabledState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(169)))), ((int)(((byte)(169)))), ((int)(((byte)(169)))));
-            this.btnDelete.DisabledState.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(141)))), ((int)(((byte)(141)))), ((int)(((byte)(141)))));
-            this.btnDelete.FillColor = System.Drawing.Color.LightGray;
-            this.btnDelete.Font = new System.Drawing.Font("Times New Roman", 13.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnDelete.ForeColor = System.Drawing.Color.Black;
-            this.btnDelete.Location = new System.Drawing.Point(32, 350);
-            this.btnDelete.Name = "btnDelete";
-            this.btnDelete.Size = new System.Drawing.Size(266, 45);
-            this.btnDelete.TabIndex = 18;
-            this.btnDelete.TabStop = false;
-            this.btnDelete.Text = "Xóa";
-            this.btnDelete.Click += new System.EventHandler(this.btnDelete_Click);
+            this.btnEliminat.BorderRadius = 10;
+            this.btnEliminat.BorderThickness = 1;
+            this.btnEliminat.DisabledState.BorderColor = System.Drawing.Color.DarkGray;
+            this.btnEliminat.DisabledState.CustomBorderColor = System.Drawing.Color.DarkGray;
+            this.btnEliminat.DisabledState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(169)))), ((int)(((byte)(169)))), ((int)(((byte)(169)))));
+            this.btnEliminat.DisabledState.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(141)))), ((int)(((byte)(141)))), ((int)(((byte)(141)))));
+            this.btnEliminat.FillColor = System.Drawing.Color.LightGray;
+            this.btnEliminat.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnEliminat.ForeColor = System.Drawing.Color.Black;
+            this.btnEliminat.Location = new System.Drawing.Point(9, 81);
+            this.btnEliminat.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.btnEliminat.Name = "btnEliminat";
+            this.btnEliminat.Size = new System.Drawing.Size(173, 24);
+            this.btnEliminat.TabIndex = 20;
+            this.btnEliminat.TabStop = false;
+            this.btnEliminat.Text = "Loại";
+            this.btnEliminat.Click += new System.EventHandler(this.btnEliminat_Click);
             // 
-            // btnUpdate
+            // grbCRUD
             // 
-            this.btnUpdate.BorderRadius = 10;
-            this.btnUpdate.BorderThickness = 1;
-            this.btnUpdate.DisabledState.BorderColor = System.Drawing.Color.DarkGray;
-            this.btnUpdate.DisabledState.CustomBorderColor = System.Drawing.Color.DarkGray;
-            this.btnUpdate.DisabledState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(169)))), ((int)(((byte)(169)))), ((int)(((byte)(169)))));
-            this.btnUpdate.DisabledState.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(141)))), ((int)(((byte)(141)))), ((int)(((byte)(141)))));
-            this.btnUpdate.FillColor = System.Drawing.Color.LightGray;
-            this.btnUpdate.Font = new System.Drawing.Font("Times New Roman", 13.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnUpdate.ForeColor = System.Drawing.Color.Black;
-            this.btnUpdate.Location = new System.Drawing.Point(32, 125);
-            this.btnUpdate.Name = "btnUpdate";
-            this.btnUpdate.Size = new System.Drawing.Size(266, 45);
-            this.btnUpdate.TabIndex = 18;
-            this.btnUpdate.TabStop = false;
-            this.btnUpdate.Text = "Sửa";
-            this.btnUpdate.Click += new System.EventHandler(this.btnUpdate_Click);
+            this.grbCRUD.BorderRadius = 10;
+            this.grbCRUD.Controls.Add(this.btnAdd);
+            this.grbCRUD.Controls.Add(this.btnUpdate);
+            this.grbCRUD.Controls.Add(this.btnDelete);
+            this.grbCRUD.FillColor = System.Drawing.SystemColors.MenuBar;
+            this.grbCRUD.Font = new System.Drawing.Font("Times New Roman", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.grbCRUD.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(125)))), ((int)(((byte)(137)))), ((int)(((byte)(149)))));
+            this.grbCRUD.Location = new System.Drawing.Point(17, 4);
+            this.grbCRUD.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.grbCRUD.Name = "grbCRUD";
+            this.grbCRUD.Size = new System.Drawing.Size(191, 140);
+            this.grbCRUD.TabIndex = 30;
+            this.grbCRUD.Text = "Thêm - Sửa - Xóa ứng viên";
             // 
             // btnAdd
             // 
@@ -251,24 +354,66 @@
             this.btnAdd.DisabledState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(169)))), ((int)(((byte)(169)))), ((int)(((byte)(169)))));
             this.btnAdd.DisabledState.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(141)))), ((int)(((byte)(141)))), ((int)(((byte)(141)))));
             this.btnAdd.FillColor = System.Drawing.Color.LightGray;
-            this.btnAdd.Font = new System.Drawing.Font("Times New Roman", 13.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnAdd.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnAdd.ForeColor = System.Drawing.Color.Black;
-            this.btnAdd.Location = new System.Drawing.Point(32, 50);
+            this.btnAdd.Location = new System.Drawing.Point(9, 41);
+            this.btnAdd.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.btnAdd.Name = "btnAdd";
-            this.btnAdd.Size = new System.Drawing.Size(266, 45);
+            this.btnAdd.Size = new System.Drawing.Size(173, 24);
             this.btnAdd.TabIndex = 18;
             this.btnAdd.TabStop = false;
             this.btnAdd.Text = "Tạo ứng viên";
             this.btnAdd.Click += new System.EventHandler(this.btnAdd_Click);
+            // 
+            // btnUpdate
+            // 
+            this.btnUpdate.BorderRadius = 10;
+            this.btnUpdate.BorderThickness = 1;
+            this.btnUpdate.DisabledState.BorderColor = System.Drawing.Color.DarkGray;
+            this.btnUpdate.DisabledState.CustomBorderColor = System.Drawing.Color.DarkGray;
+            this.btnUpdate.DisabledState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(169)))), ((int)(((byte)(169)))), ((int)(((byte)(169)))));
+            this.btnUpdate.DisabledState.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(141)))), ((int)(((byte)(141)))), ((int)(((byte)(141)))));
+            this.btnUpdate.FillColor = System.Drawing.Color.LightGray;
+            this.btnUpdate.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnUpdate.ForeColor = System.Drawing.Color.Black;
+            this.btnUpdate.Location = new System.Drawing.Point(9, 70);
+            this.btnUpdate.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.btnUpdate.Name = "btnUpdate";
+            this.btnUpdate.Size = new System.Drawing.Size(173, 24);
+            this.btnUpdate.TabIndex = 18;
+            this.btnUpdate.TabStop = false;
+            this.btnUpdate.Text = "Sửa";
+            this.btnUpdate.Click += new System.EventHandler(this.btnUpdate_Click);
+            // 
+            // btnDelete
+            // 
+            this.btnDelete.BorderRadius = 10;
+            this.btnDelete.BorderThickness = 1;
+            this.btnDelete.DisabledState.BorderColor = System.Drawing.Color.DarkGray;
+            this.btnDelete.DisabledState.CustomBorderColor = System.Drawing.Color.DarkGray;
+            this.btnDelete.DisabledState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(169)))), ((int)(((byte)(169)))), ((int)(((byte)(169)))));
+            this.btnDelete.DisabledState.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(141)))), ((int)(((byte)(141)))), ((int)(((byte)(141)))));
+            this.btnDelete.FillColor = System.Drawing.Color.LightGray;
+            this.btnDelete.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnDelete.ForeColor = System.Drawing.Color.Black;
+            this.btnDelete.Location = new System.Drawing.Point(9, 99);
+            this.btnDelete.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.btnDelete.Name = "btnDelete";
+            this.btnDelete.Size = new System.Drawing.Size(173, 24);
+            this.btnDelete.TabIndex = 18;
+            this.btnDelete.TabStop = false;
+            this.btnDelete.Text = "Xóa";
+            this.btnDelete.Click += new System.EventHandler(this.btnDelete_Click);
             // 
             // guna2HtmlLabel7
             // 
             this.guna2HtmlLabel7.AutoSize = false;
             this.guna2HtmlLabel7.BackColor = System.Drawing.Color.Transparent;
             this.guna2HtmlLabel7.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.guna2HtmlLabel7.Location = new System.Drawing.Point(1106, 32);
+            this.guna2HtmlLabel7.Location = new System.Drawing.Point(961, 27);
+            this.guna2HtmlLabel7.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.guna2HtmlLabel7.Name = "guna2HtmlLabel7";
-            this.guna2HtmlLabel7.Size = new System.Drawing.Size(240, 45);
+            this.guna2HtmlLabel7.Size = new System.Drawing.Size(180, 37);
             this.guna2HtmlLabel7.TabIndex = 13;
             this.guna2HtmlLabel7.TabStop = false;
             this.guna2HtmlLabel7.Text = "Email";
@@ -279,9 +424,10 @@
             this.guna2HtmlLabel5.AutoSize = false;
             this.guna2HtmlLabel5.BackColor = System.Drawing.Color.Transparent;
             this.guna2HtmlLabel5.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.guna2HtmlLabel5.Location = new System.Drawing.Point(360, 240);
+            this.guna2HtmlLabel5.Location = new System.Drawing.Point(401, 196);
+            this.guna2HtmlLabel5.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.guna2HtmlLabel5.Name = "guna2HtmlLabel5";
-            this.guna2HtmlLabel5.Size = new System.Drawing.Size(226, 45);
+            this.guna2HtmlLabel5.Size = new System.Drawing.Size(170, 37);
             this.guna2HtmlLabel5.TabIndex = 15;
             this.guna2HtmlLabel5.TabStop = false;
             this.guna2HtmlLabel5.Text = "Quê";
@@ -318,9 +464,10 @@
             this.guna2Panel1.Controls.Add(this.txtName);
             this.guna2Panel1.CustomBorderThickness = new System.Windows.Forms.Padding(0, 0, 2, 0);
             this.guna2Panel1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.guna2Panel1.Location = new System.Drawing.Point(0, 62);
+            this.guna2Panel1.Location = new System.Drawing.Point(0, 50);
+            this.guna2Panel1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.guna2Panel1.Name = "guna2Panel1";
-            this.guna2Panel1.Size = new System.Drawing.Size(1776, 871);
+            this.guna2Panel1.Size = new System.Drawing.Size(1332, 710);
             this.guna2Panel1.TabIndex = 4;
             this.guna2Panel1.Paint += new System.Windows.Forms.PaintEventHandler(this.guna2Panel1_Paint);
             // 
@@ -329,9 +476,10 @@
             this.guna2HtmlLabel13.AutoSize = false;
             this.guna2HtmlLabel13.BackColor = System.Drawing.Color.Transparent;
             this.guna2HtmlLabel13.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.guna2HtmlLabel13.Location = new System.Drawing.Point(1106, 132);
+            this.guna2HtmlLabel13.Location = new System.Drawing.Point(961, 108);
+            this.guna2HtmlLabel13.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.guna2HtmlLabel13.Name = "guna2HtmlLabel13";
-            this.guna2HtmlLabel13.Size = new System.Drawing.Size(240, 45);
+            this.guna2HtmlLabel13.Size = new System.Drawing.Size(180, 37);
             this.guna2HtmlLabel13.TabIndex = 21;
             this.guna2HtmlLabel13.TabStop = false;
             this.guna2HtmlLabel13.Text = "Ngày ứng tuyển";
@@ -342,9 +490,10 @@
             this.guna2HtmlLabel11.AutoSize = false;
             this.guna2HtmlLabel11.BackColor = System.Drawing.Color.Transparent;
             this.guna2HtmlLabel11.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.guna2HtmlLabel11.Location = new System.Drawing.Point(1106, 82);
+            this.guna2HtmlLabel11.Location = new System.Drawing.Point(961, 67);
+            this.guna2HtmlLabel11.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.guna2HtmlLabel11.Name = "guna2HtmlLabel11";
-            this.guna2HtmlLabel11.Size = new System.Drawing.Size(240, 45);
+            this.guna2HtmlLabel11.Size = new System.Drawing.Size(180, 37);
             this.guna2HtmlLabel11.TabIndex = 14;
             this.guna2HtmlLabel11.TabStop = false;
             this.guna2HtmlLabel11.Text = "Chức vụ ứng tuyển";
@@ -355,9 +504,10 @@
             this.guna2HtmlLabel10.AutoSize = false;
             this.guna2HtmlLabel10.BackColor = System.Drawing.Color.Transparent;
             this.guna2HtmlLabel10.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.guna2HtmlLabel10.Location = new System.Drawing.Point(1106, 182);
+            this.guna2HtmlLabel10.Location = new System.Drawing.Point(961, 149);
+            this.guna2HtmlLabel10.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.guna2HtmlLabel10.Name = "guna2HtmlLabel10";
-            this.guna2HtmlLabel10.Size = new System.Drawing.Size(240, 45);
+            this.guna2HtmlLabel10.Size = new System.Drawing.Size(180, 37);
             this.guna2HtmlLabel10.TabIndex = 14;
             this.guna2HtmlLabel10.TabStop = false;
             this.guna2HtmlLabel10.Text = "Hình CV";
@@ -368,9 +518,10 @@
             this.guna2HtmlLabel14.AutoSize = false;
             this.guna2HtmlLabel14.BackColor = System.Drawing.Color.Transparent;
             this.guna2HtmlLabel14.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.guna2HtmlLabel14.Location = new System.Drawing.Point(360, 380);
+            this.guna2HtmlLabel14.Location = new System.Drawing.Point(401, 310);
+            this.guna2HtmlLabel14.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.guna2HtmlLabel14.Name = "guna2HtmlLabel14";
-            this.guna2HtmlLabel14.Size = new System.Drawing.Size(226, 45);
+            this.guna2HtmlLabel14.Size = new System.Drawing.Size(170, 37);
             this.guna2HtmlLabel14.TabIndex = 14;
             this.guna2HtmlLabel14.TabStop = false;
             this.guna2HtmlLabel14.Text = "Trạng thái";
@@ -381,9 +532,10 @@
             this.guna2HtmlLabel12.AutoSize = false;
             this.guna2HtmlLabel12.BackColor = System.Drawing.Color.Transparent;
             this.guna2HtmlLabel12.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.guna2HtmlLabel12.Location = new System.Drawing.Point(360, 310);
+            this.guna2HtmlLabel12.Location = new System.Drawing.Point(401, 253);
+            this.guna2HtmlLabel12.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.guna2HtmlLabel12.Name = "guna2HtmlLabel12";
-            this.guna2HtmlLabel12.Size = new System.Drawing.Size(226, 45);
+            this.guna2HtmlLabel12.Size = new System.Drawing.Size(170, 37);
             this.guna2HtmlLabel12.TabIndex = 14;
             this.guna2HtmlLabel12.TabStop = false;
             this.guna2HtmlLabel12.Text = "Thuộc tuyển dụng";
@@ -394,9 +546,10 @@
             this.guna2HtmlLabel4.AutoSize = false;
             this.guna2HtmlLabel4.BackColor = System.Drawing.Color.Transparent;
             this.guna2HtmlLabel4.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.guna2HtmlLabel4.Location = new System.Drawing.Point(360, 170);
+            this.guna2HtmlLabel4.Location = new System.Drawing.Point(401, 139);
+            this.guna2HtmlLabel4.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.guna2HtmlLabel4.Name = "guna2HtmlLabel4";
-            this.guna2HtmlLabel4.Size = new System.Drawing.Size(226, 45);
+            this.guna2HtmlLabel4.Size = new System.Drawing.Size(170, 37);
             this.guna2HtmlLabel4.TabIndex = 16;
             this.guna2HtmlLabel4.TabStop = false;
             this.guna2HtmlLabel4.Text = "Địa chỉ";
@@ -407,9 +560,10 @@
             this.guna2HtmlLabel3.AutoSize = false;
             this.guna2HtmlLabel3.BackColor = System.Drawing.Color.Transparent;
             this.guna2HtmlLabel3.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.guna2HtmlLabel3.Location = new System.Drawing.Point(360, 100);
+            this.guna2HtmlLabel3.Location = new System.Drawing.Point(401, 82);
+            this.guna2HtmlLabel3.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.guna2HtmlLabel3.Name = "guna2HtmlLabel3";
-            this.guna2HtmlLabel3.Size = new System.Drawing.Size(226, 45);
+            this.guna2HtmlLabel3.Size = new System.Drawing.Size(170, 37);
             this.guna2HtmlLabel3.TabIndex = 17;
             this.guna2HtmlLabel3.TabStop = false;
             this.guna2HtmlLabel3.Text = "Ngày sinh";
@@ -420,9 +574,10 @@
             this.guna2HtmlLabel2.AutoSize = false;
             this.guna2HtmlLabel2.BackColor = System.Drawing.Color.Transparent;
             this.guna2HtmlLabel2.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.guna2HtmlLabel2.Location = new System.Drawing.Point(360, 30);
+            this.guna2HtmlLabel2.Location = new System.Drawing.Point(401, 25);
+            this.guna2HtmlLabel2.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.guna2HtmlLabel2.Name = "guna2HtmlLabel2";
-            this.guna2HtmlLabel2.Size = new System.Drawing.Size(226, 45);
+            this.guna2HtmlLabel2.Size = new System.Drawing.Size(170, 37);
             this.guna2HtmlLabel2.TabIndex = 6;
             this.guna2HtmlLabel2.TabStop = false;
             this.guna2HtmlLabel2.Text = "Họ tên";
@@ -452,7 +607,8 @@
             this.dgvUngVien.DefaultCellStyle = dataGridViewCellStyle7;
             this.dgvUngVien.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.dgvUngVien.GridColor = System.Drawing.Color.FromArgb(((int)(((byte)(231)))), ((int)(((byte)(229)))), ((int)(((byte)(255)))));
-            this.dgvUngVien.Location = new System.Drawing.Point(341, 514);
+            this.dgvUngVien.Location = new System.Drawing.Point(225, 420);
+            this.dgvUngVien.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.dgvUngVien.MultiSelect = false;
             this.dgvUngVien.Name = "dgvUngVien";
             this.dgvUngVien.ReadOnly = true;
@@ -467,7 +623,7 @@
             this.dgvUngVien.RowHeadersVisible = false;
             this.dgvUngVien.RowHeadersWidth = 51;
             this.dgvUngVien.RowTemplate.Height = 24;
-            this.dgvUngVien.Size = new System.Drawing.Size(1435, 357);
+            this.dgvUngVien.Size = new System.Drawing.Size(1107, 290);
             this.dgvUngVien.TabIndex = 25;
             this.dgvUngVien.ThemeStyle.AlternatingRowsStyle.BackColor = System.Drawing.Color.White;
             this.dgvUngVien.ThemeStyle.AlternatingRowsStyle.Font = null;
@@ -495,9 +651,10 @@
             // ptbImageCV
             // 
             this.ptbImageCV.ImageRotate = 0F;
-            this.ptbImageCV.Location = new System.Drawing.Point(1352, 240);
+            this.ptbImageCV.Location = new System.Drawing.Point(1145, 196);
+            this.ptbImageCV.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.ptbImageCV.Name = "ptbImageCV";
-            this.ptbImageCV.Size = new System.Drawing.Size(210, 280);
+            this.ptbImageCV.Size = new System.Drawing.Size(158, 228);
             this.ptbImageCV.TabIndex = 24;
             this.ptbImageCV.TabStop = false;
             // 
@@ -512,9 +669,10 @@
             this.btnSelectImage.FillColor = System.Drawing.Color.LightGray;
             this.btnSelectImage.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnSelectImage.ForeColor = System.Drawing.Color.Black;
-            this.btnSelectImage.Location = new System.Drawing.Point(1352, 191);
+            this.btnSelectImage.Location = new System.Drawing.Point(1145, 156);
+            this.btnSelectImage.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.btnSelectImage.Name = "btnSelectImage";
-            this.btnSelectImage.Size = new System.Drawing.Size(325, 36);
+            this.btnSelectImage.Size = new System.Drawing.Size(244, 29);
             this.btnSelectImage.TabIndex = 22;
             this.btnSelectImage.Text = "Chọn hình ảnh";
             this.btnSelectImage.Click += new System.EventHandler(this.btnSelectImage_Click);
@@ -528,9 +686,10 @@
             this.rdoFemale.CheckedState.InnerColor = System.Drawing.Color.White;
             this.rdoFemale.CheckedState.InnerOffset = -4;
             this.rdoFemale.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.rdoFemale.Location = new System.Drawing.Point(740, 475);
+            this.rdoFemale.Location = new System.Drawing.Point(686, 387);
+            this.rdoFemale.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.rdoFemale.Name = "rdoFemale";
-            this.rdoFemale.Size = new System.Drawing.Size(56, 26);
+            this.rdoFemale.Size = new System.Drawing.Size(48, 23);
             this.rdoFemale.TabIndex = 7;
             this.rdoFemale.TabStop = true;
             this.rdoFemale.Text = "Nữ";
@@ -548,9 +707,10 @@
             this.rdoMale.CheckedState.InnerColor = System.Drawing.Color.White;
             this.rdoMale.CheckedState.InnerOffset = -4;
             this.rdoMale.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.rdoMale.Location = new System.Drawing.Point(614, 475);
+            this.rdoMale.Location = new System.Drawing.Point(592, 387);
+            this.rdoMale.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.rdoMale.Name = "rdoMale";
-            this.rdoMale.Size = new System.Drawing.Size(68, 26);
+            this.rdoMale.Size = new System.Drawing.Size(57, 23);
             this.rdoMale.TabIndex = 6;
             this.rdoMale.TabStop = true;
             this.rdoMale.Text = "Nam";
@@ -568,11 +728,12 @@
             this.dtpNgayUngTuyen.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.dtpNgayUngTuyen.ForeColor = System.Drawing.Color.Black;
             this.dtpNgayUngTuyen.Format = System.Windows.Forms.DateTimePickerFormat.Short;
-            this.dtpNgayUngTuyen.Location = new System.Drawing.Point(1352, 141);
+            this.dtpNgayUngTuyen.Location = new System.Drawing.Point(1145, 115);
+            this.dtpNgayUngTuyen.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.dtpNgayUngTuyen.MaxDate = new System.DateTime(9998, 12, 31, 0, 0, 0, 0);
             this.dtpNgayUngTuyen.MinDate = new System.DateTime(1753, 1, 1, 0, 0, 0, 0);
             this.dtpNgayUngTuyen.Name = "dtpNgayUngTuyen";
-            this.dtpNgayUngTuyen.Size = new System.Drawing.Size(325, 36);
+            this.dtpNgayUngTuyen.Size = new System.Drawing.Size(244, 29);
             this.dtpNgayUngTuyen.TabIndex = 12;
             this.dtpNgayUngTuyen.Value = new System.DateTime(2025, 10, 7, 23, 10, 40, 156);
             this.dtpNgayUngTuyen.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.dtpNgayUngTuyen_KeyPress);
@@ -585,11 +746,12 @@
             this.dtpDateOfBirth.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.dtpDateOfBirth.ForeColor = System.Drawing.Color.Black;
             this.dtpDateOfBirth.Format = System.Windows.Forms.DateTimePickerFormat.Short;
-            this.dtpDateOfBirth.Location = new System.Drawing.Point(614, 109);
+            this.dtpDateOfBirth.Location = new System.Drawing.Point(592, 89);
+            this.dtpDateOfBirth.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.dtpDateOfBirth.MaxDate = new System.DateTime(9998, 12, 31, 0, 0, 0, 0);
             this.dtpDateOfBirth.MinDate = new System.DateTime(1753, 1, 1, 0, 0, 0, 0);
             this.dtpDateOfBirth.Name = "dtpDateOfBirth";
-            this.dtpDateOfBirth.Size = new System.Drawing.Size(325, 36);
+            this.dtpDateOfBirth.Size = new System.Drawing.Size(244, 29);
             this.dtpDateOfBirth.TabIndex = 1;
             this.dtpDateOfBirth.Value = new System.DateTime(2025, 10, 7, 23, 10, 40, 156);
             this.dtpDateOfBirth.ValueChanged += new System.EventHandler(this.dtpDateOfBirth_ValueChanged);
@@ -612,9 +774,10 @@
             "Thử việc",
             "Trúng tuyển",
             "Loại"});
-            this.cbStatus.Location = new System.Drawing.Point(614, 389);
+            this.cbStatus.Location = new System.Drawing.Point(592, 317);
+            this.cbStatus.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.cbStatus.Name = "cbStatus";
-            this.cbStatus.Size = new System.Drawing.Size(325, 36);
+            this.cbStatus.Size = new System.Drawing.Size(245, 36);
             this.cbStatus.TabIndex = 5;
             // 
             // cbTuyenDung
@@ -628,9 +791,10 @@
             this.cbTuyenDung.Font = new System.Drawing.Font("Times New Roman", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.cbTuyenDung.ForeColor = System.Drawing.Color.Black;
             this.cbTuyenDung.ItemHeight = 30;
-            this.cbTuyenDung.Location = new System.Drawing.Point(614, 319);
+            this.cbTuyenDung.Location = new System.Drawing.Point(592, 260);
+            this.cbTuyenDung.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.cbTuyenDung.Name = "cbTuyenDung";
-            this.cbTuyenDung.Size = new System.Drawing.Size(325, 36);
+            this.cbTuyenDung.Size = new System.Drawing.Size(245, 36);
             this.cbTuyenDung.TabIndex = 4;
             // 
             // cbChucVuUngTuyen
@@ -644,9 +808,10 @@
             this.cbChucVuUngTuyen.Font = new System.Drawing.Font("Times New Roman", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.cbChucVuUngTuyen.ForeColor = System.Drawing.Color.Black;
             this.cbChucVuUngTuyen.ItemHeight = 30;
-            this.cbChucVuUngTuyen.Location = new System.Drawing.Point(1352, 91);
+            this.cbChucVuUngTuyen.Location = new System.Drawing.Point(1145, 75);
+            this.cbChucVuUngTuyen.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.cbChucVuUngTuyen.Name = "cbChucVuUngTuyen";
-            this.cbChucVuUngTuyen.Size = new System.Drawing.Size(325, 36);
+            this.cbChucVuUngTuyen.Size = new System.Drawing.Size(245, 36);
             this.cbChucVuUngTuyen.TabIndex = 11;
             // 
             // txtHometown
@@ -663,13 +828,13 @@
             this.txtHometown.Font = new System.Drawing.Font("Times New Roman", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtHometown.ForeColor = System.Drawing.Color.Black;
             this.txtHometown.HoverState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(94)))), ((int)(((byte)(148)))), ((int)(((byte)(255)))));
-            this.txtHometown.Location = new System.Drawing.Point(614, 249);
-            this.txtHometown.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.txtHometown.Location = new System.Drawing.Point(592, 203);
+            this.txtHometown.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.txtHometown.MaxLength = 100;
             this.txtHometown.Name = "txtHometown";
             this.txtHometown.PlaceholderText = "";
             this.txtHometown.SelectedText = "";
-            this.txtHometown.Size = new System.Drawing.Size(325, 36);
+            this.txtHometown.Size = new System.Drawing.Size(244, 29);
             this.txtHometown.TabIndex = 3;
             this.txtHometown.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtHometown_KeyPress);
             // 
@@ -687,13 +852,13 @@
             this.txtEmail.Font = new System.Drawing.Font("Times New Roman", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtEmail.ForeColor = System.Drawing.Color.Black;
             this.txtEmail.HoverState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(94)))), ((int)(((byte)(148)))), ((int)(((byte)(255)))));
-            this.txtEmail.Location = new System.Drawing.Point(1352, 39);
-            this.txtEmail.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.txtEmail.Location = new System.Drawing.Point(1145, 32);
+            this.txtEmail.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.txtEmail.MaxLength = 100;
             this.txtEmail.Name = "txtEmail";
             this.txtEmail.PlaceholderText = "";
             this.txtEmail.SelectedText = "";
-            this.txtEmail.Size = new System.Drawing.Size(325, 36);
+            this.txtEmail.Size = new System.Drawing.Size(244, 29);
             this.txtEmail.TabIndex = 9;
             this.txtEmail.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtEmail_KeyPress);
             // 
@@ -711,13 +876,13 @@
             this.txtAddress.Font = new System.Drawing.Font("Times New Roman", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtAddress.ForeColor = System.Drawing.Color.Black;
             this.txtAddress.HoverState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(94)))), ((int)(((byte)(148)))), ((int)(((byte)(255)))));
-            this.txtAddress.Location = new System.Drawing.Point(614, 179);
-            this.txtAddress.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.txtAddress.Location = new System.Drawing.Point(592, 146);
+            this.txtAddress.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.txtAddress.MaxLength = 255;
             this.txtAddress.Name = "txtAddress";
             this.txtAddress.PlaceholderText = "";
             this.txtAddress.SelectedText = "";
-            this.txtAddress.Size = new System.Drawing.Size(325, 36);
+            this.txtAddress.Size = new System.Drawing.Size(244, 29);
             this.txtAddress.TabIndex = 2;
             // 
             // txtName
@@ -734,13 +899,13 @@
             this.txtName.Font = new System.Drawing.Font("Times New Roman", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtName.ForeColor = System.Drawing.Color.Black;
             this.txtName.HoverState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(94)))), ((int)(((byte)(148)))), ((int)(((byte)(255)))));
-            this.txtName.Location = new System.Drawing.Point(614, 39);
-            this.txtName.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.txtName.Location = new System.Drawing.Point(592, 32);
+            this.txtName.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.txtName.MaxLength = 255;
             this.txtName.Name = "txtName";
             this.txtName.PlaceholderText = "";
             this.txtName.SelectedText = "";
-            this.txtName.Size = new System.Drawing.Size(325, 36);
+            this.txtName.Size = new System.Drawing.Size(244, 29);
             this.txtName.TabIndex = 0;
             this.txtName.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtName_KeyPress);
             // 
@@ -751,42 +916,65 @@
             this.guna2HtmlLabel1.Dock = System.Windows.Forms.DockStyle.Top;
             this.guna2HtmlLabel1.Font = new System.Drawing.Font("Times New Roman", 19.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.guna2HtmlLabel1.Location = new System.Drawing.Point(0, 0);
+            this.guna2HtmlLabel1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.guna2HtmlLabel1.Name = "guna2HtmlLabel1";
-            this.guna2HtmlLabel1.Size = new System.Drawing.Size(1776, 62);
+            this.guna2HtmlLabel1.Size = new System.Drawing.Size(1332, 50);
             this.guna2HtmlLabel1.TabIndex = 3;
             this.guna2HtmlLabel1.TabStop = false;
             this.guna2HtmlLabel1.Text = "Ứng viên";
             this.guna2HtmlLabel1.TextAlignment = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // btnEliminat
+            // label1
             // 
-            this.btnEliminat.BorderRadius = 10;
-            this.btnEliminat.BorderThickness = 1;
-            this.btnEliminat.DisabledState.BorderColor = System.Drawing.Color.DarkGray;
-            this.btnEliminat.DisabledState.CustomBorderColor = System.Drawing.Color.DarkGray;
-            this.btnEliminat.DisabledState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(169)))), ((int)(((byte)(169)))), ((int)(((byte)(169)))));
-            this.btnEliminat.DisabledState.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(141)))), ((int)(((byte)(141)))), ((int)(((byte)(141)))));
-            this.btnEliminat.FillColor = System.Drawing.Color.LightGray;
-            this.btnEliminat.Font = new System.Drawing.Font("Times New Roman", 13.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnEliminat.ForeColor = System.Drawing.Color.Black;
-            this.btnEliminat.Location = new System.Drawing.Point(32, 275);
-            this.btnEliminat.Name = "btnEliminat";
-            this.btnEliminat.Size = new System.Drawing.Size(266, 45);
-            this.btnEliminat.TabIndex = 20;
-            this.btnEliminat.TabStop = false;
-            this.btnEliminat.Text = "Loại";
-            this.btnEliminat.Click += new System.EventHandler(this.btnEliminat_Click);
+            this.label1.AutoSize = true;
+            this.label1.BackColor = System.Drawing.Color.Transparent;
+            this.label1.Font = new System.Drawing.Font("Times New Roman", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label1.ForeColor = System.Drawing.Color.Black;
+            this.label1.Location = new System.Drawing.Point(11, 51);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(90, 15);
+            this.label1.TabIndex = 40;
+            this.label1.Text = "Vị trí ứng tuyển";
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.BackColor = System.Drawing.Color.Transparent;
+            this.label2.Font = new System.Drawing.Font("Times New Roman", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label2.ForeColor = System.Drawing.Color.Black;
+            this.label2.Location = new System.Drawing.Point(11, 127);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(78, 15);
+            this.label2.TabIndex = 41;
+            this.label2.Text = "Tên ứng viên";
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.BackColor = System.Drawing.Color.Transparent;
+            this.label3.Font = new System.Drawing.Font("Times New Roman", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label3.ForeColor = System.Drawing.Color.Black;
+            this.label3.Location = new System.Drawing.Point(11, 201);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(62, 15);
+            this.label3.TabIndex = 41;
+            this.label3.Text = "Trạng thái";
             // 
             // ucUngVien
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.guna2Panel1);
             this.Controls.Add(this.guna2HtmlLabel1);
+            this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.Name = "ucUngVien";
-            this.Size = new System.Drawing.Size(1776, 933);
+            this.Size = new System.Drawing.Size(1332, 760);
             this.Load += new System.EventHandler(this.ucUngVien_Load);
             this.guna2Panel2.ResumeLayout(false);
+            this.guna2GroupBox2.ResumeLayout(false);
+            this.guna2GroupBox2.PerformLayout();
+            this.guna2GroupBox1.ResumeLayout(false);
+            this.grbCRUD.ResumeLayout(false);
             this.guna2Panel1.ResumeLayout(false);
             this.guna2Panel1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvUngVien)).EndInit();
@@ -799,9 +987,6 @@
 
         private Guna.UI2.WinForms.Guna2HtmlLabel guna2HtmlLabel6;
         private Guna.UI2.WinForms.Guna2Panel guna2Panel2;
-        private Guna.UI2.WinForms.Guna2ComboBox cmbFindPosition;
-        private Guna.UI2.WinForms.Guna2Button btnFind;
-        private Guna.UI2.WinForms.Guna2HtmlLabel guna2HtmlLabel8;
         private Guna.UI2.WinForms.Guna2Button btnDelete;
         private Guna.UI2.WinForms.Guna2Button btnUpdate;
         private Guna.UI2.WinForms.Guna2Button btnAdd;
@@ -829,10 +1014,22 @@
         private Guna.UI2.WinForms.Guna2HtmlLabel guna2HtmlLabel14;
         private Guna.UI2.WinForms.Guna2ComboBox cbStatus;
         private Guna.UI2.WinForms.Guna2TextBox txtEmail;
-        private Guna.UI2.WinForms.Guna2Button btnResetDGV;
         private Guna.UI2.WinForms.Guna2Button btnSelectImage;
         private Guna.UI2.WinForms.Guna2PictureBox ptbImageCV;
         private Guna.UI2.WinForms.Guna2DataGridView dgvUngVien;
         private Guna.UI2.WinForms.Guna2Button btnEliminat;
+        private Guna.UI2.WinForms.Guna2GroupBox guna2GroupBox1;
+        private Guna.UI2.WinForms.Guna2GroupBox grbCRUD;
+        private Guna.UI2.WinForms.Guna2GroupBox guna2GroupBox2;
+        private Guna.UI2.WinForms.Guna2TextBox txtFindName;
+        private Guna.UI2.WinForms.Guna2ComboBox cmbFindStatus;
+        private Guna.UI2.WinForms.Guna2ComboBox cmbFindPosition;
+        private Guna.UI2.WinForms.Guna2Button btnFindUngVienPass;
+        private Guna.UI2.WinForms.Guna2Button guna2Button1;
+        private Guna.UI2.WinForms.Guna2Button btnResetDGV;
+        private Guna.UI2.WinForms.Guna2Button btnFind;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label label3;
     }
 }

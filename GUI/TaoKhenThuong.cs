@@ -77,103 +77,109 @@ namespace GUI
             Label lblTitle = new Label
             {
                 Text = "🎖️ TẠO KHEN THƯỞNG NHÂN VIÊN", // tiêu đề trang
-                Dock = DockStyle.Top,                   // chiếm trọn chiều ngang, cố định ở trên cùng
-                Height = 65,                            // chiều cao của thanh tiêu đề
-                Font = new Font("Segoe UI", 20, FontStyle.Bold),  // font chữ lớn, đậm
-                ForeColor = Color.FromArgb(50, 70, 140),          // màu chữ xanh navy nhẹ
-                TextAlign = ContentAlignment.MiddleCenter,        // căn giữa chữ
-                BackColor = Color.White,                          // nền trắng cho tiêu đề
-            };
-
-            // === KHỐI PANEL TRẮNG CHỨA CÁC Ô NHẬP LIỆU ===
-            Guna2Panel pnlFormCard = new Guna2Panel
-            {
-                BorderRadius = 12,                                // bo góc nhẹ
-                FillColor = Color.White,                          // nền trắng
-                ShadowDecoration = { Depth = 10, Enabled = true },// tạo đổ bóng nhẹ
-                Dock = DockStyle.Fill,                            // chiếm toàn bộ phần còn lại trong layout
-                Padding = new Padding(50, 30, 50, 30)             // khoảng cách giữa mép và nội dung
-            };
-
-            // === DÙNG TABLELAYOUT ĐỂ SẮP XẾP LABEL + INPUT THEO 2 CỘT ===
-            TableLayoutPanel tlForm = new TableLayoutPanel
-            {
-                Dock = DockStyle.Fill,         // chiếm hết panel chứa
-                ColumnCount = 2,               // 2 cột: label bên trái, input bên phải
-                RowCount = 6,                  // 6 dòng nhập liệu
+                Dock = DockStyle.Top,
+                Height = 65,
+                Font = new Font("Segoe UI", 18, FontStyle.Bold),
+                ForeColor = Color.FromArgb(50, 70, 140),
+                TextAlign = ContentAlignment.MiddleCenter,
                 BackColor = Color.White,
-                Padding = new Padding(0, 10, 0, 0)
             };
-            tlForm.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 160)); // cột label cố định 160px
-            tlForm.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100));  // cột input chiếm phần còn lại
 
-            // Mỗi dòng cao 50px, riêng dòng nhân viên cao hơn (100px)
-            for (int i = 0; i < 6; i++)
-                tlForm.RowStyles.Add(new RowStyle(SizeType.Absolute, i == 1 ? 100 : 50));
+            // === KHỐI PANEL TRẮNG CHỨA FORM ===
+            var pnlFormCard = new Guna2Panel()
+            {
+                BorderRadius = 12,
+                FillColor = Color.White,
+                Padding = new Padding(30, 20, 30, 20),
+                ShadowDecoration = { Depth = 10, Enabled = true },
+                Dock = DockStyle.Fill
+            };
 
-            // Hàm helper tạo label chuẩn
+            // === TABLELAYOUT CHÍNH (GỒM PHẦN TÌM KIẾM + FORM) ===
+            TableLayoutPanel tlMainForm = new TableLayoutPanel
+            {
+                Dock = DockStyle.Fill,
+                ColumnCount = 1,
+                RowCount = 2,
+                BackColor = Color.White
+            };
+            tlMainForm.RowStyles.Add(new RowStyle(SizeType.Absolute, 50)); // dòng tìm kiếm
+            tlMainForm.RowStyles.Add(new RowStyle(SizeType.Percent, 100)); // dòng form nội dung
+
+            // === PHẦN TÌM KIẾM PHÒNG BAN ===
+            FlowLayoutPanel pnlSearch = new FlowLayoutPanel
+            {
+                Dock = DockStyle.Fill,
+                FlowDirection = FlowDirection.LeftToRight,
+                Padding = new Padding(10, 5, 0, 5),
+                AutoSize = true
+            };
+
+            pnlSearch.Controls.Add(new Label
+            {
+                Text = "Tìm theo phòng ban:",
+                AutoSize = true,
+                TextAlign = ContentAlignment.MiddleLeft,
+                Font = new Font("Segoe UI Semibold", 10.5f),
+                Margin = new Padding(0, 10, 10, 0)
+            });
+
+            cbPhongBan = new Guna2ComboBox
+            {
+                BorderRadius = 8,
+                Width = 220,
+                DropDownStyle = ComboBoxStyle.DropDownList,
+                Font = new Font("Segoe UI", 10)
+            };
+
+            Guna2Button btnSearch = new Guna2Button
+            {
+                Size = new Size(38, 36),
+                Margin = new Padding(8, 0, 0, 0),
+                Image = Properties.Resources.search,
+                ImageSize = new Size(18, 18),
+                FillColor = Color.MediumSlateBlue,
+                BorderRadius = 8,
+                Cursor = Cursors.Hand
+            };
+            btnSearch.Click += btnTimKiem_Click;
+            pnlSearch.Controls.Add(cbPhongBan);
+            pnlSearch.Controls.Add(btnSearch);
+
+            // === CHIA 2 CỘT TRÁI - PHẢI ===
+            TableLayoutPanel tlTwoColumn = new TableLayoutPanel
+            {
+                Dock = DockStyle.Fill,
+                ColumnCount = 2,
+                RowCount = 1,
+                Padding = new Padding(0, 5, 0, 0),
+                BackColor = Color.White
+            };
+            tlTwoColumn.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 48));
+            tlTwoColumn.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 52));
+
+            // === CỘT TRÁI: NHÂN VIÊN + LÝ DO CÓ SẴN ===
+            TableLayoutPanel tlLeft = new TableLayoutPanel
+            {
+                Dock = DockStyle.Fill,
+                ColumnCount = 2,
+                RowCount = 2,
+                BackColor = Color.White
+            };
+            tlLeft.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 120));
+            tlLeft.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100));
+            tlLeft.RowStyles.Add(new RowStyle(SizeType.Absolute, 110));
+            tlLeft.RowStyles.Add(new RowStyle(SizeType.Absolute, 45));
+
             Label MakeLabel(string text) => new Label
             {
                 Text = text,
                 Dock = DockStyle.Fill,
                 Font = new Font("Segoe UI Semibold", 10.5f),
-                TextAlign = ContentAlignment.MiddleRight, // căn phải để sát ô nhập
+                TextAlign = ContentAlignment.MiddleRight,
                 ForeColor = Color.FromArgb(60, 60, 60)
             };
 
-            // === CÁC CONTROL INPUT ===
-
-            // Panel chứa combo box và nút tìm kiếm cạnh nhau
-            FlowLayoutPanel pnlPhongBanSearch = new FlowLayoutPanel
-            {
-                Dock = DockStyle.Fill,
-                FlowDirection = FlowDirection.LeftToRight,
-                AutoSize = true
-            };
-
-            // ComboBox chọn phòng ban
-            cbPhongBan = new Guna2ComboBox
-            {
-                BorderRadius = 8,
-                Size = new Size(250, 36),
-                DropDownStyle = ComboBoxStyle.DropDownList,
-                Font = new Font("Segoe UI", 10)
-            };
-
-            // Nút tìm kiếm
-            Guna2Button btnSearch = new Guna2Button
-            {
-                Size = new Size(40, 36),
-                Margin = new Padding(8, 0, 0, 0),
-                Image = Properties.Resources.search, // icon mặc định
-                ImageSize = new Size(18, 18),
-                FillColor = Color.MediumSlateBlue,
-                BorderRadius = 8,
-                Cursor = Cursors.Hand // giúp hiển thị bàn tay khi hover
-            };
-
-            // Sự kiện click
-            btnSearch.Click += btnTimKiem_Click;
-
-            // Sự kiện hover vào
-            btnSearch.MouseEnter += (s, e) =>
-            {
-                btnSearch.Image = Properties.Resources.magnifying_glass; // đổi icon khi hover
-                btnSearch.FillColor = Color.SlateBlue; // tùy chọn: đổi màu nền
-            };
-
-            // Sự kiện rời chuột
-            btnSearch.MouseLeave += (s, e) =>
-            {
-                btnSearch.Image = Properties.Resources.search; // trở lại icon cũ
-                btnSearch.FillColor = Color.MediumSlateBlue; // khôi phục màu
-            };
-
-            // Thêm combo và nút vào panel
-            pnlPhongBanSearch.Controls.Add(cbPhongBan);
-            pnlPhongBanSearch.Controls.Add(btnSearch);
-
-            // CheckedListBox để chọn nhiều nhân viên trong phòng ban
             clbNhanVien = new CheckedListBox
             {
                 Dock = DockStyle.Fill,
@@ -182,7 +188,6 @@ namespace GUI
                 BackColor = Color.White
             };
 
-            // ComboBox chọn lý do thưởng có sẵn
             cbLyDo = new Guna2ComboBox
             {
                 BorderRadius = 8,
@@ -190,19 +195,34 @@ namespace GUI
                 Dock = DockStyle.Fill,
                 Font = new Font("Segoe UI", 10)
             };
-            cbLyDo.SelectedIndexChanged += CbLyDo_SelectedIndexChanged; // sự kiện đổi lý do
+            cbLyDo.SelectedIndexChanged += CbLyDo_SelectedIndexChanged;
 
-            // Textbox để nhập lý do mới (khi người dùng chọn “Thêm lý do mới”)
+            tlLeft.Controls.Add(MakeLabel("Nhân viên:"), 0, 0);
+            tlLeft.Controls.Add(clbNhanVien, 1, 0);
+            tlLeft.Controls.Add(MakeLabel("Lý do có sẵn:"), 0, 1);
+            tlLeft.Controls.Add(cbLyDo, 1, 1);
+
+            // === CỘT PHẢI: LÝ DO MỚI - SỐ TIỀN - NGÀY ÁP DỤNG ===
+            TableLayoutPanel tlRight = new TableLayoutPanel
+            {
+                Dock = DockStyle.Fill,
+                ColumnCount = 2,
+                RowCount = 3,
+                BackColor = Color.White
+            };
+            tlRight.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 120));
+            tlRight.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100));
+            for (int i = 0; i < 3; i++)
+                tlRight.RowStyles.Add(new RowStyle(SizeType.Absolute, 45));
+
             txtNewLyDo = new Guna2TextBox
             {
                 BorderRadius = 8,
                 Dock = DockStyle.Fill,
                 PlaceholderText = "Nhập lý do mới...",
-                Font = new Font("Segoe UI", 10),
-                DisabledState = { FillColor = Color.FromArgb(245, 245, 245) } // màu nền khi disable
+                Font = new Font("Segoe UI", 10)
             };
 
-            // Textbox nhập số tiền thưởng
             txtAmount = new Guna2TextBox
             {
                 BorderRadius = 8,
@@ -211,60 +231,58 @@ namespace GUI
                 Font = new Font("Segoe UI", 10)
             };
 
-            // DateTimePicker chọn ngày áp dụng thưởng
             dtNgay = new Guna2DateTimePicker
             {
                 BorderRadius = 8,
                 Dock = DockStyle.Fill,
                 Format = DateTimePickerFormat.Custom,
-                CustomFormat = "dd/MM/yyyy", // định dạng ngày VN
+                CustomFormat = "dd/MM/yyyy",
                 Font = new Font("Segoe UI", 10)
             };
 
-            // === THÊM CÁC CONTROL VÀO TABLELAYOUT ===
-            // Thêm panel chứa cả 2 vào TableLayoutPanel (thay vì chỉ cbPhongBan)
-            tlForm.Controls.Add(MakeLabel("Tìm theo phòng ban:"), 0, 0);
-            tlForm.Controls.Add(pnlPhongBanSearch, 1, 0);
-            tlForm.Controls.Add(MakeLabel("Nhân viên:"), 0, 1);
-            tlForm.Controls.Add(clbNhanVien, 1, 1);
-            tlForm.Controls.Add(MakeLabel("Lý do có sẵn:"), 0, 2);
-            tlForm.Controls.Add(cbLyDo, 1, 2);
-            tlForm.Controls.Add(MakeLabel("Hoặc lý do mới:"), 0, 3);
-            tlForm.Controls.Add(txtNewLyDo, 1, 3);
-            tlForm.Controls.Add(MakeLabel("Số tiền:"), 0, 4);
-            tlForm.Controls.Add(txtAmount, 1, 4);
-            tlForm.Controls.Add(MakeLabel("Ngày áp dụng:"), 0, 5);
-            tlForm.Controls.Add(dtNgay, 1, 5);
+            tlRight.Controls.Add(MakeLabel("Lý do mới:"), 0, 0);
+            tlRight.Controls.Add(txtNewLyDo, 1, 0);
+            tlRight.Controls.Add(MakeLabel("Số tiền:"), 0, 1);
+            tlRight.Controls.Add(txtAmount, 1, 1);
+            tlRight.Controls.Add(MakeLabel("Ngày áp dụng:"), 0, 2);
+            tlRight.Controls.Add(dtNgay, 1, 2);
 
-            pnlFormCard.Controls.Add(tlForm); // đưa layout vào panel card
+            // Ghép 2 phần trái-phải
+            tlTwoColumn.Controls.Add(tlLeft, 0, 0);
+            tlTwoColumn.Controls.Add(tlRight, 1, 0);
 
-            // === KHU NÚT CHỨC NĂNG (Lưu / Hoàn tác) ===
+            // Gắn phần tìm kiếm và form vào panel chính
+            tlMainForm.Controls.Add(pnlSearch, 0, 0);
+            tlMainForm.Controls.Add(tlTwoColumn, 0, 1);
+            pnlFormCard.Controls.Add(tlMainForm);
+
+            // === NÚT CHỨC NĂNG (Lưu / Hoàn tác) ===
             FlowLayoutPanel pnlButtons = new FlowLayoutPanel
             {
                 Dock = DockStyle.Top,
-                FlowDirection = FlowDirection.RightToLeft, // nút Lưu nằm ngoài cùng bên phải
-                Padding = new Padding(0, 10, 40, 0),
-                BackColor = Color.Transparent,
-                Height = 60
+                FlowDirection = FlowDirection.RightToLeft,
+                Padding = new Padding(0, 5, 40, 0),
+                Height = 55,
+                BackColor = Color.Transparent
             };
 
             btnSave = new Guna2Button
             {
                 Text = "💾 Lưu thưởng",
-                Width = 180,
-                Height = 45,
+                Width = 160,
+                Height = 42,
                 BorderRadius = 8,
-                FillColor = Color.FromArgb(45, 140, 90), // xanh lá đậm
+                FillColor = Color.FromArgb(45, 140, 90),
                 Font = new Font("Segoe UI Semibold", 10.5f),
                 ForeColor = Color.White
             };
-            btnSave.Click += btnSave_Click; // sự kiện lưu
+            btnSave.Click += btnSave_Click;
 
             btnUndo = new Guna2Button
             {
                 Text = "↩️ Hoàn tác",
-                Width = 160,
-                Height = 45,
+                Width = 140,
+                Height = 42,
                 BorderRadius = 8,
                 FillColor = Color.FromArgb(130, 130, 130),
                 Font = new Font("Segoe UI Semibold", 10.5f),
@@ -272,27 +290,24 @@ namespace GUI
             };
             btnUndo.Click += BtnUndo_Click;
 
-            // Thêm 2 nút vào panel
             pnlButtons.Controls.Add(btnSave);
             pnlButtons.Controls.Add(btnUndo);
 
-            // === TẠO DATAGRIDVIEW DƯỚI CÙNG ĐỂ HIỂN THỊ DANH SÁCH THƯỞNG ===
+            // === BẢNG DỮ LIỆU NHÂN VIÊN ĐƯỢC THƯỞNG ===
             dgv = new Guna2DataGridView
             {
                 Dock = DockStyle.Fill,
                 ReadOnly = true,
                 AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill,
                 AllowUserToAddRows = false,
-                ColumnHeadersHeight = 38,
+                ColumnHeadersHeight = 36,
                 BorderStyle = BorderStyle.None,
                 GridColor = Color.FromArgb(230, 235, 245),
                 AlternatingRowsDefaultCellStyle = new DataGridViewCellStyle
                 {
-                    BackColor = Color.FromArgb(248, 250, 255) // màu xen kẽ hàng
+                    BackColor = Color.FromArgb(248, 250, 255)
                 }
             };
-
-            // Header của DataGridView: màu xanh đậm, chữ trắng
             dgv.ColumnHeadersDefaultCellStyle = new DataGridViewCellStyle
             {
                 BackColor = Color.FromArgb(45, 85, 155),
@@ -300,21 +315,15 @@ namespace GUI
                 Font = new Font("Segoe UI", 10, FontStyle.Bold),
                 Alignment = DataGridViewContentAlignment.MiddleCenter
             };
-
-            // Style cho ô dữ liệu
             dgv.DefaultCellStyle = new DataGridViewCellStyle
             {
                 Font = new Font("Segoe UI", 9),
                 BackColor = Color.White,
                 ForeColor = Color.Black,
-                SelectionBackColor = Color.FromArgb(94, 148, 255), // màu khi chọn
+                SelectionBackColor = Color.FromArgb(94, 148, 255),
                 SelectionForeColor = Color.Black
             };
-
             dgv.CellClick += Dgv_CellClick;
-            dgv.CellMouseEnter += Dgv_CellMouseEnter;
-            dgv.CellMouseLeave += Dgv_CellMouseLeave;
-            DinhDangCotDgv();
 
             // === GHÉP TẤT CẢ THÀNH GIAO DIỆN CHÍNH ===
             TableLayoutPanel mainLayout = new TableLayoutPanel
@@ -323,22 +332,19 @@ namespace GUI
                 RowCount = 4,
                 ColumnCount = 1
             };
+            mainLayout.RowStyles.Add(new RowStyle(SizeType.Absolute, 65));  // tiêu đề
+            mainLayout.RowStyles.Add(new RowStyle(SizeType.Absolute, 265)); // form
+            mainLayout.RowStyles.Add(new RowStyle(SizeType.Absolute, 60));  // nút
+            mainLayout.RowStyles.Add(new RowStyle(SizeType.Percent, 100));  // bảng
 
-            // Xác định kích thước từng vùng
-            mainLayout.RowStyles.Add(new RowStyle(SizeType.Absolute, 65));   // tiêu đề
-            mainLayout.RowStyles.Add(new RowStyle(SizeType.Absolute, 430));  // form nhập liệu
-            mainLayout.RowStyles.Add(new RowStyle(SizeType.Percent, 70));    // vùng nút
-            mainLayout.RowStyles.Add(new RowStyle(SizeType.Percent, 100));   // vùng DataGridView
-
-            // Thêm vào layout chính
             mainLayout.Controls.Add(lblTitle, 0, 0);
             mainLayout.Controls.Add(pnlFormCard, 0, 1);
             mainLayout.Controls.Add(pnlButtons, 0, 2);
             mainLayout.Controls.Add(dgv, 0, 3);
 
-            // Đưa layout vào UserControl
             this.Controls.Add(mainLayout);
         }
+
 
         private void DinhDangCotDgv()
         {

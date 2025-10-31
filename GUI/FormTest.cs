@@ -30,7 +30,7 @@ namespace GUI
         //{   //"TPCNTT0001","Data Source=DESKTOP-UM1I61K\\THANHNGAN;Initial Catalog=PersonnelManagement;Integrated Security=True;Encrypt=False"
         //    //"Data Source=DESKTOP-6LE6PT2\\SQLEXPRESS;Initial Catalog=PersonnelManagement;Integrated Security=True;Encrypt=False"
         //    pnMain.Controls.Clear();
-        //    TaoDanhGiaHieuSuat uc = new TaoDanhGiaHieuSuat("TPCNTT0001", "Data Source=DESKTOP-UM1I61K\\THANHNGAN;Initial Catalog=PersonnelManagement;Integrated Security=True;Encrypt=False");
+        //    TaoNhanVien_KhauTru uc = new TaoNhanVien_KhauTru("GD00000001", "Data Source=DESKTOP-UM1I61K\\THANHNGAN;Initial Catalog=PersonnelManagement;Integrated Security=True;Encrypt=False");
         //    uc.Dock = DockStyle.Fill;
         //    pnMain.Controls.Add(uc);
         //}

@@ -118,7 +118,7 @@ namespace GUI
 
         private void btnTaoNhanVien_KhauTru_Click(object sender, EventArgs e)
         {
-            TaoNhanVien_KhauTru uc = new TaoNhanVien_KhauTru(_conn);
+            TaoNhanVien_KhauTru uc = new TaoNhanVien_KhauTru(_idNhanVien,_conn);
             DisplayUserControlPanel.ChildUserControl(uc, _tpCRUD);
 
         }

@@ -9,6 +9,11 @@ using System.Threading.Tasks;
 
 namespace DAL
 {
+    public class ImageStaff
+    {
+        public string Id { get; set; }
+        public string ImageName { get; set; }
+    }
     public class DALNhanVien
     {
         private readonly string connectionString;
@@ -20,6 +25,111 @@ namespace DAL
             _dbContext = new PersonnelManagementDataContextDataContext(conn);
         }
 
+        public List<ImageStaff> GetStaffByDepartment(int idDepartment)
+        {
+
+            return (_dbContext.NhanViens.Where(x => x.idPhongBan == idDepartment).Select(x=> new ImageStaff
+            {
+                Id = x.id,
+                ImageName =x.AnhDaiDien
+            })).ToList();
+        }
+        public List<ImageStaff> GetStaffByNameEmailCheckin(string name, string email, bool checkin, int idDepartment)
+        {
+            var list = _dbContext.NhanViens
+                .Where(x => x.idPhongBan == idDepartment);
+
+            if (!string.IsNullOrEmpty(name))
+            {
+                string nameLower = name.ToLower();
+                list = list.Where(x => x.TenNhanVien.ToLower() == nameLower);
+            }
+
+            if (!string.IsNullOrEmpty(email))
+            {
+                string emailLower = email.ToLower();
+                list = list.Where(x => x.Email.ToLower() == emailLower);
+            }
+
+            DateTime today = DateTime.Now.Date;
+
+            if (checkin)
+            {
+                return list
+                    .Join(_dbContext.ChamCongs.Where(c => c.GioVao != null && c.NgayChamCong == today),
+                        nv => nv.id,
+                        cc => cc.idNhanVien,
+                        (nv, cc) => new ImageStaff
+                        {
+                            Id = nv.id,
+                            ImageName = nv.AnhDaiDien
+                        })
+                    .ToList();
+            }
+            else
+            {
+                return (
+                    from nv in list
+                    join cc in _dbContext.ChamCongs.Where(c => c.NgayChamCong == today)
+                        on nv.id equals cc.idNhanVien into leftJoin
+                    from cc in leftJoin.DefaultIfEmpty()
+                    where cc == null
+                    select new ImageStaff
+                    {
+                        Id = nv.id,
+                        ImageName = nv.AnhDaiDien
+                    }
+                ).ToList();
+            }
+        }
+
+
+        //public List<ImageStaff> GetStaffByNameEmailCheckin(string name, string email, bool checkin, int idDepartment)
+        //{
+        //    var list = _dbContext.NhanViens.Where(x=> x.idPhongBan == idDepartment).Select(x=> x);
+        //    if(name != null || !string.IsNullOrEmpty(name))
+        //    {
+        //        list = list.Where(x => x.TenNhanVien.ToLower() == name.ToLower());
+        //    }
+        //    if (email != null || !string.IsNullOrEmpty(email))
+        //    {
+        //        list = list.Where(x => x.Email.ToLower() == email.ToLower());
+        //    }
+        //    if (checkin)
+        //    {
+        //        List<ImageStaff> result = (list.Join(_dbContext.ChamCongs,
+        //                            nv => nv.id,
+        //                            cc => cc.idNhanVien,
+        //                            (nv, cc) => new { nv, cc }).Where(x => x.cc.GioVao != null).Select(x => new ImageStaff
+        //                            {
+        //                                Id = x.nv.id,
+        //                                ImageName = x.nv.AnhDaiDien
+        //                            })).ToList();
+        //        return result;
+        //    }
+        //    else
+        //    {
+        //        DateTime today = DateTime.Today;
+
+        //        var result = (
+        //            from nv in list
+        //            join cc in _dbContext.ChamCongs
+        //                on new { nvId = nv.id, Ngay = today }
+        //                equals new { nvId = cc.idNhanVien, Ngay = cc.NgayChamCong }
+        //                into leftJoin
+        //            from cc in leftJoin.DefaultIfEmpty()
+        //            where cc == null
+        //            select new ImageStaff
+        //            {
+        //                Id = nv.id,
+        //                ImageName = nv.AnhDaiDien
+        //            }
+        //        ).ToList();
+        //        return result;
+
+
+        //    }
+        //}
 
         public DataTable GetAll(bool showHidden)
         {

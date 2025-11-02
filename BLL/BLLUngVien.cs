@@ -18,6 +18,8 @@ namespace BLL
             dal = new DALUngVien(conn);
         }
 
+        public IQueryable GetUCIsDeleted(bool isDeleted, bool inComplete) => dal.GetUCIsDeleted(isDeleted, inComplete);
+
         public IQueryable GetAll() => dal.GetAll();
 
         public IQueryable GetFind(string status, string name, int idChucVu)

@@ -32,5 +32,7 @@ namespace DTO
 
         public string TrangThai { get; set; }
 
+        public bool DaXoa { get; set; }
+
     }
 }

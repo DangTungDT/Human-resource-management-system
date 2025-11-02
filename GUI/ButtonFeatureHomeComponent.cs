@@ -47,7 +47,7 @@ namespace GUI
 
         private void guna2TileButton5_Click(object sender, EventArgs e)
         {
-            ucChamCongQuanLy uc = new ucChamCongQuanLy(_idNhanVien, _conn);
+            ucChamCongQuanLy uc = new ucChamCongQuanLy(_idNhanVien, 2 ,_conn);
             DisplayUserControlPanel.ChildUserControl(uc, _tpHome);
         }
 

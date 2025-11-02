@@ -19,11 +19,11 @@ namespace DAL
         public IQueryable GetAll() => db.ChamCongs;
 
         public IQueryable GetChamCongByIdNhanVien(string idNhanVien) => db.ChamCongs.Where(x => x.idNhanVien == idNhanVien);
-        public bool UpdateGioRa(int id, TimeSpan newGioRa)
+        public bool UpdateGioRa(string idNhanVien, DateTime ngayChamCong, TimeSpan newGioRa)
         {
             try
             {
-                ChamCong check = db.ChamCongs.Where(x => x.id == id).FirstOrDefault();
+                ChamCong check = db.ChamCongs.Where(x => x.idNhanVien == idNhanVien && x.NgayChamCong.Date == ngayChamCong.Date).FirstOrDefault();
                 if (check != null)
                 {
                     check.GioRa = newGioRa;
@@ -75,29 +75,57 @@ namespace DAL
                 return false;
             }
         }
-        public bool Add(DTOChamCong dto)
+        public string Add(DTOChamCong dto)
         {
             try
             {
                 bool check = db.ChamCongs.Any(x => x.idNhanVien == dto.IdNhanVien && x.NgayChamCong == dto.NgayChamCong);
-                if (!check)
+                if (check)
                 {
-                    return false;
+                    return "data already exists";
                 }
                 ChamCong newItem = new ChamCong()
                 {
                     NgayChamCong = dto.NgayChamCong,
-                    GioRa = dto.GioRa,
+                    GioVao = dto.GioVao,
                     idNhanVien = dto.IdNhanVien
                 };
                 db.ChamCongs.InsertOnSubmit(newItem);
                 db.SubmitChanges();
-                return true;
+                return "data added successfully";
             }
             catch(Exception ex)
             {
-                return false;
+                return "failed to add data";
             }
+        }
+
+        public bool CheckAttendance(string[,] arrIdStaff)
+        {
+            foreach(string s in arrIdStaff)
+            {
+                if(s != null)
+                {
+                    bool check = db.ChamCongs.Any(x => x.idNhanVien == s && x.NgayChamCong.Date == x.NgayChamCong.Date);
+                    if (!check) return false;
+                }
+                continue;
+            }
+            return true;    
+        }
+
+        public bool CheckAttendanceOut(string[,] arrIdStaff)
+        {
+            foreach (string s in arrIdStaff)
+            {
+                if (s != null)
+                {
+                    bool check = db.ChamCongs.Any(x => x.idNhanVien == s && x.NgayChamCong.Date == x.NgayChamCong.Date && x.GioRa != null);
+                    if (check) return false;
+                }
+                continue;
+            }
+            return true;
         }
     }
 }

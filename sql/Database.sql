@@ -119,7 +119,8 @@ Create table DanhGiaNhanVien
 	idNhanVien varchar(10) not null,
 	idNguoiDanhGia varchar(10) not null,
 	primary key(id),
-	constraint chk_NguoiDanhGia check (idNhanVien != idNguoiDanhGia)
+	constraint chk_NguoiDanhGia check (idNhanVien != idNguoiDanhGia),
+	constraint chk_DiemSo check (DiemSo between 1 and 10)
 )
 go
 
@@ -173,10 +174,10 @@ CREATE TABLE UngVien (
     idChucVuUngTuyen int NOT NULL,
 	idTuyenDung int not null,
     ngayUngTuyen DATE DEFAULT GETDATE(),
-    trangThai NVARCHAR(50) DEFAULT N'Đang xét duyệt'
+    trangThai NVARCHAR(50) DEFAULT N'Đang xét duyệt',
+	daXoa bit not null default 0
 )
 go
-
 create table NhanVien_PhuCap
 (
 	idNhanVien varchar(10) not null,

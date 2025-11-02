@@ -175,8 +175,7 @@ namespace GUI
                 string destPath = Path.Combine(folderPath, nameImg);
                 File.Copy(_urlImage, destPath);
                 MessageBox.Show("Thêm thành công!", "Thông báo");
-                dgvUngVien.DataSource = _bllUngVien.GetAll();
-
+                LoadDgvUngVien("inDeleted and incomplete");
                 CleanInput();
             }
             else if(_bllUngVien.Add(dto).ToLower() == "failed")
@@ -282,7 +281,7 @@ namespace GUI
                 if (_bllUngVien.Update(dto))
                 {
                     MessageBox.Show("Cập nhật thành công!", "Thông báo");
-                    dgvUngVien.DataSource = _bllUngVien.GetAll();
+                    LoadDgvUngVien("inDeleted");
                     CleanInput();
                 }
                 else
@@ -312,7 +311,7 @@ namespace GUI
                     {
                         _idUngVien = 0;
                         MessageBox.Show("Xóa thành công!", "Thông báo");
-                        dgvUngVien.DataSource = _bllUngVien.GetAll();
+                        LoadDgvUngVien("inDeleted and incomplete");
                         CleanInput();
                     }
                     else
@@ -491,13 +490,13 @@ namespace GUI
                 if(!_bllNhanVien.AddNhanVien(newStaff, namePosition, phongBan.TenPhongBan))
                 {
                     MessageBox.Show("Thêm nhân viên thất bại!", "Thông báo");
-                    return;
+                    //return;
                 }
 
             }else if (_oldUngVien.TrangThai == "Thử việc")
             {
                 dto.TrangThai = "Trúng tuyển";
-
+                dto.DaXoa = true;
             }
             else if (_oldUngVien.TrangThai == "Trúng tuyển")
             {
@@ -513,7 +512,7 @@ namespace GUI
             if (_bllUngVien.Update(dto))
             {
                 MessageBox.Show($"Duyệt thành công, ứng viên hiện đang ở trạng thái\n{dto.TrangThai}!", "Thông báo");
-                LoadDgvUngVien("all");
+                LoadDgvUngVien("inDeleted and incomplete");
                 CleanInput();
             }
             else
@@ -556,13 +555,14 @@ namespace GUI
                     IdChucVuUngTuyen = _oldUngVien.IdChucVuUngTuyen,
                     IdTuyenDung = _oldUngVien.IdTuyenDung,
                     NgayUngTuyen = _oldUngVien.NgayUngTuyen,
-                    TrangThai = "Loại"
+                    TrangThai = "Loại",
+                    DaXoa = true
                 };
 
                 if (_bllUngVien.Update(dto))
                 {
                     MessageBox.Show($"Loại thành công!", "Thông báo");
-                    LoadDgvUngVien("all");
+                    LoadDgvUngVien("inDeleted and incomplete");
                     CleanInput();
                 }
                 else
@@ -631,16 +631,28 @@ namespace GUI
             dtpNgayUngTuyen.Value = DateTime.Now;
 
 
-            LoadDgvUngVien("all");
+            LoadDgvUngVien("inDeleted and incomplete");
 
         }
 
         private void LoadDgvUngVien(string status)
         {
-            //Phân biệt load ứng viên (tất cả / bị loại / trúng tuyển)
+            //Phân biệt load ứng viên (tất cả / bị loại / trúng tuyển / Xóa mềm)
             if(status == "pass")
             {
                 dgvUngVien.DataSource = _bllUngVien.GetUngVienStatus(true);
+            }
+            else if(status == "isDeleted")
+            {
+                dgvUngVien.DataSource = _bllUngVien.GetUCIsDeleted(true, false);
+            }
+            else if (status == "inDeleted")
+            {
+                dgvUngVien.DataSource = _bllUngVien.GetUCIsDeleted(false, false);
+            }
+            else if (status == "inDeleted and incomplete")
+            {
+                dgvUngVien.DataSource = _bllUngVien.GetUCIsDeleted(false, true);
             }
             else if(status == "eliminat")
             {
@@ -665,6 +677,7 @@ namespace GUI
             dgvUngVien.Columns["idTuyenDung"].Visible = false;
             dgvUngVien.Columns["id"].Visible = false;
             dgvUngVien.Columns["duongDanCV"].Visible = false;
+            dgvUngVien.Columns["daXoa"].Visible = false;
 
             //Chỉnh lại nội dung header cho column
             dgvUngVien.Columns["tenNhanVien"].HeaderText = "Tên ứng viên";
@@ -677,6 +690,7 @@ namespace GUI
             dgvUngVien.Columns["trangThai"].HeaderText = "Trạng thái";
             dgvUngVien.Columns["tenChucVu"].HeaderText = "Chức vụ ứng tuyển";
             dgvUngVien.Columns["tieuDeTuyenDung"].HeaderText = "Tuyển dụng";
+
         }
     }
 }

@@ -25,19 +25,48 @@ namespace DAL
             _dbContext = new PersonnelManagementDataContextDataContext(conn);
         }
 
-        public List<ImageStaff> GetStaffByDepartment(int idDepartment)
+        public List<ImageStaff> GetStaffByRole(string idStaff, int idDepartment)
         {
-
-            return (_dbContext.NhanViens.Where(x => x.idPhongBan == idDepartment).Select(x=> new ImageStaff
+            string role = idStaff.Substring(0, 2);
+            if (role == "NV")
             {
-                Id = x.id,
-                ImageName =x.AnhDaiDien
-            })).ToList();
+                //Role nhân viên
+                return (_dbContext.NhanViens.Where(x => x.id == idStaff).Select(x => new ImageStaff
+                {
+                    Id = x.id,
+                    ImageName = x.AnhDaiDien
+                })).ToList();
+            }
+            else if(role == "TP")
+            {
+                //Role trưởng phòng
+                return (_dbContext.NhanViens.Where(x => x.idPhongBan == idDepartment).Select(x => new ImageStaff
+                {
+                    Id = x.id,
+                    ImageName = x.AnhDaiDien
+                })).ToList();
+            }
+            //Role Giám đốc
+                return (_dbContext.NhanViens.Select(x => new ImageStaff
+                {
+                    Id = x.id,
+                    ImageName = x.AnhDaiDien
+                })).ToList();
         }
-        public List<ImageStaff> GetStaffByNameEmailCheckin(string name, string email, bool checkin, int idDepartment)
+        public List<ImageStaff> GetStaffByNameEmailCheckin(string name, string email, bool checkin, int idDepartment, string idStaff)
         {
-            var list = _dbContext.NhanViens
-                .Where(x => x.idPhongBan == idDepartment);
+            string role = idStaff.Substring(0, 2);
+            var list = _dbContext.NhanViens.Select(x => x);
+            if (role == "NV")
+            {
+                //Nhân viên yêu cầu có chức vụ là nhân viên
+                list = list.Where(x => x.id == idStaff);
+            }
+            else if(role == "TP")
+            {
+                //Nhân viên yêu cầu có chức vụ là trưởng phòng
+                list = list.Where(x => x.idPhongBan == idDepartment);
+            }
 
             if (!string.IsNullOrEmpty(name))
             {
@@ -148,6 +177,29 @@ namespace DAL
                 da.Fill(dt);
                 return dt;
             }
+        }
+
+        public DTONhanVien GetStaffById(string idStaff)
+        {
+            var result = _dbContext.NhanViens.FirstOrDefault(x => x.id == idStaff);
+            if(result != null)
+            {
+                DTONhanVien dto = new DTONhanVien
+                {
+                    ID = result.id,
+                    TenNhanVien = result.TenNhanVien,
+                    NgaySinh = result.NgaySinh,
+                    GioiTinh = result.GioiTinh,
+                    DiaChi = result.DiaChi,
+                    Que = result.Que,
+                    Email = result.Email,
+                    IdChucVu = result.idChucVu.ToString(),
+                    IdPhongBan = result.idPhongBan.ToString(),
+                    AnhDaiDien = result.AnhDaiDien
+                };
+                return dto;
+            }
+            return null;
         }
 
         public DataTable GetById(string id)

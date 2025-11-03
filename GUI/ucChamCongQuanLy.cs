@@ -62,15 +62,21 @@ namespace GUI
 
         private void LoadDGVImageStaff(List<ImageStaff> listStaff)
         {
+            //Lấy id và hình của nhân viên có trong phòng ban
             if (listStaff == null)
             {
-                listStaff = _dbContextStaff.GetStaffByDepartment(_idStaffDepartment);
+                listStaff = _dbContextStaff.GetStaffByRole(_idNhanVien, _idStaffDepartment);
             }
             if (listStaff.Count < 1)
             {
-                MessageBox.Show("Không có dữ liệu image");
+                dgvEmployeeAttendance.Rows.Clear();
+                dgvEmployeeAttendance.Columns.Clear();
                 return;
             }
+
+            //Clear hàng và cột của datagirdview
+            dgvEmployeeAttendance.Rows.Clear();
+            dgvEmployeeAttendance.Columns.Clear();
 
             dgvEmployeeAttendance.SelectionMode = DataGridViewSelectionMode.CellSelect;
             dgvEmployeeAttendance.RowTemplate.Height = 150;
@@ -97,15 +103,13 @@ namespace GUI
                 return;
             }
 
-            //Lấy id và hình của nhân viên có trong phòng ban
-            
-
             // Tính số dòng cần thiết
             int dong = (listStaff.Count + 5 - 1) / 5;
 
             //Tạo mảng 2 chiều để gán giá trị id nhân viên theo cấu trúc của datagirdview hình
             _arrIdSelected = new string[dong, 5];
 
+            
             int index = 0;
             for (int r = 0; r < dong; r++)
             {
@@ -133,6 +137,16 @@ namespace GUI
             }
 
             dgvEmployeeAttendance.AllowUserToAddRows = false;
+
+            //Kiểm tra checkin và checkout của dữ liệu
+            if (_bllChamCong.CheckAttendance(_arrIdSelected))
+            {
+                _checkedIn = true;
+            }
+            if (_bllChamCong.CheckAttendance(_arrIdSelected))
+            {
+                _checkedIn = true;
+            }
         }
 
         private void dgvEmployeeAttendance_CellContentClick(object sender, DataGridViewCellEventArgs e)
@@ -151,51 +165,61 @@ namespace GUI
 
             if (_arrIdSelected[row, col] != null)
             {
-                DTOChamCong dto = new DTOChamCong
+                string staffName = _dbContextStaff.GetStaffById(_arrIdSelected[row, col]).TenNhanVien;
+                DialogResult question = MessageBox.Show($"Chấm công cho nhân viên {staffName.ToUpper()}?", "Thông báo", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                if(question == DialogResult.Yes)
                 {
-                    NgayChamCong = DateTime.Now,
-                    GioVao = DateTime.Now.TimeOfDay,
-                    IdNhanVien = _arrIdSelected[row, col]
-                };
-                string result = _bllChamCong.Add(dto).ToLower();
-                if (result == "data already exists")
-                {
-                    //Dữ liệu đã tồn tại 
-                    //Là chấm công ra
-                    dto.GioRa = DateTime.Now.TimeOfDay;
-                    if(_bllChamCong.UpdateGioRa(dto))
+                    DTOChamCong dto = new DTOChamCong
                     {
-                        MessageBox.Show("Chấm công về thành công!", "Thông báo");
-                        if (_bllChamCong.CheckAttendanceOut(_arrIdSelected))
+                        NgayChamCong = DateTime.Now,
+                        GioVao = DateTime.Now.TimeOfDay,
+                        IdNhanVien = _arrIdSelected[row, col]
+                    };
+                    string result = _bllChamCong.Add(dto).ToLower();
+                    if (result == "data already exists")
+                    {
+                        //Dữ liệu đã tồn tại 
+                        //Là chấm công ra
+                        DialogResult questionCheckOut = MessageBox.Show($"{staffName.ToUpper()} đã chấm công vào từ trước, bạn có muốn chấm công về?", "Thông báo", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+                        if (questionCheckOut == DialogResult.Yes)
                         {
-                            _checkedOut = true;
+                            dto.GioRa = DateTime.Now.TimeOfDay;
+                            if (_bllChamCong.UpdateGioRa(dto))
+                            {
+                                MessageBox.Show("Chấm công về thành công!", "Thông báo");
+                                if (_bllChamCong.CheckAttendanceOut(_arrIdSelected))
+                                {
+                                    _checkedOut = true;
+                                }
+                            }
+                            else
+                            {
+                                MessageBox.Show("Chấm công về thất bại!", "Thông báo");
+                            }
+                        }
+
+                        //MessageBox.Show("Nhân viên này đã chấm công vào, không thể chấm tiếp!", "Thông báo");
+                    }
+                    else if (result == "invalid data")
+                    {
+                        //Dữ liệu sai
+                        MessageBox.Show("Dữ liệu không hợp lệ!", "Thông báo");
+                    }
+                    else if (result == "data added successfully")
+                    {
+                        //Thêm thành công
+                        MessageBox.Show("Chấm công vào thành công!", "Thông báo");
+                        if (_bllChamCong.CheckAttendance(_arrIdSelected))
+                        {
+                            _checkedIn = true;
                         }
                     }
                     else
                     {
-                        MessageBox.Show("Chấm công về thất bại!", "Thông báo");
+                        //Thêm thất bại
+                        MessageBox.Show("Chấm công thất bại!", "Thông báo");
                     }
                 }
-                else if(result == "invalid data")
-                {
-                    //Dữ liệu sai
-                    MessageBox.Show("Dữ liệu không hợp lệ!", "Thông báo");
-                }
-                else if(result == "data added successfully")
-                {
-                    //Thêm thành công
-                    MessageBox.Show("Chấm công vào thành công!", "Thông báo");
-                    if(_bllChamCong.CheckAttendance(_arrIdSelected))
-                    {
-                        _checkedIn = true;
-                    }
-                }
-                else
-                {
-                    //Thêm thất bại
-                    MessageBox.Show("Chấm công thất bại!", "Thông báo");
-                }
-
             }
         }
 
@@ -318,12 +342,17 @@ namespace GUI
             }
             if(rdoCheckedIn.Checked)
             {
-                LoadDGVImageStaff(_dbContextStaff.GetStaffByNameEmailCheckin(txtEmployeeName.Text, txtEmail.Text, true, _idStaffDepartment));
+                LoadDGVImageStaff(_dbContextStaff.GetStaffByNameEmailCheckin(txtEmployeeName.Text, txtEmail.Text, true, _idStaffDepartment, _idNhanVien));
             }
             else
             {
-                LoadDGVImageStaff(_dbContextStaff.GetStaffByNameEmailCheckin(txtEmployeeName.Text, txtEmail.Text, false, _idStaffDepartment));
+                LoadDGVImageStaff(_dbContextStaff.GetStaffByNameEmailCheckin(txtEmployeeName.Text, txtEmail.Text, false, _idStaffDepartment, _idNhanVien));
             }
+            
+        }
+
+        private void dgvEmployeeAttendance_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
+        {
             
         }
 
@@ -331,7 +360,11 @@ namespace GUI
         {
             if(_checkedIn)
             {
-                if(!_checkedOut) {
+                if (_bllChamCong.CheckAttendanceOut(_arrIdSelected))
+                {
+                    _checkedOut = true;
+                }
+                if (!_checkedOut) {
                     //Đã chấm công vào cho tất cả
                     foreach (string idStaff in _arrIdSelected)
                     {

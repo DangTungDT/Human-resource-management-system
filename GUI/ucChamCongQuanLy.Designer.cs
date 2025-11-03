@@ -28,28 +28,28 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle17 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle18 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle19 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle20 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
             this.guna2Panel1 = new Guna.UI2.WinForms.Guna2Panel();
-            this.guna2Panel2 = new Guna.UI2.WinForms.Guna2Panel();
-            this.dgvEmployeeAttendance = new Guna.UI2.WinForms.Guna2DataGridView();
+            this.guna2GroupBox2 = new Guna.UI2.WinForms.Guna2GroupBox();
+            this.btnChamCongRaTatCa = new Guna.UI2.WinForms.Guna2Button();
+            this.btnChamCongVaoTatCa = new Guna.UI2.WinForms.Guna2Button();
+            this.guna2Button1 = new Guna.UI2.WinForms.Guna2Button();
             this.guna2GroupBox1 = new Guna.UI2.WinForms.Guna2GroupBox();
             this.btnFilterEmployees = new Guna.UI2.WinForms.Guna2Button();
             this.rdoNotCheckedIn = new Guna.UI2.WinForms.Guna2RadioButton();
             this.rdoCheckedIn = new Guna.UI2.WinForms.Guna2RadioButton();
             this.txtEmail = new Guna.UI2.WinForms.Guna2TextBox();
             this.txtEmployeeName = new Guna.UI2.WinForms.Guna2TextBox();
-            this.guna2GroupBox2 = new Guna.UI2.WinForms.Guna2GroupBox();
-            this.guna2Button1 = new Guna.UI2.WinForms.Guna2Button();
-            this.btnChamCongVaoTatCa = new Guna.UI2.WinForms.Guna2Button();
-            this.btnChamCongRaTatCa = new Guna.UI2.WinForms.Guna2Button();
+            this.guna2Panel2 = new Guna.UI2.WinForms.Guna2Panel();
+            this.dgvEmployeeAttendance = new Guna.UI2.WinForms.Guna2DataGridView();
             this.guna2Panel1.SuspendLayout();
+            this.guna2GroupBox2.SuspendLayout();
+            this.guna2GroupBox1.SuspendLayout();
             this.guna2Panel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvEmployeeAttendance)).BeginInit();
-            this.guna2GroupBox1.SuspendLayout();
-            this.guna2GroupBox2.SuspendLayout();
             this.SuspendLayout();
             // 
             // guna2Panel1
@@ -63,78 +63,74 @@
             this.guna2Panel1.Size = new System.Drawing.Size(289, 875);
             this.guna2Panel1.TabIndex = 0;
             // 
-            // guna2Panel2
+            // guna2GroupBox2
             // 
-            this.guna2Panel2.Controls.Add(this.dgvEmployeeAttendance);
-            this.guna2Panel2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.guna2Panel2.Location = new System.Drawing.Point(289, 0);
-            this.guna2Panel2.Name = "guna2Panel2";
-            this.guna2Panel2.Size = new System.Drawing.Size(1173, 875);
-            this.guna2Panel2.TabIndex = 1;
+            this.guna2GroupBox2.Controls.Add(this.btnChamCongRaTatCa);
+            this.guna2GroupBox2.Controls.Add(this.btnChamCongVaoTatCa);
+            this.guna2GroupBox2.Controls.Add(this.guna2Button1);
+            this.guna2GroupBox2.Font = new System.Drawing.Font("Segoe UI", 9F);
+            this.guna2GroupBox2.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(125)))), ((int)(((byte)(137)))), ((int)(((byte)(149)))));
+            this.guna2GroupBox2.Location = new System.Drawing.Point(18, 21);
+            this.guna2GroupBox2.Name = "guna2GroupBox2";
+            this.guna2GroupBox2.Size = new System.Drawing.Size(253, 319);
+            this.guna2GroupBox2.TabIndex = 0;
+            this.guna2GroupBox2.Text = "Chấm công";
             // 
-            // dgvEmployeeAttendance
+            // btnChamCongRaTatCa
             // 
-            dataGridViewCellStyle17.BackColor = System.Drawing.Color.White;
-            this.dgvEmployeeAttendance.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle17;
-            dataGridViewCellStyle18.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle18.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(88)))), ((int)(((byte)(255)))));
-            dataGridViewCellStyle18.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle18.ForeColor = System.Drawing.Color.White;
-            dataGridViewCellStyle18.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle18.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle18.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dgvEmployeeAttendance.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle18;
-            this.dgvEmployeeAttendance.ColumnHeadersHeight = 4;
-            this.dgvEmployeeAttendance.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.EnableResizing;
-            dataGridViewCellStyle19.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle19.BackColor = System.Drawing.Color.White;
-            dataGridViewCellStyle19.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle19.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(71)))), ((int)(((byte)(69)))), ((int)(((byte)(94)))));
-            dataGridViewCellStyle19.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(231)))), ((int)(((byte)(229)))), ((int)(((byte)(255)))));
-            dataGridViewCellStyle19.SelectionForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(71)))), ((int)(((byte)(69)))), ((int)(((byte)(94)))));
-            dataGridViewCellStyle19.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dgvEmployeeAttendance.DefaultCellStyle = dataGridViewCellStyle19;
-            this.dgvEmployeeAttendance.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dgvEmployeeAttendance.GridColor = System.Drawing.Color.FromArgb(((int)(((byte)(231)))), ((int)(((byte)(229)))), ((int)(((byte)(255)))));
-            this.dgvEmployeeAttendance.Location = new System.Drawing.Point(0, 0);
-            this.dgvEmployeeAttendance.MultiSelect = false;
-            this.dgvEmployeeAttendance.Name = "dgvEmployeeAttendance";
-            dataGridViewCellStyle20.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle20.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle20.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle20.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle20.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle20.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle20.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dgvEmployeeAttendance.RowHeadersDefaultCellStyle = dataGridViewCellStyle20;
-            this.dgvEmployeeAttendance.RowHeadersVisible = false;
-            this.dgvEmployeeAttendance.RowHeadersWidth = 51;
-            this.dgvEmployeeAttendance.RowTemplate.Height = 24;
-            this.dgvEmployeeAttendance.Size = new System.Drawing.Size(1173, 875);
-            this.dgvEmployeeAttendance.TabIndex = 0;
-            this.dgvEmployeeAttendance.ThemeStyle.AlternatingRowsStyle.BackColor = System.Drawing.Color.White;
-            this.dgvEmployeeAttendance.ThemeStyle.AlternatingRowsStyle.Font = null;
-            this.dgvEmployeeAttendance.ThemeStyle.AlternatingRowsStyle.ForeColor = System.Drawing.Color.Empty;
-            this.dgvEmployeeAttendance.ThemeStyle.AlternatingRowsStyle.SelectionBackColor = System.Drawing.Color.Empty;
-            this.dgvEmployeeAttendance.ThemeStyle.AlternatingRowsStyle.SelectionForeColor = System.Drawing.Color.Empty;
-            this.dgvEmployeeAttendance.ThemeStyle.BackColor = System.Drawing.Color.White;
-            this.dgvEmployeeAttendance.ThemeStyle.GridColor = System.Drawing.Color.FromArgb(((int)(((byte)(231)))), ((int)(((byte)(229)))), ((int)(((byte)(255)))));
-            this.dgvEmployeeAttendance.ThemeStyle.HeaderStyle.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(88)))), ((int)(((byte)(255)))));
-            this.dgvEmployeeAttendance.ThemeStyle.HeaderStyle.BorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
-            this.dgvEmployeeAttendance.ThemeStyle.HeaderStyle.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.dgvEmployeeAttendance.ThemeStyle.HeaderStyle.ForeColor = System.Drawing.Color.White;
-            this.dgvEmployeeAttendance.ThemeStyle.HeaderStyle.HeaightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.EnableResizing;
-            this.dgvEmployeeAttendance.ThemeStyle.HeaderStyle.Height = 4;
-            this.dgvEmployeeAttendance.ThemeStyle.ReadOnly = false;
-            this.dgvEmployeeAttendance.ThemeStyle.RowsStyle.BackColor = System.Drawing.Color.White;
-            this.dgvEmployeeAttendance.ThemeStyle.RowsStyle.BorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.SingleHorizontal;
-            this.dgvEmployeeAttendance.ThemeStyle.RowsStyle.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.dgvEmployeeAttendance.ThemeStyle.RowsStyle.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(71)))), ((int)(((byte)(69)))), ((int)(((byte)(94)))));
-            this.dgvEmployeeAttendance.ThemeStyle.RowsStyle.Height = 24;
-            this.dgvEmployeeAttendance.ThemeStyle.RowsStyle.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(231)))), ((int)(((byte)(229)))), ((int)(((byte)(255)))));
-            this.dgvEmployeeAttendance.ThemeStyle.RowsStyle.SelectionForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(71)))), ((int)(((byte)(69)))), ((int)(((byte)(94)))));
-            this.dgvEmployeeAttendance.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvEmployeeAttendance_CellClick);
-            this.dgvEmployeeAttendance.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvEmployeeAttendance_CellContentClick);
+            this.btnChamCongRaTatCa.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnChamCongRaTatCa.BorderRadius = 7;
+            this.btnChamCongRaTatCa.DisabledState.BorderColor = System.Drawing.Color.DarkGray;
+            this.btnChamCongRaTatCa.DisabledState.CustomBorderColor = System.Drawing.Color.DarkGray;
+            this.btnChamCongRaTatCa.DisabledState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(169)))), ((int)(((byte)(169)))), ((int)(((byte)(169)))));
+            this.btnChamCongRaTatCa.DisabledState.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(141)))), ((int)(((byte)(141)))), ((int)(((byte)(141)))));
+            this.btnChamCongRaTatCa.FillColor = System.Drawing.Color.LightGray;
+            this.btnChamCongRaTatCa.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnChamCongRaTatCa.ForeColor = System.Drawing.Color.Black;
+            this.btnChamCongRaTatCa.Location = new System.Drawing.Point(12, 118);
+            this.btnChamCongRaTatCa.Name = "btnChamCongRaTatCa";
+            this.btnChamCongRaTatCa.Size = new System.Drawing.Size(229, 45);
+            this.btnChamCongRaTatCa.TabIndex = 10;
+            this.btnChamCongRaTatCa.Text = "Chấm công ra tất cả";
+            this.btnChamCongRaTatCa.Click += new System.EventHandler(this.btnChamCongRaTatCa_Click);
+            // 
+            // btnChamCongVaoTatCa
+            // 
+            this.btnChamCongVaoTatCa.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnChamCongVaoTatCa.BorderRadius = 7;
+            this.btnChamCongVaoTatCa.DisabledState.BorderColor = System.Drawing.Color.DarkGray;
+            this.btnChamCongVaoTatCa.DisabledState.CustomBorderColor = System.Drawing.Color.DarkGray;
+            this.btnChamCongVaoTatCa.DisabledState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(169)))), ((int)(((byte)(169)))), ((int)(((byte)(169)))));
+            this.btnChamCongVaoTatCa.DisabledState.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(141)))), ((int)(((byte)(141)))), ((int)(((byte)(141)))));
+            this.btnChamCongVaoTatCa.FillColor = System.Drawing.Color.LightGray;
+            this.btnChamCongVaoTatCa.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnChamCongVaoTatCa.ForeColor = System.Drawing.Color.Black;
+            this.btnChamCongVaoTatCa.Location = new System.Drawing.Point(12, 53);
+            this.btnChamCongVaoTatCa.Name = "btnChamCongVaoTatCa";
+            this.btnChamCongVaoTatCa.Size = new System.Drawing.Size(229, 45);
+            this.btnChamCongVaoTatCa.TabIndex = 10;
+            this.btnChamCongVaoTatCa.Text = "Chấm công vào tất cả";
+            this.btnChamCongVaoTatCa.Click += new System.EventHandler(this.btnChamCongVaoTatCa_Click);
+            // 
+            // guna2Button1
+            // 
+            this.guna2Button1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.guna2Button1.BorderRadius = 7;
+            this.guna2Button1.DisabledState.BorderColor = System.Drawing.Color.DarkGray;
+            this.guna2Button1.DisabledState.CustomBorderColor = System.Drawing.Color.DarkGray;
+            this.guna2Button1.DisabledState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(169)))), ((int)(((byte)(169)))), ((int)(((byte)(169)))));
+            this.guna2Button1.DisabledState.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(141)))), ((int)(((byte)(141)))), ((int)(((byte)(141)))));
+            this.guna2Button1.FillColor = System.Drawing.Color.LightGray;
+            this.guna2Button1.Font = new System.Drawing.Font("Segoe UI", 9F);
+            this.guna2Button1.ForeColor = System.Drawing.Color.Black;
+            this.guna2Button1.Location = new System.Drawing.Point(21, -81);
+            this.guna2Button1.Name = "guna2Button1";
+            this.guna2Button1.Size = new System.Drawing.Size(229, 45);
+            this.guna2Button1.TabIndex = 10;
+            this.guna2Button1.Text = "Lọc nhân viên";
             // 
             // guna2GroupBox1
             // 
@@ -258,74 +254,79 @@
             this.txtEmployeeName.TabIndex = 7;
             this.txtEmployeeName.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtEmployeeName_KeyPress);
             // 
-            // guna2GroupBox2
+            // guna2Panel2
             // 
-            this.guna2GroupBox2.Controls.Add(this.btnChamCongRaTatCa);
-            this.guna2GroupBox2.Controls.Add(this.btnChamCongVaoTatCa);
-            this.guna2GroupBox2.Controls.Add(this.guna2Button1);
-            this.guna2GroupBox2.Font = new System.Drawing.Font("Segoe UI", 9F);
-            this.guna2GroupBox2.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(125)))), ((int)(((byte)(137)))), ((int)(((byte)(149)))));
-            this.guna2GroupBox2.Location = new System.Drawing.Point(18, 21);
-            this.guna2GroupBox2.Name = "guna2GroupBox2";
-            this.guna2GroupBox2.Size = new System.Drawing.Size(253, 319);
-            this.guna2GroupBox2.TabIndex = 0;
-            this.guna2GroupBox2.Text = "Chấm công";
+            this.guna2Panel2.Controls.Add(this.dgvEmployeeAttendance);
+            this.guna2Panel2.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.guna2Panel2.Location = new System.Drawing.Point(289, 0);
+            this.guna2Panel2.Name = "guna2Panel2";
+            this.guna2Panel2.Size = new System.Drawing.Size(1173, 875);
+            this.guna2Panel2.TabIndex = 1;
             // 
-            // guna2Button1
+            // dgvEmployeeAttendance
             // 
-            this.guna2Button1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.guna2Button1.BorderRadius = 7;
-            this.guna2Button1.DisabledState.BorderColor = System.Drawing.Color.DarkGray;
-            this.guna2Button1.DisabledState.CustomBorderColor = System.Drawing.Color.DarkGray;
-            this.guna2Button1.DisabledState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(169)))), ((int)(((byte)(169)))), ((int)(((byte)(169)))));
-            this.guna2Button1.DisabledState.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(141)))), ((int)(((byte)(141)))), ((int)(((byte)(141)))));
-            this.guna2Button1.FillColor = System.Drawing.Color.LightGray;
-            this.guna2Button1.Font = new System.Drawing.Font("Segoe UI", 9F);
-            this.guna2Button1.ForeColor = System.Drawing.Color.Black;
-            this.guna2Button1.Location = new System.Drawing.Point(21, -81);
-            this.guna2Button1.Name = "guna2Button1";
-            this.guna2Button1.Size = new System.Drawing.Size(229, 45);
-            this.guna2Button1.TabIndex = 10;
-            this.guna2Button1.Text = "Lọc nhân viên";
-            // 
-            // btnChamCongVaoTatCa
-            // 
-            this.btnChamCongVaoTatCa.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnChamCongVaoTatCa.BorderRadius = 7;
-            this.btnChamCongVaoTatCa.DisabledState.BorderColor = System.Drawing.Color.DarkGray;
-            this.btnChamCongVaoTatCa.DisabledState.CustomBorderColor = System.Drawing.Color.DarkGray;
-            this.btnChamCongVaoTatCa.DisabledState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(169)))), ((int)(((byte)(169)))), ((int)(((byte)(169)))));
-            this.btnChamCongVaoTatCa.DisabledState.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(141)))), ((int)(((byte)(141)))), ((int)(((byte)(141)))));
-            this.btnChamCongVaoTatCa.FillColor = System.Drawing.Color.LightGray;
-            this.btnChamCongVaoTatCa.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnChamCongVaoTatCa.ForeColor = System.Drawing.Color.Black;
-            this.btnChamCongVaoTatCa.Location = new System.Drawing.Point(12, 53);
-            this.btnChamCongVaoTatCa.Name = "btnChamCongVaoTatCa";
-            this.btnChamCongVaoTatCa.Size = new System.Drawing.Size(229, 45);
-            this.btnChamCongVaoTatCa.TabIndex = 10;
-            this.btnChamCongVaoTatCa.Text = "Chấm công vào tất cả";
-            this.btnChamCongVaoTatCa.Click += new System.EventHandler(this.btnChamCongVaoTatCa_Click);
-            // 
-            // btnChamCongRaTatCa
-            // 
-            this.btnChamCongRaTatCa.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnChamCongRaTatCa.BorderRadius = 7;
-            this.btnChamCongRaTatCa.DisabledState.BorderColor = System.Drawing.Color.DarkGray;
-            this.btnChamCongRaTatCa.DisabledState.CustomBorderColor = System.Drawing.Color.DarkGray;
-            this.btnChamCongRaTatCa.DisabledState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(169)))), ((int)(((byte)(169)))), ((int)(((byte)(169)))));
-            this.btnChamCongRaTatCa.DisabledState.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(141)))), ((int)(((byte)(141)))), ((int)(((byte)(141)))));
-            this.btnChamCongRaTatCa.FillColor = System.Drawing.Color.LightGray;
-            this.btnChamCongRaTatCa.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnChamCongRaTatCa.ForeColor = System.Drawing.Color.Black;
-            this.btnChamCongRaTatCa.Location = new System.Drawing.Point(12, 118);
-            this.btnChamCongRaTatCa.Name = "btnChamCongRaTatCa";
-            this.btnChamCongRaTatCa.Size = new System.Drawing.Size(229, 45);
-            this.btnChamCongRaTatCa.TabIndex = 10;
-            this.btnChamCongRaTatCa.Text = "Chấm công ra tất cả";
-            this.btnChamCongRaTatCa.Click += new System.EventHandler(this.btnChamCongRaTatCa_Click);
+            dataGridViewCellStyle1.BackColor = System.Drawing.Color.White;
+            this.dgvEmployeeAttendance.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(88)))), ((int)(((byte)(255)))));
+            dataGridViewCellStyle2.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle2.ForeColor = System.Drawing.Color.White;
+            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dgvEmployeeAttendance.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle2;
+            this.dgvEmployeeAttendance.ColumnHeadersHeight = 4;
+            this.dgvEmployeeAttendance.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.EnableResizing;
+            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle3.BackColor = System.Drawing.Color.White;
+            dataGridViewCellStyle3.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle3.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(71)))), ((int)(((byte)(69)))), ((int)(((byte)(94)))));
+            dataGridViewCellStyle3.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(231)))), ((int)(((byte)(229)))), ((int)(((byte)(255)))));
+            dataGridViewCellStyle3.SelectionForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(71)))), ((int)(((byte)(69)))), ((int)(((byte)(94)))));
+            dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dgvEmployeeAttendance.DefaultCellStyle = dataGridViewCellStyle3;
+            this.dgvEmployeeAttendance.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.dgvEmployeeAttendance.GridColor = System.Drawing.Color.FromArgb(((int)(((byte)(231)))), ((int)(((byte)(229)))), ((int)(((byte)(255)))));
+            this.dgvEmployeeAttendance.Location = new System.Drawing.Point(0, 0);
+            this.dgvEmployeeAttendance.MultiSelect = false;
+            this.dgvEmployeeAttendance.Name = "dgvEmployeeAttendance";
+            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle4.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle4.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle4.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle4.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle4.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dgvEmployeeAttendance.RowHeadersDefaultCellStyle = dataGridViewCellStyle4;
+            this.dgvEmployeeAttendance.RowHeadersVisible = false;
+            this.dgvEmployeeAttendance.RowHeadersWidth = 51;
+            this.dgvEmployeeAttendance.RowTemplate.Height = 24;
+            this.dgvEmployeeAttendance.Size = new System.Drawing.Size(1173, 875);
+            this.dgvEmployeeAttendance.TabIndex = 0;
+            this.dgvEmployeeAttendance.ThemeStyle.AlternatingRowsStyle.BackColor = System.Drawing.Color.White;
+            this.dgvEmployeeAttendance.ThemeStyle.AlternatingRowsStyle.Font = null;
+            this.dgvEmployeeAttendance.ThemeStyle.AlternatingRowsStyle.ForeColor = System.Drawing.Color.Empty;
+            this.dgvEmployeeAttendance.ThemeStyle.AlternatingRowsStyle.SelectionBackColor = System.Drawing.Color.Empty;
+            this.dgvEmployeeAttendance.ThemeStyle.AlternatingRowsStyle.SelectionForeColor = System.Drawing.Color.Empty;
+            this.dgvEmployeeAttendance.ThemeStyle.BackColor = System.Drawing.Color.White;
+            this.dgvEmployeeAttendance.ThemeStyle.GridColor = System.Drawing.Color.FromArgb(((int)(((byte)(231)))), ((int)(((byte)(229)))), ((int)(((byte)(255)))));
+            this.dgvEmployeeAttendance.ThemeStyle.HeaderStyle.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(88)))), ((int)(((byte)(255)))));
+            this.dgvEmployeeAttendance.ThemeStyle.HeaderStyle.BorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
+            this.dgvEmployeeAttendance.ThemeStyle.HeaderStyle.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.dgvEmployeeAttendance.ThemeStyle.HeaderStyle.ForeColor = System.Drawing.Color.White;
+            this.dgvEmployeeAttendance.ThemeStyle.HeaderStyle.HeaightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.EnableResizing;
+            this.dgvEmployeeAttendance.ThemeStyle.HeaderStyle.Height = 4;
+            this.dgvEmployeeAttendance.ThemeStyle.ReadOnly = false;
+            this.dgvEmployeeAttendance.ThemeStyle.RowsStyle.BackColor = System.Drawing.Color.White;
+            this.dgvEmployeeAttendance.ThemeStyle.RowsStyle.BorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.SingleHorizontal;
+            this.dgvEmployeeAttendance.ThemeStyle.RowsStyle.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.dgvEmployeeAttendance.ThemeStyle.RowsStyle.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(71)))), ((int)(((byte)(69)))), ((int)(((byte)(94)))));
+            this.dgvEmployeeAttendance.ThemeStyle.RowsStyle.Height = 24;
+            this.dgvEmployeeAttendance.ThemeStyle.RowsStyle.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(231)))), ((int)(((byte)(229)))), ((int)(((byte)(255)))));
+            this.dgvEmployeeAttendance.ThemeStyle.RowsStyle.SelectionForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(71)))), ((int)(((byte)(69)))), ((int)(((byte)(94)))));
+            this.dgvEmployeeAttendance.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvEmployeeAttendance_CellClick);
+            this.dgvEmployeeAttendance.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvEmployeeAttendance_CellContentClick);
+            this.dgvEmployeeAttendance.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvEmployeeAttendance_CellDoubleClick);
             // 
             // ucChamCongQuanLy
             // 
@@ -337,11 +338,11 @@
             this.Size = new System.Drawing.Size(1462, 875);
             this.Load += new System.EventHandler(this.ucChamCongQuanLy_Load);
             this.guna2Panel1.ResumeLayout(false);
-            this.guna2Panel2.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.dgvEmployeeAttendance)).EndInit();
+            this.guna2GroupBox2.ResumeLayout(false);
             this.guna2GroupBox1.ResumeLayout(false);
             this.guna2GroupBox1.PerformLayout();
-            this.guna2GroupBox2.ResumeLayout(false);
+            this.guna2Panel2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.dgvEmployeeAttendance)).EndInit();
             this.ResumeLayout(false);
 
         }

@@ -121,7 +121,7 @@ namespace DAL
                 if (s != null)
                 {
                     bool check = db.ChamCongs.Any(x => x.idNhanVien == s && x.NgayChamCong.Date == x.NgayChamCong.Date && x.GioRa != null);
-                    if (check) return false;
+                    if (!check) return false;
                 }
                 continue;
             }

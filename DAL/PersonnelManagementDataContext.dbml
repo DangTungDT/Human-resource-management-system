@@ -25,7 +25,6 @@
       <Column Name="ngayUngTuyen" Type="System.DateTime" DbType="Date" CanBeNull="true" />
       <Column Name="trangThai" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
       <Column Name="daXoa" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
-      <Association Name="ChucVu_UngVien" Member="ChucVu" ThisKey="idChucVuUngTuyen" OtherKey="id" Type="ChucVu" IsForeignKey="true" />
     </Type>
   </Table>
   <Table Name="dbo.ChiTietLuong" Member="ChiTietLuongs">
@@ -238,27 +237,10 @@
       <Column Name="ngayTao" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
       <Column Name="soLuong" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Column Name="xacThucYeuCau" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
-      <Column Name="ghiChu" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
+      <Column Name="ghiChu" Type="System.String" DbType="NVarChar(255) NOT NULL" CanBeNull="false" />
       <Association Name="ChucVu_TuyenDung" Member="ChucVu" ThisKey="idChucVu" OtherKey="id" Type="ChucVu" IsForeignKey="true" />
       <Association Name="NhanVien_TuyenDung" Member="NhanVien" ThisKey="idNguoiTao" OtherKey="id" Type="NhanVien" IsForeignKey="true" />
       <Association Name="PhongBan_TuyenDung" Member="PhongBan" ThisKey="idPhongBan" OtherKey="id" Type="PhongBan" IsForeignKey="true" />
-    </Type>
-  </Table>
-  <Table Name="dbo.UngVien" Member="UngViens">
-    <Type Name="UngVien">
-      <Column Name="id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
-      <Column Name="tenNhanVien" Type="System.String" DbType="NVarChar(255) NOT NULL" CanBeNull="false" />
-      <Column Name="ngaySinh" Type="System.DateTime" DbType="Date NOT NULL" CanBeNull="false" />
-      <Column Name="diaChi" Type="System.String" DbType="NVarChar(255) NOT NULL" CanBeNull="false" />
-      <Column Name="que" Type="System.String" DbType="NVarChar(100) NOT NULL" CanBeNull="false" />
-      <Column Name="gioiTinh" Type="System.String" DbType="NVarChar(4) NOT NULL" CanBeNull="false" />
-      <Column Name="email" Type="System.String" DbType="VarChar(100) NOT NULL" CanBeNull="false" />
-      <Column Name="duongDanCV" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
-      <Column Name="idChucVuUngTuyen" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
-      <Column Name="idTuyenDung" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
-      <Column Name="ngayUngTuyen" Type="System.DateTime" DbType="Date" CanBeNull="true" />
-      <Column Name="trangThai" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
-      <Column Name="daXoa" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
     </Type>
   </Table>
 </Database>

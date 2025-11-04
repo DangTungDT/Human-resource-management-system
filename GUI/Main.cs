@@ -89,6 +89,7 @@ namespace GUI
             _userControls["ButtonFeatureViewComponent"] = new ButtonFeatureViewComponent(pnContent, _idNV, _stringConnection);
             _userControls["ButtonFeatureCRUDComponent"] = new ButtonFeatureCRUDComponent(pnContent, _idNV, _stringConnection);
             _userControls["ButtonFeatureReportComponent"] = new ButtonFeatureReportComponent(pnContent, _idNV, _stringConnection);
+            _userControls["ButtonFeatureSystemComponent"] = new ButtonFeatureSystemComponent(pnContent, _idNV, _stringConnection);
 
             // Them tat ca UserControl vao pnContent nhung an di
             foreach (var control in _userControls.Values)
@@ -164,11 +165,12 @@ namespace GUI
             ChildFormComponent(tpHome, "ButtonFeatureHomeComponent");
             ChildFormComponent(tpCRUD, "ButtonFeatureCRUDComponent");
             ChildFormComponent(tpReport, "ButtonFeatureReportComponent");
+            ChildFormComponent(tpSystem, "ButtonFeatureSystemComponent");
         }
 
         private void tpSystem_Click(object sender, EventArgs e)
         {
-
+            ChildFormComponent(tpSystem, "ButtonFeatureSystemComponent");
         }
 
         private void Main_FormClosing(object sender, FormClosingEventArgs e)

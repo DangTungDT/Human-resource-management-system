@@ -26,7 +26,7 @@ namespace GUI
         private readonly BLLThuongPhat bll;
         private int selectedId = -1;
 
-        public TaoThuongPhat(string conn)
+        public TaoThuongPhat(string idNhanVien, string conn)
         {
             InitializeComponent();
             bll = new BLLThuongPhat(conn);

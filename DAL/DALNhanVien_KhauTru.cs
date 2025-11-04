@@ -43,6 +43,23 @@ namespace DAL
             }
         }
 
+        public int InsertLyDoMoi(string lyDo, decimal soTien, string idNguoiTao)
+        {
+            using (SqlConnection conn = new SqlConnection(connectionString))
+            {
+                conn.Open();
+                string query = @"
+                                INSERT INTO KhauTru (loaiKhauTru, soTien, idNguoiTao)
+                                OUTPUT INSERTED.Id
+                                VALUES (@loaiKhauTru, @soTien, @idng)";
+                SqlCommand cmd = new SqlCommand(query, conn);
+                cmd.Parameters.AddWithValue("@loaiKhauTru", lyDo);
+                cmd.Parameters.AddWithValue("@soTien", soTien);
+                cmd.Parameters.AddWithValue("@idng", idNguoiTao);
+                return Convert.ToInt32(cmd.ExecuteScalar());
+            }
+        }
+
         public bool Insert(DTONhanVien_KhauTru nkt)
         {
             using (SqlConnection conn = new SqlConnection(connectionString))

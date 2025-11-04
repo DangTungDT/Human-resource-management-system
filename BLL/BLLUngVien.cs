@@ -23,17 +23,16 @@ namespace BLL
 
         public IQueryable GetAll() => dal.GetAll();
 
-        public List<UngVien> LayDsUngVien() => dal.LayDsUngVien();
-
         public IQueryable GetFind(string status, string name, int idChucVu)
         {
             //Dữ liệu đầu vào không đúng
-            if (status == null || name == null || idChucVu < 0)
+            if(status == null || name == null || idChucVu < 0)
             {
                 return GetAll();
             }
 
             return dal.GetFind(status, name, idChucVu);
+
         }
 
         public IQueryable GetUngVienStatus(bool flag) => dal.GetUngVienStatus(flag);
@@ -75,7 +74,7 @@ namespace BLL
         public static string IsValid(DTOUngVien uv)
         {
             string emailPattern = @"^[a-zA-Z0-9._%+-]+@(gmail\.com|googlemail\.com|[a-zA-Z0-9.-]+\.[a-zA-Z]{2,})$";
-            string[] trangThaiHopLe = { "đang xét duyệt", "phỏng vấn", "loại", "thử việc", "đậu", "trúng tuyển" };
+            string[] trangThaiHopLe = { "đang xét duyệt", "phỏng vấn" ,"loại", "thử việc", "đậu", "trúng tuyển" };
 
             if (uv == null) return "Invalid data";
             if (string.IsNullOrWhiteSpace(uv.TenNhanVien)) return "Invalid data";

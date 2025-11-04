@@ -45,55 +45,33 @@ namespace GUI
         {
             dgvTPTuyenDung.DataSource = LoadDuLieu();
             ChinhSuaGiaoDien();
-        }
-
-
-        // Cap nhat du lieu duyet tuyen dung cho GD, NS
-        private void btnSua_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                if (string.IsNullOrEmpty(_idSelected))
-                {
-                    MessageBox.Show($"Bạn cần chọn yêu cầu của trưởng phòng để xử lý !", "Cảnh báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    return;
-                }
-
-                var tuyenDung = _dbContextTD.KtraTuyenDungQuaID(Convert.ToInt32(_idSelected));
-                if (tuyenDung == null)
-                {
-                    MessageBox.Show($"Không tìm thấy dữ liệu của tuyển dụng này !", "Cảnh báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    return;
-                }
-
-                if (DisplayUserControlPanel.KiemTraDuLieuDauVao(error, pnlDuyet) && KtraGhiChu())
-                {
-                    if (_dbContextTD.KtraCapNhatDuyetTuyenDung(new DTOTuyenDung(tuyenDung.id, txtTieuDe.Text, Convert.ToInt32(txtSoLuong.Text), rtGhiChu.Text)))
-                    {
-                        MessageBox.Show($"Cập nhật duyệt tuyển dụng thành công.");
-                        CapNhatChung();
-                    }
-                    else MessageBox.Show($"Cập nhật duyệt tuyển dụng thất bại !", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
-
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show($"Lỗi cập nhật duyệt tuyển dụng: {ex.Message}", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return;
-            }
+            btnDuyet.Enabled = false;
+            btnKhongDuyet.Enabled = false;
         }
 
         private void dgvTPTuyenDung_CellClick(object sender, DataGridViewCellEventArgs e)
         {
             if (e != null && e.RowIndex > -1)
             {
+                var idTPNS = dgvTPTuyenDung.Rows[e.RowIndex].Cells["IDNhanVien"].Value?.ToString();
+
                 _idSelected = dgvTPTuyenDung.Rows[e.RowIndex].Cells["ID"].Value?.ToString();
                 rtGhiChu.Text = dgvTPTuyenDung.Rows[e.RowIndex].Cells["GhiChu"].Value?.ToString();
                 txtTieuDe.Text = dgvTPTuyenDung.Rows[e.RowIndex].Cells["TieuDe"].Value?.ToString();
                 txtSoLuong.Text = dgvTPTuyenDung.Rows[e.RowIndex].Cells["SoLuong"].Value?.ToString();
                 txtNguoiTao.Text = dgvTPTuyenDung.Rows[e.RowIndex].Cells["NguoiTao"].Value?.ToString();
                 txtTrangThai.Text = dgvTPTuyenDung.Rows[e.RowIndex].Cells["TrangThai"].Value?.ToString();
+
+                if (_idNhanVien.Contains("TPNS"))
+                {
+                    btnDuyet.Enabled = false;
+                    btnKhongDuyet.Enabled = false;
+                }
+                else
+                {
+                    btnDuyet.Enabled = true;
+                    btnKhongDuyet.Enabled = true;
+                }
             }
         }
 
@@ -101,10 +79,13 @@ namespace GUI
         private object LoadDuLieu()
         {
             _idSelected = null;
+            btnDuyet.Enabled = false;
+            btnKhongDuyet.Enabled = false;
 
             return _dbContextTD.KtraDsTuyenDung().Where(p => p.trangThai.Equals("Chờ duyệt", StringComparison.OrdinalIgnoreCase)).Select(p => new
             {
                 ID = p.id,
+                IDNhanVien = p.idNguoiTao,
                 TieuDe = p.tieuDe,
                 NguoiTao = _dbContextNV.KtraNhanVienQuaID(p.idNguoiTao).TenNhanVien,
                 PhongBan = _dbContextPB.TimTenPhongBan(p.idPhongBan),
@@ -137,6 +118,8 @@ namespace GUI
                 }
 
                 var setTrangThai = ops ? "Đang tuyển" : "Loại";
+                var buttonText = ops ? "Duyệt" : "Không duyệt";
+
                 var tuyenDung = _dbContextTD.KtraTuyenDungQuaID(Convert.ToInt32(_idSelected));
 
                 if (tuyenDung == null)
@@ -144,15 +127,19 @@ namespace GUI
                     MessageBox.Show($"Không tìm thấy dữ liệu của tuyển dụng để cập nhật trạng thái !", "Cảnh báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return;
                 }
-
-                if (MessageBox.Show($"Bạn có chắc chắn về cập nhật này ?", "Cảnh báo", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes)    
+                if (MessageBox.Show($"Bạn có chắc chắn về cập nhật với trạng thái là '{buttonText}' ?", "Cảnh báo", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
                 {
-                    if (_dbContextTD.KtraCapNhatTrangThaiTD(new DTOTuyenDung(tuyenDung.id, setTrangThai, DateTime.Now)))
+                    if (DisplayUserControlPanel.KiemTraDuLieuDauVao(error, pnlDuyet) && KtraGhiChu())
                     {
-                        MessageBox.Show($"Cập nhật duyệt tuyển dụng thành công.");
-                        CapNhatChung();
+                        if (_dbContextTD.KtraCapNhatDuyetTuyenDung(new DTOTuyenDung(tuyenDung.id, txtTieuDe.Text, Convert.ToInt32(txtSoLuong.Text), setTrangThai, rtGhiChu.Text, DateTime.Now)))
+                        {
+                            MessageBox.Show($"Cập nhật duyệt tuyển dụng thành công.");
+                            CapNhatChung();
+                            btnDuyet.Enabled = false;
+                            btnKhongDuyet.Enabled = false;
+                        }
+                        else MessageBox.Show($"Cập nhật duyệt tuyển dụng thất bại !", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     }
-                    else MessageBox.Show($"Cập nhật trạng thái tuyển dụng không thành công !", "Cảnh báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 }
                 else return;
             }
@@ -188,6 +175,7 @@ namespace GUI
         private void ChinhSuaGiaoDien()
         {
             dgvTPTuyenDung.Columns["ID"].Visible = false;
+            dgvTPTuyenDung.Columns["IDNhanVien"].Visible = false;
             dgvTPTuyenDung.Columns["TieuDe"].HeaderText = "Tiêu đề";
             dgvTPTuyenDung.Columns["GhiChu"].HeaderText = "Ghi chú";
             dgvTPTuyenDung.Columns["ChucVu"].HeaderText = "Chức vụ";

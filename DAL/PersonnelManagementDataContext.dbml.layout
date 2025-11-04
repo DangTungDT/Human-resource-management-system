@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<ordesignerObjectsDiagram dslVersion="1.0.0.0" absoluteBounds="0, 0, 17.25, 40.125" name="PersonnelManagementDataContext">
+<ordesignerObjectsDiagram dslVersion="1.0.0.0" absoluteBounds="0, 0, 17.25, 36" name="PersonnelManagementDataContext">
   <DataContextMoniker Name="/PersonnelManagementDataContextDataContext" />
   <nestedChildShapes>
     <classShape Id="ecfca090-1043-46b7-8445-77f40c55da0f" absoluteBounds="9, 17.125, 2, 1.7708968098958309">
@@ -256,7 +256,7 @@
         <classShapeMoniker Id="7c70e71b-13ef-4a7b-923b-3244895a97b5" />
       </nodes>
     </associationConnector>
-    <associationConnector edgePoints="[(6.98437375 : 20.6747054036458); (6.98437375 : 23.0104484049479); (7.16666666666667 : 23.0104484049479 : JumpStart); (7.33333333333333 : 23.0104484049479 : JumpEnd); (7.69791916666667 : 23.0104484049479 : JumpStart); (7.86458583333333 : 23.0104484049479 : JumpEnd); (7.96354541666667 : 23.0104484049479 : JumpStart); (8.13021208333333 : 23.0104484049479 : JumpEnd); (9 : 23.0104484049479)]" fixedFrom="NotFixed" fixedTo="NotFixed">
+    <associationConnector edgePoints="[(6.98437375 : 20.6747054036458); (6.98437375 : 23.0104484049479); (7.16666666666667 : 23.0104484049479 : JumpStart); (7.46614395833333 : 23.0104484049479 : JumpEnd); (7.69791916666667 : 23.0104484049479 : JumpStart); (7.86458583333333 : 23.0104484049479 : JumpEnd); (7.96354541666667 : 23.0104484049479 : JumpStart); (8.13021208333333 : 23.0104484049479 : JumpEnd); (9 : 23.0104484049479)]" fixedFrom="NotFixed" fixedTo="NotFixed">
       <AssociationMoniker Name="/PersonnelManagementDataContextDataContext/NhanVien/NhanVien_ThuongPhat" />
       <nodes>
         <classShapeMoniker Id="a2c813f5-4c57-492e-aba2-f56a64d95579" />
@@ -284,5 +284,11 @@
         <classShapeMoniker Id="adf55882-ee46-4187-91fe-a484d8cff72b" />
       </nodes>
     </associationConnector>
+    <classShape Id="5059e558-3959-426a-8e93-8107b6df9a9a" absoluteBounds="5.25, 31.75, 2, 3.3093082682291666">
+      <DataClassMoniker Name="/PersonnelManagementDataContextDataContext/UngVien" />
+      <nestedChildShapes>
+        <elementListCompartment Id="49d0d539-ab77-41e9-b632-23918b7cd922" absoluteBounds="5.265, 32.21, 1.9700000000000002, 2.7493082682291665" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
   </nestedChildShapes>
 </ordesignerObjectsDiagram>

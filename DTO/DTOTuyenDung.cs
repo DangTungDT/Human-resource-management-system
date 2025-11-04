@@ -20,12 +20,14 @@ namespace DTO
             NgayTao = capNhatTG;
         }
 
-        public DTOTuyenDung(int id, string tieuDe, int soLuong, string ghiChu)
+        public DTOTuyenDung(int id, string tieuDe, int soLuong, string trangThai, string ghiChu, DateTime capNhatTG)
         {
             ID = id;
             TieuDe = tieuDe;
             SoLuong = soLuong;
             GhiChu = ghiChu;
+            TrangThai = trangThai;
+            NgayTao = capNhatTG;    
         }
 
         public DTOTuyenDung(int id, int iDPhongBan, int iDChucVu, string tieuDe, string iDNguoiTao, string trangThai, DateTime ngayTao, int soLuong, string ghiChu)

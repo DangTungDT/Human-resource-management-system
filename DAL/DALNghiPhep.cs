@@ -51,20 +51,41 @@ namespace DAL
             return list;
         }
 
-        // Lay danh sach Nghi Phep
-        public List<DTONghiPhep> LayDsNghiPhep() => _dbContext.NghiPheps.Select(np => new DTONghiPhep
+        // Lay NghiPhep qua ID
+        public NghiPhep LayNghiPhepQuaID(int id)
         {
-            ID = np.id,
-            IDNhanVien = np.idNhanVien,
-            NgayBatDau = np.NgayBatDau,
-            NgayKetThuc = np.NgayKetThuc,
-            LyDoNghi = np.LyDoNghi,
-            LoaiNghiPhep = np.LoaiNghiPhep,
-            TrangThai = np.TrangThai
+            try
+            {
+                var nghiPhep = _dbContext.NghiPheps.FirstOrDefault(p => p.id == id && p.TrangThai == "Đang yêu cầu");
+                if (nghiPhep != null)
+                {
+                    return nghiPhep;    
+                }
+                return null;
+            }
+            catch { return null; }
+        }
 
-        }).ToList();
+        public List<NghiPhep> LayDsNghiPhep()
+        {
+            var db = new PersonnelManagementDataContextDataContext(connectionString);
+            return db.NghiPheps.ToList();
+        }
 
-        // Them Nghi Phep
+        // Lay danh sach Nghi Phep
+        //public List<DTONghiPhep> LayDsNghiPhep() => _dbContext.NghiPheps.Select(np => new DTONghiPhep
+        //{
+        //    ID = np.id,
+        //    IDNhanVien = np.idNhanVien,
+        //    NgayBatDau = np.NgayBatDau,
+        //    NgayKetThuc = np.NgayKetThuc,
+        //    LyDoNghi = np.LyDoNghi,
+        //    LoaiNghiPhep = np.LoaiNghiPhep,
+        //    TrangThai = np.TrangThai
+
+            //}).ToList();
+
+            // Them Nghi Phep
         public bool ThemNghiPhep(DTONghiPhep DTO)
         {
             try
@@ -98,6 +119,22 @@ namespace DAL
                 NghiPhep.NgayKetThuc = DTO.NgayKetThuc;
                 NghiPhep.LyDoNghi = DTO.LyDoNghi;
                 NghiPhep.LoaiNghiPhep = DTO.LoaiNghiPhep;
+                NghiPhep.TrangThai = DTO.TrangThai;
+
+                _dbContext.SubmitChanges();
+
+                return true;
+            }
+            catch { return false; }
+        }
+
+        // Cap nhat trang thai Nghi Phep
+        public bool CapNhatTrangThaiNghiPhep(DTONghiPhep DTO)
+        {
+            try
+            {
+                var NghiPhep = _dbContext.NghiPheps.FirstOrDefault(np => np.id == DTO.ID);
+
                 NghiPhep.TrangThai = DTO.TrangThai;
 
                 _dbContext.SubmitChanges();
@@ -149,10 +186,10 @@ namespace DAL
             return false;
         }
 
-        // Tim don nghi phep duoc duyet
+        // Tim don nghi phep duoc duyet, khong duyet
         public bool TrangThaiDonNP(int id)
         {
-            var checkStatus = _dbContext.NghiPheps.Any(p => p.id == id && p.TrangThai == "Duyệt");
+            var checkStatus = _dbContext.NghiPheps.Any(p => p.id == id && p.TrangThai == "Duyệt" || p.TrangThai == "Không duyệt");
             if (checkStatus)
             {
                 return true;
@@ -169,6 +206,42 @@ namespace DAL
                 return true;
             }
             return false;
+        }
+
+        // Tim doi tuong don chua duoc duyet
+        public NghiPhep TimDonNghiPhepChuaDuyet(string maNV)
+        {
+            var nghiPhep = _dbContext.NghiPheps.FirstOrDefault(p => p.idNhanVien == maNV && p.TrangThai.ToLower().Trim() == "đang yêu cầu");
+            if (nghiPhep != null)
+            {
+                return nghiPhep;
+            }
+            return null;
+        }
+
+        // Tinh so luong ngay nghi
+        public int TinhSoLuongNgayNghiCoPhep(string maNV, int batDau, int ketThuc, string loai)
+        {
+            var nghiPhep = _dbContext.NghiPheps.Where(p => p.idNhanVien == maNV && p.LoaiNghiPhep == loai && p.NgayBatDau.Month == DateTime.Now.Month).ToList();
+
+            int soNgayDaNghi = 0;
+            var soNgayXin = ketThuc - batDau + 1;
+
+            if (nghiPhep.Count == 0)
+            {
+                soNgayDaNghi = 0;
+            }
+            else soNgayDaNghi = nghiPhep.Sum(p => p.NgayKetThuc.Day - p.NgayBatDau.Day) + nghiPhep.Count;
+
+            if (loai.Equals("Nghỉ phép có lương", StringComparison.OrdinalIgnoreCase))
+
+            {
+                int tongNgayNghiTrongThang = soNgayXin + soNgayDaNghi;
+
+                return tongNgayNghiTrongThang > 3 ? -1 : 1;
+            }
+            else return soNgayXin > 3 ? -1 : 1;
+
         }
     }
 }

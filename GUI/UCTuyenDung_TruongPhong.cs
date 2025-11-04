@@ -52,8 +52,15 @@ namespace GUI
             txtTrangThai.Text = "Chờ duyệt";
 
             var tuyenDung = _dbContextTD.KtraDsTuyenDung().Where(p => p.idNguoiTao == _idNhanVien).ToList();
-            var ungVien = _dbContextUV.LayDsUngvien().Where(p => tuyenDung.Select(s => s.id).FirstOrDefault() == p.idTuyenDung && p.trangThai.Equals("Thử việc", StringComparison.OrdinalIgnoreCase)).ToList();
+            var ungVien = _dbContextUV.LayDsUngVien().Where(p => tuyenDung.Select(s => s.id).FirstOrDefault() == p.idTuyenDung && p.trangThai.Equals("Thử việc", StringComparison.OrdinalIgnoreCase)).ToList();
             var soLuongTD = tuyenDung.Select(s => s.soLuong).FirstOrDefault();
+
+            if (_idNhanVien.Contains("GD"))
+            {
+                btnThemTD.Enabled = false;
+                btnCapNhatTD.Enabled = false;
+                btnXoaLuong.Enabled = false;
+            }
         }
 
         // Hien thi du lieu len textbox tu datagridview
@@ -71,11 +78,20 @@ namespace GUI
                 string[] arrType = { "Đang tuyển", "Ngừng tuyển", "Loại" };
                 var tuyenDung = _dbContextTD.KtraDsTuyenDung().FirstOrDefault(p => p.idNguoiTao == _idNhanVien && p.id == _idSelected && arrType.Contains(p.trangThai));
 
-                if (tuyenDung != null)
+                if (_idNhanVien.Contains("GD"))
                 {
-                    EnableAllField(true);
+                    btnThemTD.Enabled = false;
+                    btnCapNhatTD.Enabled = false;
+                    btnXoaLuong.Enabled = false;
                 }
-                else EnableAllField(false);
+                else
+                {
+                    if (tuyenDung != null)
+                    {
+                        EnableAllField(true);
+                    }
+                    else EnableAllField(false);
+                }
 
                 if (_idSelected > 0)
                 {
@@ -110,33 +126,6 @@ namespace GUI
             }
         }
 
-        //public void EnableAllField(bool check)
-        //{
-        //    foreach (var control in grbTPTuyenDung.Controls)
-        //    {
-        //        if (control is Guna2TextBox text && !string.IsNullOrEmpty(text.Text))
-        //        {
-        //            if (check)
-        //            {
-        //                text.ReadOnly = true;
-        //                btnCapNhatTD.Enabled = false;
-        //                btnXoaLuong.Enabled = false;
-        //            }
-        //            else
-        //            {
-        //                if (text.Name == "txtChucVu" || text.Name == "txtPhongBan" || text.Name == "txtNguoiTao")
-        //                {
-        //                    text.ReadOnly = true;
-        //                    continue;
-        //                }
-
-        //                text.ReadOnly = false;
-        //                btnCapNhatTD.Enabled = false;
-        //                btnXoaLuong.Enabled = true;
-        //            }
-        //        }
-        //    }
-        //}
 
         // button Load du lieu
         private void btnLoadDuLieu_Click(object sender, EventArgs e)
@@ -144,6 +133,7 @@ namespace GUI
             _idSelected = 0;
             dgvTPTuyenDung.DataSource = LoadDuLieuTuyenDung();
             dgvDsUngVienTuyen.DataSource = LoadDuLieuUngVienDuocTuyen(0);
+            rtGhiChu.ReadOnly = false;
             ChinhSuaGiaoDien();
         }
 
@@ -298,16 +288,16 @@ namespace GUI
         // Ham load ung vien duoc tuyen
         private object LoadDuLieuUngVienDuocTuyen(int? id)
         {
-            var anonymous = new object();
 
             try
             {
+                var anonymous = new object();
                 var tuyenDung = _dbContextTD.KtraDsTuyenDung().LastOrDefault(p => p.idNguoiTao == _idNhanVien);
-                if (tuyenDung == null) return null;
+                //if (tuyenDung == null) return null;
+                //var idTuyenDung = id > 0 ? id : tuyenDung.id;
+                var idTuyenDung = _idSelected;
 
-                var idTuyenDung = id > 0 ? id : tuyenDung.id;
-
-                var ungVien = _dbContextUV.LayDsUngvien().Where(p => idTuyenDung == p.idTuyenDung && p.trangThai.Equals("Thử việc", StringComparison.OrdinalIgnoreCase)).ToList();
+                var ungVien = _dbContextUV.LayDsUngVien().Where(p => idTuyenDung == p.idTuyenDung && p.trangThai.Equals("Thử việc", StringComparison.OrdinalIgnoreCase)).ToList();
 
                 anonymous = ungVien.Select(p => new
                 {
@@ -340,7 +330,7 @@ namespace GUI
 
                 var tuyenDungs = _dbContextTD.KtraDsTuyenDung().Where(p => p.idNguoiTao == _idNhanVien).ToList();
                 var idTuyenDung = tuyenDungs.Select(s => s.id).ToList();
-                var ungVien = _dbContextUV.LayDsUngvien().Where(p => idTuyenDung.Contains(p.idTuyenDung) && p.trangThai.Equals("Thử việc", StringComparison.OrdinalIgnoreCase)).ToList();
+                var ungVien = _dbContextUV.LayDsUngVien().Where(p => idTuyenDung.Contains(p.idTuyenDung) && p.trangThai.Equals("Thử việc", StringComparison.OrdinalIgnoreCase)).ToList();
                 var soLuongTD = tuyenDungs.Select(s => s.soLuong).FirstOrDefault();
 
                 string setTrangThai = "Chờ duyệt";
@@ -363,8 +353,12 @@ namespace GUI
                     }
                 }
 
-
-                anonymous = _dbContextTD.KtraDsTuyenDung().Where(p => p.idNguoiTao == _idNhanVien).OrderByDescending(p => p.id).Select(p => new
+                var dsTPTuyenDung = _dbContextTD.KtraDsTuyenDung().Where(p => p.idNguoiTao == _idNhanVien);
+                if (_idNhanVien.Contains("GD"))
+                {
+                    dsTPTuyenDung = _dbContextTD.KtraDsTuyenDung();
+                }
+                anonymous = dsTPTuyenDung.OrderByDescending(p => p.id).Select(p => new
                 {
                     ID = p.id,
                     TieuDe = p.tieuDe,

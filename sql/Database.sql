@@ -1,4 +1,4 @@
-﻿----Database đồ án quản lý nhân sự
+----Database đồ án quản lý nhân sự
 --Create Database
 create database PersonnelManagement
 go
@@ -150,7 +150,6 @@ Create table ChiTietLuong
 )
 go
 
--- tuan 2/11: them 2 field ghiChu, xacThucYeuCau (GD, NS)
 CREATE TABLE TuyenDung (
     id INT PRIMARY KEY IDENTITY(1,1),
     tieuDe NVARCHAR(150) NOT NULL,
@@ -306,6 +305,7 @@ go
 alter table HopDongLaoDong
 add constraint fk_NhanVien_HopDongLaoDong foreign key(idNhanVien) references NhanVien(id)
 go
+
 
 --Table DanhGiaNhanVien
 alter table DanhGiaNhanVien

@@ -36,7 +36,7 @@ namespace GUI
         }
 
         public static void LayKiTuSo(object sender)
-        {
+            {
             var text = sender as Guna2TextBox;
             if (text == null) return;
 
@@ -47,6 +47,30 @@ namespace GUI
                 text.SelectionStart = Math.Min(index, text.Text.Length);
             }
         }
+
+        public static bool KiemTraDuLieuDauVao(ErrorProvider error, Control Toolbox)
+        {
+            bool ktra = true;
+            error.Clear();
+
+            foreach (var control in Toolbox.Controls)
+            {
+                if (control is Guna2ComboBox combobox && string.IsNullOrWhiteSpace(combobox.Text))
+                {
+                    error.SetError(combobox, $"'{combobox.Name.Substring(3)}' trống !");
+                    ktra = false;
+                }
+
+                if (control is Guna2TextBox text && string.IsNullOrWhiteSpace(text.Text))
+                {
+                    error.SetError(text, $"Trống !");
+                    //error.SetError(text, $"{text.Name.Substring(3)} trống !");
+                    ktra = false;
+                }
+            }
+
+            return ktra;
+        }
     }
-    
-}   
+
+}

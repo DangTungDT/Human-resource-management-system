@@ -237,6 +237,8 @@
       <Column Name="trangThai" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
       <Column Name="ngayTao" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
       <Column Name="soLuong" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="xacThucYeuCau" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="ghiChu" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
       <Association Name="ChucVu_TuyenDung" Member="ChucVu" ThisKey="idChucVu" OtherKey="id" Type="ChucVu" IsForeignKey="true" />
       <Association Name="NhanVien_TuyenDung" Member="NhanVien" ThisKey="idNguoiTao" OtherKey="id" Type="NhanVien" IsForeignKey="true" />
       <Association Name="PhongBan_TuyenDung" Member="PhongBan" ThisKey="idPhongBan" OtherKey="id" Type="PhongBan" IsForeignKey="true" />

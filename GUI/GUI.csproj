@@ -274,6 +274,12 @@
     <Compile Include="Main.Designer.cs">
       <DependentUpon>Main.cs</DependentUpon>
     </Compile>
+    <Compile Include="UCDuyetTuyenDung.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UCDuyetTuyenDung.Designer.cs">
+      <DependentUpon>UCDuyetTuyenDung.cs</DependentUpon>
+    </Compile>
     <Compile Include="UCHopDong.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -485,6 +491,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Main.resx">
       <DependentUpon>Main.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UCDuyetTuyenDung.resx">
+      <DependentUpon>UCDuyetTuyenDung.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UCHopDong.resx">
       <DependentUpon>UCHopDong.cs</DependentUpon>

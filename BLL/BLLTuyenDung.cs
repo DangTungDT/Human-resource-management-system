@@ -54,7 +54,7 @@ namespace BLL
                     {
                         return true;
                     }
-                    else throw new Exception("Lỗi cập nhật tuyển dụng !");
+                    else return false;
                 }
                 else throw new Exception("Không tìm thấy dữ liệu tuyển dụng trong hệ thống !");
 
@@ -65,7 +65,8 @@ namespace BLL
             }
         }
 
-        public bool KtraCapNhatTrangThaiRD(DTOTuyenDung DTO)
+        // ktra cap nhat trang thai tuyen dung khi du so luong
+        public bool KtraCapNhatTrangThaiTD(DTOTuyenDung DTO)
         {
             try
             {
@@ -78,7 +79,32 @@ namespace BLL
                     {
                         return true;
                     }
-                    else throw new Exception("Lỗi cập nhật tuyển dụng !");
+                    else return false;
+                }
+                else throw new Exception("Không tìm thấy dữ liệu tuyển dụng trong hệ thống !");
+
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Lỗi cập nhật tuyển dụng: " + ex.Message);
+            }
+        }
+
+        // ktra cap nhat trang thai tuyen dung khi du so luong
+        public bool KtraCapNhatDuyetTuyenDung(DTOTuyenDung DTO)
+        {
+            try
+            {
+                var ktraTD = _dbContext.TimTuyenDungQuaID(DTO.ID);
+
+                if (ktraTD != null)
+                {
+                    var KtraThemKD = _dbContext.CapNhatDuyetTuyenDung(DTO);
+                    if (KtraThemKD)
+                    {
+                        return true;
+                    }
+                    else return false;
                 }
                 else throw new Exception("Không tìm thấy dữ liệu tuyển dụng trong hệ thống !");
 
@@ -153,6 +179,30 @@ namespace BLL
                     }
 
                     else return false;
+                }
+                else throw new Exception($"Kiểm tra lại dữ liệu đầu vào của id được nhập !");
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Lỗi tìm id: " + ex.Message);
+            }
+
+        }
+        // Tim du lieu Tuyen Dung qua trang thai
+        public bool TimTuyenDungQuatrangThai(string id)
+        {
+            try
+            {
+                if (!string.IsNullOrEmpty(id))
+                {
+                    var tuyenDung = _dbContext.TimTuyenDungQuaTrangThai(id);
+
+                    if (tuyenDung != null)
+                    {
+                        return false;
+                    }
+
+                    else return true;
                 }
                 else throw new Exception($"Kiểm tra lại dữ liệu đầu vào của id được nhập !");
             }

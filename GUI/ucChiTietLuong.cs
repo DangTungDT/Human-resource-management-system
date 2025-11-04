@@ -563,7 +563,7 @@ namespace GUI
                     {
                         if (_dbContextCTL.KtraDuLieuChiTietLuongNV(_idSelected) != null)
                         {
-                            if (MessageBox.Show($"Bạn có chắc chắn về sự thay đổi bảng lương của {_dbContextNV.KtraNhanVienQuaID(_idSelected).TenNhanVien} không?", "Xác nhận", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.No)
+                            if (MessageBox.Show($"Bạn có chắc chắn về sự thay đổi bảng lương của {_dbContextNV.KtraNhanVienQuaID(_idSelected).TenNhanVien} không?", "Xác nhận", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.No)
                             {
                                 return;
                             }
@@ -622,7 +622,7 @@ namespace GUI
                         return;
                     }
 
-                    if (MessageBox.Show($"Bạn có chắc chắn muốn hủy bỏ {_dbContextNV.KtraNhanVienQuaID(_idSelected).TenNhanVien} đã chọn không?", "Xác nhận", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.No)
+                    if (MessageBox.Show($"Bạn có chắc chắn muốn hủy bỏ {_dbContextNV.KtraNhanVienQuaID(_idSelected).TenNhanVien} đã chọn không?", "Xác nhận", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.No)
                     {
                         return;
                     }
@@ -705,8 +705,6 @@ namespace GUI
 
             return ktra;
         }
-
-
 
         private void ckChonNhanhPB_CheckedChanged(object sender, EventArgs e)
         {

@@ -20,7 +20,15 @@ namespace DTO
             NgayTao = capNhatTG;
         }
 
-        public DTOTuyenDung(int id, int iDPhongBan, int iDChucVu, string tieuDe, string iDNguoiTao, string trangThai, DateTime ngayTao, int soLuong)
+        public DTOTuyenDung(int id, string tieuDe, int soLuong, string ghiChu)
+        {
+            ID = id;
+            TieuDe = tieuDe;
+            SoLuong = soLuong;
+            GhiChu = ghiChu;
+        }
+
+        public DTOTuyenDung(int id, int iDPhongBan, int iDChucVu, string tieuDe, string iDNguoiTao, string trangThai, DateTime ngayTao, int soLuong, string ghiChu)
         {
             ID = id;
             IDPhongBan = iDPhongBan;
@@ -30,6 +38,7 @@ namespace DTO
             TrangThai = trangThai;
             NgayTao = ngayTao;
             SoLuong = soLuong;
+            GhiChu = ghiChu;
         }
 
         public int ID { get; set; }
@@ -40,5 +49,7 @@ namespace DTO
         public string IDNguoiTao { get; set; }
         public string TrangThai { get; set; }
         public DateTime NgayTao { get; set; }
+        public string GhiChu { get; set; }
+
     }
 }

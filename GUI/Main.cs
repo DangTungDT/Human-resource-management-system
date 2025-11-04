@@ -127,9 +127,6 @@ namespace GUI
             }
         }
 
-
-
-
         private void Main_Load(object sender, EventArgs e)
         {
             ChildFormComponent(tpHome, "ButtonFeatureHomeComponent");

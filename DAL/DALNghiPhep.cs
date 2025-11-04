@@ -1,4 +1,5 @@
 ﻿using DTO;
+using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Linq;
@@ -15,6 +16,7 @@ namespace DAL
             connectionString = conn;
             _dbContext = new PersonnelManagementDataContextDataContext(conn);
         }
+
 
         public List<DTONghiPhep> LayDanhSachNghiPhep(string idNhanVien)
         {
@@ -134,6 +136,39 @@ namespace DAL
             var checkIDNP = _dbContext.NghiPheps.FirstOrDefault(np => np.id == idNghiPhep);
             if (checkIDNP == null) return false;
             return true;
+        }
+
+        // Tim noi dung ton tai
+        public bool TimLyDoNghiTonTai(string reason)
+        {
+            var checkReason = _dbContext.NghiPheps.Any(np => np.LyDoNghi.ToLower() == reason.ToLower());
+            if (checkReason)
+            {
+                return true;
+            }
+            return false;
+        }
+
+        // Tim don nghi phep duoc duyet
+        public bool TrangThaiDonNP(int id)
+        {
+            var checkStatus = _dbContext.NghiPheps.Any(p => p.id == id && p.TrangThai == "Duyệt");
+            if (checkStatus)
+            {
+                return true;
+            }
+            return false;
+        }
+
+        // Tim don chua duoc duyet
+        public bool TimDonChuaDuyet(string maNV)
+        {
+            var checkStatus = _dbContext.NghiPheps.Any(p => p.idNhanVien == maNV && p.TrangThai.ToLower().Trim() == "đang yêu cầu");
+            if (checkStatus)
+            {
+                return true;
+            }
+            return false;
         }
     }
 }

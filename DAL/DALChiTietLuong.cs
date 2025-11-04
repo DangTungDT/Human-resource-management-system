@@ -45,9 +45,9 @@ namespace DAL
                     trangThai = DTO.TrangThai,
                     ghiChu = DTO.GhiChu,
                     idNhanVien = DTO.IDNhanVien,
-                    idKyLuong = DTO.IDKyLuong
+                    idKyLuong = DTO.IDKyLuong,
+                    capNhatLuong = DTO.CapNhatLuong
                 };
-
                 _dbContext.ChiTietLuongs.InsertOnSubmit(chiTietLuong);
                 _dbContext.SubmitChanges();
 
@@ -74,7 +74,8 @@ namespace DAL
                         trangThai = DTO.TrangThai,
                         ghiChu = DTO.GhiChu,
                         idNhanVien = DTO.IDNhanVien,
-                        idKyLuong = DTO.IDKyLuong
+                        idKyLuong = DTO.IDKyLuong,
+                capNhatLuong = DTO.CapNhatLuong
                     }
                 };
 
@@ -103,6 +104,7 @@ namespace DAL
                     chiTietLuong.tongTienPhat = DTO.TongTienPhat;
                     chiTietLuong.trangThai = DTO.TrangThai;
                     chiTietLuong.ghiChu = DTO.GhiChu;
+                    chiTietLuong.capNhatLuong = DTO.CapNhatLuong;
 
                     _dbContext.SubmitChanges();
 

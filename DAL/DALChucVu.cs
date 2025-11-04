@@ -146,5 +146,7 @@ namespace DAL
             if (_dbContext.ChucVus.Any(x => x.TenChucVu == namePosition && x.idPhongBan == departmentId)) return false;
             return true;
         }
+
+        public string LayTenChucVu(int id) => _dbContext.ChucVus.FirstOrDefault(p => p.id == id).TenChucVu ?? string.Empty;
     }
 }

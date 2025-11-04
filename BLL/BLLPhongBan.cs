@@ -78,5 +78,23 @@ namespace BLL
                 throw new Exception(ex.Message);
             }
         }
+
+        public string TimTenPhongBan(int id)
+        {
+            try
+            {
+                var tenPhongBan = dal.LayTenPhongBan(id);
+
+                if (!string.IsNullOrEmpty(tenPhongBan))
+                {
+                    return tenPhongBan;
+                }
+                else throw new Exception("Phòng ban không tồn tại !");
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
     }
 }

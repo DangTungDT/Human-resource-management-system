@@ -61,6 +61,18 @@ namespace GUI
 
         }
 
+        private void btnDSNV_Click(object sender, EventArgs e)
+        {
+            FormBaoCaoNhanVien baoCaoNV = new FormBaoCaoNhanVien(_idNhanVien, _conn);
+            baoCaoNV.Show();
+        }
+
+        private void btnThongKeBCDGNV_Click(object sender, EventArgs e)
+        {
+            ThongKeDanhGia uc = new ThongKeDanhGia(_idNhanVien, _conn);
+            DisplayUserControlPanel.ChildUserControl(uc, _tpReport);
+        }
+
         private void guna2TileButton2_Click(object sender, EventArgs e)
         {
             UCReportDanhSachKyLuat uc = new UCReportDanhSachKyLuat(_idNhanVien, _conn);

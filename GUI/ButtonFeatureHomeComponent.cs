@@ -74,7 +74,7 @@ namespace GUI
 
         private void guna2TileButton7_Click(object sender, EventArgs e)
         {
-            ucDuyenTuyenDung uc = new ucDuyenTuyenDung(_idNhanVien, _conn);
+            UCDuyetTuyenDung uc = new UCDuyetTuyenDung(_idNhanVien, _conn);
             DisplayUserControlPanel.ChildUserControl(uc, _tpHome);
         }
     }

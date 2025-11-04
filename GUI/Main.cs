@@ -7,6 +7,7 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web;
 using System.Windows.Forms;
 
 namespace GUI
@@ -88,6 +89,7 @@ namespace GUI
             _userControls["ButtonFeatureViewComponent"] = new ButtonFeatureViewComponent(pnContent, _idNV, _stringConnection);
             _userControls["ButtonFeatureCRUDComponent"] = new ButtonFeatureCRUDComponent(pnContent, _idNV, _stringConnection);
             _userControls["ButtonFeatureReportComponent"] = new ButtonFeatureReportComponent(pnContent, _idNV, _stringConnection);
+            _userControls["ButtonFeatureSystemComponent"] = new ButtonFeatureSystemComponent(pnContent, _idNV, _stringConnection);
 
             // Them tat ca UserControl vao pnContent nhung an di
             foreach (var control in _userControls.Values)
@@ -126,12 +128,16 @@ namespace GUI
             }
         }
 
-
         private void Main_Load(object sender, EventArgs e)
         {
             ChildFormComponent(tpHome, "ButtonFeatureHomeComponent");
 
-            if (_idNV.Contains("NV"))
+            if (_idNV.Contains("NVNS"))
+            {
+                var rp = tcMenu.TabPages["tpReport"];
+                tcMenu.TabPages.Remove(rp);
+            }
+            else if (_idNV.Contains("NV"))
             {
                 var rp = tcMenu.TabPages["tpReport"];
                 var ql = tcMenu.TabPages["tpCRUD"];
@@ -139,20 +145,19 @@ namespace GUI
                 tcMenu.TabPages.Remove(rp);
                 tcMenu.TabPages.Remove(ql);
             }
+
+            //ChangeFontFamily(this, "Times New Roman");
         }
 
-        private void tpView_Click(object sender, EventArgs e)
-        {
+        private void tpView_Click(object sender, EventArgs e) => ChildFormComponent(tpView, "ButtonFeatureViewComponent");
 
-            ChildFormComponent(tpView, "ButtonFeatureViewComponent");
-        }
+        private void tpHome_Click(object sender, EventArgs e) => ChildFormComponent(tpView, "ButtonFeatureViewComponent");
 
-        private void tpHome_Click(object sender, EventArgs e)
-        {
+        private void Report_Click(object sender, EventArgs e) => ChildFormComponent(tpReport, "ButtonFeatureReportComponent");
 
-            ChildFormComponent(tpView, "ButtonFeatureViewComponent");
+        private void tpReport_Click(object sender, EventArgs e) => ChildFormComponent(tpReport, "ButtonFeatureReportComponent");
 
-        }
+        private void tpCRUD_Click(object sender, EventArgs e) => ChildFormComponent(tpCRUD, "ButtonFeatureCRUDComponent");
 
         private void tcMenu_Click(object sender, EventArgs e)
         {
@@ -160,26 +165,12 @@ namespace GUI
             ChildFormComponent(tpHome, "ButtonFeatureHomeComponent");
             ChildFormComponent(tpCRUD, "ButtonFeatureCRUDComponent");
             ChildFormComponent(tpReport, "ButtonFeatureReportComponent");
-        }
-
-        private void Report_Click(object sender, EventArgs e)
-        {
-            ChildFormComponent(tpReport, "ButtonFeatureReportComponent");
-        }
-
-        private void tpReport_Click(object sender, EventArgs e)
-        {
-            ChildFormComponent(tpReport, "ButtonFeatureReportComponent");
-        }
-
-        private void tpCRUD_Click(object sender, EventArgs e)
-        {
-            ChildFormComponent(tpCRUD, "ButtonFeatureCRUDComponent");
+            ChildFormComponent(tpSystem, "ButtonFeatureSystemComponent");
         }
 
         private void tpSystem_Click(object sender, EventArgs e)
         {
-
+            ChildFormComponent(tpSystem, "ButtonFeatureSystemComponent");
         }
 
         private void Main_FormClosing(object sender, FormClosingEventArgs e)

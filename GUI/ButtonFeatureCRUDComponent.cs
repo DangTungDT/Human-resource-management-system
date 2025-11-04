@@ -1,4 +1,5 @@
 ﻿using CrystalDecisions.Shared;
+using Guna.UI2.WinForms;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -7,6 +8,7 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web.Compilation;
 using System.Windows.Forms;
 
 namespace GUI
@@ -97,30 +99,63 @@ namespace GUI
 
         private void btnTaoThuongPhat_Click_1(object sender, EventArgs e)
         {
-            TaoThuongPhat uc = new TaoThuongPhat(_conn);
+            TaoThuongPhat uc = new TaoThuongPhat(_idNhanVien, _conn);
             DisplayUserControlPanel.ChildUserControl(uc, _tpCRUD);
         }
 
         private void btnTaoPhuCap_Click(object sender, EventArgs e)
         {
-            TaoPhuCap uc = new TaoPhuCap(_conn);
+            TaoPhuCap uc = new TaoPhuCap(_idNhanVien,_conn);
             DisplayUserControlPanel.ChildUserControl(uc, _tpCRUD);
         }
 
         private void ButtonFeatureCRUDComponent_Load(object sender, EventArgs e)
         {
-            if (_idNhanVien.Contains("GD") || _idNhanVien.Contains("NS"))
+            if (_idNhanVien.Contains("GD") || _idNhanVien.Contains("TPNS"))
             {
                 guna2TileButton2.Visible = true;
                 guna2TileButton3.Visible = true;
             }
+            else if (_idNhanVien.Contains("NVNS"))
+            {
+                foreach (var control in flowLayoutPanel1.Controls)
+                {
+                    if (control is Guna2TileButton button)
+                    {
+                        if (button.Name == "guna2TileButton2" || button.Name == "guna2TileButton3")
+                        {
+                            button.Visible = true;
+                            continue;
+                        }
+
+                        button.Visible = false;
+                    }
+                }
+            }
+        }
+
+        private void btnTPTuyenDung_Click(object sender, EventArgs e)
+        {
+            UCTuyenDung_TruongPhong uc = new UCTuyenDung_TruongPhong(_idNhanVien, _conn);
+            DisplayUserControlPanel.ChildUserControl(uc, _tpCRUD);
+        }
+
+        private void btnPhuCapNV_Click(object sender, EventArgs e)
+        {
+            TaoNhanVien_PhuCap uc = new TaoNhanVien_PhuCap(_idNhanVien, _conn);
+            DisplayUserControlPanel.ChildUserControl(uc, _tpCRUD);
+        }
+
+        private void btnKhauTru_Click(object sender, EventArgs e)
+        {
+            TaoKhauTru uc = new TaoKhauTru(_idNhanVien, _conn);
+            DisplayUserControlPanel.ChildUserControl(uc, _tpCRUD);
         }
 
         private void btnTaoNhanVien_KhauTru_Click(object sender, EventArgs e)
         {
-            TaoNhanVien_KhauTru uc = new TaoNhanVien_KhauTru(_conn);
+            TaoNhanVien_KhauTru uc = new TaoNhanVien_KhauTru(_idNhanVien,_conn);
             DisplayUserControlPanel.ChildUserControl(uc, _tpCRUD);
-
         }
     }
 }

@@ -106,8 +106,12 @@ namespace DAL
             {
                 if(s != null)
                 {
-                    bool check = db.ChamCongs.Any(x => x.idNhanVien == s && x.NgayChamCong.Date == x.NgayChamCong.Date);
+                    bool check = db.ChamCongs.Any(x => x.idNhanVien == s && x.NgayChamCong.Date == DateTime.Now.Date);
                     if (!check) return false;
+                }
+                else
+                {
+                    return true;
                 }
                 continue;
             }
@@ -120,8 +124,8 @@ namespace DAL
             {
                 if (s != null)
                 {
-                    bool check = db.ChamCongs.Any(x => x.idNhanVien == s && x.NgayChamCong.Date == x.NgayChamCong.Date && x.GioRa != null);
-                    if (!check) return false;
+                    bool check = db.ChamCongs.Any(x => x.idNhanVien == s && x.NgayChamCong.Date == DateTime.Now.Date && x.GioRa == null);
+                    if (check) return false;
                 }
                 continue;
             }

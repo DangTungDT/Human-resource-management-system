@@ -53,10 +53,7 @@ namespace GUI
             LoadDGVImageStaff(null);
 
             //Kiểm tra checkin tất cả chưa
-            if (_bllChamCong.CheckAttendance(_arrIdSelected))
-            {
-                _checkedIn = true;
-            }
+                _checkedIn = _bllChamCong.CheckAttendance(_arrIdSelected);
             rdoCheckedIn.Checked = true;
         }
 
@@ -139,14 +136,8 @@ namespace GUI
             dgvEmployeeAttendance.AllowUserToAddRows = false;
 
             //Kiểm tra checkin và checkout của dữ liệu
-            if (_bllChamCong.CheckAttendance(_arrIdSelected))
-            {
-                _checkedIn = true;
-            }
-            if (_bllChamCong.CheckAttendance(_arrIdSelected))
-            {
-                _checkedIn = true;
-            }
+            _checkedIn = _bllChamCong.CheckAttendance(_arrIdSelected);
+            _checkedOut = _bllChamCong.CheckAttendanceOut(_arrIdSelected);
         }
 
         private void dgvEmployeeAttendance_CellContentClick(object sender, DataGridViewCellEventArgs e)
@@ -163,12 +154,17 @@ namespace GUI
             //Bỏ qua khi click vào header
             if (row < 0 || col < 0) return;
 
+            //Kiểm tra nhân viên chọn có tồn tại không
             if (_arrIdSelected[row, col] != null)
             {
+                //Lấy tên của nhân viên đang chọn
                 string staffName = _dbContextStaff.GetStaffById(_arrIdSelected[row, col]).TenNhanVien;
+
+                //Hỏi có chấm công cho nhân viên đang chọn
                 DialogResult question = MessageBox.Show($"Chấm công cho nhân viên {staffName.ToUpper()}?", "Thông báo", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
                 if(question == DialogResult.Yes)
                 {
+                    //Tạo ChamCong cho nhân viên đang chọn
                     DTOChamCong dto = new DTOChamCong
                     {
                         NgayChamCong = DateTime.Now,
@@ -179,7 +175,7 @@ namespace GUI
                     if (result == "data already exists")
                     {
                         //Dữ liệu đã tồn tại 
-                        //Là chấm công ra
+                        //Cập nhật Field GioRa co dữ liệu ChamCong (Có thể là cập nhật từ null hoặc khác null)
                         DialogResult questionCheckOut = MessageBox.Show($"{staffName.ToUpper()} đã chấm công vào từ trước, bạn có muốn chấm công về?", "Thông báo", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
                         if (questionCheckOut == DialogResult.Yes)
                         {
@@ -187,18 +183,15 @@ namespace GUI
                             if (_bllChamCong.UpdateGioRa(dto))
                             {
                                 MessageBox.Show("Chấm công về thành công!", "Thông báo");
-                                if (_bllChamCong.CheckAttendanceOut(_arrIdSelected))
-                                {
-                                    _checkedOut = true;
-                                }
+
+                                //Kiểm tra checkin và checkout của dữ liệu
+                                _checkedOut = _bllChamCong.CheckAttendanceOut(_arrIdSelected);
                             }
                             else
                             {
                                 MessageBox.Show("Chấm công về thất bại!", "Thông báo");
                             }
                         }
-
-                        //MessageBox.Show("Nhân viên này đã chấm công vào, không thể chấm tiếp!", "Thông báo");
                     }
                     else if (result == "invalid data")
                     {
@@ -209,10 +202,9 @@ namespace GUI
                     {
                         //Thêm thành công
                         MessageBox.Show("Chấm công vào thành công!", "Thông báo");
-                        if (_bllChamCong.CheckAttendance(_arrIdSelected))
-                        {
-                            _checkedIn = true;
-                        }
+
+                        //Kiểm tra checkin và checkout của dữ liệu
+                        _checkedIn = _bllChamCong.CheckAttendance(_arrIdSelected);
                     }
                     else
                     {
@@ -251,9 +243,14 @@ namespace GUI
         {
             if(!_checkedIn)
             {
+                //Chưa chấm công vào cho tất cả
+                //Sử lý và tạo chấm công
                 foreach (string idStaff in _arrIdSelected)
                 {
+                    //Bỏ qua id nào bị null
                     if (idStaff == null) continue;
+
+                    //Tạo Và thêm chamCong
                     DTOChamCong dto = new DTOChamCong
                     {
                         NgayChamCong = DateTime.Now,
@@ -261,6 +258,7 @@ namespace GUI
                         IdNhanVien = idStaff
                     };
                     string result = _bllChamCong.Add(dto).ToLower();
+
                     if (result == "invalid data")
                     {
                         //Dữ liệu sai
@@ -274,16 +272,22 @@ namespace GUI
                         return;
                     }
                 }
-                MessageBox.Show("Chấm công thành công!", "Thông báo");
+                MessageBox.Show("Chấm công thành công cho tất cả!", "Thông báo");
+
+                //Lưu trạng thái chấm công cho tất cả rồi và reset trạng thái chấm công out
                 _checkedIn = true;
-            }
+                _checkedOut = false;
+
+            }else
             {
-                MessageBox.Show("Đã chấm công rồi!", "Thông báo");
+                //Đã chấm công từ trước
+                MessageBox.Show("Tất cả nhân viên đã được chấm công vào từ trước!", "Thông báo");
             }
         }
 
         private void txtEmployeeName_KeyPress(object sender, KeyPressEventArgs e)
         {
+            //Bắt các ký tự đặc biệt và số cho textbox tên nhân viên
             if (char.IsControl(e.KeyChar))
             {
                 e.Handled = false;
@@ -358,14 +362,15 @@ namespace GUI
 
         private void btnChamCongRaTatCa_Click(object sender, EventArgs e)
         {
+            //Kiểm tra đã chấm công cho tất cả chưa
             if(_checkedIn)
             {
-                if (_bllChamCong.CheckAttendanceOut(_arrIdSelected))
-                {
-                    _checkedOut = true;
-                }
+                //Kiểm tra đã có chấm công out từ trước chưa
+                _checkedOut = _bllChamCong.CheckAttendanceOut(_arrIdSelected);
+
                 if (!_checkedOut) {
                     //Đã chấm công vào cho tất cả
+                    //Sử lý và cập nhật field GioRa cho ChamCong
                     foreach (string idStaff in _arrIdSelected)
                     {
                         if (idStaff == null) continue;

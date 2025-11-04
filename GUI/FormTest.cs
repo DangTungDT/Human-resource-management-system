@@ -21,7 +21,7 @@ namespace GUI
         {
             //"Data Source=DESKTOP-6LE6PT2\\SQLEXPRESS;Initial Catalog=PersonnelManagement;Integrated Security=True;Encrypt=False"
             pnMain.Controls.Clear();
-            ucChamCongQuanLy uc = new ucChamCongQuanLy("TPNS000001", 1, "Data Source=DESKTOP-6LE6PT2\\SQLEXPRESS;Initial Catalog=PersonnelManagement;Integrated Security=True;Encrypt=False");
+            UCHopDong uc = new UCHopDong("TPNS000001", "Data Source=DESKTOP-6LE6PT2\\SQLEXPRESS;Initial Catalog=PersonnelManagement;Integrated Security=True;Encrypt=False");
             uc.Dock = DockStyle.Fill;
             pnMain.Controls.Add(uc);
         }

@@ -610,6 +610,11 @@ namespace GUI
             LoadDgvUngVien("all");
         }
 
+        private void dgvUngVien_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+
+        }
+
         private void ucUngVien_Load(object sender, EventArgs e)
         {
             var position = _bllChucVu.GetPositionByIdStaff(_idNhanVien);

@@ -341,7 +341,7 @@ namespace GUI
                     int nam = Convert.ToInt32(cbNam.SelectedValue ?? cbNam.Text);
                     int? idPhongBan = cbPhongBan.SelectedValue as int?; // combobox chọn phòng ban
 
-                    MessageBox.Show($"Tháng={thang}, Năm={nam}, IdPhongBan={idPhongBan}");
+                    //MessageBox.Show($"Tháng={thang}, Năm={nam}, IdPhongBan={idPhongBan}");
 
 
                     cmd.Parameters.AddWithValue("@Thang", thang);

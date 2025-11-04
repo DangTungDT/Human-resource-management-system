@@ -93,6 +93,7 @@
     <Reference Include="System.Runtime.Remoting" />
     <Reference Include="System.Web" />
     <Reference Include="System.Web.Services" />
+    <Reference Include="System.Windows.Forms.DataVisualization" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -149,6 +150,18 @@
     <Compile Include="DoiMatKhauRieng.Designer.cs">
       <DependentUpon>DoiMatKhauRieng.cs</DependentUpon>
     </Compile>
+    <Compile Include="FormBaoCaoDanhGia.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormBaoCaoDanhGia.Designer.cs">
+      <DependentUpon>FormBaoCaoDanhGia.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormBaoCaoNhanVien.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormBaoCaoNhanVien.Designer.cs">
+      <DependentUpon>FormBaoCaoNhanVien.cs</DependentUpon>
+    </Compile>
     <Compile Include="FormTest.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -182,6 +195,18 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>RPBaoCaoLuong.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="rptDanhGiaNhanVien.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>rptDanhGiaNhanVien.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="rptDanhSachNhanVien.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>rptDanhSachNhanVien.rpt</DependentUpon>
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="TaoKhauTru.cs">
@@ -219,6 +244,12 @@
     </Compile>
     <Compile Include="TestGiaoDien.Designer.cs">
       <DependentUpon>TestGiaoDien.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ThongKeDanhGia.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="ThongKeDanhGia.Designer.cs">
+      <DependentUpon>ThongKeDanhGia.cs</DependentUpon>
     </Compile>
     <Compile Include="UCCapNhatMatkhau.cs">
       <SubType>UserControl</SubType>
@@ -388,6 +419,12 @@
     <EmbeddedResource Include="ButtonFeatureViewComponent.resx">
       <DependentUpon>ButtonFeatureViewComponent.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="FormBaoCaoDanhGia.resx">
+      <DependentUpon>FormBaoCaoDanhGia.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormBaoCaoNhanVien.resx">
+      <DependentUpon>FormBaoCaoNhanVien.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="FormTest.resx">
       <DependentUpon>FormTest.cs</DependentUpon>
     </EmbeddedResource>
@@ -401,6 +438,14 @@
     <EmbeddedResource Include="RPBaoCaoLuong.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>RPBaoCaoLuong.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="rptDanhGiaNhanVien.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>rptDanhGiaNhanVien.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="rptDanhSachNhanVien.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>rptDanhSachNhanVien.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="TaoKyLuat.resx">
       <DependentUpon>TaoKyLuat.cs</DependentUpon>

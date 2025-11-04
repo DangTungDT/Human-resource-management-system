@@ -22,19 +22,12 @@ namespace BLL
         // Danh sach danh gia nhan vien
         public List<DTODanhGiaNhanVien> KtraDsDanhGiaNhanVien()
         {
-            var list = _dbContext.DanhSachDanhGiaNV().ToList();
-            if (list.Any() && list != null)
+            var list = _dbContext.DanhSachDanhGiaNV()?.ToList();
+            if (list != null && list.Any())
             {
-                try
-                {
-                    return list;
-                }
-                catch (Exception ex)
-                {
-                    throw new Exception("Lỗi kiểm tra d/s thưởng phạt: " + ex.Message);
-                }
+                return list;
             }
-            else return null;
+            return new List<DTODanhGiaNhanVien>();
         }
 
         public DataTable GetAll() => dal.GetAll();
@@ -46,5 +39,28 @@ namespace BLL
         }
 
         public void Delete(int id) => dal.Delete(id);
+
+        // Lấy danh sách đánh giá của 1 nhân viên theo tháng
+        public List<DTODanhGiaNhanVien> GetByEmployeeAndMonth(string maNV, int month, int year)
+        {
+            return dal.GetByEmployeeAndMonth(maNV, month, year);
+        }
+
+        // Lấy thống kê điểm trung bình theo tháng của tất cả nhân viên
+        public DataTable GetMonthlySummary(int month, int year)
+        {
+            return dal.GetMonthlySummary(month, year);
+        }
+
+        // Lấy toàn bộ thống kê theo từng tháng trong năm (phục vụ biểu đồ)
+        public DataTable GetYearlySummary(int year)
+        {
+            return dal.GetYearlySummary(year);
+        }
+
+        public DataTable GetDetailedReport(int thang, int nam, string idPhongBan)
+        {
+            return dal.BaoCaoDanhGiaChiTiet(thang, nam, idPhongBan);
+        }
     }
 }

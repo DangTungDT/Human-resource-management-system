@@ -46,6 +46,17 @@ namespace BLL
             return dal.GetAll(idPhongBan);
         }
 
+        public int InsertLyDoMoi(string lyDo, decimal soTien, string idNguoiTao)
+        {
+            try
+            {
+                return dal.InsertLyDoMoi(lyDo, soTien, idNguoiTao); // trả về id mới
+            }
+            catch
+            {
+                return -1;
+            }
+        }
         public bool Insert(DTONhanVien_KhauTru nkt)
         {
             if (string.IsNullOrWhiteSpace(nkt.IdNhanVien))

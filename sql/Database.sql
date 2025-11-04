@@ -1,4 +1,4 @@
-﻿----Database đồ án quản lý nhân sự
+----Database đồ án quản lý nhân sự
 --Create Database
 create database PersonnelManagement
 go
@@ -84,7 +84,7 @@ go
 create table HopDongLaoDong
 (
 	id int identity(1,1) not null,
-	LoaiHopDong nvarchar(100) check(LoaiHopDong in(N'Hợp đồng lao động xác định thời hạn', N'Hợp đồng lao động không xác định thời hạn')) not null,
+	LoaiHopDong nvarchar(100) not null,
 	NgayKy date not null,
 	NgayBatDau date not null,
 	NgayKetThuc date,
@@ -119,7 +119,8 @@ Create table DanhGiaNhanVien
 	idNhanVien varchar(10) not null,
 	idNguoiDanhGia varchar(10) not null,
 	primary key(id),
-	constraint chk_NguoiDanhGia check (idNhanVien != idNguoiDanhGia)
+	constraint chk_NguoiDanhGia check (idNhanVien != idNguoiDanhGia),
+	constraint chk_DiemSo check (DiemSo between 1 and 10)
 )
 go
 
@@ -149,7 +150,6 @@ Create table ChiTietLuong
 )
 go
 
--- tuan 2/11: them 2 field ghiChu, xacThucYeuCau (GD, NS)
 CREATE TABLE TuyenDung (
     id INT PRIMARY KEY IDENTITY(1,1),
     tieuDe NVARCHAR(150) NOT NULL,
@@ -175,10 +175,10 @@ CREATE TABLE UngVien (
     idChucVuUngTuyen int NOT NULL,
 	idTuyenDung int not null,
     ngayUngTuyen DATE DEFAULT GETDATE(),
-    trangThai NVARCHAR(50) DEFAULT N'Đang xét duyệt'
+    trangThai NVARCHAR(50) DEFAULT N'Đang xét duyệt',
+	daXoa bit not null default 0
 )
 go
-
 create table NhanVien_PhuCap
 (
 	idNhanVien varchar(10) not null,
@@ -304,6 +304,7 @@ go
 alter table HopDongLaoDong
 add constraint fk_NhanVien_HopDongLaoDong foreign key(idNhanVien) references NhanVien(id)
 go
+
 
 --Table DanhGiaNhanVien
 alter table DanhGiaNhanVien

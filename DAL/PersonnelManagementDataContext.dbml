@@ -24,6 +24,7 @@
       <Column Name="idTuyenDung" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Column Name="ngayUngTuyen" Type="System.DateTime" DbType="Date" CanBeNull="true" />
       <Column Name="trangThai" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="daXoa" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
       <Association Name="ChucVu_UngVien" Member="ChucVu" ThisKey="idChucVuUngTuyen" OtherKey="id" Type="ChucVu" IsForeignKey="true" />
     </Type>
   </Table>

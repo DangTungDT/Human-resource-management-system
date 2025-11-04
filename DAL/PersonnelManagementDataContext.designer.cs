@@ -501,6 +501,8 @@ namespace DAL
 		
 		private string _trangThai;
 		
+		private bool _daXoa;
+		
 		private EntityRef<ChucVu> _ChucVu;
 		
     #region Extensibility Method Definitions
@@ -531,6 +533,8 @@ namespace DAL
     partial void OnngayUngTuyenChanged();
     partial void OntrangThaiChanging(string value);
     partial void OntrangThaiChanged();
+    partial void OndaXoaChanging(bool value);
+    partial void OndaXoaChanged();
     #endregion
 		
 		public UngVien()
@@ -779,6 +783,26 @@ namespace DAL
 					this._trangThai = value;
 					this.SendPropertyChanged("trangThai");
 					this.OntrangThaiChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_daXoa", DbType="Bit NOT NULL")]
+		public bool daXoa
+		{
+			get
+			{
+				return this._daXoa;
+			}
+			set
+			{
+				if ((this._daXoa != value))
+				{
+					this.OndaXoaChanging(value);
+					this.SendPropertyChanging();
+					this._daXoa = value;
+					this.SendPropertyChanged("daXoa");
+					this.OndaXoaChanged();
 				}
 			}
 		}

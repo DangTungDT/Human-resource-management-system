@@ -1,4 +1,7 @@
-﻿using Guna.UI2.WinForms;
+﻿using BLL;
+using DAL;
+using DTO;
+using Guna.UI2.WinForms;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -7,52 +10,31 @@ using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.ListView;
 
 namespace GUI
 {
     public partial class ucChamCongQuanLy : UserControl
     {
-        public readonly string _idNhanVien, _conn;
-
-        public ucChamCongQuanLy(string idNhanVien, string conn)
-        {
-            InitializeComponent();
-
-            _conn = conn;
-            _idNhanVien = idNhanVien;
-        }
-
-        string IdManager = "";
-        bool Check = false;
-        List<EmployeTemp> ListEmploye = new List<EmployeTemp>()
-        {
-            new EmployeTemp(){ HoTen = "Nguyễn Văn An", Email = "an.nguyen@company.com", TrangThaiChamCong = true },
-            new EmployeTemp(){ HoTen = "Lê Thị Bích", Email = "bich.le@company.com", TrangThaiChamCong = false },
-            new EmployeTemp(){ HoTen = "Trần Quốc Huy", Email = "huy.tran@company.com", TrangThaiChamCong = true },
-            new EmployeTemp(){ HoTen = "Phạm Thảo Linh", Email = "linh.pham@company.com", TrangThaiChamCong = true },
-            new EmployeTemp(){ HoTen = "Võ Thành Trung", Email = "trung.vo@company.com", TrangThaiChamCong = false },
-            new EmployeTemp(){ HoTen = "Đặng Thanh Tùng", Email = "tung.dang@company.com", TrangThaiChamCong = true },
-            new EmployeTemp(){ HoTen = "Nguyễn Hữu Phúc", Email = "phuc.nguyen@company.com", TrangThaiChamCong = true },
-            new EmployeTemp(){ HoTen = "Huỳnh Ngọc Lan", Email = "lan.huynh@company.com", TrangThaiChamCong = false },
-            new EmployeTemp(){ HoTen = "Bùi Minh Khang", Email = "khang.bui@company.com", TrangThaiChamCong = true },
-            new EmployeTemp(){ HoTen = "Phan Thị Mai", Email = "mai.phan@company.com", TrangThaiChamCong = false }
-        };
-
-        //Cham cong bang checkbox
-        public ucChamCongQuanLy(string idEmployee)
-        {
-            IdManager = idEmployee;
-            InitializeComponent();
-        }
+        public string[,] _arrIdSelected { get; set; }
+        public readonly string _idNhanVien;
+        public readonly BLLNhanVien _dbContextStaff;
+        private readonly int _idStaffDepartment;
+        private BLLChamCong _bllChamCong;
+        private bool _checkedIn, _checkedOut = false;
 
         //Cham cong = hinh anh
-        public ucChamCongQuanLy(string idEmployee, bool check)
+        public ucChamCongQuanLy(string idEmployee, int idDepartment, string conn)
         {
-            IdManager = idEmployee;
             InitializeComponent();
-            Check = true;
+            _idStaffDepartment = idDepartment;
+            _dbContextStaff = new BLLNhanVien(conn);
+            _idNhanVien = idEmployee;
+
+            _bllChamCong = new BLLChamCong(conn);
         }
         public ucChamCongQuanLy()
         {
@@ -66,78 +48,169 @@ namespace GUI
             //Gắn placeholder
             SetPlaceholder(txtEmployeeName, "Nhập họ tên nhân viên");
             SetPlaceholder(txtEmail, "Nhập email nhân viên");
-            SetPlaceholder(txtPhoneNumber, "Nhập số điện thoại nhân viên");
 
-            if (!Check)
+            //Load dữ liệu image cho Datagridview
+            LoadDGVImageStaff(null);
+
+            //Kiểm tra checkin tất cả chưa
+                _checkedIn = _bllChamCong.CheckAttendance(_arrIdSelected);
+            rdoCheckedIn.Checked = true;
+        }
+
+        private void LoadDGVImageStaff(List<ImageStaff> listStaff)
+        {
+            //Lấy id và hình của nhân viên có trong phòng ban
+            if (listStaff == null)
             {
-                this.Padding = new Padding(0, 10, 0, 0);
-                dgvEmployeeAttendance.DataSource = ListEmploye;
-                dgvEmployeeAttendance.Columns.Clear();
-                dgvEmployeeAttendance.Columns.Add(new DataGridViewTextBoxColumn()
-                {
-                    HeaderText = "HỌ TÊN NHÂN VIÊN",
-                    DataPropertyName = "HoTen"
-                });
-                dgvEmployeeAttendance.Columns.Add(new DataGridViewTextBoxColumn()
-                {
-                    HeaderText = "Email",
-                    DataPropertyName = "Email"
-                });
-                dgvEmployeeAttendance.Columns.Add(new DataGridViewCheckBoxColumn()
-                {
-                    HeaderText = "Đã chấm công",
-                    DataPropertyName = "TrangThaiChamCong",
-                    Width = 120
-                });
-                dgvEmployeeAttendance.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.EnableResizing;
-                dgvEmployeeAttendance.ColumnHeadersHeight = 35;
+                listStaff = _dbContextStaff.GetStaffByRole(_idNhanVien, _idStaffDepartment);
             }
-            else
+            if (listStaff.Count < 1)
             {
-                dgvEmployeeAttendance.SelectionMode = DataGridViewSelectionMode.CellSelect;
-                dgvEmployeeAttendance.RowTemplate.Height = 150;
+                dgvEmployeeAttendance.Rows.Clear();
+                dgvEmployeeAttendance.Columns.Clear();
+                return;
+            }
 
-                for (int i = 1; i < 6; i++)
+            //Clear hàng và cột của datagirdview
+            dgvEmployeeAttendance.Rows.Clear();
+            dgvEmployeeAttendance.Columns.Clear();
+
+            dgvEmployeeAttendance.SelectionMode = DataGridViewSelectionMode.CellSelect;
+            dgvEmployeeAttendance.RowTemplate.Height = 150;
+
+            //Tạo 5 cột dữ liệu kiểu Image cho datagridview
+            for (int i = 1; i < 6; i++)
+            {
+                var imgCol = new DataGridViewImageColumn();
+                imgCol.HeaderText = i.ToString();
+                imgCol.ImageLayout = DataGridViewImageCellLayout.Zoom;
+
+                //Tắt icon x khi image null
+                imgCol.DefaultCellStyle.NullValue = null;
+
+                dgvEmployeeAttendance.Columns.Add(imgCol);
+            }
+
+            //Lấy đường dẫn folder chứa hình ảnh nhân viên
+            string imageFolder = Path.Combine(Application.StartupPath, @"..\..\..\Image");
+            imageFolder = Path.GetFullPath(imageFolder);
+            if (!Directory.Exists(imageFolder))
+            {
+                MessageBox.Show("Không tìm thấy thư mục Image!");
+                return;
+            }
+
+            // Tính số dòng cần thiết
+            int dong = (listStaff.Count + 5 - 1) / 5;
+
+            //Tạo mảng 2 chiều để gán giá trị id nhân viên theo cấu trúc của datagirdview hình
+            _arrIdSelected = new string[dong, 5];
+
+            
+            int index = 0;
+            for (int r = 0; r < dong; r++)
+            {
+                object[] row = new object[5];
+
+                for (int c = 0; c < 5; c++)
                 {
-                    var imgCol = new DataGridViewImageColumn();
-                    imgCol.HeaderText = i.ToString();
-                    imgCol.ImageLayout = DataGridViewImageCellLayout.Zoom;
-                    dgvEmployeeAttendance.Columns.Add(imgCol);
-                }
-
-                string imageFolder = Path.Combine(Application.StartupPath, @"..\..\..\Image");
-                imageFolder = Path.GetFullPath(imageFolder);
-
-                if (!Directory.Exists(imageFolder))
-                {
-                    MessageBox.Show("Không tìm thấy thư mục Image!");
-                    return;
-                }
-
-                // Lấy tất cả file ảnh
-                string[] imageFiles = Directory.GetFiles(imageFolder, "*.*")
-                                               .Where(f => f.EndsWith(".jpg", StringComparison.OrdinalIgnoreCase)
-                                                        || f.EndsWith(".png", StringComparison.OrdinalIgnoreCase)
-                                                        || f.EndsWith(".jpeg", StringComparison.OrdinalIgnoreCase))
-                                               .ToArray();
-
-                // Thêm ảnh vào DataGridView, mỗi dòng chứa 5 ảnh
-                for (int i = 0; i < imageFiles.Length; i += 5)
-                {
-                    object[] row = new object[5];
-                    for (int j = 0; j < 5; j++)
+                    if (index < listStaff.Count)
                     {
-                        int index = i + j;
-                        if (index < imageFiles.Length)
+                        var staff = listStaff[index];
+
+                        row[c] = Image.FromFile($"{imageFolder}\\{staff.ImageName}");
+
+                        _arrIdSelected[r, c] = staff.Id;
+                    }
+                    else
+                    {
+                        row[c] = null;
+                    }
+
+                    index++;
+                }
+
+                dgvEmployeeAttendance.Rows.Add(row);
+            }
+
+            dgvEmployeeAttendance.AllowUserToAddRows = false;
+
+            //Kiểm tra checkin và checkout của dữ liệu
+            _checkedIn = _bllChamCong.CheckAttendance(_arrIdSelected);
+            _checkedOut = _bllChamCong.CheckAttendanceOut(_arrIdSelected);
+        }
+
+        private void dgvEmployeeAttendance_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+
+        }
+
+        private void dgvEmployeeAttendance_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            // Lấy vị trí dòng và cột
+            int row = e.RowIndex;
+            int col = e.ColumnIndex;
+
+            //Bỏ qua khi click vào header
+            if (row < 0 || col < 0) return;
+
+            //Kiểm tra nhân viên chọn có tồn tại không
+            if (_arrIdSelected[row, col] != null)
+            {
+                //Lấy tên của nhân viên đang chọn
+                string staffName = _dbContextStaff.GetStaffById(_arrIdSelected[row, col]).TenNhanVien;
+
+                //Hỏi có chấm công cho nhân viên đang chọn
+                DialogResult question = MessageBox.Show($"Chấm công cho nhân viên {staffName.ToUpper()}?", "Thông báo", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                if(question == DialogResult.Yes)
+                {
+                    //Tạo ChamCong cho nhân viên đang chọn
+                    DTOChamCong dto = new DTOChamCong
+                    {
+                        NgayChamCong = DateTime.Now,
+                        GioVao = DateTime.Now.TimeOfDay,
+                        IdNhanVien = _arrIdSelected[row, col]
+                    };
+                    string result = _bllChamCong.Add(dto).ToLower();
+                    if (result == "data already exists")
+                    {
+                        //Dữ liệu đã tồn tại 
+                        //Cập nhật Field GioRa co dữ liệu ChamCong (Có thể là cập nhật từ null hoặc khác null)
+                        DialogResult questionCheckOut = MessageBox.Show($"{staffName.ToUpper()} đã chấm công vào từ trước, bạn có muốn chấm công về?", "Thông báo", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+                        if (questionCheckOut == DialogResult.Yes)
                         {
-                            row[j] = Image.FromFile(imageFiles[index]);
-                        }
-                        else
-                        {
-                            row[j] = null;
+                            dto.GioRa = DateTime.Now.TimeOfDay;
+                            if (_bllChamCong.UpdateGioRa(dto))
+                            {
+                                MessageBox.Show("Chấm công về thành công!", "Thông báo");
+
+                                //Kiểm tra checkin và checkout của dữ liệu
+                                _checkedOut = _bllChamCong.CheckAttendanceOut(_arrIdSelected);
+                            }
+                            else
+                            {
+                                MessageBox.Show("Chấm công về thất bại!", "Thông báo");
+                            }
                         }
                     }
-                    dgvEmployeeAttendance.Rows.Add(row);
+                    else if (result == "invalid data")
+                    {
+                        //Dữ liệu sai
+                        MessageBox.Show("Dữ liệu không hợp lệ!", "Thông báo");
+                    }
+                    else if (result == "data added successfully")
+                    {
+                        //Thêm thành công
+                        MessageBox.Show("Chấm công vào thành công!", "Thông báo");
+
+                        //Kiểm tra checkin và checkout của dữ liệu
+                        _checkedIn = _bllChamCong.CheckAttendance(_arrIdSelected);
+                    }
+                    else
+                    {
+                        //Thêm thất bại
+                        MessageBox.Show("Chấm công thất bại!", "Thông báo");
+                    }
                 }
             }
         }
@@ -164,6 +237,168 @@ namespace GUI
                     textBox.ForeColor = Color.Gray;
                 }
             };
+        }
+
+        private void btnChamCongVaoTatCa_Click(object sender, EventArgs e)
+        {
+            if(!_checkedIn)
+            {
+                //Chưa chấm công vào cho tất cả
+                //Sử lý và tạo chấm công
+                foreach (string idStaff in _arrIdSelected)
+                {
+                    //Bỏ qua id nào bị null
+                    if (idStaff == null) continue;
+
+                    //Tạo Và thêm chamCong
+                    DTOChamCong dto = new DTOChamCong
+                    {
+                        NgayChamCong = DateTime.Now,
+                        GioVao = DateTime.Now.TimeOfDay,
+                        IdNhanVien = idStaff
+                    };
+                    string result = _bllChamCong.Add(dto).ToLower();
+
+                    if (result == "invalid data")
+                    {
+                        //Dữ liệu sai
+                        MessageBox.Show("Dữ liệu không hợp lệ!", "Thông báo");
+                        return;
+                    }
+                    else if (result == "failed to add data")
+                    {
+                        //Thêm thất bại
+                        MessageBox.Show("Chấm công thất bại!", "Thông báo");
+                        return;
+                    }
+                }
+                MessageBox.Show("Chấm công thành công cho tất cả!", "Thông báo");
+
+                //Lưu trạng thái chấm công cho tất cả rồi và reset trạng thái chấm công out
+                _checkedIn = true;
+                _checkedOut = false;
+
+            }else
+            {
+                //Đã chấm công từ trước
+                MessageBox.Show("Tất cả nhân viên đã được chấm công vào từ trước!", "Thông báo");
+            }
+        }
+
+        private void txtEmployeeName_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            //Bắt các ký tự đặc biệt và số cho textbox tên nhân viên
+            if (char.IsControl(e.KeyChar))
+            {
+                e.Handled = false;
+            }
+            else if (char.IsDigit(e.KeyChar))
+            {
+                e.Handled = true;
+            }
+            else if (!char.IsLetter(e.KeyChar) && !char.IsWhiteSpace(e.KeyChar))
+            {
+                e.Handled = true;
+            }
+        }
+
+        private void txtEmail_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            // Cho phép phím điều khiển như Backspace, Delete
+            if (char.IsControl(e.KeyChar))
+            {
+                return;
+            }
+
+            // Cho phép chữ, số, dấu chấm, gạch dưới, gạch ngang, và ký tự @
+            if (!char.IsLetterOrDigit(e.KeyChar) &&
+                e.KeyChar != '.' &&
+                e.KeyChar != '_' &&
+                e.KeyChar != '-' &&
+                e.KeyChar != '@')
+            {
+                e.Handled = true; // chặn ký tự không hợp lệ
+            }
+        }
+        bool IsValidEmail(string email)
+        {
+            string pattern = @"^[^@\s]+@[^@\s]+\.[^@\s]+$";
+            return Regex.IsMatch(email, pattern);
+        }
+
+        private void btnFilterEmployees_Click(object sender, EventArgs e)
+        {
+            if(txtEmail.Text != "Nhập email nhân viên" && txtEmail.Text != "")
+            {
+                if (!IsValidEmail(txtEmail.Text))
+                {
+                    MessageBox.Show("Email nhập không hợp lệ, vui lòng nhập lại email!", "Thông báo");
+                    return;
+                }
+            }
+            if(txtEmployeeName.Text == "Nhập họ tên nhân viên")
+            {
+                txtEmployeeName.Text = "";
+            }
+            if(txtEmail.Text == "Nhập email nhân viên")
+            {
+                txtEmail.Text = "";
+            }
+            if(rdoCheckedIn.Checked)
+            {
+                LoadDGVImageStaff(_dbContextStaff.GetStaffByNameEmailCheckin(txtEmployeeName.Text, txtEmail.Text, true, _idStaffDepartment, _idNhanVien));
+            }
+            else
+            {
+                LoadDGVImageStaff(_dbContextStaff.GetStaffByNameEmailCheckin(txtEmployeeName.Text, txtEmail.Text, false, _idStaffDepartment, _idNhanVien));
+            }
+            
+        }
+
+        private void dgvEmployeeAttendance_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
+        {
+            
+        }
+
+        private void btnChamCongRaTatCa_Click(object sender, EventArgs e)
+        {
+            //Kiểm tra đã chấm công cho tất cả chưa
+            if(_checkedIn)
+            {
+                //Kiểm tra đã có chấm công out từ trước chưa
+                _checkedOut = _bllChamCong.CheckAttendanceOut(_arrIdSelected);
+
+                if (!_checkedOut) {
+                    //Đã chấm công vào cho tất cả
+                    //Sử lý và cập nhật field GioRa cho ChamCong
+                    foreach (string idStaff in _arrIdSelected)
+                    {
+                        if (idStaff == null) continue;
+                        DTOChamCong dto = new DTOChamCong
+                        {
+                            NgayChamCong = DateTime.Now,
+                            GioVao = DateTime.Now.TimeOfDay,
+                            IdNhanVien = idStaff
+                        };
+                        dto.GioRa = DateTime.Now.TimeOfDay;
+                        if (!_bllChamCong.UpdateGioRa(dto))
+                        {
+                            MessageBox.Show("Chấm công về thất bại!", "Thông báo");
+                            return;
+                        }
+                    }
+                    MessageBox.Show("Chấm công về cho tất cả thành công!", "Thông báo");
+                    _checkedOut = true;
+                }
+                else
+                {
+                    MessageBox.Show("Đã chấm công về cho tất cả rồi, vui lòng không chấm nữa!", "Thông báo");
+                }
+            }
+            else
+            {
+                MessageBox.Show("Chưa chấm công vào tất cả, vui lòng chấm công cho tất cả trước khi chấm ra!", "Thông báo");
+            }
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using BLL;
+using DAL;
 using DTO;
 using Guna.UI2.WinForms;
 using System;
@@ -27,6 +28,7 @@ namespace GUI
         private Guna2TextBox txtSearchName, txtSearchAddress, txtSearchQue, txtSearchEmail;
         private Guna2ComboBox cbSearchGender;
         private BLLNhanVien nvBus;
+        private DataTable dtAllChucVu;
 
         private string connectionString;
         private string selectedId = null;
@@ -70,7 +72,7 @@ namespace GUI
 
             txtSearchName = new Guna2TextBox() { PlaceholderText = "🔍 Họ tên", Width = 180 };
             cbSearchGender = new Guna2ComboBox() { Width = 100, DropDownStyle = ComboBoxStyle.DropDownList };
-            cbSearchGender.Items.AddRange(new object[] { "", "Nam", "Nữ", "Khác" });
+            cbSearchGender.Items.AddRange(new object[] { "", "Nam", "Nữ" });
             txtSearchAddress = new Guna2TextBox() { PlaceholderText = "Địa chỉ", Width = 180 };
             txtSearchQue = new Guna2TextBox() { PlaceholderText = "Quê quán", Width = 180 };
             txtSearchEmail = new Guna2TextBox() { PlaceholderText = "Email", Width = 180 };
@@ -90,12 +92,14 @@ namespace GUI
             txtName = new Guna2TextBox() { PlaceholderText = "Họ tên", Dock = DockStyle.Fill };
             dtDob = new Guna2DateTimePicker() { Format = DateTimePickerFormat.Custom, CustomFormat = "dd/MM/yyyy", Dock = DockStyle.Fill };
             cbGender = new Guna2ComboBox() { Dock = DockStyle.Fill, DropDownStyle = ComboBoxStyle.DropDownList };
-            cbGender.Items.AddRange(new object[] { "Nam", "Nữ", "Khác" });
+            cbGender.Items.AddRange(new object[] { "Nam", "Nữ" });
             txtAddress = new Guna2TextBox() { PlaceholderText = "Địa chỉ", Dock = DockStyle.Fill };
             txtEmail = new Guna2TextBox() { PlaceholderText = "Email", Dock = DockStyle.Fill };
             txtQue = new Guna2TextBox() { PlaceholderText = "Quê quán", Dock = DockStyle.Fill };
             cbPhongBan = new Guna2ComboBox() { Dock = DockStyle.Fill, DropDownStyle = ComboBoxStyle.DropDownList };
             cbChucVu = new Guna2ComboBox() { Dock = DockStyle.Fill, DropDownStyle = ComboBoxStyle.DropDownList };
+            cbPhongBan.SelectedIndexChanged += CbPhongBan_SelectedIndexChanged;
+            cbChucVu.SelectedIndexChanged += CbChucVu_SelectedIndexChanged;
 
             btnSave = new Guna2Button()
             {
@@ -241,13 +245,60 @@ namespace GUI
         {
             using (SqlConnection conn = new SqlConnection(connectionString))
             {
-                SqlDataAdapter da = new SqlDataAdapter("SELECT id, TenChucVu FROM ChucVu", conn);
-                DataTable dt = new DataTable();
-                da.Fill(dt);
-                cbChucVu.DataSource = dt;
+                string sql = @"SELECT c.id, c.TenChucVu, c.idPhongBan, p.TenPhongBan
+                       FROM ChucVu c
+                       INNER JOIN PhongBan p ON c.idPhongBan = p.id";
+                SqlDataAdapter da = new SqlDataAdapter(sql, conn);
+                dtAllChucVu = new DataTable();
+                da.Fill(dtAllChucVu);
+
+                cbChucVu.DataSource = dtAllChucVu.Copy();
                 cbChucVu.DisplayMember = "TenChucVu";
                 cbChucVu.ValueMember = "id";
                 cbChucVu.SelectedIndex = -1;
+            }
+        }
+
+        private void CbPhongBan_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (cbPhongBan.SelectedValue == null || dtAllChucVu == null) return;
+
+            if (int.TryParse(cbPhongBan.SelectedValue.ToString(), out int phongBanId))
+            {
+                DataView dv = new DataView(dtAllChucVu);
+                dv.RowFilter = $"idPhongBan = {phongBanId}";
+
+                cbChucVu.DataSource = dv.ToTable();
+                cbChucVu.DisplayMember = "TenChucVu";
+                cbChucVu.ValueMember = "id";
+                cbChucVu.SelectedIndex = -1;
+            }
+        }
+
+        private void CbChucVu_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if(cbChucVu.SelectedValue == null) return;
+
+            if (int.TryParse(cbChucVu.SelectedValue.ToString(), out int chucVuId))
+            {
+                DataRow[] rows = dtAllChucVu.Select($"id = {chucVuId}");
+                if (rows.Length > 0)
+                {
+                    string phongBanId = rows[0]["idPhongBan"].ToString();
+                    string tenPhongBan = rows[0]["TenPhongBan"].ToString();
+
+                    if (cbPhongBan.SelectedValue == null || cbPhongBan.SelectedValue.ToString() != phongBanId)
+                    {
+                        MessageBox.Show(
+                            $"⚠️ Chức vụ này thuộc phòng ban '{tenPhongBan}'.\nVui lòng chọn lại phòng ban phù hợp!",
+                            "Không khớp phòng ban",
+                            MessageBoxButtons.OK,
+                            MessageBoxIcon.Warning
+                        );
+
+                        cbPhongBan.SelectedValue = int.Parse(phongBanId); // ép kiểu đúng luôn
+                    }
+                }
             }
         }
 
@@ -341,11 +392,51 @@ namespace GUI
                 MessageBox.Show("Vui lòng nhập tên nhân viên!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
+            if (string.IsNullOrEmpty(cbGender.Text))
+            {
+                MessageBox.Show("Vui lòng nhập giới tính!", "Thiếu thông tin", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+            if (string.IsNullOrEmpty(cbPhongBan.Text))
+            {
+                MessageBox.Show("Vui lòng nhập phòng ban!", "Thiếu thông tin", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+            if (string.IsNullOrEmpty(cbChucVu.Text))
+            {
+                MessageBox.Show("Vui lòng nhập chức vụ!", "Thiếu thông tin", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
             if (string.IsNullOrWhiteSpace(txtEmail.Text))
             {
                 MessageBox.Show("Vui lòng nhập email!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
+
+            string email = txtEmail.Text.Trim();
+
+            if (nvBus.KiemTraEmailTonTai(email))
+            {
+                MessageBox.Show("Email này đã tồn tại. Vui lòng nhập email khác!", "Trùng Email", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                txtEmail.Focus();
+                return;
+            }
+
+            DateTime ngaySinh;
+
+            if (!DateTime.TryParse(dtDob.Text, out ngaySinh))
+            {
+                MessageBox.Show("Ngày sinh không hợp lệ!", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            if (!KiemTraTuoiHopLe(ngaySinh))
+            {
+                MessageBox.Show("Nhân viên phải từ 16 tuổi trở lên!", "Tuổi không hợp lệ", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                dtDob.Focus();
+                return;
+            }
+
 
             string TenChucVu = cbChucVu.Text;
             string TenPhongBan = cbPhongBan.Text;
@@ -396,7 +487,21 @@ namespace GUI
             LoadDanhSachNhanVien(false);
 
             // ===== Xóa trắng form =====
-            //BtnAdd_Click(sender,e);
+            BtnAdd_Click(sender,e);
+        }
+
+        private bool KiemTraTuoiHopLe(DateTime ngaySinh)
+        {
+            DateTime ngayHienTai = DateTime.Today;
+
+            // Tính tuổi chính xác
+            int tuoi = ngayHienTai.Year - ngaySinh.Year;
+
+            // Nếu chưa tới ngày sinh nhật năm nay thì trừ 1
+            if (ngayHienTai < ngaySinh.AddYears(tuoi))
+                tuoi--;
+
+            return tuoi >= 16;
         }
 
         private void BtnAdd_Click(object sender, EventArgs e)

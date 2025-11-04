@@ -250,9 +250,12 @@ namespace DAL
                                     .ToArray()).ToUpper();
 
 
-
             // Gộp lại: VD "Nhân viên Marketing" => NVM
             string prefix = prefixCV;
+            if(prefix == "NVM")
+            {
+                prefix = "MVMKT";
+            }
 
             // Đảm bảo tổng độ dài = 10 ký tự
             int totalLength = 10;
@@ -315,5 +318,22 @@ namespace DAL
             }
             return null;
         }
+
+        // Ktra email
+        public bool KiemTraEmailTonTai(string email)
+        {
+            using (SqlConnection conn = new SqlConnection(connectionString))
+            {
+                string query = "SELECT COUNT(*) FROM NhanVien WHERE Email = @Email";
+                SqlCommand cmd = new SqlCommand(query, conn);
+                cmd.Parameters.AddWithValue("@Email", email);
+                conn.Open();
+                int count = (int)cmd.ExecuteScalar();
+
+                return count > 0; // true nếu email đã tồn tại
+            }
+        }
     }
+
+
 }

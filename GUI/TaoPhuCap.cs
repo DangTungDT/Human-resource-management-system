@@ -25,7 +25,7 @@ namespace GUI
         private readonly BLLPhuCap bll;
         private int selectedId = -1;
 
-        public TaoPhuCap(string conn)
+        public TaoPhuCap(string idNhanVien,string conn)
         {
             InitializeComponent();
             bll = new BLLPhuCap(conn);

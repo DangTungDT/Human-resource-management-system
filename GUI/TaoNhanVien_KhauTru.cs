@@ -21,19 +21,21 @@ namespace GUI
         private Guna2ComboBox cbPhongBan;
         private Guna2ComboBox cbNhanVien;
         private Guna2ComboBox cbLyDo;
-        private Guna2TextBox txtAmount;
+        private Guna2TextBox txtAmount, txtLyDoMoi;
         private Guna2DateTimePicker dtThangApDung;
         private Guna2Button btnSave, btnUndo, btnSearch;
         private Guna2DataGridView dgv;
         private bool isUpdating = false;
-        private int currentId = -1;
+        private int currentId = -1; 
+        private string idNguoiTao = "GD00000001";
 
-        public TaoNhanVien_KhauTru(string conn)
+        public TaoNhanVien_KhauTru(string idNhanVien,string conn)
         {
             InitializeComponent();
             bll = new BLLNhanVien_KhauTru(conn);
             bllPhongBan = new BLLPhongBan(conn);
             bllNhanVien = new BLLNhanVien(conn);
+            idNguoiTao = idNhanVien;
 
             BuildUI();
             LoadPhongBan();
@@ -47,48 +49,38 @@ namespace GUI
             this.Dock = DockStyle.Fill;
             this.BackColor = Color.FromArgb(245, 247, 250);
 
+            // ======= TIÊU ĐỀ =======
             Label lblTitle = new Label
             {
-                Text = "💸 QUẢN LÝ KHAU TRỪ NHÂN VIÊN",
+                Text = "💸 QUẢN LÝ KHẤU TRỪ NHÂN VIÊN",
                 Dock = DockStyle.Top,
-                Height = 65,
-                Font = new Font("Segoe UI", 20, FontStyle.Bold),
-                ForeColor = Color.FromArgb(50, 70, 140),
+                Height = 60,
+                Font = new Font("Times New Roman", 18, FontStyle.Bold),
+                ForeColor = Color.Maroon,
                 TextAlign = ContentAlignment.MiddleCenter,
                 BackColor = Color.White
             };
 
+            Label MakeLabel(string text) => new Label
+            {
+                Text = text,
+                Dock = DockStyle.Fill,
+                Font = new Font("Times New Roman", 11, FontStyle.Bold),
+                TextAlign = ContentAlignment.MiddleRight,
+                ForeColor = Color.FromArgb(60, 60, 60)
+            };
+
+            // ======= FORM CARD =======
             Guna2Panel pnlFormCard = new Guna2Panel
             {
                 BorderRadius = 12,
                 FillColor = Color.White,
                 ShadowDecoration = { Depth = 10, Enabled = true },
                 Dock = DockStyle.Fill,
-                Padding = new Padding(50, 30, 50, 30)
+                Padding = new Padding(30, 15, 30, 15)
             };
 
-            TableLayoutPanel tlForm = new TableLayoutPanel
-            {
-                Dock = DockStyle.Fill,
-                ColumnCount = 2,
-                RowCount = 5,
-                BackColor = Color.White,
-                Padding = new Padding(0, 10, 0, 0)
-            };
-            tlForm.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 160));
-            tlForm.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100));
-            for (int i = 0; i < 5; i++)
-                tlForm.RowStyles.Add(new RowStyle(SizeType.Absolute, 50));
-
-            Label MakeLabel(string text) => new Label
-            {
-                Text = text,
-                Dock = DockStyle.Fill,
-                Font = new Font("Segoe UI Semibold", 10.5f),
-                TextAlign = ContentAlignment.MiddleRight,
-                ForeColor = Color.FromArgb(60, 60, 60)
-            };
-
+            // ======= PANEL TÌM THEO PHÒNG BAN =======
             FlowLayoutPanel pnlPhongBanSearch = new FlowLayoutPanel
             {
                 Dock = DockStyle.Fill,
@@ -99,51 +91,72 @@ namespace GUI
             cbPhongBan = new Guna2ComboBox
             {
                 BorderRadius = 8,
-                Size = new Size(250, 36),
+                Size = new Size(200, 36),
                 DropDownStyle = ComboBoxStyle.DropDownList,
-                Font = new Font("Segoe UI", 10)
+                Font = new Font("Times New Roman", 10.5f),
+                MaxDropDownItems = 6 // 👈 chỉ hiển thị tối đa 6 dòng
             };
             cbPhongBan.SelectedIndexChanged += CbPhongBan_SelectedIndexChanged;
 
             btnSearch = new Guna2Button
             {
-                Size = new Size(40, 36),
+                Size = new Size(38, 36),
                 Margin = new Padding(8, 0, 0, 0),
                 Image = Properties.Resources.search,
                 ImageSize = new Size(18, 18),
-                FillColor = Color.MediumSlateBlue,
+                FillColor = Color.FromArgb(90, 100, 255),
                 BorderRadius = 8,
                 Cursor = Cursors.Hand
             };
             btnSearch.Click += btnTimKiem_Click;
-            btnSearch.MouseEnter += (s, e) =>
-            {
-                btnSearch.Image = Properties.Resources.magnifying_glass;
-                btnSearch.FillColor = Color.SlateBlue;
-            };
-            btnSearch.MouseLeave += (s, e) =>
-            {
-                btnSearch.Image = Properties.Resources.search;
-                btnSearch.FillColor = Color.MediumSlateBlue;
-            };
-
             pnlPhongBanSearch.Controls.Add(cbPhongBan);
             pnlPhongBanSearch.Controls.Add(btnSearch);
 
+            // ======= PANEL TÌM THEO PHÒNG BAN (ĐỘC LẬP) =======
+            TableLayoutPanel pnlSearch = new TableLayoutPanel
+            {
+                Dock = DockStyle.Top,
+                Height = 50,
+                ColumnCount = 2,
+                Padding = new Padding(20, 0, 0, 5)
+            };
+            pnlSearch.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 150));
+            pnlSearch.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100));
+
+            pnlSearch.Controls.Add(MakeLabel("Tìm theo phòng ban:"), 0, 0);
+            pnlSearch.Controls.Add(pnlPhongBanSearch, 1, 0);
+
+            // ======= FORM CHÍNH 2 CỘT =======
+            TableLayoutPanel tlMainForm = new TableLayoutPanel
+            {
+                Dock = DockStyle.Fill,
+                ColumnCount = 2,
+                RowCount = 1,
+                BackColor = Color.White
+            };
+            tlMainForm.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 48));  // Bên trái nhỏ hơn chút
+            tlMainForm.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 52));  // Bên phải rộng hơn
+
+
+            // ======= COMBOBOX & TEXTBOX =======
             cbNhanVien = new Guna2ComboBox
             {
                 BorderRadius = 8,
                 DropDownStyle = ComboBoxStyle.DropDownList,
                 Dock = DockStyle.Fill,
-                Font = new Font("Segoe UI", 10)
+                Font = new Font("Times New Roman", 10.5f),
+                MaxDropDownItems = 6 // 👈 chỉ hiển thị tối đa 6 dòng
             };
+            //cbNhanVien.DropDownHeight = 150; // giới hạn chiều cao dropdown ~150px
+            //cbNhanVien.IntegralHeight = false; // phải tắt để có hiệu lực
 
             cbLyDo = new Guna2ComboBox
             {
                 BorderRadius = 8,
                 DropDownStyle = ComboBoxStyle.DropDownList,
                 Dock = DockStyle.Fill,
-                Font = new Font("Segoe UI", 10)
+                Font = new Font("Times New Roman", 10.5f),
+                MaxDropDownItems = 6 // 👈 chỉ hiển thị tối đa 6 dòng
             };
             cbLyDo.SelectedIndexChanged += CbLyDo_SelectedIndexChanged;
 
@@ -151,8 +164,8 @@ namespace GUI
             {
                 BorderRadius = 8,
                 Dock = DockStyle.Fill,
-                PlaceholderText = "Số tiền khấu trừ...",
-                Font = new Font("Segoe UI", 10),
+                PlaceholderText = "Nhập số tiền khấu trừ...",
+                Font = new Font("Times New Roman", 10.5f),
                 Enabled = false
             };
 
@@ -162,39 +175,94 @@ namespace GUI
                 Dock = DockStyle.Fill,
                 Format = DateTimePickerFormat.Custom,
                 CustomFormat = "MM/yyyy",
-                Font = new Font("Segoe UI", 10)
+                Font = new Font("Times New Roman", 10.5f)
             };
 
-            tlForm.Controls.Add(MakeLabel("Tìm theo phòng ban:"), 0, 0);
-            tlForm.Controls.Add(pnlPhongBanSearch, 1, 0);
-            tlForm.Controls.Add(MakeLabel("Nhân viên:"), 0, 1);
-            tlForm.Controls.Add(cbNhanVien, 1, 1);
-            tlForm.Controls.Add(MakeLabel("Lý do khấu trừ:"), 0, 2);
-            tlForm.Controls.Add(cbLyDo, 1, 2);
-            tlForm.Controls.Add(MakeLabel("Số tiền:"), 0, 3);
-            tlForm.Controls.Add(txtAmount, 1, 3);
-            tlForm.Controls.Add(MakeLabel("Tháng áp dụng:"), 0, 4);
-            tlForm.Controls.Add(dtThangApDung, 1, 4);
+            foreach (var cb in new[] { cbPhongBan, cbNhanVien, cbLyDo })
+            {
+                cb.DropDownHeight = 150;
+                cb.IntegralHeight = false;
+            }
 
-            pnlFormCard.Controls.Add(tlForm);
+            txtLyDoMoi = new Guna2TextBox
+            {
+                BorderRadius = 8,
+                Dock = DockStyle.Fill,
+                PlaceholderText = "Nhập lý do mới (nếu có)...",
+                Font = new Font("Times New Roman", 10.5f)
+            };
+            txtLyDoMoi.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
+            txtLyDoMoi.AutoCompleteSource = AutoCompleteSource.CustomSource;
 
+            var autoComplete = new AutoCompleteStringCollection();
+            autoComplete.AddRange(cbLyDo.Items.Cast<DataRowView>().Select(x => x["loaiKhauTru"].ToString()).ToArray());
+            txtLyDoMoi.AutoCompleteCustomSource = autoComplete;
+
+            // ======= BÊN TRÁI =======
+            TableLayoutPanel tlLeft = new TableLayoutPanel
+            {
+                Dock = DockStyle.Fill,
+                ColumnCount = 2,
+                RowCount = 2,
+                Padding = new Padding(10, 5, 20, 5)
+            };
+            tlLeft.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 150));
+            tlLeft.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100));
+            for (int i = 0; i < 3; i++)
+                tlLeft.RowStyles.Add(new RowStyle(SizeType.Absolute, 45));
+
+            tlLeft.Controls.Add(MakeLabel("Nhân viên:"), 0, 0);
+            tlLeft.Controls.Add(cbNhanVien, 1, 0);
+            tlLeft.Controls.Add(MakeLabel("Lý do có sẵn:"), 0, 1);
+            tlLeft.Controls.Add(cbLyDo, 1, 1);
+            tlLeft.Controls.Add(MakeLabel("Lý do mới:"), 0, 2);
+            tlLeft.Controls.Add(txtLyDoMoi, 1, 2);
+
+            // ======= BÊN PHẢI =======
+            TableLayoutPanel tlRight = new TableLayoutPanel
+            {
+                Dock = DockStyle.Fill,
+                ColumnCount = 2,
+                RowCount = 3,
+                Padding = new Padding(20, 5, 10, 5)
+            };
+            tlRight.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 130));
+            tlRight.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100));
+            for (int i = 0; i < 2; i++)
+                tlRight.RowStyles.Add(new RowStyle(SizeType.Absolute, 45));
+
+            tlRight.Controls.Add(MakeLabel("Số tiền:"), 0, 0);
+            tlRight.Controls.Add(txtAmount, 1, 0);
+            tlRight.Controls.Add(MakeLabel("Tháng áp dụng:"), 0, 1);
+            tlRight.Controls.Add(dtThangApDung, 1, 1);
+            
+
+            // ======= GỘP FORM =======
+            tlMainForm.Controls.Add(tlLeft, 0, 0);
+            tlMainForm.Controls.Add(tlRight, 1, 0);
+
+            // ======= THÊM VÀO FORM CARD =======
+            pnlFormCard.Controls.Add(tlMainForm);
+            pnlFormCard.Controls.Add(pnlSearch); // 👈 phần tìm kiếm nằm trên cùng, tách biệt
+
+            // ======= NÚT CHỨC NĂNG =======
             FlowLayoutPanel pnlButtons = new FlowLayoutPanel
             {
                 Dock = DockStyle.Top,
                 FlowDirection = FlowDirection.RightToLeft,
-                Padding = new Padding(0, 10, 40, 0),
-                BackColor = Color.Transparent,
-                Height = 60
+                Padding = new Padding(0, 5, 40, 0),
+                Height = 55,
+                BackColor = Color.Transparent
             };
 
             btnSave = new Guna2Button
             {
                 Text = "💾 Lưu khấu trừ",
-                Width = 180,
-                Height = 45,
+                Width = 160,
+                Height = 42,
                 BorderRadius = 8,
                 FillColor = Color.FromArgb(45, 140, 90),
-                Font = new Font("Segoe UI Semibold", 10.5f),
+                Font = new Font("Times New Roman", 11, FontStyle.Bold),
                 ForeColor = Color.White
             };
             btnSave.Click += btnSave_Click;
@@ -202,11 +270,11 @@ namespace GUI
             btnUndo = new Guna2Button
             {
                 Text = "↩️ Hoàn tác",
-                Width = 160,
-                Height = 45,
+                Width = 140,
+                Height = 42,
                 BorderRadius = 8,
                 FillColor = Color.FromArgb(130, 130, 130),
-                Font = new Font("Segoe UI Semibold", 10.5f),
+                Font = new Font("Times New Roman", 11, FontStyle.Bold),
                 ForeColor = Color.White
             };
             btnUndo.Click += BtnUndo_Click;
@@ -214,13 +282,14 @@ namespace GUI
             pnlButtons.Controls.Add(btnSave);
             pnlButtons.Controls.Add(btnUndo);
 
+            // ======= DGV =======
             dgv = new Guna2DataGridView
             {
                 Dock = DockStyle.Fill,
                 ReadOnly = true,
                 AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill,
                 AllowUserToAddRows = false,
-                ColumnHeadersHeight = 38,
+                ColumnHeadersHeight = 36,
                 BorderStyle = BorderStyle.None,
                 GridColor = Color.FromArgb(230, 235, 245),
                 AlternatingRowsDefaultCellStyle = new DataGridViewCellStyle
@@ -228,40 +297,35 @@ namespace GUI
                     BackColor = Color.FromArgb(248, 250, 255)
                 }
             };
-
             dgv.ColumnHeadersDefaultCellStyle = new DataGridViewCellStyle
             {
                 BackColor = Color.FromArgb(45, 85, 155),
                 ForeColor = Color.White,
-                Font = new Font("Segoe UI", 10, FontStyle.Bold),
+                Font = new Font("Times New Roman", 10.5f, FontStyle.Bold),
                 Alignment = DataGridViewContentAlignment.MiddleCenter
             };
-
             dgv.DefaultCellStyle = new DataGridViewCellStyle
             {
-                Font = new Font("Segoe UI", 9),
+                Font = new Font("Times New Roman", 10),
                 BackColor = Color.White,
                 ForeColor = Color.Black,
                 SelectionBackColor = Color.FromArgb(94, 148, 255),
                 SelectionForeColor = Color.Black
             };
-
             dgv.CellClick += Dgv_CellClick;
-            dgv.CellMouseEnter += Dgv_CellMouseEnter;
-            dgv.CellMouseLeave += Dgv_CellMouseLeave;
             DinhDangCotDgv();
 
+            // ======= BỐ CỤC TỔNG =======
             TableLayoutPanel mainLayout = new TableLayoutPanel
             {
                 Dock = DockStyle.Fill,
                 RowCount = 4,
                 ColumnCount = 1
             };
-
-            mainLayout.RowStyles.Add(new RowStyle(SizeType.Absolute, 65));
-            mainLayout.RowStyles.Add(new RowStyle(SizeType.Absolute, 330));
-            mainLayout.RowStyles.Add(new RowStyle(SizeType.Percent, 70));
-            mainLayout.RowStyles.Add(new RowStyle(SizeType.Percent, 350));
+            mainLayout.RowStyles.Add(new RowStyle(SizeType.Absolute, 60));  // Tiêu đề
+            mainLayout.RowStyles.Add(new RowStyle(SizeType.Absolute, 230)); // Form gọn hơn
+            mainLayout.RowStyles.Add(new RowStyle(SizeType.Absolute, 60));  // Nút
+            mainLayout.RowStyles.Add(new RowStyle(SizeType.Percent, 100));  // Bảng
 
             mainLayout.Controls.Add(lblTitle, 0, 0);
             mainLayout.Controls.Add(pnlFormCard, 0, 1);
@@ -270,6 +334,8 @@ namespace GUI
 
             this.Controls.Add(mainLayout);
         }
+
+
 
         private void DinhDangCotDgv()
         {
@@ -313,9 +379,16 @@ namespace GUI
         private void LoadLyDo()
         {
             var dt = bll.GetAllLyDo();
+            DataTable dt2 = dt.Copy();
+            DataRow r = dt2.NewRow();
+            r["id"] = -1;                            // id = -1 biểu thị "Thêm mới"
+            r["loaiKhauTru"] = "-- Thêm lý do mới --";     // hiển thị cho người dùng
+            r["soTien"] = 0;                 // giá trị tiền mặc định
+            dt2.Rows.Add(r);
+
             cbLyDo.DisplayMember = "loaiKhauTru";
             cbLyDo.ValueMember = "id";
-            cbLyDo.DataSource = dt;
+            cbLyDo.DataSource = dt2;
             cbLyDo.SelectedIndex = -1;
         }
 
@@ -362,15 +435,37 @@ namespace GUI
 
         private void CbLyDo_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (cbLyDo.SelectedIndex == -1 || cbLyDo.SelectedItem == null) return;
+            if (cbLyDo.SelectedItem == null) return;  // nếu chưa chọn item thì thoát
 
-            var drv = cbLyDo.SelectedItem as DataRowView;
-            if (drv != null)
+            // Khi binding với DataTable, SelectedValue đôi khi là DataRowView (trong quá trình bind)
+            if (cbLyDo.SelectedValue == null || cbLyDo.SelectedValue is DataRowView)
+                return; // bỏ qua nếu SelectedValue chưa phải là giá trị id thực sự
+
+            int id = Convert.ToInt32(cbLyDo.SelectedValue); // chuyển SelectedValue về int (id)
+
+            if (id == -1) // Nếu chọn "Thêm mới"
             {
-                decimal tien = 0;
-                decimal.TryParse(drv["soTien"]?.ToString(), out tien);
-                txtAmount.Text = tien.ToString("0.##");
-                txtAmount.Enabled = false;
+                txtLyDoMoi.Enabled = true;           // bật textbox nhập lý do mới
+                txtLyDoMoi.FillColor = Color.White;  // set nền trắng (để rõ là có thể nhập)
+                txtAmount.Enabled = true;            // bật textbox số tiền để nhập
+                txtAmount.Text = "";                 // xóa giá trị hiện có
+            }
+            else
+            {
+                // Nếu chọn lý do có sẵn
+                txtLyDoMoi.Enabled = false;          // tắt nhập lý do mới
+                txtLyDoMoi.Text = "";                // clear nội dung ô lý do mới
+
+                // Lấy DataRowView ứng với item được chọn để đọc giá trị tỉ lệ tiền
+                var drv = cbLyDo.SelectedItem as DataRowView;
+                if (drv != null)
+                {
+                    decimal tien = 0;
+                    // parse giá trị tiền từ trường 'tienThuongPhat' (nếu có)
+                    decimal.TryParse(drv["soTien"]?.ToString(), out tien);
+                    txtAmount.Text = tien.ToString("0.##"); // format hiển thị
+                    txtAmount.Enabled = false;              // không cho sửa nếu chọn lý do có sẵn
+                }
             }
         }
 
@@ -384,48 +479,90 @@ namespace GUI
                     return;
                 }
 
-                if (cbLyDo.SelectedIndex == -1 || cbLyDo.SelectedValue == null)
-                {
-                    MessageBox.Show("Vui lòng chọn lý do khấu trừ!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    return;
-                }
+                // 2️⃣ Xử lý lý do khấu trừ — có thể chọn từ danh sách hoặc nhập mới
+                string lyDo;
+                int idKhauTru = -1;
+                decimal soTien = 0;
 
-                int idKhauTru;
-                var selectedLyDo = cbLyDo.SelectedItem as DataRowView;
-                if (selectedLyDo != null && selectedLyDo["id"] != DBNull.Value)
+                if (cbLyDo.SelectedIndex < 0 || Convert.ToInt32(cbLyDo.SelectedValue) == -1)
                 {
-                    idKhauTru = Convert.ToInt32(selectedLyDo["id"]);
+                    // Người dùng chọn “Nhập lý do mới”
+                    if (string.IsNullOrWhiteSpace(txtLyDoMoi.Text))
+                    {
+                        MessageBox.Show("Vui lòng nhập lý do mới!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        return;
+                    }
+
+                    if (!decimal.TryParse(txtAmount.Text, out soTien))
+                    {
+                        MessageBox.Show("Số tiền không hợp lệ!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        return;
+                    }
+
+                    lyDo = txtLyDoMoi.Text.Trim();
+
+                    // 🟢 Gọi hàm lưu lý do mới vào DB và lấy lại id
+                    idKhauTru = bll.InsertLyDoMoi(lyDo, soTien, idNguoiTao);
+                    if (idKhauTru <= 0)
+                    {
+                        MessageBox.Show("Không thể thêm lý do mới!", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        return;
+                    }
+
+                    // Sau khi thêm, load lại combobox lý do để hiển thị lý do mới
+                    LoadLyDo();
+                    cbLyDo.SelectedValue = idKhauTru;
                 }
                 else
                 {
-                    MessageBox.Show("Lý do khấu trừ không hợp lệ hoặc không tồn tại!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    return;
+                    // Người dùng chọn lý do có sẵn
+                    var selectedLyDo = cbLyDo.SelectedItem as DataRowView;
+                    if (selectedLyDo == null || selectedLyDo["id"] == DBNull.Value)
+                    {
+                        MessageBox.Show("Lý do khấu trừ không hợp lệ hoặc không tồn tại!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        return;
+                    }
+
+                    idKhauTru = Convert.ToInt32(selectedLyDo["id"]);
+                    lyDo = cbLyDo.Text.Trim();
                 }
 
+                DateTime thangApDung = dtThangApDung.Value;
+
+                // 3️⃣ Tạo đối tượng DTO để lưu
                 DTONhanVien_KhauTru nkt = new DTONhanVien_KhauTru
                 {
                     IdNhanVien = cbNhanVien.SelectedValue.ToString(),
                     IdKhauTru = idKhauTru,
-                    ThangApDung = dtThangApDung.Value
+                    ThangApDung = thangApDung
                 };
 
+                // 4️⃣ Thêm hoặc cập nhật
                 if (!isUpdating)
                 {
+                    if (MessageBox.Show("Xác nhận thêm nhân viên khấu trừ?", "Xác nhận", MessageBoxButtons.YesNo) == DialogResult.No)
+                        return;
+
                     if (bll.Insert(nkt))
                         MessageBox.Show("Thêm khấu trừ thành công!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     else
-                        MessageBox.Show("Thêm khấu trừ thất bại. Vui lòng kiểm tra lại dữ liệu hoặc đảm bảo lý do khấu trừ tồn tại trong cơ sở dữ liệu.", "Cảnh báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        MessageBox.Show("Thêm nhân viên khấu trừ thất bại!", "Cảnh báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 }
                 else
                 {
+                    if (MessageBox.Show("Xác nhận cập nhật nhân viên khấu trừ?", "Xác nhận", MessageBoxButtons.YesNo) == DialogResult.No)
+                        return;
+
                     if (bll.Update(currentId, nkt))
-                        MessageBox.Show("Cập nhật khấu trừ thành công!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        MessageBox.Show("Cập nhật thành công!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     else
-                        MessageBox.Show("Cập nhật khấu trừ thất bại. Vui lòng kiểm tra lại dữ liệu.", "Cảnh báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        MessageBox.Show("Cập nhật thất bại!", "Cảnh báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+
                     isUpdating = false;
                     btnSave.Text = "💾 Lưu khấu trừ";
                 }
 
+                // 5️⃣ Làm mới giao diện
                 LoadData();
                 ClearForm();
             }

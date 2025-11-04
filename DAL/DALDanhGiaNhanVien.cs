@@ -103,5 +103,121 @@ namespace DAL
                 cmd.ExecuteNonQuery();
             }
         }
+
+        // === Thống kê điểm trung bình theo phòng ban ===
+        public DataTable ThongKeTrungBinhTheoPhongBan(int thang, int nam)
+        {
+            using (SqlConnection conn = new SqlConnection(connectionString))
+            {
+                string query = @"
+                                SELECT pb.TenPhongBan,
+                                       AVG(CAST(dg.DiemSo AS DECIMAL(5,2))) AS DiemTrungBinh
+                                FROM DanhGiaNhanVien dg
+                                JOIN NhanVien nv ON dg.idNhanVien = nv.id
+                                JOIN PhongBan pb ON nv.idPhongBan = pb.id
+                                WHERE MONTH(dg.ngayTao) = @thang AND YEAR(dg.ngayTao) = @nam
+                                GROUP BY pb.TenPhongBan
+                                ORDER BY pb.TenPhongBan";
+
+                SqlDataAdapter da = new SqlDataAdapter(query, conn);
+                da.SelectCommand.Parameters.AddWithValue("@thang", thang);
+                da.SelectCommand.Parameters.AddWithValue("@nam", nam);
+                DataTable dt = new DataTable();
+                da.Fill(dt);
+                return dt;
+            }
+        }
+
+        // === Báo cáo chi tiết theo tháng / năm / phòng ban ===
+        public DataTable BaoCaoDanhGiaChiTiet(int thang, int nam, string idPhongBan)
+        {
+            using (SqlConnection conn = new SqlConnection(connectionString))
+            {
+                string query = @"
+                                SELECT nv.TenNhanVien AS [Nhân viên],
+                                       pb.TenPhongBan AS [Phòng ban],
+                                       dg.ngayTao AS [Ngày đánh giá],
+                                       dg.DiemSo AS [Điểm số],
+                                       dg.NhanXet AS [Nhận xét]
+                                FROM DanhGiaNhanVien dg
+                                JOIN NhanVien nv ON dg.idNhanVien = nv.id
+                                JOIN PhongBan pb ON nv.idPhongBan = pb.id
+                                WHERE MONTH(dg.ngayTao) = @thang AND YEAR(dg.ngayTao) = @nam";
+
+                if (!string.IsNullOrEmpty(idPhongBan))
+                    query += " AND pb.id = @idPhongBan";
+
+                SqlDataAdapter da = new SqlDataAdapter(query, conn);
+                da.SelectCommand.Parameters.AddWithValue("@thang", thang);
+                da.SelectCommand.Parameters.AddWithValue("@nam", nam);
+                if (!string.IsNullOrEmpty(idPhongBan))
+                    da.SelectCommand.Parameters.AddWithValue("@idPhongBan", idPhongBan);
+
+                DataTable dt = new DataTable();
+                da.Fill(dt);
+                return dt;
+            }
+        }
+
+        // === Lấy danh sách đánh giá của 1 nhân viên theo tháng ===
+        public List<DTODanhGiaNhanVien> GetByEmployeeAndMonth(string maNV, int month, int year)
+        {
+            List<DTODanhGiaNhanVien> list = new List<DTODanhGiaNhanVien>();
+            using (SqlConnection conn = new SqlConnection(connectionString))
+            {
+                string query = @"
+            SELECT * FROM DanhGiaNhanVien
+            WHERE idNhanVien = @maNV 
+              AND MONTH(ngayTao) = @month 
+              AND YEAR(ngayTao) = @year";
+                SqlCommand cmd = new SqlCommand(query, conn);
+                cmd.Parameters.AddWithValue("@maNV", maNV);
+                cmd.Parameters.AddWithValue("@month", month);
+                cmd.Parameters.AddWithValue("@year", year);
+
+                conn.Open();
+                SqlDataReader dr = cmd.ExecuteReader();
+                while (dr.Read())
+                {
+                    list.Add(new DTODanhGiaNhanVien
+                    {
+                        ID = Convert.ToInt32(dr["id"]),
+                        DiemSo = Convert.ToInt32(dr["DiemSo"]),
+                        NhanXet = dr["NhanXet"].ToString(),
+                        NgayTao = Convert.ToDateTime(dr["ngayTao"]),
+                        IDNhanVien = dr["idNhanVien"].ToString(),
+                        IDNguoiDanhGia = dr["idNguoiDanhGia"].ToString()
+                    });
+                }
+            }
+            return list;
+        }
+
+        // === Lấy thống kê trung bình theo tháng ===
+        public DataTable GetMonthlySummary(int month, int year)
+        {
+            return ThongKeTrungBinhTheoPhongBan(month, year);
+        }
+
+        // === Lấy thống kê trung bình theo từng tháng trong năm ===
+        public DataTable GetYearlySummary(int year)
+        {
+            using (SqlConnection conn = new SqlConnection(connectionString))
+            {
+                string query = @"
+            SELECT MONTH(dg.ngayTao) AS Thang,
+                   AVG(CAST(dg.DiemSo AS DECIMAL(5,2))) AS DiemTrungBinh
+            FROM DanhGiaNhanVien dg
+            WHERE YEAR(dg.ngayTao) = @year
+            GROUP BY MONTH(dg.ngayTao)
+            ORDER BY Thang";
+                SqlDataAdapter da = new SqlDataAdapter(query, conn);
+                da.SelectCommand.Parameters.AddWithValue("@year", year);
+                DataTable dt = new DataTable();
+                da.Fill(dt);
+                return dt;
+            }
+        }
+
     }
 }

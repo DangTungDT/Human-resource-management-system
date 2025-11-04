@@ -46,6 +46,14 @@ namespace GUI
             cmbMoTa.DataSource = _dbContext.KtraDsHopDongLaoDong().Select(p => p.MoTa).Distinct().ToList();
             //cmbLoaiHD.DisplayMember = "LoaiHopDong";
             //cmbLoaiHD.ValueMember = "LoaiHopDong";
+
+            if (dgvDanhSachHDLD.Columns["idNhanVien"] != null)
+            {
+                if (dgvDanhSachHDLD.Columns["idNhanVien"].Visible)
+                {
+                    dgvDanhSachHDLD.Columns["idNhanVien"].Visible = false;
+                }
+            }
         }
 
         private void dgvDanhSachHDLD_CellClick(object sender, DataGridViewCellEventArgs e)

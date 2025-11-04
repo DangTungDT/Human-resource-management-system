@@ -12,12 +12,12 @@ namespace DAL
     public class DALPhongBan
     {
         private readonly string connectionString;
-        private readonly PersonnelManagementDataContextDataContext _dbContextPB;
+        private readonly PersonnelManagementDataContextDataContext _dbContext;
 
         public DALPhongBan(string conn)
         {
             connectionString = conn;
-            _dbContextPB = new PersonnelManagementDataContextDataContext(conn);
+            _dbContext = new PersonnelManagementDataContextDataContext(conn);
         }
 
         public DataTable GetAllPhongBan()
@@ -76,6 +76,14 @@ namespace DAL
         {
             using (SqlConnection conn = new SqlConnection(connectionString))
             {
+                var ktraIDPB = _dbContext.ChucVus.FirstOrDefault(cv => cv.idPhongBan == id);
+                var ktraIDNV = _dbContext.NhanViens.FirstOrDefault(cv => cv.idPhongBan == id);
+
+                if (ktraIDPB != null || ktraIDPB != null)
+                {
+                    return false;
+                }
+
                 string query = "DELETE FROM PhongBan WHERE id=@id";
                 SqlCommand cmd = new SqlCommand(query, conn);
                 cmd.Parameters.AddWithValue("@id", id);
@@ -85,9 +93,9 @@ namespace DAL
         }
 
         // Lay ten phong ban
-        public string LayTenPhongBan(int id) => _dbContextPB.PhongBans.Where(p => p.id == id).Select(p => p.TenPhongBan).FirstOrDefault().ToString() ?? string.Empty;
+        public string LayTenPhongBan(int id) => _dbContext.PhongBans.FirstOrDefault(p => p.id == id).TenPhongBan ?? string.Empty;
 
         // Lay ds phong ban
-        public List<PhongBan> LayDsPhongBan() => _dbContextPB.PhongBans.ToList();
+        public List<PhongBan> LayDsPhongBan() => _dbContext.PhongBans.ToList();
     }
 }

@@ -149,6 +149,7 @@ Create table ChiTietLuong
 )
 go
 
+-- tuan 2/11: them 2 field ghiChu, xacThucYeuCau (GD, NS)
 CREATE TABLE TuyenDung (
     id INT PRIMARY KEY IDENTITY(1,1),
     tieuDe NVARCHAR(150) NOT NULL,
@@ -156,7 +157,9 @@ CREATE TABLE TuyenDung (
     idChucVu int NOT NULL,
     idNguoiTao varchar(10) NOT NULL, -- Trưởng phòng nhân sự
     trangThai NVARCHAR(50) DEFAULT N'Đang tuyển', 
-    ngayTao DATETIME DEFAULT GETDATE()
+    ngayTao DATETIME DEFAULT GETDATE(),
+	ghiChu nvarchar(50),
+	xacThucYeuCau nvarchar(50),
 )
 go
 

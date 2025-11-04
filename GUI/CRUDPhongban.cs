@@ -1,4 +1,5 @@
 ﻿using BLL;
+using DAL;
 using DTO;
 using Guna.UI2.WinForms;
 using System;
@@ -211,6 +212,14 @@ namespace GUI
                 };
                 dgv.Columns.Add(colDelete);
                 dgv.Columns["Xóa"].DisplayIndex = dgv.Columns.Count - 1;
+
+                if (dgv.Columns["Mã phòng ban"] != null)
+                {
+                    if (dgv.Columns["Mã phòng ban"].Visible)
+                    {
+                        dgv.Columns["Mã phòng ban"].Visible = false;
+                    }
+                }
             }
         }
 

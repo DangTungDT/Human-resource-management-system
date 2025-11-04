@@ -14,10 +14,22 @@ namespace DAL
         public DALTuyenDung(string conn) => _dbContext = new PersonnelManagementDataContextDataContext(conn);
 
         // Danh sach Tuyen Dung
-        public List<TuyenDung> DsTuyenDung() => _dbContext.TuyenDungs.ToList();
+        public List<TuyenDung> DsTuyenDung()
+        {
+            using (var db = new PersonnelManagementDataContextDataContext(_dbContext.Connection.ConnectionString))
+            {
+                return db.TuyenDungs.ToList();
+            }
+        }
 
         // Tim Tuyen Dung qua id
         public TuyenDung TimTuyenDungQuaID(int id) => _dbContext.TuyenDungs.FirstOrDefault(p => p.id == id);
+
+        // Tim Tuyen Dung qua idNguoiTao
+        public TuyenDung TimTuyenDungQuaIDNV(string id) => _dbContext.TuyenDungs.FirstOrDefault(p => p.idNguoiTao == id);
+
+        // Tim Tuyen Dung qua trang thai
+        public TuyenDung TimTuyenDungQuaTrangThai(string id) => _dbContext.TuyenDungs.FirstOrDefault(p => p.idNguoiTao == id && p.trangThai == "Chờ duyệt");
 
         // Them Tuyen Dung 
         public bool ThemTuyenDung(DTOTuyenDung DTO)
@@ -31,7 +43,9 @@ namespace DAL
                     idChucVu = DTO.IDChucVu,
                     idNguoiTao = DTO.IDNguoiTao,
                     trangThai = DTO.TrangThai,
-                    ngayTao = DTO.NgayTao
+                    ngayTao = DTO.NgayTao,
+                    soLuong = DTO.SoLuong,
+                    ghiChu = DTO.GhiChu
                 };
 
                 _dbContext.TuyenDungs.InsertOnSubmit(tuyenDung);
@@ -56,6 +70,8 @@ namespace DAL
                     tuyenDung.idNguoiTao = DTO.IDNguoiTao;
                     tuyenDung.trangThai = DTO.TrangThai;
                     tuyenDung.ngayTao = DTO.NgayTao;
+                    tuyenDung.soLuong = DTO.SoLuong;
+                    tuyenDung.ghiChu = DTO.GhiChu;
 
                     _dbContext.SubmitChanges();
 
@@ -63,10 +79,50 @@ namespace DAL
                 }
                 else return false;
             }
-            catch
+            catch { return false; }
+
+        }
+
+        // Cap nhat trang thai Tuyen Dung 
+        public bool CapNhatTrangThai(DTOTuyenDung DTO)
+        {
+            try
             {
-                return false;
+                var tuyenDung = TimTuyenDungQuaID(DTO.ID);
+                if (tuyenDung != null)
+                {
+                    tuyenDung.trangThai = DTO.TrangThai;
+                    tuyenDung.ngayTao = DTO.NgayTao;
+
+                    _dbContext.SubmitChanges();
+
+                    return true;
+                }
+                else return false;
             }
+            catch { return false; }
+        }
+
+        // Cap nhat trang thai Tuyen Dung 
+        public bool CapNhatDuyetTuyenDung(DTOTuyenDung DTO)
+        {
+            try
+            {
+                var tuyenDung = TimTuyenDungQuaID(DTO.ID);
+                if (tuyenDung != null)
+                {
+
+                    tuyenDung.tieuDe = DTO.TieuDe;
+                    tuyenDung.soLuong = DTO.SoLuong;
+                    tuyenDung.ghiChu = DTO.GhiChu;
+
+                    _dbContext.SubmitChanges();
+
+                    return true;
+                }
+                else return false;
+            }
+            catch { return false; }
         }
 
         // Xoa Tuyen Dung

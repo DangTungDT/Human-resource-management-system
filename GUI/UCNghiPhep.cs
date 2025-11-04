@@ -181,7 +181,7 @@ namespace GUI
         // Ham tra ve field trong
         public void Empty() => rtLyDo.Text = string.Empty;
 
-        // Bang loc thang
+        // Bang loc thang   
         private void cmbLocThang_SelectionChangeCommitted(object sender, EventArgs e)
         {
             var DsNghiPhep = _dbContextNP.LayDsNghiPhep().Where(p => p.IDNhanVien == _idNhanVien).ToList();

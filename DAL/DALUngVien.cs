@@ -16,7 +16,7 @@ namespace DAL
             db = new PersonnelManagementDataContextDataContext(conn);
         }
 
-        public IQueryable GetAll() => db.UngViens;
+        public List<UngVien> GetAll() => db.UngViens.ToList();
 
         public IQueryable GetUngTuyenByChucVu(int idChucVu)
             => db.UngViens.Where(x => x.idChucVuUngTuyen == idChucVu);

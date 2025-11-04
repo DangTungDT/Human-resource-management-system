@@ -51,7 +51,8 @@ namespace BLL
                         }
                         return null;
                     }
-                    else throw new Exception($"Không tìm thấy dữ liệu chi tiết lương qua id: {id}");
+                    else return null;
+                    //else throw new Exception($"Không tìm thấy dữ liệu chi tiết lương qua id: {id}");
                 }
                 else return null;
             }

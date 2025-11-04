@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace BLL
 {
@@ -26,7 +27,7 @@ namespace BLL
         public IQueryable GetFind(string status, string name, int idChucVu)
         {
             //Dữ liệu đầu vào không đúng
-            if(status == null || name == null || idChucVu < 0)
+            if (status == null || name == null || idChucVu < 0)
             {
                 return GetAll();
             }
@@ -74,7 +75,7 @@ namespace BLL
         public static string IsValid(DTOUngVien uv)
         {
             string emailPattern = @"^[a-zA-Z0-9._%+-]+@(gmail\.com|googlemail\.com|[a-zA-Z0-9.-]+\.[a-zA-Z]{2,})$";
-            string[] trangThaiHopLe = { "đang xét duyệt", "phỏng vấn" ,"loại", "thử việc", "đậu", "trúng tuyển" };
+            string[] trangThaiHopLe = { "đang xét duyệt", "phỏng vấn", "loại", "thử việc", "đậu", "trúng tuyển" };
 
             if (uv == null) return "Invalid data";
             if (string.IsNullOrWhiteSpace(uv.TenNhanVien)) return "Invalid data";
@@ -89,6 +90,8 @@ namespace BLL
 
             return "Isvalid data";
         }
+
+        public List<UngVien> LayDsUngvien() => dal.LayDsUngvien();
     }
 
 }

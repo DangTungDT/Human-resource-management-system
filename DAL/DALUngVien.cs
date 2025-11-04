@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.NetworkInformation;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -49,27 +50,27 @@ namespace DAL
         public IQueryable GetUCIsDeleted(bool isDeleted, bool inComplete)
         {
             var listUngVien = from uv in db.UngViens
-                               join cv in db.ChucVus on uv.idChucVuUngTuyen equals cv.id
-                               join td in db.TuyenDungs on uv.idTuyenDung equals td.id
-                               where uv.daXoa == isDeleted
-                               select new
-                               {
-                                   uv.id,
-                                   uv.tenNhanVien,
-                                   uv.ngaySinh,
-                                   uv.diaChi,
-                                   uv.que,
-                                   uv.gioiTinh,
-                                   uv.email,
-                                   uv.duongDanCV,
-                                   uv.idChucVuUngTuyen,
-                                   uv.idTuyenDung,
-                                   uv.ngayUngTuyen,
-                                   tenChucVu = cv.TenChucVu,
-                                   tieuDeTuyenDung = td.tieuDe,
-                                   uv.trangThai,
-                                   uv.daXoa
-                               };
+                              join cv in db.ChucVus on uv.idChucVuUngTuyen equals cv.id
+                              join td in db.TuyenDungs on uv.idTuyenDung equals td.id
+                              where uv.daXoa == isDeleted
+                              select new
+                              {
+                                  uv.id,
+                                  uv.tenNhanVien,
+                                  uv.ngaySinh,
+                                  uv.diaChi,
+                                  uv.que,
+                                  uv.gioiTinh,
+                                  uv.email,
+                                  uv.duongDanCV,
+                                  uv.idChucVuUngTuyen,
+                                  uv.idTuyenDung,
+                                  uv.ngayUngTuyen,
+                                  tenChucVu = cv.TenChucVu,
+                                  tieuDeTuyenDung = td.tieuDe,
+                                  uv.trangThai,
+                                  uv.daXoa
+                              };
             if (inComplete)
             {
                 listUngVien.Where(x => x.trangThai.ToLower() == "trúng tuyển");
@@ -222,6 +223,8 @@ namespace DAL
                 return "failed";
             }
         }
+
+        public List<UngVien> LayDsUngvien() => db.UngViens.ToList();
     }
 
 }

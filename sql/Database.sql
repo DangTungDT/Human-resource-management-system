@@ -84,11 +84,7 @@ go
 create table HopDongLaoDong
 (
 	id int identity(1,1) not null,
-<<<<<<< HEAD
-	LoaiHopDong nvarchar(100) not null,
-=======
 	LoaiHopDong nvarchar(100) check(LoaiHopDong in(N'Xác định thời hạn', N'Không xác định thời hạn')) not null,
->>>>>>> origin/develop
 	NgayKy date not null,
 	NgayBatDau date not null,
 	NgayKetThuc date,

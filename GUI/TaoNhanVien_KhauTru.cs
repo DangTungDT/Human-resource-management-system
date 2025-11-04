@@ -21,12 +21,13 @@ namespace GUI
         private Guna2ComboBox cbPhongBan;
         private Guna2ComboBox cbNhanVien;
         private Guna2ComboBox cbLyDo;
-        private Guna2TextBox txtAmount;
+        private Guna2TextBox txtAmount, txtLyDoMoi;
         private Guna2DateTimePicker dtThangApDung;
         private Guna2Button btnSave, btnUndo, btnSearch;
         private Guna2DataGridView dgv;
         private bool isUpdating = false;
-        private int currentId = -1;
+        private int currentId = -1; 
+        private string idNguoiTao = "GD00000001";
 
         public TaoNhanVien_KhauTru(string idNhanVien,string conn)
         {
@@ -34,6 +35,7 @@ namespace GUI
             bll = new BLLNhanVien_KhauTru(conn);
             bllPhongBan = new BLLPhongBan(conn);
             bllNhanVien = new BLLNhanVien(conn);
+            idNguoiTao = idNhanVien;
 
             BuildUI();
             LoadPhongBan();
@@ -182,7 +184,7 @@ namespace GUI
                 cb.IntegralHeight = false;
             }
 
-            Guna2TextBox txtLyDoMoi = new Guna2TextBox
+            txtLyDoMoi = new Guna2TextBox
             {
                 BorderRadius = 8,
                 Dock = DockStyle.Fill,
@@ -377,9 +379,16 @@ namespace GUI
         private void LoadLyDo()
         {
             var dt = bll.GetAllLyDo();
+            DataTable dt2 = dt.Copy();
+            DataRow r = dt2.NewRow();
+            r["id"] = -1;                            // id = -1 biểu thị "Thêm mới"
+            r["loaiKhauTru"] = "-- Thêm lý do mới --";     // hiển thị cho người dùng
+            r["soTien"] = 0;                 // giá trị tiền mặc định
+            dt2.Rows.Add(r);
+
             cbLyDo.DisplayMember = "loaiKhauTru";
             cbLyDo.ValueMember = "id";
-            cbLyDo.DataSource = dt;
+            cbLyDo.DataSource = dt2;
             cbLyDo.SelectedIndex = -1;
         }
 
@@ -426,15 +435,37 @@ namespace GUI
 
         private void CbLyDo_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (cbLyDo.SelectedIndex == -1 || cbLyDo.SelectedItem == null) return;
+            if (cbLyDo.SelectedItem == null) return;  // nếu chưa chọn item thì thoát
 
-            var drv = cbLyDo.SelectedItem as DataRowView;
-            if (drv != null)
+            // Khi binding với DataTable, SelectedValue đôi khi là DataRowView (trong quá trình bind)
+            if (cbLyDo.SelectedValue == null || cbLyDo.SelectedValue is DataRowView)
+                return; // bỏ qua nếu SelectedValue chưa phải là giá trị id thực sự
+
+            int id = Convert.ToInt32(cbLyDo.SelectedValue); // chuyển SelectedValue về int (id)
+
+            if (id == -1) // Nếu chọn "Thêm mới"
             {
-                decimal tien = 0;
-                decimal.TryParse(drv["soTien"]?.ToString(), out tien);
-                txtAmount.Text = tien.ToString("0.##");
-                txtAmount.Enabled = false;
+                txtLyDoMoi.Enabled = true;           // bật textbox nhập lý do mới
+                txtLyDoMoi.FillColor = Color.White;  // set nền trắng (để rõ là có thể nhập)
+                txtAmount.Enabled = true;            // bật textbox số tiền để nhập
+                txtAmount.Text = "";                 // xóa giá trị hiện có
+            }
+            else
+            {
+                // Nếu chọn lý do có sẵn
+                txtLyDoMoi.Enabled = false;          // tắt nhập lý do mới
+                txtLyDoMoi.Text = "";                // clear nội dung ô lý do mới
+
+                // Lấy DataRowView ứng với item được chọn để đọc giá trị tỉ lệ tiền
+                var drv = cbLyDo.SelectedItem as DataRowView;
+                if (drv != null)
+                {
+                    decimal tien = 0;
+                    // parse giá trị tiền từ trường 'tienThuongPhat' (nếu có)
+                    decimal.TryParse(drv["soTien"]?.ToString(), out tien);
+                    txtAmount.Text = tien.ToString("0.##"); // format hiển thị
+                    txtAmount.Enabled = false;              // không cho sửa nếu chọn lý do có sẵn
+                }
             }
         }
 
@@ -448,54 +479,90 @@ namespace GUI
                     return;
                 }
 
-                if (cbLyDo.SelectedIndex == -1 || cbLyDo.SelectedValue == null)
-                {
-                    MessageBox.Show("Vui lòng chọn lý do khấu trừ!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    return;
-                }
+                // 2️⃣ Xử lý lý do khấu trừ — có thể chọn từ danh sách hoặc nhập mới
+                string lyDo;
+                int idKhauTru = -1;
+                decimal soTien = 0;
 
-                int idKhauTru;
-                var selectedLyDo = cbLyDo.SelectedItem as DataRowView;
-                if (selectedLyDo != null && selectedLyDo["id"] != DBNull.Value)
+                if (cbLyDo.SelectedIndex < 0 || Convert.ToInt32(cbLyDo.SelectedValue) == -1)
                 {
-                    idKhauTru = Convert.ToInt32(selectedLyDo["id"]);
+                    // Người dùng chọn “Nhập lý do mới”
+                    if (string.IsNullOrWhiteSpace(txtLyDoMoi.Text))
+                    {
+                        MessageBox.Show("Vui lòng nhập lý do mới!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        return;
+                    }
+
+                    if (!decimal.TryParse(txtAmount.Text, out soTien))
+                    {
+                        MessageBox.Show("Số tiền không hợp lệ!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        return;
+                    }
+
+                    lyDo = txtLyDoMoi.Text.Trim();
+
+                    // 🟢 Gọi hàm lưu lý do mới vào DB và lấy lại id
+                    idKhauTru = bll.InsertLyDoMoi(lyDo, soTien, idNguoiTao);
+                    if (idKhauTru <= 0)
+                    {
+                        MessageBox.Show("Không thể thêm lý do mới!", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        return;
+                    }
+
+                    // Sau khi thêm, load lại combobox lý do để hiển thị lý do mới
+                    LoadLyDo();
+                    cbLyDo.SelectedValue = idKhauTru;
                 }
                 else
                 {
-                    MessageBox.Show("Lý do khấu trừ không hợp lệ hoặc không tồn tại!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    return;
+                    // Người dùng chọn lý do có sẵn
+                    var selectedLyDo = cbLyDo.SelectedItem as DataRowView;
+                    if (selectedLyDo == null || selectedLyDo["id"] == DBNull.Value)
+                    {
+                        MessageBox.Show("Lý do khấu trừ không hợp lệ hoặc không tồn tại!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        return;
+                    }
+
+                    idKhauTru = Convert.ToInt32(selectedLyDo["id"]);
+                    lyDo = cbLyDo.Text.Trim();
                 }
 
+                DateTime thangApDung = dtThangApDung.Value;
+
+                // 3️⃣ Tạo đối tượng DTO để lưu
                 DTONhanVien_KhauTru nkt = new DTONhanVien_KhauTru
                 {
                     IdNhanVien = cbNhanVien.SelectedValue.ToString(),
                     IdKhauTru = idKhauTru,
-                    ThangApDung = dtThangApDung.Value
+                    ThangApDung = thangApDung
                 };
 
-                
-
+                // 4️⃣ Thêm hoặc cập nhật
                 if (!isUpdating)
                 {
                     if (MessageBox.Show("Xác nhận thêm nhân viên khấu trừ?", "Xác nhận", MessageBoxButtons.YesNo) == DialogResult.No)
                         return;
+
                     if (bll.Insert(nkt))
                         MessageBox.Show("Thêm khấu trừ thành công!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     else
-                        MessageBox.Show("Thêm nhân viên khấu trừ thất bại. Vui lòng kiểm tra lại dữ liệu hoặc đảm bảo lý do khấu trừ tồn tại trong cơ sở dữ liệu.", "Cảnh báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        MessageBox.Show("Thêm nhân viên khấu trừ thất bại!", "Cảnh báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 }
                 else
                 {
                     if (MessageBox.Show("Xác nhận cập nhật nhân viên khấu trừ?", "Xác nhận", MessageBoxButtons.YesNo) == DialogResult.No)
                         return;
+
                     if (bll.Update(currentId, nkt))
-                        MessageBox.Show("Cập nhật nhân viên khấu trừ thành công!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        MessageBox.Show("Cập nhật thành công!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     else
-                        MessageBox.Show("Cập nhật nhân viên khấu trừ thất bại. Vui lòng kiểm tra lại dữ liệu.", "Cảnh báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        MessageBox.Show("Cập nhật thất bại!", "Cảnh báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+
                     isUpdating = false;
                     btnSave.Text = "💾 Lưu khấu trừ";
                 }
 
+                // 5️⃣ Làm mới giao diện
                 LoadData();
                 ClearForm();
             }

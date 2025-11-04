@@ -174,7 +174,7 @@ namespace DAL
                     int existingCount = (int)cmdCount.ExecuteScalar();
 
                     int stt = existingCount + 1;
-                    string sttStr = stt.ToString("D2"); // Đảm bảo 2 chữ số (01, 02, ...)
+                    string sttStr = stt.ToString("D4"); // Đảm bảo 2 chữ số (0001, 0002, ...)
 
                     // 🟢 Gộp thành username cuối cùng
                     string defaultUsername = $"{prefix}{sttStr}";

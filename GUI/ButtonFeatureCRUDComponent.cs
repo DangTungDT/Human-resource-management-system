@@ -97,13 +97,13 @@ namespace GUI
 
         private void btnTaoThuongPhat_Click_1(object sender, EventArgs e)
         {
-            TaoThuongPhat uc = new TaoThuongPhat(_conn);
+            TaoThuongPhat uc = new TaoThuongPhat(_idNhanVien, _conn);
             DisplayUserControlPanel.ChildUserControl(uc, _tpCRUD);
         }
 
         private void btnTaoPhuCap_Click(object sender, EventArgs e)
         {
-            TaoPhuCap uc = new TaoPhuCap(_conn);
+            TaoPhuCap uc = new TaoPhuCap(_idNhanVien,_conn);
             DisplayUserControlPanel.ChildUserControl(uc, _tpCRUD);
         }
 
@@ -114,6 +114,18 @@ namespace GUI
                 guna2TileButton2.Visible = true;
                 guna2TileButton3.Visible = true;
             }
+        }
+
+        private void btnPhuCapNV_Click(object sender, EventArgs e)
+        {
+            TaoNhanVien_PhuCap uc = new TaoNhanVien_PhuCap(_idNhanVien, _conn);
+            DisplayUserControlPanel.ChildUserControl(uc, _tpCRUD);
+        }
+
+        private void btnKhauTru_Click(object sender, EventArgs e)
+        {
+            TaoKhauTru uc = new TaoKhauTru(_idNhanVien, _conn);
+            DisplayUserControlPanel.ChildUserControl(uc, _tpCRUD);
         }
 
         private void btnTaoNhanVien_KhauTru_Click(object sender, EventArgs e)

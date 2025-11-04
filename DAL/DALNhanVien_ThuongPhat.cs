@@ -1,11 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using DTO;
 using System.Data;
 using System.Data.SqlClient;
+using System.Linq;
+using DTO;
 
 namespace DAL
 {
@@ -19,46 +17,61 @@ namespace DAL
             _conn = connectionString;
             _dbContext = new PersonnelManagementDataContextDataContext(connectionString);
         }
-        public List<NhanVien_ThuongPhat> DsNhanVien_ThuongPhat() => _dbContext.NhanVien_ThuongPhats.ToList();
+
+        public List<NhanVien_ThuongPhat> DsNhanVien_ThuongPhat()
+            => _dbContext.NhanVien_ThuongPhats.ToList();
 
         // ✅ Lấy danh sách hiển thị
+        
         public DataTable GetAll(string loai, string idPhongBan = "")
         {
             using (SqlConnection conn = new SqlConnection(_conn))
             {
                 string sql = @"
-                    SELECT tp.id, nv.TenNhanVien, pb.TenPhongBan, tp.tienThuongPhat AS SoTien, 
-                           tp.loai AS Loai, tp.lyDo AS LyDo, nvtp.thangApDung AS NgayApDung
-                    FROM ThuongPhat tp
-                    JOIN NhanVien_ThuongPhat nvtp ON tp.id = nvtp.idThuongPhat
-                    JOIN NhanVien nv ON nvtp.idNhanVien = nv.id
-                    JOIN PhongBan pb ON nv.idPhongBan = pb.id
-                    WHERE tp.loai = @loai";
+                                SELECT 
+                                    nvtp.id AS ID,
+                                    nv.id AS IdNhanVien,
+                                    nv.TenNhanVien,
+                                    pb.TenPhongBan,
+                                    tp.tienThuongPhat AS SoTien,
+                                    tp.loai AS Loai,
+                                    tp.lyDo AS LyDo,
+                                    nvtp.thangApDung AS NgayApDung
+                                FROM NhanVien_ThuongPhat nvtp
+                                INNER JOIN ThuongPhat tp ON tp.id = nvtp.idThuongPhat
+                                INNER JOIN NhanVien nv ON nv.id = nvtp.idNhanVien
+                                INNER JOIN PhongBan pb ON pb.id = nv.idPhongBan
+                                WHERE tp.loai = @loai";
 
                 if (!string.IsNullOrEmpty(idPhongBan))
                     sql += " AND pb.id = @idpb";
 
+                sql += " ORDER BY nvtp.thangApDung DESC";
+
                 using (SqlCommand cmd = new SqlCommand(sql, conn))
                 {
-                    cmd.Parameters.AddWithValue("@loai", loai);
+                    cmd.Parameters.Add("@loai", SqlDbType.NVarChar).Value = loai;
                     if (!string.IsNullOrEmpty(idPhongBan))
-                        cmd.Parameters.AddWithValue("@idpb", idPhongBan);
+                        cmd.Parameters.Add("@idpb", SqlDbType.NVarChar).Value = idPhongBan;
 
-                    SqlDataAdapter da = new SqlDataAdapter(cmd);
-                    DataTable dt = new DataTable();
-                    da.Fill(dt);
-                    return dt;
+                    using (SqlDataAdapter da = new SqlDataAdapter(cmd))
+                    {
+                        DataTable dt = new DataTable();
+                        da.Fill(dt);
+                        return dt;
+                    }
                 }
             }
         }
 
+
+
+        // ✅ Lấy danh sách lý do theo loại
         public DataTable GetAllLyDo(string loai)
         {
             using (SqlConnection conn = new SqlConnection(_conn))
             {
-                string query = @"SELECT id, lyDo, tienThuongPhat 
-                         FROM ThuongPhat 
-                         WHERE loai = @Loai";
+                string query = @"SELECT id, lyDo, tienThuongPhat FROM ThuongPhat WHERE loai = @Loai";
                 SqlCommand cmd = new SqlCommand(query, conn);
                 cmd.Parameters.AddWithValue("@Loai", loai);
                 SqlDataAdapter da = new SqlDataAdapter(cmd);
@@ -68,6 +81,7 @@ namespace DAL
             }
         }
 
+        // ✅ Lấy lý do theo ID
         public string GetLyDoById(int idThuongPhat)
         {
             using (SqlConnection conn = new SqlConnection(_conn))
@@ -80,7 +94,6 @@ namespace DAL
                 return result == null ? "" : result.ToString();
             }
         }
-
 
         // ✅ Kiểm tra lý do có tồn tại
         public int CheckLyDoExists(string loai, string lyDo)
@@ -99,7 +112,7 @@ namespace DAL
             }
         }
 
-        // ✅ Tạo mới lý do
+        // ✅ Tạo mới lý do (trả về id mới)
         public int InsertLyDo(string loai, string lyDo, decimal tien, string idNguoiTao)
         {
             using (SqlConnection conn = new SqlConnection(_conn))
@@ -120,7 +133,7 @@ namespace DAL
             }
         }
 
-        // ✅ Gán nhiều nhân viên vào 1 ThuongPhat
+        // ✅ Thêm nhiều nhân viên cho cùng 1 thưởng/phạt — id tự động tăng
         public void InsertNhanVienThuongPhat_Multi(int idThuongPhat, List<string> idNhanViens, DateTime ngayApDung)
         {
             if (idNhanViens == null || idNhanViens.Count == 0) return;
@@ -133,13 +146,20 @@ namespace DAL
                     try
                     {
                         string sql = @"
-                            INSERT INTO NhanVien_ThuongPhat (idNhanVien, idThuongPhat, thangApDung)
-                            VALUES (@idnv, @idtp, @ngay)";
+                        IF NOT EXISTS (
+                            SELECT 1 FROM NhanVien_ThuongPhat 
+                            WHERE idNhanVien = @idnv 
+                              AND idThuongPhat = @idtp 
+                              AND thangApDung = @ngay
+                        )
+                        INSERT INTO NhanVien_ThuongPhat (idNhanVien, idThuongPhat, thangApDung)
+                        VALUES (@idnv, @idtp, @ngay);";
+
                         using (SqlCommand cmd = new SqlCommand(sql, conn, tx))
                         {
-                            cmd.Parameters.Add("@idnv", SqlDbType.NVarChar);
+                            cmd.Parameters.Add("@idnv", SqlDbType.VarChar);
                             cmd.Parameters.Add("@idtp", SqlDbType.Int).Value = idThuongPhat;
-                            cmd.Parameters.Add("@ngay", SqlDbType.DateTime).Value = ngayApDung;
+                            cmd.Parameters.Add("@ngay", SqlDbType.Date).Value = ngayApDung;
 
                             foreach (var idnv in idNhanViens)
                             {
@@ -147,6 +167,7 @@ namespace DAL
                                 cmd.ExecuteNonQuery();
                             }
                         }
+
                         tx.Commit();
                     }
                     catch
@@ -158,15 +179,13 @@ namespace DAL
             }
         }
 
-
-
-        // ✅ Lấy danh sách nhân viên thuộc 1 nhóm thưởng/phạt
+        // ✅ Lấy danh sách nhân viên theo 1 nhóm thưởng/phạt
         public List<string> GetNhanVienByThuongPhatId(int idThuongPhat)
         {
-            List<string> list = new List<string>();
+            var list = new List<string>();
             using (SqlConnection conn = new SqlConnection(_conn))
             {
-                string sql = "SELECT idNhanVien FROM NhanVien_ThuongPhat WHERE idThuongPhat = @id";
+                string sql = "SELECT idNhanVien FROM NhanVien_ThuongPhat WHERE id = @id";
                 using (SqlCommand cmd = new SqlCommand(sql, conn))
                 {
                     cmd.Parameters.AddWithValue("@id", idThuongPhat);
@@ -186,10 +205,10 @@ namespace DAL
         {
             using (SqlConnection conn = new SqlConnection(_conn))
             {
-                string sql = "DELETE FROM NhanVien_ThuongPhat WHERE idThuongPhat=@idtp AND idNhanVien=@idnv";
+                string sql = "DELETE FROM NhanVien_ThuongPhat WHERE id=@id AND idNhanVien=@idnv";
                 using (SqlCommand cmd = new SqlCommand(sql, conn))
                 {
-                    cmd.Parameters.AddWithValue("@idtp", idThuongPhat);
+                    cmd.Parameters.AddWithValue("@id", idThuongPhat);
                     cmd.Parameters.AddWithValue("@idnv", idNhanVien);
                     conn.Open();
                     cmd.ExecuteNonQuery();
@@ -197,7 +216,7 @@ namespace DAL
             }
         }
 
-        // ✅ Cập nhật thông tin nhóm thưởng/phạt
+        // ✅ Cập nhật lý do, tiền
         public void UpdateThuongPhat(int id, string lyDo, decimal tien)
         {
             using (SqlConnection conn = new SqlConnection(_conn))
@@ -214,16 +233,46 @@ namespace DAL
             }
         }
 
-        // ✅ Xóa nhóm thưởng/phạt
+        // ✅ Xóa nhóm thưởng/phạt (bao gồm nhân viên)
         public void DeleteThuongPhat(int id)
         {
             using (SqlConnection conn = new SqlConnection(_conn))
             {
                 conn.Open();
-                using (SqlCommand cmd = new SqlCommand(@"
-                    DELETE FROM NhanVien_ThuongPhat WHERE idThuongPhat = @id;", conn))
+                using (SqlTransaction tx = conn.BeginTransaction())
                 {
-                    cmd.Parameters.AddWithValue("@id", id);
+                    try
+                    {
+                        string sql1 = "DELETE FROM NhanVien_ThuongPhat WHERE id = @id";
+                        using (SqlCommand cmd1 = new SqlCommand(sql1, conn, tx))
+                        {
+                            cmd1.Parameters.AddWithValue("@id", id);
+                            cmd1.ExecuteNonQuery();
+                        }
+                        tx.Commit();
+                    }
+                    catch
+                    {
+                        tx.Rollback();
+                        throw;
+                    }
+                }
+            }
+        }
+
+        public void XoaNhieuNhanVien_ThuongPhat(List<int> ids)
+        {
+            if (ids == null || ids.Count == 0) return;
+
+            using (SqlConnection conn = new SqlConnection(_conn))
+            {
+                conn.Open();
+                string idList = string.Join(",", ids);
+
+                string query = $"DELETE FROM NhanVien_ThuongPhat WHERE id IN ({idList})";
+
+                using (SqlCommand cmd = new SqlCommand(query, conn))
+                {
                     cmd.ExecuteNonQuery();
                 }
             }

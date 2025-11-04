@@ -1,4 +1,5 @@
 ﻿using BLL;
+using DAL;
 using DTO;
 using Guna.UI2.WinForms;
 using System;
@@ -22,7 +23,7 @@ namespace GUI
         private Guna2TextBox txtLyDoMoi;
         private Guna2DateTimePicker dtThangApDung;
         private CheckedListBox lstNhanVien;
-        private Guna2Button btnSave, btnUndo;
+        private Guna2Button btnSave, btnUndo, btnDetele;
         private Guna2DataGridView dgv;
         private Guna2ComboBox cbPhongBan;
         private readonly BLLNhanVien bllNhanVien;
@@ -274,8 +275,21 @@ namespace GUI
             };
             btnUndo.Click += BtnUndo_Click;
 
+            btnDetele = new Guna2Button
+            {
+                Text = "Xóa",
+                Width = 140,
+                Height = 42,
+                BorderRadius = 8,
+                FillColor = Color.FromArgb(130, 130, 130),
+                Font = new Font("Times New Roman", 11, FontStyle.Bold),
+                ForeColor = Color.White
+            };
+            btnDetele.Click += btnDelete_Click;
+
             pnlButtons.Controls.Add(btnSave);
             pnlButtons.Controls.Add(btnUndo);
+            pnlButtons.Controls.Add(btnDetele);
 
             // ======= BẢNG DỮ LIỆU NHÂN VIÊN BỊ KỶ LUẬT =======
             dgv = new Guna2DataGridView
@@ -308,6 +322,8 @@ namespace GUI
                 SelectionForeColor = Color.Black
             };
             dgv.CellClick += Dgv_CellClick;
+            dgv.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+            dgv.MultiSelect = true;
 
             // ======= BỐ CỤC TỔNG THỂ TRANG =======
             TableLayoutPanel mainLayout = new TableLayoutPanel
@@ -399,6 +415,19 @@ namespace GUI
                 };
                 dgv.Columns.Add(colDelete);
                 dgv.Columns["Xoa"].DisplayIndex = dgv.Columns.Count - 1;
+                //// ===== Căn chỉnh giao diện =====
+                //dgv.Columns["Xóa"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+                //dgv.Columns["Xóa"].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
+
+                //// Chiều cao dòng đồng đều, icon vừa khít
+                //dgv.RowTemplate.Height = 36; // Hoặc 40 nếu bạn muốn hàng cao hơn
+                //dgv.ColumnHeadersHeight = 36;
+
+                //// Tắt tự động co dòng
+                //dgv.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.None;
+
+                //// Thêm padding để icon không bị dính lề
+                //dgv.Columns["Xóa"].DefaultCellStyle.Padding = new Padding(0, 4, 0, 4);
             }
         }
 
@@ -585,7 +614,7 @@ namespace GUI
             {
                 // Xử lý xóa
                 int id = Convert.ToInt32(dgv.Rows[e.RowIndex].Cells["id"].Value);
-                if (MessageBox.Show("Xóa nhóm phạt này?", "Xác nhận", MessageBoxButtons.YesNo) == DialogResult.Yes)
+                if (MessageBox.Show("Xóa phạt này?", "Xác nhận", MessageBoxButtons.YesNo) == DialogResult.Yes)
                 {
                     bllNhanVienThuongPhat.Delete(id);
                     LoadData();
@@ -612,6 +641,87 @@ namespace GUI
             // 4️⃣ Chuyển sang chế độ cập nhật
             isUpdating = true;
             btnSave.Text = "Cập nhật";
+        }
+
+        //xóa nhiều theo cách xóa từng cái
+        //private void btnDelete_Click(object sender, EventArgs e)
+        //{
+        //    if (dgv.SelectedRows.Count == 0)
+        //    {
+        //        MessageBox.Show("Vui lòng chọn ít nhất một dòng để xóa!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+        //        return;
+        //    }
+
+        //    var confirm = MessageBox.Show("Bạn có chắc chắn muốn xóa các dòng đã chọn không?",
+        //                                  "Xác nhận xóa",
+        //                                  MessageBoxButtons.YesNo,
+        //                                  MessageBoxIcon.Warning);
+        //    if (confirm != DialogResult.Yes) return;
+
+        //    // Lấy danh sách ID của các dòng được chọn
+        //    List<int> idsToDelete = new List<int>();
+        //    foreach (DataGridViewRow row in dgv.SelectedRows)
+        //    {
+        //        if (row.Cells["ID"].Value != null)
+        //        {
+        //            idsToDelete.Add(Convert.ToInt32(row.Cells["ID"].Value));
+        //        }
+        //    }
+
+        //    try
+        //    {
+        //        // Gọi BLL hoặc DAL để xóa trong DB
+        //        foreach (int id in idsToDelete)
+        //        {
+        //            bllNhanVienThuongPhat.Delete(id); // hoặc bll.Delete(id)
+        //        }
+
+        //        // Sau khi xóa thì tải lại dữ liệu
+        //        LoadData();
+
+        //        MessageBox.Show("Đã xóa thành công các dòng được chọn!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        MessageBox.Show("Lỗi khi xóa: " + ex.Message);
+        //    }
+        //}
+
+        private void btnDelete_Click(object sender, EventArgs e)
+        {
+            if (dgv.SelectedRows.Count == 0)
+            {
+                MessageBox.Show("Vui lòng chọn ít nhất một dòng để xóa!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return;
+            }
+
+            var confirm = MessageBox.Show("Bạn có chắc chắn muốn xóa các dòng được chọn không?",
+                                          "Xác nhận xóa",
+                                          MessageBoxButtons.YesNo,
+                                          MessageBoxIcon.Warning);
+            if (confirm != DialogResult.Yes) return;
+
+            // Lấy danh sách ID từ các dòng được chọn
+            List<int> idsToDelete = new List<int>();
+            foreach (DataGridViewRow row in dgv.SelectedRows)
+            {
+                if (row.Cells["id"].Value != null)
+                    idsToDelete.Add(Convert.ToInt32(row.Cells["id"].Value));
+            }
+
+            try
+            {
+                bllNhanVienThuongPhat.XoaNhieuNhanVien_ThuongPhat(idsToDelete);
+
+                // Tải lại dữ liệu sau khi xóa
+                LoadData();
+
+                MessageBox.Show("Đã xóa thành công các dòng được chọn!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Lỗi khi xóa: " + ex.Message);
+            }
         }
 
         private void LoadData(string idPhongBan = "")

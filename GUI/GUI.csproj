@@ -184,11 +184,23 @@
       <DependentUpon>RPBaoCaoLuong.rpt</DependentUpon>
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="TaoKhauTru.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="TaoKhauTru.Designer.cs">
+      <DependentUpon>TaoKhauTru.cs</DependentUpon>
+    </Compile>
     <Compile Include="TaoNhanVien_KhauTru.cs">
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="TaoNhanVien_KhauTru.Designer.cs">
       <DependentUpon>TaoNhanVien_KhauTru.cs</DependentUpon>
+    </Compile>
+    <Compile Include="TaoNhanVien_PhuCap.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="TaoNhanVien_PhuCap.Designer.cs">
+      <DependentUpon>TaoNhanVien_PhuCap.cs</DependentUpon>
     </Compile>
     <Compile Include="TaoPhuCap.cs">
       <SubType>UserControl</SubType>

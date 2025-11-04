@@ -27,9 +27,9 @@ namespace GUI
         private Guna2ComboBox cbPhongBan;             // Combobox chọn phòng ban
         private Guna2ComboBox cbLyDo;                 // Combobox chọn lý do thưởng có sẵn
         private Guna2TextBox txtAmount, txtNewLyDo;   // Textbox nhập số tiền, textbox nhập lý do mới
-        private CheckedListBox clbNhanVien;           // CheckedListBox để chọn nhiều nhân viên
+        private CheckedListBox lstNhanVien;           // CheckedListBox để chọn nhiều nhân viên
         private Guna2DateTimePicker dtNgay;           // DateTimePicker chọn ngày áp dụng
-        private Guna2Button btnSave, btnUndo, btnSearch; // Nút lưu, hoàn tác, tìm kiếm
+        private Guna2Button btnSave, btnUndo, btnSearch, btnDetele; // Nút lưu, hoàn tác, tìm kiếm, xóa
         private Guna2DataGridView dgv;                // DataGridView hiển thị danh sách khen thưởng (hoặc danh sách đã áp dụng)
 
         private string idNguoiTao = "GD00000001";     // ID người tạo tạm đặt (có thể lấy từ session/user)
@@ -180,11 +180,11 @@ namespace GUI
                 ForeColor = Color.FromArgb(60, 60, 60)
             };
 
-            clbNhanVien = new CheckedListBox
+            lstNhanVien = new CheckedListBox
             {
                 Dock = DockStyle.Fill,
                 BorderStyle = BorderStyle.FixedSingle,
-                Font = new Font("Segoe UI", 9),
+                Font = new Font("Times New Roman", 10),
                 BackColor = Color.White
             };
 
@@ -198,7 +198,7 @@ namespace GUI
             cbLyDo.SelectedIndexChanged += CbLyDo_SelectedIndexChanged;
 
             tlLeft.Controls.Add(MakeLabel("Nhân viên:"), 0, 0);
-            tlLeft.Controls.Add(clbNhanVien, 1, 0);
+            tlLeft.Controls.Add(lstNhanVien, 1, 0);
             tlLeft.Controls.Add(MakeLabel("Lý do có sẵn:"), 0, 1);
             tlLeft.Controls.Add(cbLyDo, 1, 1);
 
@@ -290,8 +290,21 @@ namespace GUI
             };
             btnUndo.Click += BtnUndo_Click;
 
+            btnDetele = new Guna2Button
+            {
+                Text = "Xóa",
+                Width = 140,
+                Height = 42,
+                BorderRadius = 8,
+                FillColor = Color.FromArgb(130, 130, 130),
+                Font = new Font("Times New Roman", 11, FontStyle.Bold),
+                ForeColor = Color.White
+            };
+            btnDetele.Click += btnDelete_Click;
+
             pnlButtons.Controls.Add(btnSave);
             pnlButtons.Controls.Add(btnUndo);
+            pnlButtons.Controls.Add(btnDetele);
 
             // === BẢNG DỮ LIỆU NHÂN VIÊN ĐƯỢC THƯỞNG ===
             dgv = new Guna2DataGridView
@@ -324,6 +337,8 @@ namespace GUI
                 SelectionForeColor = Color.Black
             };
             dgv.CellClick += Dgv_CellClick;
+            dgv.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+            dgv.MultiSelect = true;
 
             // === GHÉP TẤT CẢ THÀNH GIAO DIỆN CHÍNH ===
             TableLayoutPanel mainLayout = new TableLayoutPanel
@@ -412,13 +427,13 @@ namespace GUI
         private void LoadNhanVienList()
         {
             var dt = bllNhanVien.ComboboxNhanVien(); // lấy DataTable nhân viên
-            clbNhanVien.Items.Clear();
+            lstNhanVien.Items.Clear();
             foreach (System.Data.DataRow row in dt.Rows)
             {
                 // Lấy id và name từ row và thêm CLBItem (class helper) vào CheckedListBox
                 string id = row["id"].ToString();
                 string name = row["TenNhanVien"].ToString();
-                clbNhanVien.Items.Add(new CLBItem(id, name));
+                lstNhanVien.Items.Add(new CLBItem(id, name));
             }
         }
 
@@ -486,7 +501,7 @@ namespace GUI
         private void btnSave_Click(object sender, EventArgs e)
         {
             List<string> selectedNhanViens = new List<string>();
-            foreach (CLBItem item in clbNhanVien.CheckedItems)
+            foreach (CLBItem item in lstNhanVien.CheckedItems)
             {
                 selectedNhanViens.Add(item.Id);
             }
@@ -537,11 +552,11 @@ namespace GUI
             if (e.RowIndex < 0 || e.ColumnIndex < 0) return;
             if (dgv.Rows[e.RowIndex].IsNewRow) return;
 
+            // 🗑 Nếu click vào cột Xóa
             if (dgv.Columns[e.ColumnIndex].Name == "Xoa")
             {
-                // Xử lý xóa
                 int id = Convert.ToInt32(dgv.Rows[e.RowIndex].Cells["id"].Value);
-                if (MessageBox.Show("Xóa nhóm thưởng này?", "Xác nhận", MessageBoxButtons.YesNo) == DialogResult.Yes)
+                if (MessageBox.Show("Xóa khen thưởng này?", "Xác nhận", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes)
                 {
                     bll.Delete(id);
                     LoadData();
@@ -551,18 +566,24 @@ namespace GUI
 
             // 1️⃣ Lấy dữ liệu dòng hiện tại
             currentGroupId = Convert.ToInt32(dgv.Rows[e.RowIndex].Cells["id"].Value);
-            txtAmount.Text = dgv.Rows[e.RowIndex].Cells["SoTien"].Value.ToString();
-            cbLyDo.Text = dgv.Rows[e.RowIndex].Cells["LyDo"].Value.ToString();
+            txtAmount.Text = dgv.Rows[e.RowIndex].Cells["SoTien"].Value?.ToString() ?? "";
+            cbLyDo.Text = dgv.Rows[e.RowIndex].Cells["LyDo"].Value?.ToString() ?? "";
             dtNgay.Value = Convert.ToDateTime(dgv.Rows[e.RowIndex].Cells["NgayApDung"].Value);
 
-            // 2️⃣ Lấy danh sách nhân viên thuộc nhóm này
-            var empIds = bll.GetNhanVienByThuongPhatId(currentGroupId);
+            // 2️⃣ Lấy danh sách nhân viên thuộc nhóm thưởng/phạt này
+            List<string> empIds = bll.GetNhanVienByThuongPhatId(currentGroupId) ?? new List<string>();
 
-            // 3️⃣ Reset check
-            for (int i = 0; i < clbNhanVien.Items.Count; i++)
+            // 3️⃣ Reset toàn bộ check trạng thái trong CheckedListBox
+            for (int i = 0; i < lstNhanVien.Items.Count; i++)
             {
-                var item = clbNhanVien.Items[i] as CLBItem;
-                clbNhanVien.SetItemChecked(i, empIds.Contains(item.Id));
+                var item = lstNhanVien.Items[i] as CLBItem;
+                if (item == null) continue;
+
+                // So sánh ID (theo chuỗi, không phân biệt hoa thường)
+                bool isChecked = empIds.Any(x =>
+                    x.Equals(item.Id.ToString(), StringComparison.OrdinalIgnoreCase));
+
+                lstNhanVien.SetItemChecked(i, isChecked);
             }
 
             // 4️⃣ Chuyển sang chế độ cập nhật
@@ -570,18 +591,56 @@ namespace GUI
             btnSave.Text = "Cập nhật";
         }
 
+
         // Nút hoàn tác: reset form
         private void BtnUndo_Click(object sender, EventArgs e) => ClearForm();
 
         // ClearForm: bỏ chọn nhân viên, đặt các control về giá trị mặc định
         private void ClearForm()
         {
-            for (int i = 0; i < clbNhanVien.Items.Count; i++) clbNhanVien.SetItemChecked(i, false);
+            for (int i = 0; i < lstNhanVien.Items.Count; i++) lstNhanVien.SetItemChecked(i, false);
             cbLyDo.SelectedIndex = 0;   // chọn item đầu (có thể là "-- Thêm lý do mới --" hoặc một lý do)
             txtNewLyDo.Text = "";
             txtAmount.Text = "";
             dtNgay.Value = DateTime.Now; // đặt lại ngày hiện tại
             btnSave.Text = "Thêm mới";
+        }
+
+        private void btnDelete_Click(object sender, EventArgs e)
+        {
+            if (dgv.SelectedRows.Count == 0)
+            {
+                MessageBox.Show("Vui lòng chọn ít nhất một dòng để xóa!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return;
+            }
+
+            var confirm = MessageBox.Show("Bạn có chắc chắn muốn xóa các dòng được chọn không?",
+                                          "Xác nhận xóa",
+                                          MessageBoxButtons.YesNo,
+                                          MessageBoxIcon.Warning);
+            if (confirm != DialogResult.Yes) return;
+
+            // Lấy danh sách ID từ các dòng được chọn
+            List<int> idsToDelete = new List<int>();
+            foreach (DataGridViewRow row in dgv.SelectedRows)
+            {
+                if (row.Cells["id"].Value != null)
+                    idsToDelete.Add(Convert.ToInt32(row.Cells["id"].Value));
+            }
+
+            try
+            {
+                bll.XoaNhieuNhanVien_ThuongPhat(idsToDelete);
+
+                // Tải lại dữ liệu sau khi xóa
+                LoadData();
+
+                MessageBox.Show("Đã xóa thành công các dòng được chọn!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Lỗi khi xóa: " + ex.Message);
+            }
         }
 
         // DataGridView: khi di chuột vào cột Xóa thì đổi con trỏ và icon
@@ -605,8 +664,6 @@ namespace GUI
                 try { dgv.Rows[e.RowIndex].Cells[e.ColumnIndex].Value = Properties.Resources.delete; } catch { }
             }
         }
-
-        
 
         private void btnTimKiem_Click(object sender, EventArgs e)
         {

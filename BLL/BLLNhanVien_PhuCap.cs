@@ -2,17 +2,37 @@
 using DTO;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace BLL
 {
     public class BLLNhanVien_PhuCap
     {
         public readonly DALNhanVien_PhuCap _dbContext;
+        private readonly DALNhanVien_PhuCap dal;
 
-        public BLLNhanVien_PhuCap(string conn) => _dbContext = new DALNhanVien_PhuCap(conn);
+        public BLLNhanVien_PhuCap(string conn)
+        {
+            _dbContext = new DALNhanVien_PhuCap(conn);
+            dal = new DALNhanVien_PhuCap(conn);
+        }
+
+        // Lấy danh sách chi tiết
+        public DataTable GetAllWithDetails(int? idPhongBan = null)
+        {
+            try
+            {
+                return dal.GetNhanVien_PhuCap_WithDetails(idPhongBan);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Lỗi lấy danh sách phụ cấp: " + ex.Message);
+            }
+        }
 
         // Ktra ds NV_PC
         public List<NhanVien_PhuCap> KtraDsNV_PC()
@@ -127,5 +147,40 @@ namespace BLL
                 throw new Exception("Lỗi tìm id bảng trung gian nhân viên, phụ cấp: " + ex.Message);
             }
         }
+
+        // Kiểm tra tồn tại trước khi thêm
+        public bool KtraThemNhanVien_PhuCap1(DTONhanVien_PhuCap dto)
+        {
+            if (string.IsNullOrWhiteSpace(dto.IDNhanVien) || dto.IDPhuCap <= 0)
+                return false;
+
+            if (dal.Exists(dto.IDNhanVien, dto.IDPhuCap))
+                return false; // Đã tồn tại
+
+            return dal.ThemNhanVien_PhuCap1(dto);
+        }
+
+        // Cập nhật trạng thái
+        public bool KtraCapNhatNhanVien_PhuCap1(DTONhanVien_PhuCap dto)
+        {
+            if (string.IsNullOrWhiteSpace(dto.IDNhanVien) || dto.IDPhuCap <= 0)
+                return false;
+
+            if (!dal.Exists(dto.IDNhanVien, dto.IDPhuCap))
+                return false;
+
+            return dal.CapNhatNhanVien_PhuCap1(dto);
+        }
+
+        // Xóa
+        public bool KtraXoaNhanVien_PhuCap1(DTONhanVien_PhuCap dto)
+        {
+            if (string.IsNullOrWhiteSpace(dto.IDNhanVien) || dto.IDPhuCap <= 0)
+                return false;
+
+            return dal.XoaNhanVien_PhuCap1(dto);
+        }
+
+
     }
 }

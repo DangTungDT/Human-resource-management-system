@@ -46,6 +46,8 @@
             this.btnTaoNhanVien_KhauTru = new Guna.UI2.WinForms.Guna2TileButton();
             this.guna2AnimateWindow1 = new Guna.UI2.WinForms.Guna2AnimateWindow(this.components);
             this.btnTPTuyenDung = new Guna.UI2.WinForms.Guna2TileButton();
+            this.btnPhuCapNV = new Guna.UI2.WinForms.Guna2TileButton();
+            this.btnKhauTru = new Guna.UI2.WinForms.Guna2TileButton();
             this.flowLayoutPanel1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -66,7 +68,9 @@
             this.flowLayoutPanel1.Controls.Add(this.btnCapNhatThongTinNV);
             this.flowLayoutPanel1.Controls.Add(this.btnTaoThuongPhat);
             this.flowLayoutPanel1.Controls.Add(this.btnTaoPhuCap);
+            this.flowLayoutPanel1.Controls.Add(this.btnPhuCapNV);
             this.flowLayoutPanel1.Controls.Add(this.btnTaoNhanVien_KhauTru);
+            this.flowLayoutPanel1.Controls.Add(this.btnKhauTru);
             this.flowLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.flowLayoutPanel1.Location = new System.Drawing.Point(0, 0);
             this.flowLayoutPanel1.Margin = new System.Windows.Forms.Padding(4);
@@ -419,7 +423,11 @@
             this.btnTaoNhanVien_KhauTru.ImageSize = new System.Drawing.Size(30, 30);
             this.btnTaoNhanVien_KhauTru.ImeMode = System.Windows.Forms.ImeMode.NoControl;
             this.btnTaoNhanVien_KhauTru.IndicateFocus = true;
+<<<<<<< ThanhTuan
             this.btnTaoNhanVien_KhauTru.Location = new System.Drawing.Point(2646, 5);
+=======
+            this.btnTaoNhanVien_KhauTru.Location = new System.Drawing.Point(2548, 5);
+>>>>>>> develop
             this.btnTaoNhanVien_KhauTru.Margin = new System.Windows.Forms.Padding(5);
             this.btnTaoNhanVien_KhauTru.Name = "btnTaoNhanVien_KhauTru";
             this.btnTaoNhanVien_KhauTru.Size = new System.Drawing.Size(171, 64);
@@ -452,6 +460,55 @@
             this.btnTPTuyenDung.Text = "Trưởng phòng tuyển dụng";
             this.btnTPTuyenDung.TextFormatNoPrefix = true;
             this.btnTPTuyenDung.Click += new System.EventHandler(this.btnTPTuyenDung_Click);
+            // btnPhuCapNV
+            // 
+            this.btnPhuCapNV.BorderRadius = 5;
+            this.btnPhuCapNV.BorderThickness = 1;
+            this.btnPhuCapNV.DisabledState.BorderColor = System.Drawing.Color.DarkGray;
+            this.btnPhuCapNV.DisabledState.CustomBorderColor = System.Drawing.Color.DarkGray;
+            this.btnPhuCapNV.DisabledState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(169)))), ((int)(((byte)(169)))), ((int)(((byte)(169)))));
+            this.btnPhuCapNV.DisabledState.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(141)))), ((int)(((byte)(141)))), ((int)(((byte)(141)))));
+            this.btnPhuCapNV.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
+            this.btnPhuCapNV.Font = new System.Drawing.Font("Segoe UI", 9F);
+            this.btnPhuCapNV.ForeColor = System.Drawing.Color.Black;
+            this.btnPhuCapNV.Image = global::GUI.Properties.Resources.Permission;
+            this.btnPhuCapNV.ImageOffset = new System.Drawing.Point(0, 8);
+            this.btnPhuCapNV.ImageSize = new System.Drawing.Size(30, 30);
+            this.btnPhuCapNV.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+            this.btnPhuCapNV.IndicateFocus = true;
+            this.btnPhuCapNV.Location = new System.Drawing.Point(2367, 5);
+            this.btnPhuCapNV.Margin = new System.Windows.Forms.Padding(5);
+            this.btnPhuCapNV.Name = "btnPhuCapNV";
+            this.btnPhuCapNV.Size = new System.Drawing.Size(171, 64);
+            this.btnPhuCapNV.TabIndex = 22;
+            this.btnPhuCapNV.Text = "Phụ Cấp Nhân Viên";
+            this.btnPhuCapNV.TextFormatNoPrefix = true;
+            this.btnPhuCapNV.Click += new System.EventHandler(this.btnPhuCapNV_Click);
+            // 
+            // btnKhauTru
+            // 
+            this.btnKhauTru.BorderRadius = 5;
+            this.btnKhauTru.BorderThickness = 1;
+            this.btnKhauTru.DisabledState.BorderColor = System.Drawing.Color.DarkGray;
+            this.btnKhauTru.DisabledState.CustomBorderColor = System.Drawing.Color.DarkGray;
+            this.btnKhauTru.DisabledState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(169)))), ((int)(((byte)(169)))), ((int)(((byte)(169)))));
+            this.btnKhauTru.DisabledState.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(141)))), ((int)(((byte)(141)))), ((int)(((byte)(141)))));
+            this.btnKhauTru.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
+            this.btnKhauTru.Font = new System.Drawing.Font("Segoe UI", 9F);
+            this.btnKhauTru.ForeColor = System.Drawing.Color.Black;
+            this.btnKhauTru.Image = global::GUI.Properties.Resources.Permission;
+            this.btnKhauTru.ImageOffset = new System.Drawing.Point(0, 8);
+            this.btnKhauTru.ImageSize = new System.Drawing.Size(30, 30);
+            this.btnKhauTru.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+            this.btnKhauTru.IndicateFocus = true;
+            this.btnKhauTru.Location = new System.Drawing.Point(2729, 5);
+            this.btnKhauTru.Margin = new System.Windows.Forms.Padding(5);
+            this.btnKhauTru.Name = "btnKhauTru";
+            this.btnKhauTru.Size = new System.Drawing.Size(171, 64);
+            this.btnKhauTru.TabIndex = 23;
+            this.btnKhauTru.Text = "Tạo KhấuTrừ";
+            this.btnKhauTru.TextFormatNoPrefix = true;
+            this.btnKhauTru.Click += new System.EventHandler(this.btnKhauTru_Click);
             // 
             // ButtonFeatureCRUDComponent
             // 
@@ -486,5 +543,7 @@
         private Guna.UI2.WinForms.Guna2TileButton btnTaoPhuCap;
         private Guna.UI2.WinForms.Guna2TileButton btnTaoNhanVien_KhauTru;
         private Guna.UI2.WinForms.Guna2TileButton btnTPTuyenDung;
+        private Guna.UI2.WinForms.Guna2TileButton btnPhuCapNV;
+        private Guna.UI2.WinForms.Guna2TileButton btnKhauTru;
     }
 }

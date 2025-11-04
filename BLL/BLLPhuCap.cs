@@ -45,6 +45,12 @@ namespace BLL
 
         public DataTable GetAll() => dal.GetAll();
 
+        public int InsertPhuCapMoi(string lyDoPhuCap, decimal soTien)
+        {
+            int idpc = dal.InsertPhuCapMoi( lyDoPhuCap, soTien);
+            return idpc; 
+        }
+
         public bool Insert(DTOPhuCap pc)
         {
             if (string.IsNullOrWhiteSpace(pc.LyDoPhuCap))

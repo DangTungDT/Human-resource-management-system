@@ -28,6 +28,13 @@ namespace DTO
             IDNhanVien = idNhanVien;
         }
 
+        public DTONghiPhep(int id, string idNhanVien, string trangThai)
+        {
+            ID = id;
+            IDNhanVien = idNhanVien;
+            TrangThai = trangThai;
+        }
+
         public int ID { get; set; }
         public string IDNhanVien { get; set; }
         public DateTime NgayBatDau { get; set; }

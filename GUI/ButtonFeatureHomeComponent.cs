@@ -65,11 +65,36 @@ namespace GUI
         {
             if (_idNhanVien.Contains("NV"))
             {
-                btnDuyetNghi.Visible = false;
                 guna2TileButton5.Visible = false;
                 guna2TileButton6.Visible = false;
                 guna2TileButton7.Visible = false;
+                btnDuyetNghiPhep.Visible = false;
             }
+
+            if (_idNhanVien.Contains("NVNS"))
+            {
+                btnDuyetNghiPhep.Visible = true;
+            }
+
+            if (_idNhanVien.Contains("TP"))
+            {
+                guna2TileButton7.Visible = false;
+                btnDuyetNghiPhep.Visible = false;
+            }
+
+            if (_idNhanVien.Contains("TPNS") || _idNhanVien.Contains("GD"))
+            {
+                guna2TileButton7.Visible = true;
+                btnDuyetNghiPhep.Visible = true;
+            }
+
+            
+        }
+
+        private void btnDuyetNghiPhep_Click(object sender, EventArgs e)
+        {
+            UCDuyetNghiPhep uc = new UCDuyetNghiPhep(_idNhanVien, _conn);
+            DisplayUserControlPanel.ChildUserControl(uc, _tpHome);
         }
 
         private void guna2TileButton7_Click(object sender, EventArgs e)

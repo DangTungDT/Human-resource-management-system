@@ -115,6 +115,8 @@ namespace DAL
                     tuyenDung.tieuDe = DTO.TieuDe;
                     tuyenDung.soLuong = DTO.SoLuong;
                     tuyenDung.ghiChu = DTO.GhiChu;
+                    tuyenDung.trangThai = DTO.TrangThai;
+                    tuyenDung.ngayTao = DTO.NgayTao;
 
                     _dbContext.SubmitChanges();
 

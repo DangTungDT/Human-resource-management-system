@@ -90,7 +90,7 @@ namespace DAL
     #endregion
 		
 		public PersonnelManagementDataContextDataContext() : 
-				base(global::DAL.Properties.Settings.Default.PersonnelManagementConnectionString3, mappingSource)
+				base(global::DAL.Properties.Settings.Default.PersonnelManagementConnectionString4, mappingSource)
 		{
 			OnCreated();
 		}
@@ -501,6 +501,8 @@ namespace DAL
 		
 		private string _trangThai;
 		
+		private bool _daXoa;
+		
 		private EntityRef<ChucVu> _ChucVu;
 		
     #region Extensibility Method Definitions
@@ -531,6 +533,8 @@ namespace DAL
     partial void OnngayUngTuyenChanged();
     partial void OntrangThaiChanging(string value);
     partial void OntrangThaiChanged();
+    partial void OndaXoaChanging(bool value);
+    partial void OndaXoaChanged();
     #endregion
 		
 		public UngVien()
@@ -783,6 +787,26 @@ namespace DAL
 			}
 		}
 		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_daXoa", DbType="Bit NOT NULL")]
+		public bool daXoa
+		{
+			get
+			{
+				return this._daXoa;
+			}
+			set
+			{
+				if ((this._daXoa != value))
+				{
+					this.OndaXoaChanging(value);
+					this.SendPropertyChanging();
+					this._daXoa = value;
+					this.SendPropertyChanged("daXoa");
+					this.OndaXoaChanged();
+				}
+			}
+		}
+		
 		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="ChucVu_UngVien", Storage="_ChucVu", ThisKey="idChucVuUngTuyen", OtherKey="id", IsForeignKey=true)]
 		public ChucVu ChucVu
 		{
@@ -868,6 +892,8 @@ namespace DAL
 		
 		private int _idKyLuong;
 		
+		private bool _capNhatLuong;
+		
 		private EntityRef<KyLuong> _KyLuong;
 		
 		private EntityRef<NhanVien> _NhanVien;
@@ -900,6 +926,8 @@ namespace DAL
     partial void OnidNhanVienChanged();
     partial void OnidKyLuongChanging(int value);
     partial void OnidKyLuongChanged();
+    partial void OncapNhatLuongChanging(bool value);
+    partial void OncapNhatLuongChanged();
     #endregion
 		
 		public ChiTietLuong()
@@ -1153,6 +1181,26 @@ namespace DAL
 					this._idKyLuong = value;
 					this.SendPropertyChanged("idKyLuong");
 					this.OnidKyLuongChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_capNhatLuong", DbType="Bit NOT NULL")]
+		public bool capNhatLuong
+		{
+			get
+			{
+				return this._capNhatLuong;
+			}
+			set
+			{
+				if ((this._capNhatLuong != value))
+				{
+					this.OncapNhatLuongChanging(value);
+					this.SendPropertyChanging();
+					this._capNhatLuong = value;
+					this.SendPropertyChanged("capNhatLuong");
+					this.OncapNhatLuongChanged();
 				}
 			}
 		}
@@ -5125,6 +5173,12 @@ namespace DAL
 		
 		private System.Nullable<System.DateTime> _ngayTao;
 		
+		private string _ghiChu;
+		
+		private string _xacThucYeuCau;
+		
+		private int _soLuong;
+		
 		private EntityRef<ChucVu> _ChucVu;
 		
 		private EntityRef<NhanVien> _NhanVien;
@@ -5149,6 +5203,12 @@ namespace DAL
     partial void OntrangThaiChanged();
     partial void OnngayTaoChanging(System.Nullable<System.DateTime> value);
     partial void OnngayTaoChanged();
+    partial void OnghiChuChanging(string value);
+    partial void OnghiChuChanged();
+    partial void OnxacThucYeuCauChanging(string value);
+    partial void OnxacThucYeuCauChanged();
+    partial void OnsoLuongChanging(int value);
+    partial void OnsoLuongChanged();
     #endregion
 		
 		public TuyenDung()
@@ -5307,6 +5367,66 @@ namespace DAL
 					this._ngayTao = value;
 					this.SendPropertyChanged("ngayTao");
 					this.OnngayTaoChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ghiChu", DbType="NVarChar(50)")]
+		public string ghiChu
+		{
+			get
+			{
+				return this._ghiChu;
+			}
+			set
+			{
+				if ((this._ghiChu != value))
+				{
+					this.OnghiChuChanging(value);
+					this.SendPropertyChanging();
+					this._ghiChu = value;
+					this.SendPropertyChanged("ghiChu");
+					this.OnghiChuChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_xacThucYeuCau", DbType="NVarChar(50)")]
+		public string xacThucYeuCau
+		{
+			get
+			{
+				return this._xacThucYeuCau;
+			}
+			set
+			{
+				if ((this._xacThucYeuCau != value))
+				{
+					this.OnxacThucYeuCauChanging(value);
+					this.SendPropertyChanging();
+					this._xacThucYeuCau = value;
+					this.SendPropertyChanged("xacThucYeuCau");
+					this.OnxacThucYeuCauChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_soLuong", DbType="Int NOT NULL")]
+		public int soLuong
+		{
+			get
+			{
+				return this._soLuong;
+			}
+			set
+			{
+				if ((this._soLuong != value))
+				{
+					this.OnsoLuongChanging(value);
+					this.SendPropertyChanging();
+					this._soLuong = value;
+					this.SendPropertyChanged("soLuong");
+					this.OnsoLuongChanged();
 				}
 			}
 		}

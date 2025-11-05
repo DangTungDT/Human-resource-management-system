@@ -366,6 +366,12 @@
     <Compile Include="Main.Designer.cs">
       <DependentUpon>Main.cs</DependentUpon>
     </Compile>
+    <Compile Include="UCDuyetTuyenDung.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UCDuyetTuyenDung.Designer.cs">
+      <DependentUpon>UCDuyetTuyenDung.cs</DependentUpon>
+    </Compile>
     <Compile Include="UCHopDong.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -397,6 +403,12 @@
     </Compile>
     <Compile Include="UCReportDanhSachLuongPBan.Designer.cs">
       <DependentUpon>UCReportDanhSachLuongPBan.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UCTuyenDung_TruongPhong.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UCTuyenDung_TruongPhong.Designer.cs">
+      <DependentUpon>UCTuyenDung_TruongPhong.cs</DependentUpon>
     </Compile>
     <Compile Include="UCXemKyLuat.cs">
       <SubType>UserControl</SubType>
@@ -589,6 +601,9 @@
     <EmbeddedResource Include="Main.resx">
       <DependentUpon>Main.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="UCDuyetTuyenDung.resx">
+      <DependentUpon>UCDuyetTuyenDung.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="UCHopDong.resx">
       <DependentUpon>UCHopDong.cs</DependentUpon>
     </EmbeddedResource>
@@ -608,6 +623,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="UCReportDanhSachLuongPBan.resx">
       <DependentUpon>UCReportDanhSachLuongPBan.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UCTuyenDung_TruongPhong.resx">
+      <DependentUpon>UCTuyenDung_TruongPhong.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UCXemKyLuat.resx">
       <DependentUpon>UCXemKyLuat.cs</DependentUpon>

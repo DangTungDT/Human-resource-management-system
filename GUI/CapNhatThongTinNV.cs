@@ -225,6 +225,14 @@ namespace GUI
         private void LoadDanhSachNhanVien(bool showHidden)
         {
             dgv.DataSource = nvBus.GetDanhSachNhanVien(showHidden);
+
+            if (dgv.Columns["Mã NV"] != null)
+            {
+                if (dgv.Columns["Mã NV"].Visible)
+                {
+                    dgv.Columns["Mã NV"].Visible = false;
+                }
+            }
         }
 
         private void LoadPhongBan()
@@ -239,6 +247,8 @@ namespace GUI
                 cbPhongBan.ValueMember = "id";
                 cbPhongBan.SelectedIndex = -1;
             }
+
+          
         }
 
         private void LoadChucVu()

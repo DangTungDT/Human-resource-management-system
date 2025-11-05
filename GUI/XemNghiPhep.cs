@@ -60,7 +60,7 @@ namespace GUI
 
         private void LoadDanhSachNghiPhep()
         {
-            List<DTONghiPhep> ds = bllNghiPhep.LayDanhSachNghiPhep(idNhanVien);
+            List<DTONghiPhep> ds = bllNghiPhep.LayDanhSachNghiPhepQuaID(idNhanVien);
 
             DataTable dt = new DataTable();
             dt.Columns.Add("Ngày bắt đầu", typeof(DateTime));

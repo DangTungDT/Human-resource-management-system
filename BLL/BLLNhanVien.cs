@@ -21,9 +21,32 @@ namespace BLL
             _tkBus = new BLLTaiKhoan(conn);
         }
 
+        public List<ImageStaff> GetStaffByRole(string idStaff, int idDepartment)
+        {
+            //Phòng ban không tồn tại
+            if(idDepartment <1)
+            {
+                return null;
+            }
+
+            return _dal.GetStaffByRole(idStaff, idDepartment);
+
+        }
         public DataTable GetDanhSachNhanVien(bool showHidden)
         {
             return _dal.GetAll(showHidden);
+        }
+
+        public DTONhanVien GetStaffById(string idStaff)
+        {
+            if(idStaff != null)
+            {
+                if(!string.IsNullOrEmpty(idStaff))
+                {
+                    return _dal.GetStaffById(idStaff);
+                }
+            }
+            return null;
         }
 
         public DataTable GetById(string id)
@@ -114,6 +137,14 @@ namespace BLL
             }
         }
 
+        public List<ImageStaff> GetStaffByNameEmailCheckin(string name, string email, bool checkin, int idDepartment, string idStaff)
+        {
+            if(name == null || email == null)
+            {
+                return null;
+            }
+            return _dal.GetStaffByNameEmailCheckin(name, email, checkin, idDepartment, idStaff);
+        }
         //kiểm tra email
         public bool KiemTraEmailTonTai(string email)
         {

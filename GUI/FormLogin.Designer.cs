@@ -142,12 +142,12 @@
             this.lblQuenMatKhau.AutoSize = false;
             this.lblQuenMatKhau.BackColor = System.Drawing.Color.Transparent;
             this.lblQuenMatKhau.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(163)));
-            this.lblQuenMatKhau.Location = new System.Drawing.Point(380, 284);
+            this.lblQuenMatKhau.Location = new System.Drawing.Point(396, 284);
             this.lblQuenMatKhau.Name = "lblQuenMatKhau";
-            this.lblQuenMatKhau.Size = new System.Drawing.Size(170, 25);
+            this.lblQuenMatKhau.Size = new System.Drawing.Size(154, 25);
             this.lblQuenMatKhau.TabIndex = 59;
             this.lblQuenMatKhau.Text = "Quên mật khẩu";
-            this.lblQuenMatKhau.TextAlignment = System.Drawing.ContentAlignment.MiddleRight;
+            this.lblQuenMatKhau.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft;
             this.lblQuenMatKhau.Click += new System.EventHandler(this.lblQuenMatKhau_Click);
             // 
             // FormLogin

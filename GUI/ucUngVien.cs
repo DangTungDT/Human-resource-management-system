@@ -66,7 +66,7 @@ namespace GUI
                 e.Handled = true;
             }
             else if (!char.IsLetter(e.KeyChar) && !char.IsWhiteSpace(e.KeyChar))
-            {
+            { 
                 e.Handled = true;
             }
         }

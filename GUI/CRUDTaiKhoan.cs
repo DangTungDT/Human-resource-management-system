@@ -29,6 +29,7 @@ namespace GUI
         {
             connectionString = conn;
             bllTaiKhoan = new BLLTaiKhoan(conn);
+
             InitializeComponent();
             BuildUI();
             LoadNhanVien();

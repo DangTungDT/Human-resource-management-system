@@ -222,7 +222,7 @@ namespace GUI
             if (string.IsNullOrEmpty(imagePath))
                 return null;
 
-            string folderPath = Path.Combine(Application.StartupPath, "Images");
+            string folderPath = Path.Combine(Application.StartupPath, "Image");
 
             // ✅ Tạo thư mục nếu chưa có
             if (!Directory.Exists(folderPath))
@@ -233,6 +233,10 @@ namespace GUI
             string newFileName = employeeId + extension; // ví dụ: NV001.jpg
             string destPath = Path.Combine(folderPath, newFileName);
 
+            string folder = Directory.GetParent(Application.StartupPath).Parent.Parent.FullName;
+            folderPath = Path.Combine(folder, "Image");
+            destPath = Path.Combine(folderPath, newFileName);
+            File.Copy(imagePath, destPath);
             // ✅ Nếu đã có ảnh cũ thì xóa trước khi copy ảnh mới
             if (File.Exists(destPath))
                 File.Delete(destPath);
@@ -241,7 +245,7 @@ namespace GUI
             File.Copy(imagePath, destPath, true);
 
             // ✅ Trả về đường dẫn tương đối (Images\NV001.jpg)
-            return Path.Combine("Images", newFileName);
+            return newFileName;
         }
 
 
@@ -363,7 +367,8 @@ namespace GUI
 
             if (!string.IsNullOrEmpty(nv.AnhDaiDien))
             {
-                string fullPath = Path.Combine(Application.StartupPath, nv.AnhDaiDien);
+                string urlFolderImage = $"\\Image\\{nv.AnhDaiDien}";
+                string fullPath = Path.Combine(Application.StartupPath, urlFolderImage);
                 if (File.Exists(fullPath))
                 {
                     using (var stream = new FileStream(fullPath, FileMode.Open, FileAccess.Read))

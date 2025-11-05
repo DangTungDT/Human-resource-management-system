@@ -1,4 +1,4 @@
-﻿----Database đồ án quản lý nhân sự
+----Database đồ án quản lý nhân sự
 --Create Database
 create database PersonnelManagement
 go
@@ -84,7 +84,7 @@ go
 create table HopDongLaoDong
 (
 	id int identity(1,1) not null,
-	LoaiHopDong nvarchar(100) not null,
+	LoaiHopDong nvarchar(100) check(LoaiHopDong in(N'Xác định thời hạn', N'Không xác định thời hạn')) not null,
 	NgayKy date not null,
 	NgayBatDau date not null,
 	NgayKetThuc date,
@@ -154,14 +154,12 @@ go
 CREATE TABLE TuyenDung (
     id INT PRIMARY KEY IDENTITY(1,1),
     tieuDe NVARCHAR(150) NOT NULL,
+	soLuong int not null default 1,
     idPhongBan int NOT NULL,
     idChucVu int NOT NULL,
     idNguoiTao varchar(10) NOT NULL, -- Trưởng phòng nhân sự
     trangThai NVARCHAR(50) DEFAULT N'Đang tuyển', 
-    ngayTao DATETIME DEFAULT GETDATE(),
-	ghiChu nvarchar(50),
-	xacThucYeuCau nvarchar(50),
-	soLuong int not null default 1
+    ngayTao DATETIME DEFAULT GETDATE()
 )
 go
 

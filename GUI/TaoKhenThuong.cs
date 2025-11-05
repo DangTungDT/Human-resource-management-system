@@ -533,11 +533,11 @@ namespace GUI
 
             if (!isUpdating)
             {
-                bll.SaveMulti("Thưởng",selectedNhanViens, lyDo,soTien, ngayApDung, idNguoiTao);
+                bll.SaveMulti("Thưởng", selectedNhanViens, lyDo, soTien, ngayApDung, idNguoiTao);
             }
             else
             {
-                bll.UpdateMultiSmart("Thưởng",currentGroupId, selectedNhanViens, lyDo, soTien , ngayApDung);
+                bll.UpdateMultiSmart("Thưởng", currentGroupId, selectedNhanViens, lyDo, soTien, ngayApDung);
                 isUpdating = false;
                 btnSave.Text = "Thêm mới";
             }

@@ -15,7 +15,7 @@ namespace GUI
         //Ngân : DESKTOP-UM1I61K\THANHNGAN
         //Tuấn : LAPTOP-PNFFHRG1\MSSQLSERVER01
 
-        public static string conn = "Data Source=DESKTOP-UM1I61K\\THANHNGAN;Initial Catalog=PersonnelManagement;Integrated Security=True;Encrypt=False";
+        public static string conn = "Data Source=DESKTOP-6LE6PT2\\SQLEXPRESS;Initial Catalog=PersonnelManagement;Integrated Security=True;Encrypt=False";
         public static string TakeConnectionString()
         {
             using (RegistryKey localMachine64 = RegistryKey.OpenBaseKey(RegistryHive.LocalMachine, RegistryView.Registry64))

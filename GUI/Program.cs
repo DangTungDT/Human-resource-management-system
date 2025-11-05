@@ -11,7 +11,7 @@ namespace GUI
         [STAThread]
         static void Main()
         {
-            Application.EnableVisualStyles();
+            Application.EnableVisualStyles(); 
             Application.SetCompatibleTextRenderingDefault(false);
 
             // GD00000001, TPCNTT0001, NVKD000004

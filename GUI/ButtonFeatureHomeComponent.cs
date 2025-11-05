@@ -1,4 +1,5 @@
-﻿using Guna.UI2.WinForms;
+﻿using BLL;
+using Guna.UI2.WinForms;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -16,7 +17,7 @@ namespace GUI
     {
         private readonly Panel _tpHome;
         public readonly string _idNhanVien, _conn;
-
+        private BLLNhanVien _bllNhanVien;
         public ButtonFeatureHomeComponent(Panel tpHome, string idNhanVien, string conn)
         {
             InitializeComponent();
@@ -25,6 +26,7 @@ namespace GUI
             _conn = conn;
             _tpHome = tpHome;
             _idNhanVien = idNhanVien;
+            _bllNhanVien = new BLLNhanVien(conn);
         }
 
         private void btnNghiPhep_Click(object sender, EventArgs e)
@@ -47,7 +49,8 @@ namespace GUI
 
         private void guna2TileButton5_Click(object sender, EventArgs e)
         {
-            ucChamCongQuanLy uc = new ucChamCongQuanLy(_idNhanVien, _conn);
+            int idDepartment = int.Parse(_bllNhanVien.GetStaffById(_idNhanVien).IdPhongBan);
+            ucChamCongQuanLy uc = new ucChamCongQuanLy(_idNhanVien, idDepartment, _conn);
             DisplayUserControlPanel.ChildUserControl(uc, _tpHome);
         }
 
@@ -65,16 +68,40 @@ namespace GUI
         {
             if (_idNhanVien.Contains("NV"))
             {
-                btnDuyetNghi.Visible = false;
-                guna2TileButton5.Visible = false;
                 guna2TileButton6.Visible = false;
                 guna2TileButton7.Visible = false;
+                btnDuyetNghiPhep.Visible = false;
             }
+
+            if (_idNhanVien.Contains("NVNS"))
+            {
+                btnDuyetNghiPhep.Visible = true;
+            }
+
+            if (_idNhanVien.Contains("TP"))
+            {
+                guna2TileButton7.Visible = false;
+                btnDuyetNghiPhep.Visible = false;
+            }
+
+            if (_idNhanVien.Contains("TPNS") || _idNhanVien.Contains("GD"))
+            {
+                guna2TileButton7.Visible = true;
+                btnDuyetNghiPhep.Visible = true;
+            }
+
+            
+        }
+
+        private void btnDuyetNghiPhep_Click(object sender, EventArgs e)
+        {
+            UCDuyetNghiPhep uc = new UCDuyetNghiPhep(_idNhanVien, _conn);
+            DisplayUserControlPanel.ChildUserControl(uc, _tpHome);
         }
 
         private void guna2TileButton7_Click(object sender, EventArgs e)
         {
-            ucDuyenTuyenDung uc = new ucDuyenTuyenDung(_idNhanVien, _conn);
+            UCDuyetTuyenDung uc = new UCDuyetTuyenDung(_idNhanVien, _conn);
             DisplayUserControlPanel.ChildUserControl(uc, _tpHome);
         }
     }

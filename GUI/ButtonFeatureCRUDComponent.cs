@@ -1,4 +1,5 @@
 ﻿using CrystalDecisions.Shared;
+using Guna.UI2.WinForms;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -7,6 +8,7 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web.Compilation;
 using System.Windows.Forms;
 
 namespace GUI
@@ -109,11 +111,33 @@ namespace GUI
 
         private void ButtonFeatureCRUDComponent_Load(object sender, EventArgs e)
         {
-            if (_idNhanVien.Contains("GD") || _idNhanVien.Contains("NS"))
+            if (_idNhanVien.Contains("GD") || _idNhanVien.Contains("TPNS"))
             {
                 guna2TileButton2.Visible = true;
                 guna2TileButton3.Visible = true;
             }
+            else if (_idNhanVien.Contains("NVNS"))
+            {
+                foreach (var control in flowLayoutPanel1.Controls)
+                {
+                    if (control is Guna2TileButton button)
+                    {
+                        if (button.Name == "guna2TileButton2" || button.Name == "guna2TileButton3")
+                        {
+                            button.Visible = true;
+                            continue;
+                        }
+
+                        button.Visible = false;
+                    }
+                }
+            }
+        }
+
+        private void btnTPTuyenDung_Click(object sender, EventArgs e)
+        {
+            UCTuyenDung_TruongPhong uc = new UCTuyenDung_TruongPhong(_idNhanVien, _conn);
+            DisplayUserControlPanel.ChildUserControl(uc, _tpCRUD);
         }
 
         private void btnPhuCapNV_Click(object sender, EventArgs e)
@@ -132,7 +156,6 @@ namespace GUI
         {
             TaoNhanVien_KhauTru uc = new TaoNhanVien_KhauTru(_idNhanVien,_conn);
             DisplayUserControlPanel.ChildUserControl(uc, _tpCRUD);
-
         }
     }
 }

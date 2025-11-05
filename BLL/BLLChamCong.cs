@@ -29,19 +29,19 @@ namespace BLL
         }
         public bool UpdateGioRa(DTOChamCong dto)
         {
-            if (dto.Id < 1 || dto.GioVao > dto.GioRa)
+            if (dto.IdNhanVien == null || dto.NgayChamCong.Date != DateTime.Now.Date || dto.GioVao > dto.GioRa)
             {
                 return false;
             }
-            return dal.UpdateGioRa(dto.Id, dto.GioRa);
+            return dal.UpdateGioRa(dto.IdNhanVien, dto.NgayChamCong, dto.GioRa);
         }
         public bool Update(DTOChamCong dto)
         {
-            if (dto.Id < 1 || dto.GioVao > dto.GioRa)
+            if (dto.IdNhanVien != null || dto.NgayChamCong != DateTime.Now|| dto.GioVao > dto.GioRa)
             {
                 return false;
             }
-            return dal.UpdateGioRa(dto.Id, dto.GioRa);
+            return dal.Update(dto);
         }
         public bool Delete(int id)
         {
@@ -51,15 +51,33 @@ namespace BLL
             }
             return dal.Delete(id);
         }
-        public bool Add(DTOChamCong dto)
+        public string Add(DTOChamCong dto)
         {
             if( dto.NgayChamCong == DateTime.Now.Date ||
-                dto.GioVao > TimeSpan.Parse(DateTime.Now.ToShortTimeString()) ||
+                dto.GioVao > DateTime.Now.TimeOfDay ||
                 !string.IsNullOrEmpty(dto.IdNhanVien))
             {
                 return dal.Add(dto);
             }
-            return false;
+            return "invalid data";
+        }
+
+        public bool CheckAttendance(string[,] arrIdStaff)
+        {
+            if(arrIdStaff == null)
+            {
+                return false;
+            }
+            return dal.CheckAttendance(arrIdStaff);
+        }
+
+        public bool CheckAttendanceOut(string[,] arrIdStaff)
+        {
+            if (arrIdStaff == null)
+            {
+                return false;
+            }
+            return dal.CheckAttendanceOut(arrIdStaff);
         }
     }
 }

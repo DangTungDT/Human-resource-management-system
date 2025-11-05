@@ -21,6 +21,12 @@ namespace BLL
             dal = new DALChucVu(conn);
         }
 
+        public string FindNameById(int id) => dal.FindNameById(id);
+        public ChucVu GetPositionByIdStaff(string idStaff)
+        {
+            if (string.IsNullOrEmpty(idStaff)) return null;
+            return dal.GetPositionByIdStaff(idStaff);
+        }
         public bool CheckPosition(string namePosition, int departmentId)
         {
             if (string.IsNullOrEmpty(namePosition) || departmentId < 1) return false;
@@ -56,7 +62,7 @@ namespace BLL
 
             if (chucVu.TyLeHoaHong < 0) return false;
 
-            if (chucVu.IdPhongBan <= 0)  return false;
+            if (chucVu.IdPhongBan <= 0) return false;
 
             return true;
         }
@@ -75,6 +81,24 @@ namespace BLL
             catch (Exception ex)
             {
                 throw new Exception("Lỗi lấy d/s chức vụ: " + ex.Message);
+            }
+        }
+
+        public string TimTenChucVu(int id)
+        {
+            try
+            {
+                var tenChucVu = dal.LayTenChucVu(id);
+
+                if (!string.IsNullOrEmpty(tenChucVu))
+                {
+                    return tenChucVu;
+                }
+                else throw new Exception("Chức vụ không tồn tại !");
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
             }
         }
     }

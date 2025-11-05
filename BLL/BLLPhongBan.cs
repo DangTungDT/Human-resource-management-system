@@ -19,6 +19,11 @@ namespace BLL
             dal = new DALPhongBan(conn);
         }
 
+        public DTOPhongBan FindPhongBanByIdChucVu(int id)
+        {
+            if(id < 1) return null;
+            return dal.FindPhongBanByIdChucVu(id);
+        }
         public List<PhongBan> KtraDsPhongBan()
         {
             try
@@ -67,6 +72,24 @@ namespace BLL
                 }
                 else throw new Exception("id phòng ban không tồn tại !");
 
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+        public string TimTenPhongBan(int id)
+        {
+            try
+            {
+                var tenPhongBan = dal.LayTenPhongBan(id);
+
+                if (!string.IsNullOrEmpty(tenPhongBan))
+                {
+                    return tenPhongBan;
+                }
+                else throw new Exception("Phòng ban không tồn tại !");
             }
             catch (Exception ex)
             {

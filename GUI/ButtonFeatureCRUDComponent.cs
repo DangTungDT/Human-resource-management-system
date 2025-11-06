@@ -41,7 +41,7 @@ namespace GUI
 
         private void btnPhongBan_Click(object sender, EventArgs e)
         {
-            CRUDPhongban uc = new CRUDPhongban(_idNhanVien, _conn);
+            ucPhongBan uc = new ucPhongBan(_conn);
             DisplayUserControlPanel.ChildUserControl(uc, _tpCRUD);
         }
         private void guna2TileButton1_Click(object sender, EventArgs e)

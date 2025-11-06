@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?><Database Name="PersonnelManagement" Class="PersonnelManagementDataContextDataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
-  <Connection Mode="AppSettings" ConnectionString="Data Source=LAPTOP-PNFFHRG1\MSSQLSERVER01;Initial Catalog=PersonnelManagement;Integrated Security=True;Encrypt=True;Trust Server Certificate=True" SettingsObjectName="DAL.Properties.Settings" SettingsPropertyName="PersonnelManagementConnectionString2" Provider="System.Data.SqlClient" />
+  <Connection Mode="AppSettings" ConnectionString="Data Source=DESKTOP-UM1I61K\THANHNGAN;Initial Catalog=PersonnelManagement;Integrated Security=True;Trust Server Certificate=True" SettingsObjectName="DAL.Properties.Settings" SettingsPropertyName="PersonnelManagementConnectionString4" Provider="System.Data.SqlClient" />
   <Table Name="dbo.ChamCong" Member="ChamCongs">
     <Type Name="ChamCong">
       <Column Name="id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
@@ -25,6 +25,7 @@
       <Column Name="ngayUngTuyen" Type="System.DateTime" DbType="Date" CanBeNull="true" />
       <Column Name="trangThai" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
       <Column Name="daXoa" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Association Name="ChucVu_UngVien" Member="ChucVu" ThisKey="idChucVuUngTuyen" OtherKey="id" Type="ChucVu" IsForeignKey="true" />
     </Type>
   </Table>
   <Table Name="dbo.ChiTietLuong" Member="ChiTietLuongs">

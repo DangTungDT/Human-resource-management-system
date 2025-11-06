@@ -232,7 +232,8 @@ namespace GUI
                 // 🖼️ Hiển thị ảnh đại diện (nếu có)
                 if (!string.IsNullOrEmpty(nv.AnhDaiDien))
                 {
-                    string fullPath = Path.Combine(Application.StartupPath, nv.AnhDaiDien);
+                    string fullPath = Path.Combine(Path.Combine(Directory.GetParent(Application.StartupPath).Parent.Parent.FullName, "Image"),
+                                                    nv.AnhDaiDien);
                     if (File.Exists(fullPath))
                     {
                         using (var stream = new FileStream(fullPath, FileMode.Open, FileAccess.Read))

@@ -90,7 +90,7 @@ namespace DAL
     #endregion
 		
 		public PersonnelManagementDataContextDataContext() : 
-				base(global::DAL.Properties.Settings.Default.PersonnelManagementConnectionString2, mappingSource)
+				base(global::DAL.Properties.Settings.Default.PersonnelManagementConnectionString4, mappingSource)
 		{
 			OnCreated();
 		}
@@ -503,6 +503,8 @@ namespace DAL
 		
 		private bool _daXoa;
 		
+		private EntityRef<ChucVu> _ChucVu;
+		
     #region Extensibility Method Definitions
     partial void OnLoaded();
     partial void OnValidate(System.Data.Linq.ChangeAction action);
@@ -537,6 +539,7 @@ namespace DAL
 		
 		public UngVien()
 		{
+			this._ChucVu = default(EntityRef<ChucVu>);
 			OnCreated();
 		}
 		
@@ -711,6 +714,10 @@ namespace DAL
 			{
 				if ((this._idChucVuUngTuyen != value))
 				{
+					if (this._ChucVu.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
 					this.OnidChucVuUngTuyenChanging(value);
 					this.SendPropertyChanging();
 					this._idChucVuUngTuyen = value;
@@ -796,6 +803,40 @@ namespace DAL
 					this._daXoa = value;
 					this.SendPropertyChanged("daXoa");
 					this.OndaXoaChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="ChucVu_UngVien", Storage="_ChucVu", ThisKey="idChucVuUngTuyen", OtherKey="id", IsForeignKey=true)]
+		public ChucVu ChucVu
+		{
+			get
+			{
+				return this._ChucVu.Entity;
+			}
+			set
+			{
+				ChucVu previousValue = this._ChucVu.Entity;
+				if (((previousValue != value) 
+							|| (this._ChucVu.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._ChucVu.Entity = null;
+						previousValue.UngViens.Remove(this);
+					}
+					this._ChucVu.Entity = value;
+					if ((value != null))
+					{
+						value.UngViens.Add(this);
+						this._idChucVuUngTuyen = value.id;
+					}
+					else
+					{
+						this._idChucVuUngTuyen = default(int);
+					}
+					this.SendPropertyChanged("ChucVu");
 				}
 			}
 		}

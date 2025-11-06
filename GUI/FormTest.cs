@@ -30,7 +30,7 @@ namespace GUI
         {   //"TPCNTT0001","Data Source=DESKTOP-UM1I61K\\THANHNGAN;Initial Catalog=PersonnelManagement;Integrated Security=True;Encrypt=False"
             //"Data Source=DESKTOP-6LE6PT2\\SQLEXPRESS;Initial Catalog=PersonnelManagement;Integrated Security=True;Encrypt=False"
             pnMain.Controls.Clear();
-            UCHopDong uc = new UCHopDong("TPNS000001", "Data Source=DESKTOP-6LE6PT2\\SQLEXPRESS;Initial Catalog=PersonnelManagement;Integrated Security=True;Encrypt=False");
+            ucPhongBan uc = new ucPhongBan("Data Source=DESKTOP-6LE6PT2\\SQLEXPRESS;Initial Catalog=PersonnelManagement;Integrated Security=True;Encrypt=False");
             uc.Dock = DockStyle.Fill;
             pnMain.Controls.Add(uc);
         }

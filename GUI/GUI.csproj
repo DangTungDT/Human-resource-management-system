@@ -392,6 +392,12 @@
     <Compile Include="UCDanhGiaHieuSuat.Designer.cs">
       <DependentUpon>UCDanhGiaHieuSuat.cs</DependentUpon>
     </Compile>
+    <Compile Include="ucPhongBan.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="ucPhongBan.Designer.cs">
+      <DependentUpon>ucPhongBan.cs</DependentUpon>
+    </Compile>
     <Compile Include="UCReportDanhSachKyLuat.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -617,6 +623,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="UCDanhGiaHieuSuat.resx">
       <DependentUpon>UCDanhGiaHieuSuat.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ucPhongBan.resx">
+      <DependentUpon>ucPhongBan.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UCReportDanhSachKyLuat.resx">
       <DependentUpon>UCReportDanhSachKyLuat.cs</DependentUpon>

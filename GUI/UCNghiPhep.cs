@@ -158,7 +158,7 @@ namespace GUI
                 var ktraDuyet = _dbContextNP.KtraTrangThaiNP(Convert.ToInt32(_idSelected));
                 var DsNghiPhepTheoIDNV = _dbContextNP.LayDsNghiPhep().Where(p => p.idNhanVien == _idNhanVien).ToList();
 
-                if (ktraDuyet)
+                if (!ktraDuyet)
                 {
                     if (KiemTraDuLieuDauVao())
                     {
@@ -245,9 +245,21 @@ namespace GUI
 
             if (_idNhanVien.Contains("GD"))
             {
-                DsNghiPhepTheoIDNV = _dbContextNP.LayDsNghiPhep();
+                DsNghiPhepTheoIDNV = _dbContextNP.LayDsNghiPhep().Where(p => !p.idNhanVien.StartsWith("GD")).ToList();
             }
             else DsNghiPhepTheoIDNV = _dbContextNP.LayDsNghiPhep().Where(p => p.idNhanVien == _idNhanVien).ToList();
+
+            dgvDSNghiPhepCaNhan.DataSource = DsNghiPhepTheoIDNV.Select(p => new
+                {
+                    p.id,
+                    p.NgayBatDau,
+                    p.NgayKetThuc,
+                    SoNgayNghi = (p.NgayKetThuc.Day - p.NgayBatDau.Day + 1).ToString(),
+                    p.LyDoNghi,
+                    p.LoaiNghiPhep,
+                    p.TrangThai,
+
+                }).OrderByDescending(p => p.id).ToList();
 
             txtSoNgayNghi.Text = DsNghiPhepTheoIDNV.Count(p => p.TrangThai.Equals("Duyệt", StringComparison.OrdinalIgnoreCase)).ToString();
 
@@ -257,7 +269,6 @@ namespace GUI
             }
             else cmbLoaiNghi.DataSource = new List<string> { "Nghỉ phép có lương", "Nghỉ phép không lương" };
 
-            dgvDSNghiPhepCaNhan.DataSource = DsNghiPhepTheoIDNV.Select(p => new { p.id, p.NgayBatDau, p.NgayKetThuc, SoNgayNghi = (p.NgayKetThuc.Day - p.NgayBatDau.Day + 1).ToString(), p.LyDoNghi, p.LoaiNghiPhep, p.TrangThai, }).OrderByDescending(p => p.id).ToList();
 
             if (dgvDSNghiPhepCaNhan.Columns["id"].Visible)
             {
@@ -288,6 +299,19 @@ namespace GUI
                 dtpKetThuc.Value = dtpBatDau.Value;
             }
             LoadHeaderText();
+
+            if (_idNhanVien.Contains("GD"))
+            {
+                btnGui.Visible = false;
+                btnSua.Visible = false;
+                btnXoa.Visible = false;
+            }
+            else
+            {
+                btnGui.Visible = true;
+                btnSua.Visible = true;
+                btnXoa.Visible = true;
+            }
         }
 
         // Ham tra ve field trong

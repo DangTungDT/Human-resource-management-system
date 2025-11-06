@@ -1312,6 +1312,8 @@ namespace DAL
 		
 		private int _idPhongBan;
 		
+		private EntitySet<UngVien> _UngViens;
+		
 		private EntitySet<NhanVien> _NhanViens;
 		
 		private EntitySet<TuyenDung> _TuyenDungs;
@@ -1338,6 +1340,7 @@ namespace DAL
 		
 		public ChucVu()
 		{
+			this._UngViens = new EntitySet<UngVien>(new Action<UngVien>(this.attach_UngViens), new Action<UngVien>(this.detach_UngViens));
 			this._NhanViens = new EntitySet<NhanVien>(new Action<NhanVien>(this.attach_NhanViens), new Action<NhanVien>(this.detach_NhanViens));
 			this._TuyenDungs = new EntitySet<TuyenDung>(new Action<TuyenDung>(this.attach_TuyenDungs), new Action<TuyenDung>(this.detach_TuyenDungs));
 			this._PhongBan = default(EntityRef<PhongBan>);
@@ -1468,6 +1471,19 @@ namespace DAL
 			}
 		}
 		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="ChucVu_UngVien", Storage="_UngViens", ThisKey="id", OtherKey="idChucVuUngTuyen")]
+		public EntitySet<UngVien> UngViens
+		{
+			get
+			{
+				return this._UngViens;
+			}
+			set
+			{
+				this._UngViens.Assign(value);
+			}
+		}
+		
 		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="ChucVu_NhanVien", Storage="_NhanViens", ThisKey="id", OtherKey="idChucVu")]
 		public EntitySet<NhanVien> NhanViens
 		{
@@ -1546,6 +1562,18 @@ namespace DAL
 			{
 				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
 			}
+		}
+		
+		private void attach_UngViens(UngVien entity)
+		{
+			this.SendPropertyChanging();
+			entity.ChucVu = this;
+		}
+		
+		private void detach_UngViens(UngVien entity)
+		{
+			this.SendPropertyChanging();
+			entity.ChucVu = null;
 		}
 		
 		private void attach_NhanViens(NhanVien entity)
@@ -5145,11 +5173,11 @@ namespace DAL
 		
 		private System.Nullable<System.DateTime> _ngayTao;
 		
-		private int _soLuong;
+		private string _ghiChu;
 		
 		private string _xacThucYeuCau;
 		
-		private string _ghiChu;
+		private int _soLuong;
 		
 		private EntityRef<ChucVu> _ChucVu;
 		
@@ -5175,12 +5203,12 @@ namespace DAL
     partial void OntrangThaiChanged();
     partial void OnngayTaoChanging(System.Nullable<System.DateTime> value);
     partial void OnngayTaoChanged();
-    partial void OnsoLuongChanging(int value);
-    partial void OnsoLuongChanged();
-    partial void OnxacThucYeuCauChanging(string value);
-    partial void OnxacThucYeuCauChanged();
     partial void OnghiChuChanging(string value);
     partial void OnghiChuChanged();
+    partial void OnxacThucYeuCauChanging(string value);
+    partial void OnxacThucYeuCauChanged();
+    partial void OnsoLuongChanging(int value);
+    partial void OnsoLuongChanged();
     #endregion
 		
 		public TuyenDung()
@@ -5343,22 +5371,22 @@ namespace DAL
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_soLuong", DbType="Int NOT NULL")]
-		public int soLuong
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ghiChu", DbType="NVarChar(50)")]
+		public string ghiChu
 		{
 			get
 			{
-				return this._soLuong;
+				return this._ghiChu;
 			}
 			set
 			{
-				if ((this._soLuong != value))
+				if ((this._ghiChu != value))
 				{
-					this.OnsoLuongChanging(value);
+					this.OnghiChuChanging(value);
 					this.SendPropertyChanging();
-					this._soLuong = value;
-					this.SendPropertyChanged("soLuong");
-					this.OnsoLuongChanged();
+					this._ghiChu = value;
+					this.SendPropertyChanged("ghiChu");
+					this.OnghiChuChanged();
 				}
 			}
 		}
@@ -5383,22 +5411,22 @@ namespace DAL
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ghiChu", DbType="NVarChar(255)")]
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ghiChu", DbType="NVarChar(255) NOT NULL", CanBeNull=false)]
 		public string ghiChu
 		{
 			get
 			{
-				return this._ghiChu;
+				return this._soLuong;
 			}
 			set
 			{
-				if ((this._ghiChu != value))
+				if ((this._soLuong != value))
 				{
-					this.OnghiChuChanging(value);
+					this.OnsoLuongChanging(value);
 					this.SendPropertyChanging();
-					this._ghiChu = value;
-					this.SendPropertyChanged("ghiChu");
-					this.OnghiChuChanged();
+					this._soLuong = value;
+					this.SendPropertyChanged("soLuong");
+					this.OnsoLuongChanged();
 				}
 			}
 		}

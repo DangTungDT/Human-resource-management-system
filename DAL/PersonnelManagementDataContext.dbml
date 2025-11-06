@@ -55,6 +55,7 @@
       <Column Name="tyLeHoaHong" Type="System.Decimal" DbType="Decimal(5,2)" CanBeNull="true" />
       <Column Name="moTa" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
       <Column Name="idPhongBan" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Association Name="ChucVu_UngVien" Member="UngViens" ThisKey="id" OtherKey="idChucVuUngTuyen" Type="UngVien" />
       <Association Name="ChucVu_NhanVien" Member="NhanViens" ThisKey="id" OtherKey="idChucVu" Type="NhanVien" />
       <Association Name="ChucVu_TuyenDung" Member="TuyenDungs" ThisKey="id" OtherKey="idChucVu" Type="TuyenDung" />
       <Association Name="PhongBan_ChucVu" Member="PhongBan" ThisKey="idPhongBan" OtherKey="id" Type="PhongBan" IsForeignKey="true" />
@@ -236,6 +237,8 @@
       <Column Name="idNguoiTao" Type="System.String" DbType="VarChar(10) NOT NULL" CanBeNull="false" />
       <Column Name="trangThai" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
       <Column Name="ngayTao" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="ghiChu" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="xacThucYeuCau" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
       <Column Name="soLuong" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Column Name="xacThucYeuCau" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
       <Column Name="ghiChu" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />

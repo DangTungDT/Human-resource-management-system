@@ -649,7 +649,7 @@
             this.label9.Name = "label9";
             this.label9.Size = new System.Drawing.Size(129, 32);
             this.label9.TabIndex = 49;
-            this.label9.Text = "Có lương:";
+            this.label9.Text = "Có phép:";
             this.label9.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // txtSoNgayCoPhep
@@ -684,7 +684,7 @@
             this.label10.Name = "label10";
             this.label10.Size = new System.Drawing.Size(129, 32);
             this.label10.TabIndex = 51;
-            this.label10.Text = "Không lương:";
+            this.label10.Text = "Không phép:";
             this.label10.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // txtSoNgayKhongPhep

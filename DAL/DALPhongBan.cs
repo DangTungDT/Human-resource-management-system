@@ -19,17 +19,17 @@ namespace DAL
             connectionString = conn;
             _dbContext = new PersonnelManagementDataContextDataContext(conn);
         }
-        
+
         public DTOPhongBan FindPhongBanByIdChucVu(int id)
         {
-            DTOPhongBan phongBan = (from pb in _dbContextPB.PhongBans
-                           join cv in _dbContextPB.ChucVus on pb.id equals cv.idPhongBan
-                           select new DTOPhongBan
-                           {
-                               Id = pb.id,
-                               TenPhongBan = pb.TenPhongBan,
-                               MoTa = pb.Mota
-                           }).FirstOrDefault();
+            DTOPhongBan phongBan = (from pb in _dbContext.PhongBans
+                                    join cv in _dbContext.ChucVus on pb.id equals cv.idPhongBan
+                                    select new DTOPhongBan
+                                    {
+                                        Id = pb.id,
+                                        TenPhongBan = pb.TenPhongBan,
+                                        MoTa = pb.Mota
+                                    }).FirstOrDefault();
             return phongBan;
         }
         public DataTable GetAllPhongBan()

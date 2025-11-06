@@ -504,7 +504,7 @@
             this.txtTrangThai.TabIndex = 34;
             this.txtTrangThai.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
-            // btnXoaLuong
+            // btnXoaTuyenDung
             // 
             this.btnXoaLuong.BorderRadius = 8;
             this.btnXoaLuong.BorderThickness = 1;
@@ -520,7 +520,7 @@
             this.btnXoaLuong.HoverState.CustomBorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(128)))));
             this.btnXoaLuong.Location = new System.Drawing.Point(23, 618);
             this.btnXoaLuong.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.btnXoaLuong.Name = "btnXoaLuong";
+            this.btnXoaLuong.Name = "btnXoaTuyenDung";
             this.btnXoaLuong.Size = new System.Drawing.Size(356, 56);
             this.btnXoaLuong.TabIndex = 44;
             this.btnXoaLuong.Text = "Xóa lương";

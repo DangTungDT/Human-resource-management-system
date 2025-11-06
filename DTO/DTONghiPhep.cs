@@ -42,6 +42,5 @@ namespace DTO
         public string LyDoNghi { get; set; }
         public string LoaiNghiPhep { get; set; }
         public string TrangThai { get; set; }
-
     }
 }

@@ -1,4 +1,5 @@
 ﻿using BLL;
+using DocumentFormat.OpenXml.Office2010.Excel;
 using DTO;
 using System;
 using System.Data;
@@ -137,9 +138,9 @@ namespace GUI
                     return;
                 }
 
-                if (string.IsNullOrWhiteSpace(txtTenPhongBan.Text))
+                if (string.IsNullOrWhiteSpace(txtTenPhongBan.Text) || string.IsNullOrWhiteSpace(txtMota.Text))
                 {
-                    MessageBox.Show("Vui lòng nhập tên phòng ban!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    MessageBox.Show("Vui lòng nhập đầy đủ thông tin phòng ban trước khi cập nhật!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return;
                 }
 
@@ -154,10 +155,27 @@ namespace GUI
                     MessageBox.Show("Thông tin chưa được thay đổi nên không thể cập nhật, vui lòng thay đổi thông tin trước khi cập nhật!","Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return;
                 }
-                bllPhongBan.SavePhongBan(pb, isNew: false);
-                MessageBox.Show("Đã cập nhật phòng ban!", "Thành công", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                LoadPhongBan();
-                ClearForm();
+                string updateResult = bllPhongBan.SavePhongBan(pb, isNew: false);
+                if(updateResult == "Mô tả không được dài quá 255 ký tự" || 
+                    updateResult == "Tên và mô tả phòng ban không được dài quá 255 ký tự!" ||
+                    updateResult == "Tên phòng ban không được dài quá 255 ký tự")
+                {
+                    MessageBox.Show(updateResult, "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                }
+                else if (updateResult == "Cập nhật thông tin phòng ban thành công!")
+                {
+                    MessageBox.Show(updateResult, "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    LoadPhongBan();
+                    ClearForm();
+                }
+                else if (updateResult == "Cập nhật phòng ban thất bại!")
+                {
+                    MessageBox.Show(updateResult, "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                else
+                {
+                    MessageBox.Show(updateResult, "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                }
             }
             catch (Exception ex)
             {
@@ -168,9 +186,9 @@ namespace GUI
 
         private void BtnAdd_Click(object sender, EventArgs e)
         {
-            if (string.IsNullOrWhiteSpace(txtTenPhongBan.Text))
+            if (string.IsNullOrWhiteSpace(txtTenPhongBan.Text) || string.IsNullOrWhiteSpace(txtMota.Text))
             {
-                MessageBox.Show("Vui lòng nhập tên phòng ban!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("Vui lòng nhập đầy đủ thông tin phòng ban trước khi thêm!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
 
@@ -180,8 +198,26 @@ namespace GUI
                 TenPhongBan = txtTenPhongBan.Text.Trim(),
                 MoTa = txtMota.Text.Trim()
             };
-            bllPhongBan.SavePhongBan(pb, isNew: true);
-            MessageBox.Show("Thêm phòng ban mới thành công!","Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            string addResult = bllPhongBan.SavePhongBan(pb, isNew: true);
+            if (addResult == "Mô tả không được dài quá 255 ký tự" ||
+                    addResult == "Tên và mô tả phòng ban không được dài quá 255 ký tự!" ||
+                    addResult == "Tên phòng ban không được dài quá 255 ký tự")
+            {
+                MessageBox.Show(addResult, "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
+            else if (addResult == "Thêm phòng ban thành công!")
+            {
+                MessageBox.Show(addResult, "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                LoadPhongBan();
+                ClearForm();
+            }
+            else if(addResult == "Thêm phòng ban thất bại!")
+            {
+                MessageBox.Show(addResult, "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }else
+            {
+                MessageBox.Show(addResult, "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
         }
         private void BtnDelete_Click(object sender, EventArgs e)
         {
@@ -195,7 +231,8 @@ namespace GUI
 
                 if (MessageBox.Show($"Bạn có chắc muốn xóa phòng ban {_oldPhongBan.TenPhongBan}?", "Xác nhận", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
                 {
-                    if (bllPhongBan.DeletePhongBan(selectedId.Value))
+                    string result = bllPhongBan.DeletePhongBan(selectedId.Value);
+                    if (result == "Xóa phòng ban thành công!")
                     {
                         MessageBox.Show($"Xóa đã xóa thành công phòng ban {_oldPhongBan.TenPhongBan}", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
                         LoadPhongBan();
@@ -203,7 +240,7 @@ namespace GUI
                     }
                     else
                     {
-                        MessageBox.Show("Xóa không thành công.", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        MessageBox.Show(result, "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     }
                 }
             }
@@ -318,15 +355,16 @@ namespace GUI
                     {
                         if (MessageBox.Show($"Bạn có chắc muốn xóa phòng ban {_oldPhongBan.TenPhongBan}?", "Xác nhận", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
                         {
-                            if (bllPhongBan.DeletePhongBan(id))
+                            string result = bllPhongBan.DeletePhongBan(id);
+                            if (result == "Xóa phòng ban thành công!")
                             {
-                                MessageBox.Show($"Xóa đã xóa thành công phòng ban {_oldPhongBan.TenPhongBan}", "Thông báo", MessageBoxButtons.OK);
+                                MessageBox.Show($"Xóa đã xóa thành công phòng ban {_oldPhongBan.TenPhongBan}", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
                                 LoadPhongBan();
                                 ClearForm();
                             }
                             else
                             {
-                                MessageBox.Show("Xóa không thành công.", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                MessageBox.Show(result, "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
                             }
                         }
                     }
@@ -346,17 +384,17 @@ namespace GUI
             if (txtTenPhongBan != null) txtTenPhongBan.Clear();
             if (txtMota != null) txtMota.Clear();
 
-            if (btnAdd != null)
-            {
-                btnAdd.Text = "Tạo phòng ban";
-                btnAdd.FillColor = Color.LightGray;
-            }
 
             if (dgvPhongBan != null) dgvPhongBan.ClearSelection();
 
             if (btnUpdate != null) btnUpdate.Enabled = false;
             if (btnDelete != null) btnDelete.Enabled = false;
             _oldPhongBan = null;
+        }
+
+        private void grbCRUD_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

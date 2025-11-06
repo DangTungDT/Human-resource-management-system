@@ -10,32 +10,25 @@ namespace GUI
 {
     public partial class ucPhongBan : UserControl
     {
-        // BLL + data
+        //Biến toàn cục
         private readonly BLLPhongBan bllPhongBan;
         private DataTable dtPhongBan;
         private int? selectedId = null;
-
+        private DTOPhongBan _oldPhongBan = null;
+        //Constructor
         public ucPhongBan(string conn)
         {
             InitializeComponent();
 
             // Initialize BLL with connection string
-            bllPhongBan = new BLLPhongBan(conn);
-
-
-            // Filter on typing in the left search box (txtFindName)
-            if (txtFindName != null)
-            {
-                txtFindName.TextChanged -= TxtFindName_TextChanged;
-                txtFindName.TextChanged += TxtFindName_TextChanged;
-            }
+            bllPhongBan = new BLLPhongBan(conn);            
 
             // initial state (in case controls exist)
             if (btnUpdate != null) btnUpdate.Enabled = false;
             if (btnDelete != null) btnDelete.Enabled = false;
         }
 
-        // -------------------- Load & filter --------------------
+        
         private void ucPhongBan_Load(object sender, EventArgs e)
         {
             LoadPhongBan();
@@ -68,20 +61,23 @@ namespace GUI
                             ImageLayout = DataGridViewImageCellLayout.Zoom,
                             Width = 50
                         };
+                        colDelete.HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
 
                         // try load resource image if available
                         try
                         {
                             var img = Properties.Resources.delete;
                             if (img != null) colDelete.Image = img;
+
                         }
                         catch
                         {
                             // ignore if resources not available
                         }
-
+                        
                         dgvPhongBan.Columns.Add(colDelete);
                         dgvPhongBan.Columns["Xóa"].DisplayIndex = dgvPhongBan.Columns.Count - 1;
+                        dgvPhongBan.AllowUserToAddRows = false;
                     }
 
                     // hide id column if exists (common name "Mã phòng ban")
@@ -116,6 +112,8 @@ namespace GUI
             FilterPhongBan();
         }
 
+
+        //Hàm tìm kiếm phòng ban 
         private void FilterPhongBan()
         {
             if (dtPhongBan == null) return;
@@ -126,48 +124,6 @@ namespace GUI
             // Designer doesn't have txtSearchMoTa; only txtFindName per provided Designer, so we filter by name only
 
             dtPhongBan.DefaultView.RowFilter = filter;
-        }
-
-        // -------------------- CRUD --------------------
-        // btnAdd is used as Save/Add; selectedId determines add vs update
-        private void BtnSave_Click(object sender, EventArgs e)
-        {
-            if (string.IsNullOrWhiteSpace(txtTenPhongBan.Text))
-            {
-                MessageBox.Show("Vui lòng nhập tên phòng ban!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                return;
-            }
-
-            var pb = new DTOPhongBan
-            {
-                // DTO must define Id / TenPhongBan / MoTa
-                Id = selectedId ?? 0,
-                TenPhongBan = txtTenPhongBan.Text.Trim(),
-                MoTa = txtMota.Text.Trim()
-            };
-
-            try
-            {
-                if (selectedId == null)
-                {
-                    // thêm mới
-                    bllPhongBan.SavePhongBan(pb, isNew: true);
-                    MessageBox.Show("✅ Đã thêm phòng ban mới!");
-                }
-                else
-                {
-                    // cập nhật
-                    bllPhongBan.SavePhongBan(pb, isNew: false);
-                    MessageBox.Show("✏️ Đã cập nhật phòng ban!");
-                }
-
-                LoadPhongBan();
-                ClearForm();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Lỗi khi lưu phòng ban: " + ex.Message, "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
         }
 
         private void BtnUpdate_Click(object sender, EventArgs e)
@@ -187,13 +143,17 @@ namespace GUI
                     return;
                 }
 
-                var pb = new DTOPhongBan
+                DTOPhongBan pb = new DTOPhongBan
                 {
                     Id = selectedId.Value,
                     TenPhongBan = txtTenPhongBan.Text.Trim(),
                     MoTa = txtMota.Text.Trim()
                 };
-
+                if(pb.Id == _oldPhongBan.Id && pb.TenPhongBan == _oldPhongBan.TenPhongBan && pb.MoTa == _oldPhongBan.MoTa)
+                {
+                    MessageBox.Show("Thông tin chưa được thay đổi nên không thể cập nhật, vui lòng thay đổi thông tin trước khi cập nhật!","Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
                 bllPhongBan.SavePhongBan(pb, isNew: false);
                 MessageBox.Show("Đã cập nhật phòng ban!", "Thành công", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 LoadPhongBan();
@@ -210,7 +170,7 @@ namespace GUI
         {
             if (string.IsNullOrWhiteSpace(txtTenPhongBan.Text))
             {
-                MessageBox.Show("Vui lòng nhập tên phòng ban!", "Thông báo");
+                MessageBox.Show("Vui lòng nhập tên phòng ban!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
 
@@ -221,23 +181,23 @@ namespace GUI
                 MoTa = txtMota.Text.Trim()
             };
             bllPhongBan.SavePhongBan(pb, isNew: true);
-            MessageBox.Show("✅ Đã thêm phòng ban mới!");
+            MessageBox.Show("Thêm phòng ban mới thành công!","Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
         private void BtnDelete_Click(object sender, EventArgs e)
         {
             try
             {
-                if (selectedId == null)
+                if (selectedId == null || _oldPhongBan == null)
                 {
                     MessageBox.Show("Vui lòng chọn phòng ban cần xóa.", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return;
                 }
 
-                if (MessageBox.Show("Bạn có chắc muốn xóa phòng ban này?", "Xác nhận", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+                if (MessageBox.Show($"Bạn có chắc muốn xóa phòng ban {_oldPhongBan.TenPhongBan}?", "Xác nhận", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
                 {
                     if (bllPhongBan.DeletePhongBan(selectedId.Value))
                     {
-                        MessageBox.Show("Đã xóa phòng ban.", "Thành công", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        MessageBox.Show($"Xóa đã xóa thành công phòng ban {_oldPhongBan.TenPhongBan}", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
                         LoadPhongBan();
                         ClearForm();
                     }
@@ -260,14 +220,8 @@ namespace GUI
 
         private void BtnReset_Click(object sender, EventArgs e)
         {
-            if (txtFindName != null) txtFindName.Clear();
+            txtFindName.Clear();
             FilterPhongBan();
-        }
-
-        private void BtnUndo_Click(object sender, EventArgs e)
-        {
-            if (MessageBox.Show("Bạn có chắc muốn hoàn tác dữ liệu đang nhập?", "Xác nhận", MessageBoxButtons.YesNo) == DialogResult.Yes)
-                ClearForm();
         }
 
         private void Dgv_CellClick(object sender, DataGridViewCellEventArgs e)
@@ -277,6 +231,62 @@ namespace GUI
 
             try
             {
+
+                // Otherwise: select row for edit
+                object idObj = null;
+                if (grid.Columns.Contains("Mã phòng ban"))
+                    idObj = grid.Rows[e.RowIndex].Cells["Mã phòng ban"].Value;
+                else if (grid.Columns.Contains("id"))
+                    idObj = grid.Rows[e.RowIndex].Cells["id"].Value;
+                else
+                {
+                    // fallback: find first numeric cell
+                    foreach (DataGridViewCell cell in grid.Rows[e.RowIndex].Cells)
+                    {
+                        if (cell.Value != null && int.TryParse(cell.Value.ToString(), out _))
+                        {
+                            idObj = cell.Value;
+                            break;
+                        }
+                    }
+                }
+                //Lưu dữ liệu đang chọn để so sánh sự thay đổi
+                _oldPhongBan = new DTOPhongBan();
+                if (idObj != null && int.TryParse(idObj.ToString(), out int idVal))
+                {
+                    selectedId = idVal;
+
+                    //Lưu dữ liệu id để so sánh
+                    _oldPhongBan.Id = idVal;
+                }
+                else selectedId = null;
+
+                // Fill form fields from known column names; fallback by name detection
+                if (grid.Columns.Contains("Tên phòng ban"))
+                    txtTenPhongBan.Text = grid.Rows[e.RowIndex].Cells["Tên phòng ban"].Value?.ToString() ?? "";
+                else
+                {
+                    var col = grid.Columns.Cast<DataGridViewColumn>().FirstOrDefault(c => c.Name.IndexOf("ten", StringComparison.OrdinalIgnoreCase) >= 0);
+                    if (col != null)
+                        txtTenPhongBan.Text = grid.Rows[e.RowIndex].Cells[col.Name].Value?.ToString() ?? "";
+                }
+
+                if (grid.Columns.Contains("Mô tả"))
+                    txtMota.Text = grid.Rows[e.RowIndex].Cells["Mô tả"].Value?.ToString() ?? "";
+                else
+                {
+                    var col = grid.Columns.Cast<DataGridViewColumn>().FirstOrDefault(c => c.Name.IndexOf("mo", StringComparison.OrdinalIgnoreCase) >= 0 || c.Name.IndexOf("mota", StringComparison.OrdinalIgnoreCase) >= 0);
+                    if (col != null)
+                        txtMota.Text = grid.Rows[e.RowIndex].Cells[col.Name].Value?.ToString() ?? "";
+                }
+
+                //Lưu dữ liệu tên phòng ban và mô tả để so sánh
+                _oldPhongBan.TenPhongBan = txtTenPhongBan.Text;
+                _oldPhongBan.MoTa = txtMota.Text;
+                
+                if (btnUpdate != null) btnUpdate.Enabled = true;
+                if (btnDelete != null) btnDelete.Enabled = true;
+
                 // If clicked delete column
                 if (grid.Columns[e.ColumnIndex].Name == "Xóa")
                 {
@@ -306,10 +316,11 @@ namespace GUI
 
                     if (id > 0)
                     {
-                        if (MessageBox.Show("Bạn có chắc muốn xóa phòng ban này?", "Xác nhận", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+                        if (MessageBox.Show($"Bạn có chắc muốn xóa phòng ban {_oldPhongBan.TenPhongBan}?", "Xác nhận", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
                         {
                             if (bllPhongBan.DeletePhongBan(id))
                             {
+                                MessageBox.Show($"Xóa đã xóa thành công phòng ban {_oldPhongBan.TenPhongBan}", "Thông báo", MessageBoxButtons.OK);
                                 LoadPhongBan();
                                 ClearForm();
                             }
@@ -321,53 +332,6 @@ namespace GUI
                     }
                     return;
                 }
-
-                // Otherwise: select row for edit
-                object idObj = null;
-                if (grid.Columns.Contains("Mã phòng ban"))
-                    idObj = grid.Rows[e.RowIndex].Cells["Mã phòng ban"].Value;
-                else if (grid.Columns.Contains("id"))
-                    idObj = grid.Rows[e.RowIndex].Cells["id"].Value;
-                else
-                {
-                    // fallback: find first numeric cell
-                    foreach (DataGridViewCell cell in grid.Rows[e.RowIndex].Cells)
-                    {
-                        if (cell.Value != null && int.TryParse(cell.Value.ToString(), out _))
-                        {
-                            idObj = cell.Value;
-                            break;
-                        }
-                    }
-                }
-
-                if (idObj != null && int.TryParse(idObj.ToString(), out int idVal))
-                    selectedId = idVal;
-                else
-                    selectedId = null;
-
-                // Fill form fields from known column names; fallback by name detection
-                if (grid.Columns.Contains("Tên phòng ban"))
-                    txtTenPhongBan.Text = grid.Rows[e.RowIndex].Cells["Tên phòng ban"].Value?.ToString() ?? "";
-                else
-                {
-                    var col = grid.Columns.Cast<DataGridViewColumn>().FirstOrDefault(c => c.Name.IndexOf("ten", StringComparison.OrdinalIgnoreCase) >= 0);
-                    if (col != null)
-                        txtTenPhongBan.Text = grid.Rows[e.RowIndex].Cells[col.Name].Value?.ToString() ?? "";
-                }
-
-                if (grid.Columns.Contains("Mô tả"))
-                    txtMota.Text = grid.Rows[e.RowIndex].Cells["Mô tả"].Value?.ToString() ?? "";
-                else
-                {
-                    var col = grid.Columns.Cast<DataGridViewColumn>().FirstOrDefault(c => c.Name.IndexOf("mo", StringComparison.OrdinalIgnoreCase) >= 0 || c.Name.IndexOf("mota", StringComparison.OrdinalIgnoreCase) >= 0);
-                    if (col != null)
-                        txtMota.Text = grid.Rows[e.RowIndex].Cells[col.Name].Value?.ToString() ?? "";
-                }
-
-
-                if (btnUpdate != null) btnUpdate.Enabled = true;
-                if (btnDelete != null) btnDelete.Enabled = true;
             }
             catch (Exception ex)
             {
@@ -392,6 +356,7 @@ namespace GUI
 
             if (btnUpdate != null) btnUpdate.Enabled = false;
             if (btnDelete != null) btnDelete.Enabled = false;
+            _oldPhongBan = null;
         }
     }
 }

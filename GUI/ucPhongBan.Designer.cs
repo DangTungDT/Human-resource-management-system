@@ -68,7 +68,7 @@ namespace GUI
             this.guna2HtmlLabelHeader.Font = new System.Drawing.Font("Times New Roman", 19.8F, System.Drawing.FontStyle.Bold);
             this.guna2HtmlLabelHeader.Location = new System.Drawing.Point(0, 0);
             this.guna2HtmlLabelHeader.Name = "guna2HtmlLabelHeader";
-            this.guna2HtmlLabelHeader.Size = new System.Drawing.Size(1200, 62);
+            this.guna2HtmlLabelHeader.Size = new System.Drawing.Size(1464, 62);
             this.guna2HtmlLabelHeader.TabIndex = 0;
             this.guna2HtmlLabelHeader.TabStop = false;
             this.guna2HtmlLabelHeader.Text = "Phòng ban";
@@ -127,6 +127,7 @@ namespace GUI
             this.txtFindName.DisabledState.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(138)))), ((int)(((byte)(138)))), ((int)(((byte)(138)))));
             this.txtFindName.FocusedState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(94)))), ((int)(((byte)(148)))), ((int)(((byte)(255)))));
             this.txtFindName.Font = new System.Drawing.Font("Times New Roman", 10.2F);
+            this.txtFindName.ForeColor = System.Drawing.Color.Black;
             this.txtFindName.HoverState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(94)))), ((int)(((byte)(148)))), ((int)(((byte)(255)))));
             this.txtFindName.Location = new System.Drawing.Point(12, 80);
             this.txtFindName.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
@@ -232,7 +233,7 @@ namespace GUI
             this.guna2PanelMain.Dock = System.Windows.Forms.DockStyle.Fill;
             this.guna2PanelMain.Location = new System.Drawing.Point(300, 62);
             this.guna2PanelMain.Name = "guna2PanelMain";
-            this.guna2PanelMain.Size = new System.Drawing.Size(900, 600);
+            this.guna2PanelMain.Size = new System.Drawing.Size(1164, 600);
             this.guna2PanelMain.TabIndex = 2;
             // 
             // guna2HtmlLabelTen
@@ -257,13 +258,14 @@ namespace GUI
             this.txtTenPhongBan.DisabledState.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(138)))), ((int)(((byte)(138)))), ((int)(((byte)(138)))));
             this.txtTenPhongBan.FocusedState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(94)))), ((int)(((byte)(148)))), ((int)(((byte)(255)))));
             this.txtTenPhongBan.Font = new System.Drawing.Font("Times New Roman", 10.2F);
+            this.txtTenPhongBan.ForeColor = System.Drawing.Color.Black;
             this.txtTenPhongBan.HoverState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(94)))), ((int)(((byte)(148)))), ((int)(((byte)(255)))));
             this.txtTenPhongBan.Location = new System.Drawing.Point(250, 26);
             this.txtTenPhongBan.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.txtTenPhongBan.Name = "txtTenPhongBan";
             this.txtTenPhongBan.PlaceholderText = "";
             this.txtTenPhongBan.SelectedText = "";
-            this.txtTenPhongBan.Size = new System.Drawing.Size(400, 36);
+            this.txtTenPhongBan.Size = new System.Drawing.Size(854, 36);
             this.txtTenPhongBan.TabIndex = 6;
             // 
             // guna2HtmlLabelMoTa
@@ -288,6 +290,7 @@ namespace GUI
             this.txtMota.DisabledState.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(138)))), ((int)(((byte)(138)))), ((int)(((byte)(138)))));
             this.txtMota.FocusedState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(94)))), ((int)(((byte)(148)))), ((int)(((byte)(255)))));
             this.txtMota.Font = new System.Drawing.Font("Times New Roman", 10.2F);
+            this.txtMota.ForeColor = System.Drawing.Color.Black;
             this.txtMota.HoverState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(94)))), ((int)(((byte)(148)))), ((int)(((byte)(255)))));
             this.txtMota.Location = new System.Drawing.Point(250, 86);
             this.txtMota.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
@@ -296,7 +299,7 @@ namespace GUI
             this.txtMota.Name = "txtMota";
             this.txtMota.PlaceholderText = "";
             this.txtMota.SelectedText = "";
-            this.txtMota.Size = new System.Drawing.Size(400, 90);
+            this.txtMota.Size = new System.Drawing.Size(854, 90);
             this.txtMota.TabIndex = 7;
             // 
             // dgvPhongBan
@@ -338,7 +341,7 @@ namespace GUI
             this.dgvPhongBan.RowHeadersVisible = false;
             this.dgvPhongBan.RowHeadersWidth = 51;
             this.dgvPhongBan.RowTemplate.Height = 24;
-            this.dgvPhongBan.Size = new System.Drawing.Size(900, 380);
+            this.dgvPhongBan.Size = new System.Drawing.Size(1164, 380);
             this.dgvPhongBan.TabIndex = 12;
             this.dgvPhongBan.ThemeStyle.AlternatingRowsStyle.BackColor = System.Drawing.Color.White;
             this.dgvPhongBan.ThemeStyle.AlternatingRowsStyle.Font = null;
@@ -371,7 +374,7 @@ namespace GUI
             this.Controls.Add(this.guna2PanelLeft);
             this.Controls.Add(this.guna2HtmlLabelHeader);
             this.Name = "ucPhongBan";
-            this.Size = new System.Drawing.Size(1200, 662);
+            this.Size = new System.Drawing.Size(1464, 662);
             this.Load += new System.EventHandler(this.ucPhongBan_Load);
             this.guna2PanelLeft.ResumeLayout(false);
             this.grpFind.ResumeLayout(false);

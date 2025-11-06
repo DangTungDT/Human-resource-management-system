@@ -220,12 +220,12 @@ namespace GUI
         {
             if(_idUngVien == 0)
             {
-                MessageBox.Show("Vui lòng chọn ứng viên trước khi cập nhật!", "Thông báo");
+                MessageBox.Show("Vui lòng chọn ứng viên trước khi cập nhật!", "Thông báo", MessageBoxButtons.OK);
                 return;
             }
             if(_urlImage == "")
             {
-                MessageBox.Show("Vui lòng chọn ảnh!", "Thông báo");
+                MessageBox.Show("Vui lòng chọn ảnh!", "Thông báo", MessageBoxButtons.OK);
                 return;
             }
             string gioiTinh = "";
@@ -271,7 +271,7 @@ namespace GUI
                     string[] arr = _urlImage.Split('.');
                     if (!arrFileExtension.Contains(arr[1]))
                     {
-                        MessageBox.Show("File bạn chọn không đúng định dạng, vui lòng chọn file có đuôi \n .jpg .jpeg .png .bmp .gif", "Thông báo");
+                        MessageBox.Show("File bạn chọn không đúng định dạng, vui lòng chọn file có đuôi \n .jpg .jpeg .png .bmp .gif", "Thông báo", MessageBoxButtons.OK);
                         return;
                     }
                     string path = Directory.GetParent(Application.StartupPath).Parent.Parent.FullName;
@@ -282,18 +282,18 @@ namespace GUI
                 }
                 if (_bllUngVien.Update(dto))
                 {
-                    MessageBox.Show("Cập nhật thành công!", "Thông báo");
+                    MessageBox.Show("Cập nhật thành công!", "Thông báo", MessageBoxButtons.OK);
                     LoadDgvUngVien("inDeleted");
                     CleanInput();
                 }
                 else
                 {
-                    MessageBox.Show("Cập nhật thất bại!", "Thông báo");
+                    MessageBox.Show("Cập nhật thất bại!", "Thông báo", MessageBoxButtons.OK);
                 }
             }
             else
             {
-                MessageBox.Show("Không có thay đổi nào.", "Thông báo");
+                MessageBox.Show("Không có thay đổi nào.", "Thông báo", MessageBoxButtons.OK);
             }
         }
 

@@ -84,7 +84,7 @@ go
 create table HopDongLaoDong
 (
 	id int identity(1,1) not null,
-	LoaiHopDong nvarchar(100) check(LoaiHopDong in(N'Xác định thời hạn', N'Không xác định thời hạn')) not null,
+	LoaiHopDong nvarchar(100) not null,
 	NgayKy date not null,
 	NgayBatDau date not null,
 	NgayKetThuc date,
@@ -103,10 +103,11 @@ create table NghiPhep
 	NgayBatDau date not null,
 	NgayKetThuc date not null,
 	LyDoNghi nvarchar(500) not null,
-	LoaiNghiPhep nvarchar(50) check(LoaiNghiPhep in(N'Nghỉ phép không lương', N'Nghỉ phép có lương')) not null,
+	LoaiNghiPhep nvarchar(50) check(LoaiNghiPhep in(N'Có phép', N'Không phép')) not null,
 	idNhanVien varchar(10) not null,
+	TrangThai nvarchar(50) not null,
 	primary key(id),
-	constraint chk_NgayBatDau check(NgayBatDau<= ngayKetThuc)
+	constraint chk_NgayBatDau check(NgayBatDau<= ngayKetThuc),
 )
 go
 
@@ -146,6 +147,7 @@ Create table ChiTietLuong
 	ghiChu nvarchar(255),
 	idNhanVien varchar(10) not null,
 	idKyLuong int not null,
+	capNhatLuong bit default 0 not null,
 	primary key(id)
 )
 go
@@ -153,7 +155,6 @@ go
 CREATE TABLE TuyenDung (
     id INT PRIMARY KEY IDENTITY(1,1),
     tieuDe NVARCHAR(150) NOT NULL,
-	soLuong int not null default 1,
     idPhongBan int NOT NULL,
     idChucVu int NOT NULL,
     idNguoiTao varchar(10) NOT NULL, -- Trưởng phòng nhân sự
@@ -161,6 +162,7 @@ CREATE TABLE TuyenDung (
     ngayTao DATETIME DEFAULT GETDATE(),
 	ghiChu nvarchar(50),
 	xacThucYeuCau nvarchar(50),
+	soLuong int not null default 1
 )
 go
 
@@ -326,6 +328,210 @@ alter table NhanVien_KhauTru
 add constraint fk_NhanVien_NVKT foreign key(idNhanVien) references NhanVien(id),
 constraint fk_KhauTru_NVKT foreign key(idKhauTru) references KhauTru(id)
 go
+
+-- Seed data for PersonnelManagement (based on Database.sql)
+-- Set dateformat same as schema
+use PersonnelManagement
+go
+set dateformat dmy
+go
+
+-- 1) PhongBan (3 rows)
+insert into PhongBan (TenPhongBan, Mota) values
+(N'Công nghệ thông tin', N'Phòng ban chịu trách nhiệm CNTT'),
+(N'Nhân sự', N'Phòng ban phụ trách nhân sự'),
+(N'Giám đốc', N'Phòng ban Giám đốc');
+go
+
+-- 2) ChucVu (at least 3 rows; ensure idPhongBan references existing PhongBan)
+insert into ChucVu (TenChucVu, luongCoBan, tyLeHoaHong, moTa, idPhongBan) values
+(N'Nhân viên công nghệ thông tin', 10000000, 0, N'Nhân viên CNTT', 1),
+(N'Trưởng phòng công nghệ thông tin', 20000000, 0, N'Trưởng phòng CNTT', 1),
+(N'Nhân viên nhân sự', 10000000, 0, N'Nhân viên phòng nhân sự', 2),
+(N'Trưởng phòng nhân sự', 20000000, 0, N'Trưởng phòng nhân sự', 2),
+(N'Giám đốc', 50000000, 10, N'Người điều hành cao nhất', 3);
+go
+
+-- 3) NhanVien (3 rows as requested)
+-- IDs follow pattern: position abbrev + dept abbrev + 4-digit seq
+insert into NhanVien (id, TenNhanVien, NgaySinh, DiaChi, Que, GioiTinh, Email, AnhDaiDien, idChucVu, idPhongBan, DaXoa) values
+('NVCNTT0001', N'Đặng Thanh Tùng', '20/08/2005', N'Thủ Đức', N'Vũng Tàu', N'Nam', 'dangthanhtungdtt@gmail.com', 'tung.png', 1, 1, 0),
+('TPCNTT0001', N'Nguyễn Thành Tuấn', '20/08/2005', N'Thủ Đức', N'Gia Lai', N'Nam', 'nguyenthanhtuankrp1@gmail.com', 'tuan.png', 2, 1, 0),
+('GDGD0001', N'Lý Thị Thanh Ngân', '20/08/2005', N'Thủ Đức', N'Bến Tre', N'Nữ', '23211tt0154@gmail.tdc.edu.vn', 'ngan.png', 5, 3, 0);
+go
+
+-- 4) TaiKhoan (3 rows)
+-- taiKhoan format: roleAbbrev + deptAbbrev + shortName + seq, password = sha256('1')
+-- SHA-256('1') = 6b86b273ff34fce19d6b804eff5a3f5747ada4eaa22f1d49c01e52ddb7875b4b
+insert into TaiKhoan (taiKhoan, idNhanVien, matKhau) values
+('NVCNTTDTT0001','NVCNTT0001','6b86b273ff34fce19d6b804eff5a3f5747ada4eaa22f1d49c01e52ddb7875b4b'),
+('TPCNTTTTN0001','TPCNTT0001','6b86b273ff34fce19d6b804eff5a3f5747ada4eaa22f1d49c01e52ddb7875b4b'),
+('GDGDLTN0001','GDGD0001','6b86b273ff34fce19d6b804eff5a3f5747ada4eaa22f1d49c01e52ddb7875b4b');
+go
+
+-- 5) QuenMatKhau (3 rows) - sample OTP entries referencing TaiKhoan.taiKhoan
+insert into QuenMatKhau (taiKhoan, otp, thoiGianHetHan, daXacNhan) values
+('NVCNTTDTT0001', '123456', dateadd(minute, 30, getdate()), 0),
+('TPCNTTTTN0001', '234567', dateadd(minute, 30, getdate()), 0),
+('GDGDLTN0001', '345678', dateadd(minute, 30, getdate()), 0);
+go
+
+-- 6) ChamCong (at least 3 rows) - use multiple dates for the employees
+insert into ChamCong (NgayChamCong, GioVao, GioRa, idNhanVien) values
+('01/09/2025','08:00','17:00','NVCNTT0001'),
+('01/09/2025','08:05','17:10','TPCNTT0001'),
+('02/09/2025','08:00','16:50','GDGD0001');
+go
+
+-- 7) HopDongLaoDong (3 rows) - use LoaiHopDong free text allowed by Database.sql
+insert into HopDongLaoDong (LoaiHopDong, NgayKy, NgayBatDau, NgayKetThuc, Luong, HinhAnh, idNhanVien, MoTa) values
+(N'xác định thời hạn', '01/01/2024', '01/01/2024', '31/12/2026', 10000000, NULL, 'NVCNTT0001', N'HĐ NV CNTT'),
+(N'không xác định thời hạn', '01/01/2024', '01/01/2024', NULL, 20000000, NULL, 'TPCNTT0001', N'HĐ TP CNTT'),
+(N'không xác định thời hạn', '01/01/2024', '01/01/2024', NULL, 50000000, NULL, 'GDGD0001', N'HĐ Giám đốc');
+go
+
+-- 8) PhuCap (3 rows)
+insert into PhuCap (soTien, lyDoPhuCap) values
+(500000, N'Phụ cấp xăng xe'),
+(1000000, N'Phụ cấp ăn trưa'),
+(300000, N'Phụ cấp điện thoại');
+go
+
+-- 9) NhanVien_PhuCap (assign each employee at least one, ensure 3 rows)
+insert into NhanVien_PhuCap (idNhanVien, idPhuCap) values
+('NVCNTT0001', 1),
+('TPCNTT0001', 2),
+('GDGD0001', 3);
+go
+
+-- 10) KhauTru (3 rows)
+insert into KhauTru (loaiKhauTru, soTien, moTa, idNguoiTao) values
+(N'Bảo hiểm xã hội', 1000000, N'Khấu trừ BHXH', 'GDGD0001'),
+(N'Thuế thu nhập', 500000, N'Khấu trừ thuế TNCN', 'GDGD0001'),
+(N'Khấu trừ khác', 200000, N'Khấu trừ nội bộ', 'TPCNTT0001');
+go
+
+-- 11) NhanVien_KhauTru (3 rows)
+insert into NhanVien_KhauTru (idNhanVien, idKhauTru, thangApDung) values
+('NVCNTT0001', 1, '01/09/2025'),
+('TPCNTT0001', 1, '01/09/2025'),
+('GDGD0001', 2, '01/09/2025');
+go
+
+-- 12) ThuongPhat (3 rows)
+insert into ThuongPhat (tienThuongPhat, loai, lyDo, idNguoiTao) values
+(2000000, N'Thưởng', N'Thưởng năng suất', 'GDGD0001'),
+(500000, N'Phạt', N'Đi trễ', 'GDGD0001'),
+(1000000, N'Thưởng', N'Hoàn thành dự án', 'TPCNTT0001');
+go
+
+-- 13) NhanVien_ThuongPhat (3 rows)
+insert into NhanVien_ThuongPhat (idNhanVien, idThuongPhat, thangApDung) values
+('NVCNTT0001', 1, '01/09/2025'),
+('TPCNTT0001', 3, '01/09/2025'),
+('GDGD0001', 2, '01/09/2025');
+go
+
+-- 14) KyLuong (3 rows)
+insert into KyLuong (ngayBatDau, ngayKetThuc, ngayChiTra, trangThai) values
+('01/09/2025','30/09/2025','05/10/2025', N'Đã trả'),
+('01/10/2025','31/10/2025','05/11/2025', N'Chưa giải quyết'),
+('01/11/2025','30/11/2025','05/12/2025', N'Chưa giải quyết');
+go
+
+-- 15) ChiTietLuong (3 rows) - reference KyLuong.id and NhanVien.id
+insert into ChiTietLuong (ngayNhanLuong, luongTruocKhauTru, luongSauKhauTru, tongKhauTru, tongPhuCap, tongKhenThuong, tongTienPhat, trangThai, ghiChu, idNhanVien, idKyLuong) values
+('05/10/2025', 10000000, 9000000, 1000000, 500000, 0, 0, N'Đã giải quyết', N'Lương tháng 9', 'NVCNTT0001', 1),
+('05/10/2025', 20000000, 19000000, 1000000, 1000000, 1000000, 0, N'Đã giải quyết', N'Lương TP CNTT', 'TPCNTT0001', 1),
+('05/10/2025', 50000000, 49000000, 1000000, 300000, 2000000, 500000, N'Đã giải quyết', N'Lương Giám đốc', 'GDGD0001', 1);
+go
+
+-- 16) DanhGiaNhanVien (3 rows)
+insert into DanhGiaNhanVien (DiemSo, NhanXet, ngayTao, idNhanVien, idNguoiDanhGia) values
+(8, N'Hoàn thành tốt nhiệm vụ', '30/09/2025', 'NVCNTT0001', 'GDGD0001'),
+(9, N'Lãnh đạo tốt', '30/09/2025', 'TPCNTT0001', 'GDGD0001'),
+(7, N'Cần cải thiện giao tiếp', '30/09/2025', 'GDGD0001', 'TPCNTT0001');
+go
+
+-- 17) NghiPhep (3 rows)
+insert into NghiPhep (NgayBatDau, NgayKetThuc, LyDoNghi, LoaiNghiPhep, idNhanVien, TrangThai) values
+('10/09/2025','12/09/2025', N'Nghỉ phép cá nhân', N'Có phép', 'NVCNTT0001', N'Đã duyệt'),
+('20/09/2025','22/09/2025', N'Bệnh', N'Không phép', 'TPCNTT0001', N'Đang yêu cầu'),
+('25/09/2025','25/09/2025', N'Việc riêng', N'Có phép', 'GDGD0001', N'Đã duyệt');
+go
+
+-- 18) TuyenDung (3 rows)
+insert into TuyenDung (tieuDe, idPhongBan, idChucVu, idNguoiTao, trangThai, ghiChu, xacThucYeuCau) values
+(N'Tuyển kỹ sư phần mềm', 1, 1, 'TPCNTT0001', N'Đang tuyển', N'Tuyển fulltime', N'Đã xác thực'),
+(N'Tuyển nhân viên nhân sự', 2, 3, 'TPCNTT0001', N'Đang tuyển', N'Cần 2 người', N'Chưa xác thực'),
+(N'Tuyển trợ lý giám đốc', 3, 5, 'GDGD0001', N'Đang tuyển', N'Yêu cầu kinh nghiệm', N'Đã xác thực');
+go
+
+-- 19) UngVien (3 rows)
+insert into UngVien (tenNhanVien, ngaySinh, diaChi, que, gioiTinh, email, duongDanCV, idChucVuUngTuyen, idTuyenDung, trangThai, daXoa) values
+(N'Lê Thị A', '01/01/1998', N'Quận 1', N'Bình Dương', N'Nữ', 'letha@example.com', '1.png', 1, 1, N'Đang xét duyệt', 0),
+(N'Ngô Văn B', '05/05/1995', N'Quận 3', N'Đồng Nai', N'Nam', 'ngovanb@example.com', '1.png', 3, 2, N'Đang xét duyệt', 0),
+(N'Trần Thị C', '10/10/1996', N'Quận 7', N'Long An', N'Nữ', 'tranthic@example.com', '1.png', 5, 3, N'Đang xét duyệt', 0);
+go
+CREATE PROCEDURE sp_XuatDanhGiaNhanVien
+    @Thang INT = NULL,         
+    @Nam INT = NULL,           
+    @IdPhongBan INT = NULL
+AS
+BEGIN
+    SET NOCOUNT ON;
+
+    SELECT 
+        dg.id,
+        dg.DiemSo,
+        dg.NhanXet,
+        dg.ngayTao,
+        nv.id AS idNhanVien,
+        nv.TenNhanVien,
+        nv.idPhongBan,
+        pb.TenPhongBan,
+        dg.idNguoiDanhGia,
+        nvDG.TenNhanVien AS TenNguoiDanhGia
+    FROM DanhGiaNhanVien dg
+    INNER JOIN NhanVien nv ON dg.idNhanVien = nv.id
+    LEFT JOIN PhongBan pb ON nv.idPhongBan = pb.id
+    LEFT JOIN NhanVien nvDG ON dg.idNguoiDanhGia = nvDG.id
+    WHERE ( @Thang IS NULL OR MONTH(dg.ngayTao) = @Thang )
+      AND ( @Nam IS NULL OR YEAR(dg.ngayTao) = @Nam )
+      AND ( @IdPhongBan IS NULL OR nv.idPhongBan = @IdPhongBan )
+    ORDER BY nv.TenNhanVien, dg.ngayTao;
+END
+go
+--EXEC sp_XuatDanhGiaNhanVien @Thang=10, @Nam=2025, @IdPhongBan=NULL
+
+CREATE OR ALTER PROCEDURE sp_XuatNhanVien
+    @IdPhongBan INT = NULL  -- NULL = tất cả phòng ban
+AS
+BEGIN
+    SET NOCOUNT ON;
+
+    SELECT 
+        nv.id AS idNhanVien,
+        nv.TenNhanVien,
+        nv.NgaySinh,
+        nv.DiaChi,
+        nv.Que,
+        nv.GioiTinh,
+        nv.Email,
+        nv.idChucVu,
+        cv.TenChucVu,
+        nv.idPhongBan,
+        pb.TenPhongBan
+    FROM NhanVien nv
+    LEFT JOIN ChucVu cv ON nv.idChucVu = cv.id
+    LEFT JOIN PhongBan pb ON nv.idPhongBan = pb.id
+    WHERE nv.DaXoa = 0
+      AND (@IdPhongBan IS NULL OR nv.idPhongBan = @IdPhongBan)
+    ORDER BY pb.TenPhongBan, nv.TenNhanVien;
+END
+
+--EXEC sp_XuatNhanVien @IdPhongBan = null;
+
 --USE master;
 --ALTER DATABASE PersonnelManagement SET SINGLE_USER WITH ROLLBACK IMMEDIATE;
 --DROP DATABASE PersonnelManagement;

@@ -36,7 +36,7 @@
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
             this.btnThemTD = new Guna.UI2.WinForms.Guna2Button();
-            this.btnXoaLuong = new Guna.UI2.WinForms.Guna2Button();
+            this.btnXoaTuyenDung = new Guna.UI2.WinForms.Guna2Button();
             this.guna2HtmlLabel18 = new Guna.UI2.WinForms.Guna2HtmlLabel();
             this.guna2HtmlLabel9 = new Guna.UI2.WinForms.Guna2HtmlLabel();
             this.guna2HtmlLabel19 = new Guna.UI2.WinForms.Guna2HtmlLabel();
@@ -70,6 +70,7 @@
             this.guna2HtmlLabel5 = new Guna.UI2.WinForms.Guna2HtmlLabel();
             this.guna2HtmlLabel6 = new Guna.UI2.WinForms.Guna2HtmlLabel();
             this.guna2HtmlLabel7 = new Guna.UI2.WinForms.Guna2HtmlLabel();
+            this.ckbDsTDTP = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.error)).BeginInit();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvDsUngVienTuyen)).BeginInit();
@@ -100,27 +101,27 @@
             this.btnThemTD.Text = "Thêm tuyển dụng";
             this.btnThemTD.Click += new System.EventHandler(this.btnThemTD_Click);
             // 
-            // btnXoaLuong
+            // btnXoaTuyenDung
             // 
-            this.btnXoaLuong.BorderRadius = 8;
-            this.btnXoaLuong.BorderThickness = 1;
-            this.btnXoaLuong.DisabledState.BorderColor = System.Drawing.Color.DarkGray;
-            this.btnXoaLuong.DisabledState.CustomBorderColor = System.Drawing.Color.DarkGray;
-            this.btnXoaLuong.DisabledState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(169)))), ((int)(((byte)(169)))), ((int)(((byte)(169)))));
-            this.btnXoaLuong.DisabledState.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(141)))), ((int)(((byte)(141)))), ((int)(((byte)(141)))));
-            this.btnXoaLuong.FillColor = System.Drawing.Color.LightGray;
-            this.btnXoaLuong.FocusedColor = System.Drawing.Color.Black;
-            this.btnXoaLuong.Font = new System.Drawing.Font("Times New Roman", 10.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(163)));
-            this.btnXoaLuong.ForeColor = System.Drawing.Color.Black;
-            this.btnXoaLuong.HoverState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(192)))), ((int)(((byte)(128)))));
-            this.btnXoaLuong.HoverState.CustomBorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(128)))));
-            this.btnXoaLuong.Location = new System.Drawing.Point(11, 670);
-            this.btnXoaLuong.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.btnXoaLuong.Name = "btnXoaLuong";
-            this.btnXoaLuong.Size = new System.Drawing.Size(355, 56);
-            this.btnXoaLuong.TabIndex = 44;
-            this.btnXoaLuong.Text = "Xóa tuyển dụng";
-            this.btnXoaLuong.Click += new System.EventHandler(this.btnXoaLuong_Click);
+            this.btnXoaTuyenDung.BorderRadius = 8;
+            this.btnXoaTuyenDung.BorderThickness = 1;
+            this.btnXoaTuyenDung.DisabledState.BorderColor = System.Drawing.Color.DarkGray;
+            this.btnXoaTuyenDung.DisabledState.CustomBorderColor = System.Drawing.Color.DarkGray;
+            this.btnXoaTuyenDung.DisabledState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(169)))), ((int)(((byte)(169)))), ((int)(((byte)(169)))));
+            this.btnXoaTuyenDung.DisabledState.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(141)))), ((int)(((byte)(141)))), ((int)(((byte)(141)))));
+            this.btnXoaTuyenDung.FillColor = System.Drawing.Color.LightGray;
+            this.btnXoaTuyenDung.FocusedColor = System.Drawing.Color.Black;
+            this.btnXoaTuyenDung.Font = new System.Drawing.Font("Times New Roman", 10.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(163)));
+            this.btnXoaTuyenDung.ForeColor = System.Drawing.Color.Black;
+            this.btnXoaTuyenDung.HoverState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(192)))), ((int)(((byte)(128)))));
+            this.btnXoaTuyenDung.HoverState.CustomBorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(128)))));
+            this.btnXoaTuyenDung.Location = new System.Drawing.Point(11, 670);
+            this.btnXoaTuyenDung.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.btnXoaTuyenDung.Name = "btnXoaTuyenDung";
+            this.btnXoaTuyenDung.Size = new System.Drawing.Size(355, 56);
+            this.btnXoaTuyenDung.TabIndex = 44;
+            this.btnXoaTuyenDung.Text = "Xóa tuyển dụng";
+            this.btnXoaTuyenDung.Click += new System.EventHandler(this.btnXoaLuong_Click);
             // 
             // guna2HtmlLabel18
             // 
@@ -205,7 +206,7 @@
             this.panel1.Controls.Add(this.btnCapNhatTD);
             this.panel1.Controls.Add(this.btnLoadDuLieu);
             this.panel1.Controls.Add(this.btnThemTD);
-            this.panel1.Controls.Add(this.btnXoaLuong);
+            this.panel1.Controls.Add(this.btnXoaTuyenDung);
             this.panel1.Controls.Add(this.guna2HtmlLabel17);
             this.panel1.Controls.Add(this.lblSoLuongUVTuyen);
             this.panel1.Controls.Add(this.dgvDsUngVienTuyen);
@@ -376,6 +377,7 @@
             // 
             this.grbTPTuyenDung.BorderColor = System.Drawing.SystemColors.ButtonHighlight;
             this.grbTPTuyenDung.BorderRadius = 10;
+            this.grbTPTuyenDung.Controls.Add(this.ckbDsTDTP);
             this.grbTPTuyenDung.Controls.Add(this.rtGhiChu);
             this.grbTPTuyenDung.Controls.Add(this.dgvTPTuyenDung);
             this.grbTPTuyenDung.Controls.Add(this.txtTrangThai);
@@ -629,7 +631,7 @@
             this.guna2HtmlLabel25.Name = "guna2HtmlLabel25";
             this.guna2HtmlLabel25.Size = new System.Drawing.Size(2008, 68);
             this.guna2HtmlLabel25.TabIndex = 18;
-            this.guna2HtmlLabel25.Text = "TRƯỞNG PHÒNG TUYỂN DỤNG";
+            this.guna2HtmlLabel25.Text = "TUYỂN DỤNG NHÂN SỰ";
             this.guna2HtmlLabel25.TextAlignment = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // guna2HtmlLabel2
@@ -702,6 +704,19 @@
             this.guna2HtmlLabel7.TabIndex = 21;
             this.guna2HtmlLabel7.Text = "Ngày tạo ";
             // 
+            // ckbDsTDTP
+            // 
+            this.ckbDsTDTP.BackColor = System.Drawing.Color.Transparent;
+            this.ckbDsTDTP.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.ckbDsTDTP.Font = new System.Drawing.Font("Times New Roman", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.ckbDsTDTP.Location = new System.Drawing.Point(10, 466);
+            this.ckbDsTDTP.Name = "ckbDsTDTP";
+            this.ckbDsTDTP.Size = new System.Drawing.Size(1592, 36);
+            this.ckbDsTDTP.TabIndex = 45;
+            this.ckbDsTDTP.Text = "Hiển thị danh sách tuyển dụng các trưởng phòng";
+            this.ckbDsTDTP.UseVisualStyleBackColor = false;
+            this.ckbDsTDTP.CheckedChanged += new System.EventHandler(this.ckbDsTDTP_CheckedChanged);
+            // 
             // UCTuyenDung_TruongPhong
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -732,7 +747,7 @@
         #endregion
 
         private Guna.UI2.WinForms.Guna2Button btnThemTD;
-        private Guna.UI2.WinForms.Guna2Button btnXoaLuong;
+        private Guna.UI2.WinForms.Guna2Button btnXoaTuyenDung;
         private Guna.UI2.WinForms.Guna2HtmlLabel guna2HtmlLabel18;
         private Guna.UI2.WinForms.Guna2HtmlLabel guna2HtmlLabel9;
         private Guna.UI2.WinForms.Guna2HtmlLabel guna2HtmlLabel19;
@@ -766,5 +781,6 @@
         private Guna.UI2.WinForms.Guna2HtmlLabel lblSoLuongUVTuyen;
         private System.Windows.Forms.RichTextBox rtGhiChu;
         private Guna.UI2.WinForms.Guna2HtmlLabel guna2HtmlLabel1;
+        private System.Windows.Forms.CheckBox ckbDsTDTP;
     }
 }

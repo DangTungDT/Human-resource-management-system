@@ -1,4 +1,6 @@
 ﻿using BLL;
+using DocumentFormat.OpenXml.Drawing.Charts;
+using Guna.UI2.WinForms;
 using Microsoft.Win32.SafeHandles;
 using System;
 using System.Collections.Generic;
@@ -30,25 +32,38 @@ namespace GUI
 
         private void FormLogin_Load(object sender, EventArgs e)
         {
+            txtUsername.MaxLength = 21;
         }
 
         private void btnDangNhap_Click(object sender, EventArgs e)
         {
-            if (string.IsNullOrEmpty(txtUsername.Text.Trim()) || string.IsNullOrEmpty(txtPassword.Text.Trim()))
+            if (DisplayUserControlPanel.KiemTraDuLieuDauVao(errorProvider1, this))
             {
-                MessageBox.Show("Vui lòng nhập đầy đủ thông tin đăng nhập !");
-                return;
-            }
+                errorProvider1.Clear();
 
-            var password = _dbContextTK.HashPassword(txtPassword.Text.Trim());
-            var taiKhoan = _dbContextTK.KtraDuLieuTaiKhoan(txtUsername.Text.Trim(), password);
+                var password = _dbContextTK.HashPassword(txtPassword.Text.Trim());
+                var taiKhoan = _dbContextTK.KtraDuLieuTaiKhoan(txtUsername.Text.Trim(), password);
 
-            if (taiKhoan != null)
-            {
-                Main formMain = new Main(taiKhoan.id, _conn);
-                formMain.Show(); this.Hide();
+                var checkMatkhau = _dbContextTK.DsTaiKhoan().FirstOrDefault(p => p.matKhau == password);
+                var checkUerName = _dbContextTK.DsTaiKhoan().FirstOrDefault(p => p.taiKhoan1 == txtUsername.Text.Trim());
+
+                if (checkUerName == null)
+                {
+                    errorProvider1.SetError(txtUsername, "Mã tài khoản không hợp lệ !");
+                    return;
+                }
+                else if (checkMatkhau == null)
+                {
+                    errorProvider1.SetError(txtPassword, "Mật khẩu không hợp lệ !");
+                    return;
+                }
+                else if (taiKhoan != null)
+                {
+                    Main formMain = new Main(taiKhoan.id, _conn);
+                    formMain.Show(); this.Hide();
+                }
+                else MessageBox.Show("Tài khản nhân viên không tồn tại !");
             }
-            else MessageBox.Show("Tài khản nhân viên không tồn tại !");
 
         }
 
@@ -59,6 +74,17 @@ namespace GUI
 
             // Đóng form đăng nhập hiện tại
             this.Hide();
+        }
+
+        private void txtUsername_TextChanged(object sender, EventArgs e)
+        {
+            errorProvider1.Clear();
+            if (txtUsername.Text.Length > 20)
+            {
+                errorProvider1.SetError(txtUsername, "Tên tài khoản quá dài !");
+                return;
+            }
+
         }
     }
 }

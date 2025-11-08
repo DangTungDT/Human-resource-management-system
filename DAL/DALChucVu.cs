@@ -21,8 +21,16 @@ namespace DAL
             _dbContext = new PersonnelManagementDataContextDataContext(conn);
         }
 
-
+        public string FindNameById(int id)
+        {
+            return _dbContext.ChucVus.Where(x => x.id == id).FirstOrDefault().TenChucVu;
+        }
         public IQueryable GetPositionByDepartment(int departmentId) => _dbContext.ChucVus.Where(x => x.idPhongBan == departmentId);
+
+        public ChucVu GetPositionByIdStaff(string idStaff) => (from p in _dbContext.ChucVus
+                                                               from s in _dbContext.NhanViens
+                                                               where s.idChucVu == p.id
+                                                               select p).FirstOrDefault();
 
         // Lấy danh sách chức vụ (theo từ khóa)
         public DataTable GetAll(string keyword = "")
@@ -121,15 +129,23 @@ namespace DAL
         // Xóa
         public void Delete(int id)
         {
-            using (SqlConnection conn = new SqlConnection(connectionString))
+            bool checkNV = _dbContext.NhanViens.Any(p => p.idChucVu == id);
+            bool checkUV = _dbContext.UngViens.Any(p => p.idChucVuUngTuyen == id);
+            bool checkTD = _dbContext.TuyenDungs.Any(p => p.idChucVu == id);
+
+            if (!checkNV && !checkUV && !checkTD)
             {
-                string query = "DELETE FROM ChucVu WHERE id=@id";
-                SqlCommand cmd = new SqlCommand(query, conn);
-                cmd.Parameters.AddWithValue("@id", id);
-                conn.Open();
-                cmd.ExecuteNonQuery();
+                using (SqlConnection conn = new SqlConnection(connectionString))
+                {
+                    string query = "DELETE FROM ChucVu WHERE id=@id";
+                    SqlCommand cmd = new SqlCommand(query, conn);
+                    cmd.Parameters.AddWithValue("@id", id);
+                    conn.Open();
+                    cmd.ExecuteNonQuery();
+                }
             }
         }
+
 
         public List<ChucVu> LayDsChucVu() => _dbContext.ChucVus.ToList();
 
@@ -138,5 +154,7 @@ namespace DAL
             if (_dbContext.ChucVus.Any(x => x.TenChucVu == namePosition && x.idPhongBan == departmentId)) return false;
             return true;
         }
+
+        public string LayTenChucVu(int id) => _dbContext.ChucVus.FirstOrDefault(p => p.id == id).TenChucVu ?? string.Empty;
     }
 }

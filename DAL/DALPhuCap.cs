@@ -34,6 +34,32 @@ namespace DAL
             }
         }
 
+        public int InsertPhuCapMoi(string lyDoPhuCap, decimal soTien)
+        {
+            using (SqlConnection conn = new SqlConnection(connectionString))
+            {
+                string query = @"
+            INSERT INTO PhuCap (soTien, lyDoPhuCap) 
+            VALUES (@soTien, @lyDoPhuCap);
+            SELECT SCOPE_IDENTITY();
+        ";
+
+                using (SqlCommand cmd = new SqlCommand(query, conn))
+                {
+                    cmd.Parameters.AddWithValue("@lyDoPhuCap", lyDoPhuCap);
+                    cmd.Parameters.AddWithValue("@soTien", soTien);
+
+                    conn.Open();
+                    var result = cmd.ExecuteScalar();
+                    conn.Close();
+
+                    if (result != null && result != DBNull.Value)
+                        return Convert.ToInt32(Convert.ToDecimal(result)); // SCOPE_IDENTITY trả kiểu decimal
+                    else
+                        return -1;
+                }
+            }
+        }
         public bool Insert(DTOPhuCap pc)
         {
             using (SqlConnection conn = new SqlConnection(connectionString))

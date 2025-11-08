@@ -14,14 +14,16 @@ namespace GUI
 {
     public partial class ucChucVu : UserControl
     {
-        BLLPhongBan bllPhongBan;
-        BLLChucVu bllChucVu;
         int idChucVu = 0;
+        BLLChucVu bllChucVu;
         DTOChucVu _oldPosition;
-        public  ucChucVu(string conn)
+        BLLPhongBan bllPhongBan;
+
+        public ucChucVu(string conn)
         {
-            bllPhongBan = new BLLPhongBan(conn);
             bllChucVu = new BLLChucVu(conn);
+            bllPhongBan = new BLLPhongBan(conn);
+
             InitializeComponent();
         }
         public ucChucVu()
@@ -47,7 +49,14 @@ namespace GUI
 
         private void ucChucVu_Load(object sender, EventArgs e)
         {
+            txtMoTa.MaxLength = 255;
+            txtTenChucVu.MaxLength = 255;
+            txtLuongCoBan.MaxLength = 18;
+            txtTyLeHoaHong.MaxLength = 3;
+
+            btnFind.Visible = false;
             var listPhongBan = bllPhongBan.GetAllPhongBan();
+
             cbPhongBan.DataSource = listPhongBan;
             cbPhongBan.DisplayMember = "Tên phòng ban";
             cbPhongBan.ValueMember = "Mã phòng ban";
@@ -58,21 +67,28 @@ namespace GUI
 
             dgvChucVu.DataSource = bllChucVu.GetAll();
 
+            if (dgvChucVu.Columns["Phòng ban"] != null)
+            {
+                if (dgvChucVu.Columns["Phòng ban"].Visible)
+                {
+                    dgvChucVu.Columns["Phòng ban"].Visible = false;
+                }
+            }
         }
 
         private void btnAdd_Click(object sender, EventArgs e)
         {
-            if(cbPhongBan.SelectedValue == null)
+            if (cbPhongBan.SelectedValue == null)
             {
                 MessageBox.Show("Vui lòng chọn phòng ban để thêm!", "Thông báo");
                 return;
             }
 
-            if(!bllChucVu.CheckPosition(txtTenChucVu.Text, int.Parse(cbPhongBan.SelectedValue.ToString())))
+            if (!bllChucVu.CheckPosition(txtTenChucVu.Text, int.Parse(cbPhongBan.SelectedValue.ToString())))
             {
                 DialogResult check = MessageBox.Show("Phòng ban hiện đã có chức vụ này bạn có chắc muốn thêm tiếp?", "Thông báo", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
 
-                if(check == DialogResult.No)
+                if (check == DialogResult.No)
                 {
                     return;
                 }
@@ -86,7 +102,7 @@ namespace GUI
                 MoTa = txtMoTa.Text,
                 IdPhongBan = Convert.ToInt32(cbPhongBan.SelectedValue),
             };
-            if(bllChucVu.Insert(dto))
+            if (bllChucVu.Insert(dto))
             {
                 MessageBox.Show("Thêm thành công!", "Thông báo");
                 ResetValueInput();
@@ -100,7 +116,7 @@ namespace GUI
 
         private void btnUpdate_Click(object sender, EventArgs e)
         {
-            if(idChucVu != 0)
+            if (idChucVu != 0)
             {
                 DTOChucVu dto = new DTOChucVu()
                 {
@@ -112,7 +128,7 @@ namespace GUI
                     IdPhongBan = Convert.ToInt32(cbPhongBan.SelectedValue),
                 };
 
-                if(_oldPosition.Id == dto.Id &&
+                if (_oldPosition.Id == dto.Id &&
                     _oldPosition.TenChucVu == dto.TenChucVu &&
                     _oldPosition.LuongCoBan == dto.LuongCoBan &&
                     _oldPosition.TyLeHoaHong == dto.TyLeHoaHong &&
@@ -164,11 +180,12 @@ namespace GUI
             {
                 DataGridViewRow row = dgvChucVu.Rows[e.RowIndex];
                 int dong = dgvChucVu.CurrentCell.RowIndex;
+
+                txtMoTa.Text = row.Cells["Mô tả"].Value?.ToString();
                 idChucVu = int.Parse(row.Cells["Mã chức vụ"].Value.ToString());
                 txtTenChucVu.Text = row.Cells["Tên chức vụ"].Value.ToString();
                 txtLuongCoBan.Text = row.Cells["Lương cơ bản"].Value.ToString();
                 txtTyLeHoaHong.Text = row.Cells["Tỷ lệ hoa hồng"].Value.ToString();
-                txtMoTa.Text = row.Cells["Mô tả"].Value?.ToString();
                 cbPhongBan.SelectedValue = row.Cells["Phòng ban"].Value.ToString();
 
 
@@ -194,12 +211,13 @@ namespace GUI
             }
             if (idChucVu > 0)
             {
+                
                 bllChucVu.Delete(idChucVu);
                 MessageBox.Show("Xóa thành công!", "Thông báo");
                 ResetValueInput();
                 dgvChucVu.DataSource = bllChucVu.GetAll();
             }
-            else if(idChucVu == 0)
+            else if (idChucVu == 0)
             {
                 MessageBox.Show("Vui lòng chọn đối tượng để xóa!", "Thông báo");
             }
@@ -212,14 +230,30 @@ namespace GUI
         private void btnResetDGV_Click(object sender, EventArgs e)
         {
             dgvChucVu.DataSource = bllChucVu.GetAll();
+
+            if (dgvChucVu.Columns["Phòng ban"] != null)
+            {
+                if (dgvChucVu.Columns["Phòng ban"].Visible)
+                {
+                    dgvChucVu.Columns["Phòng ban"].Visible = false;
+                }
+            }
         }
 
         private void btnFind_Click(object sender, EventArgs e)
         {
 
-            if(cmbFindDepartment.SelectedValue != null)
+            if (cmbFindDepartment.SelectedValue != null)
             {
                 dgvChucVu.DataSource = bllChucVu.GetPositionByDepartment(int.Parse(cmbFindDepartment.SelectedValue.ToString()));
+                if (dgvChucVu.Columns["idPhongBan"] != null)
+                {
+                    if (dgvChucVu.Columns["idPhongBan"].Visible)
+                    {
+                        dgvChucVu.Columns["idPhongBan"].Visible = false;
+                        dgvChucVu.Columns["PhongBan"].Visible = false;
+                    }
+                }
             }
             else
             {
@@ -229,7 +263,7 @@ namespace GUI
 
         private void txtTyLeHoaHong_TextChanged(object sender, EventArgs e)
         {
-            if(txtTyLeHoaHong.Text != "" &&int.Parse(txtTyLeHoaHong.Text) >= 100)
+            if (decimal.TryParse(txtTyLeHoaHong.Text, out decimal hoaHong) && hoaHong >= 100)
             {
                 txtTyLeHoaHong.Text = "100";
             }

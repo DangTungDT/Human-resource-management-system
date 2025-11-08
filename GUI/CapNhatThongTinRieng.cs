@@ -19,7 +19,7 @@ namespace GUI
         private Panel _panel;
 
         private string idNhanVien;
-        private string imagePath = "";
+        private string imagePath, _imageName = "";
         private string connectionString;
         private BLLNhanVien bllNhanVien;
 
@@ -43,7 +43,7 @@ namespace GUI
             Label lblTitle = new Label()
             {
                 Text = "CẬP NHẬT THÔNG TIN CÁ NHÂN",
-                Font = new Font("Segoe UI", 15, FontStyle.Bold),
+                Font = new Font("Times New Roman", 15, FontStyle.Bold),
                 ForeColor = Color.FromArgb(40, 60, 120),
                 Dock = DockStyle.Top,
                 Height = 50,
@@ -67,7 +67,7 @@ namespace GUI
                 Text = "📁 Tải ảnh lên",
                 BorderRadius = 8,
                 FillColor = Color.SteelBlue,
-                Font = new Font("Segoe UI", 10, FontStyle.Bold),
+                Font = new Font("Times New Roman", 10, FontStyle.Bold),
                 ForeColor = Color.White,
                 Width = 140,
                 Height = 35,
@@ -93,7 +93,7 @@ namespace GUI
             txtName = new Guna2TextBox() { PlaceholderText = "Họ tên", BorderRadius = 6, Margin = new Padding(0, 8, 0, 8) };
             dtDob = new Guna2DateTimePicker() { Format = DateTimePickerFormat.Custom, CustomFormat = "dd/MM/yyyy", BorderRadius = 6, Margin = new Padding(0, 8, 0, 8) };
             cbGender = new Guna2ComboBox() { BorderRadius = 6, DropDownStyle = ComboBoxStyle.DropDownList, Width = 200, Margin = new Padding(0, 8, 0, 8) };
-            cbGender.Items.AddRange(new object[] { "Nam", "Nữ", "Khác" });
+            cbGender.Items.AddRange(new object[] { "Nam", "Nữ" });
             txtAddress = new Guna2TextBox() { PlaceholderText = "Địa chỉ", BorderRadius = 6, Margin = new Padding(0, 8, 0, 8) };
             txtQue = new Guna2TextBox() { PlaceholderText = "Quê quán", BorderRadius = 6, Margin = new Padding(0, 8, 0, 8) };
             txtEmail = new Guna2TextBox() { PlaceholderText = "Email", BorderRadius = 6, Margin = new Padding(0, 8, 0, 8) };
@@ -135,7 +135,7 @@ namespace GUI
                 Text = "💾 Lưu thay đổi",
                 BorderRadius = 10,
                 FillColor = Color.MediumSeaGreen,
-                Font = new Font("Segoe UI", 10, FontStyle.Bold),
+                Font = new Font("Times New Roman", 10, FontStyle.Bold),
                 ForeColor = Color.White,
                 Width = 160,
                 Height = 40,
@@ -149,7 +149,7 @@ namespace GUI
                 Text = "⬅️ Quay lại",
                 BorderRadius = 10,
                 FillColor = Color.SteelBlue,
-                Font = new Font("Segoe UI", 10, FontStyle.Bold),
+                Font = new Font("Times New Roman", 10, FontStyle.Bold),
                 ForeColor = Color.White,
                 Width = 140,
                 Height = 40,
@@ -188,7 +188,7 @@ namespace GUI
             Label lbl = new Label()
             {
                 Text = labelText,
-                Font = new Font("Segoe UI", 10, FontStyle.Bold),
+                Font = new Font("Times New Roman", 10, FontStyle.Bold),
                 ForeColor = Color.FromArgb(40, 60, 120),
                 AutoSize = true,
                 TextAlign = ContentAlignment.MiddleRight,
@@ -207,7 +207,7 @@ namespace GUI
                 if (dlg.ShowDialog() == DialogResult.OK)
                 {
                     imagePath = dlg.FileName;
-
+                    _imageName = dlg.SafeFileName;
                     // ✅ Dùng stream để tránh khóa file
                     using (var stream = new FileStream(imagePath, FileMode.Open, FileAccess.Read))
                     {
@@ -222,17 +222,21 @@ namespace GUI
             if (string.IsNullOrEmpty(imagePath))
                 return null;
 
-            string folderPath = Path.Combine(Application.StartupPath, "Images");
+            string folderPath = Path.Combine(Application.StartupPath, "Image");
 
             // ✅ Tạo thư mục nếu chưa có
             if (!Directory.Exists(folderPath))
                 Directory.CreateDirectory(folderPath);
 
             // ✅ Lấy phần mở rộng của file (jpg/png/...)
-            string extension = Path.GetExtension(imagePath);
+            string extension = Path.GetExtension(_imageName);
             string newFileName = employeeId + extension; // ví dụ: NV001.jpg
             string destPath = Path.Combine(folderPath, newFileName);
+            _imageName = newFileName;
 
+            string folder = Directory.GetParent(Application.StartupPath).Parent.Parent.FullName;
+            folderPath = Path.Combine(folder, "Image");
+            destPath = Path.Combine(folderPath, newFileName);
             // ✅ Nếu đã có ảnh cũ thì xóa trước khi copy ảnh mới
             if (File.Exists(destPath))
                 File.Delete(destPath);
@@ -241,7 +245,7 @@ namespace GUI
             File.Copy(imagePath, destPath, true);
 
             // ✅ Trả về đường dẫn tương đối (Images\NV001.jpg)
-            return Path.Combine("Images", newFileName);
+            return newFileName;
         }
 
 
@@ -249,7 +253,63 @@ namespace GUI
         {
             try
             {
+                // ====== KIỂM TRA DỮ LIỆU ======
+                if (string.IsNullOrWhiteSpace(txtName.Text))
+                {
+                    MessageBox.Show("⚠️ Vui lòng nhập họ tên!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    txtName.Focus();
+                    return;
+                }
+
+                if (cbGender.SelectedIndex == -1)
+                {
+                    MessageBox.Show("⚠️ Vui lòng chọn giới tính!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    cbGender.Focus();
+                    return;
+                }
+
+                if (string.IsNullOrWhiteSpace(txtAddress.Text))
+                {
+                    MessageBox.Show("⚠️ Vui lòng nhập địa chỉ!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    txtAddress.Focus();
+                    return;
+                }
+
+                if (string.IsNullOrWhiteSpace(txtQue.Text))
+                {
+                    MessageBox.Show("⚠️ Vui lòng nhập quê quán!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    txtQue.Focus();
+                    return;
+                }
+
+                if (string.IsNullOrWhiteSpace(txtEmail.Text))
+                {
+                    MessageBox.Show("⚠️ Vui lòng nhập email!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    txtEmail.Focus();
+                    return;
+                }
+
+                // ====== KIỂM TRA ĐỊNH DẠNG EMAIL ======
+                if (!System.Text.RegularExpressions.Regex.IsMatch(txtEmail.Text, @"^[^@\s]+@[^@\s]+\.[^@\s]+$"))
+                {
+                    MessageBox.Show("⚠️ Địa chỉ email không hợp lệ!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    txtEmail.Focus();
+                    return;
+                }
+
+                // ====== KIỂM TRA NGÀY SINH (>= 16 TUỔI) ======
+                int tuoi = DateTime.Now.Year - dtDob.Value.Year;
+                if (dtDob.Value > DateTime.Now.AddYears(-tuoi)) tuoi--; // Điều chỉnh nếu chưa qua sinh nhật
+                if (tuoi < 16)
+                {
+                    MessageBox.Show("⚠️ Nhân viên phải từ 16 tuổi trở lên!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    dtDob.Focus();
+                    return;
+                }
+
+                // ====== NẾU DỮ LIỆU HỢP LỆ THÌ LƯU ======
                 string savedFileName = SaveImageToFolder(imagePath, idNhanVien);
+
 
                 DTONhanVien nv = new DTONhanVien
                 {
@@ -260,7 +320,7 @@ namespace GUI
                     DiaChi = txtAddress.Text,
                     Que = txtQue.Text,
                     Email = txtEmail.Text,
-                    AnhDaiDien = savedFileName // 🟢 lưu đường dẫn ảnh
+                    AnhDaiDien = _imageName // 🟢 lưu đường dẫn ảnh
                 };
 
                 bllNhanVien.CapNhatThongTin(nv);
@@ -303,11 +363,12 @@ namespace GUI
                 txtAddress.Text = nv.DiaChi;
                 txtQue.Text = nv.Que;
                 txtEmail.Text = nv.Email;
+                _imageName = nv.AnhDaiDien;
             }
-
             if (!string.IsNullOrEmpty(nv.AnhDaiDien))
             {
-                string fullPath = Path.Combine(Application.StartupPath, nv.AnhDaiDien);
+                string urlFolderImage = $"\\Image\\{nv.AnhDaiDien}";
+                string fullPath = Path.Combine(Application.StartupPath, urlFolderImage);
                 if (File.Exists(fullPath))
                 {
                     using (var stream = new FileStream(fullPath, FileMode.Open, FileAccess.Read))

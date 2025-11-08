@@ -1,4 +1,5 @@
 ﻿using BLL;
+using DAL;
 using DTO;
 using Guna.UI2.WinForms;
 using System;
@@ -211,6 +212,14 @@ namespace GUI
                 };
                 dgv.Columns.Add(colDelete);
                 dgv.Columns["Xóa"].DisplayIndex = dgv.Columns.Count - 1;
+
+                if (dgv.Columns["Mã phòng ban"] != null)
+                {
+                    if (dgv.Columns["Mã phòng ban"].Visible)
+                    {
+                        dgv.Columns["Mã phòng ban"].Visible = false;
+                    }
+                }
             }
         }
 
@@ -277,8 +286,17 @@ namespace GUI
                 int id = Convert.ToInt32(dgv.Rows[e.RowIndex].Cells["Mã phòng ban"].Value);
                 if (MessageBox.Show("Bạn có chắc muốn xóa phòng ban này?", "Xác nhận", MessageBoxButtons.YesNo) == DialogResult.Yes)
                 {
-                    if (bllPhongBan.DeletePhongBan(id))
+                    string result = bllPhongBan.DeletePhongBan(id);
+                    if (result == "Xóa phòng ban thành công!")
+                    {
+                        MessageBox.Show($"Xóa đã xóa thành công phòng ban", "Thông báo", MessageBoxButtons.OK);
                         LoadPhongBan();
+                        ClearForm();
+                    }
+                    else
+                    {
+                        MessageBox.Show(result, "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
                 }
                 return;
             }

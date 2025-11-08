@@ -1,11 +1,13 @@
 ﻿using DAL;
 using DTO;
 using System;
+using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 using System.Xml;
 
 namespace BLL
@@ -34,9 +36,9 @@ namespace BLL
 
         public void DeleteAccount(int id) => _dalTK.Delete(id);
 
-        public void CreateDefaultAccount(string idNV, string tenNhanVien)
+        public void CreateDefaultAccount(string idNV, string tenNhanVien, string tenChucVu)
         {
-            _dalTK.CreateDefaultAccount(idNV, tenNhanVien);
+            _dalTK.CreateDefaultAccount(idNV, tenNhanVien, tenChucVu);
         }
 
         public bool ValidateLogin(string taiKhoan, string matKhau)
@@ -83,6 +85,24 @@ namespace BLL
             {
                 throw new Exception("Lỗi lấy tìm tài khản nhân viên: " + ex.Message);
             }
+        }
+
+        // ds tai khoan
+        public List<TaiKhoan> DsTaiKhoan() => _dalTK.DsTaiKhoan();
+
+        public bool KiemTraMatKhauCu(string idNhanVien, string matKhau)
+        {
+            return _dalTK.KiemTraMatKhauCu(idNhanVien, matKhau);
+        }
+
+        public bool DoiMatKhau(string idNhanVien, string matKhauMoi)
+        {
+            return _dalTK.DoiMatKhau(idNhanVien, matKhauMoi);
+        }
+
+        public bool IsUsernameExists(string username, int? excludeId = null)
+        {
+            return _dalTK.IsUsernameExists(username, excludeId);
         }
     }
 }

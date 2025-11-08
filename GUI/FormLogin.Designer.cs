@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.txtUsername = new Guna.UI2.WinForms.Guna2TextBox();
             this.label2 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
@@ -35,6 +36,8 @@
             this.txtPassword = new Guna.UI2.WinForms.Guna2TextBox();
             this.btnDangNhap = new Guna.UI2.WinForms.Guna2GradientButton();
             this.lblQuenMatKhau = new Guna.UI2.WinForms.Guna2HtmlLabel();
+            this.errorProvider1 = new System.Windows.Forms.ErrorProvider(this.components);
+            ((System.ComponentModel.ISupportInitialize)(this.errorProvider1)).BeginInit();
             this.SuspendLayout();
             // 
             // txtUsername
@@ -57,6 +60,7 @@
             this.txtUsername.SelectedText = "";
             this.txtUsername.Size = new System.Drawing.Size(391, 49);
             this.txtUsername.TabIndex = 0;
+            this.txtUsername.TextChanged += new System.EventHandler(this.txtUsername_TextChanged);
             // 
             // label2
             // 
@@ -142,13 +146,18 @@
             this.lblQuenMatKhau.AutoSize = false;
             this.lblQuenMatKhau.BackColor = System.Drawing.Color.Transparent;
             this.lblQuenMatKhau.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(163)));
-            this.lblQuenMatKhau.Location = new System.Drawing.Point(380, 284);
+            this.lblQuenMatKhau.Location = new System.Drawing.Point(396, 284);
             this.lblQuenMatKhau.Name = "lblQuenMatKhau";
-            this.lblQuenMatKhau.Size = new System.Drawing.Size(170, 25);
+            this.lblQuenMatKhau.Size = new System.Drawing.Size(154, 25);
             this.lblQuenMatKhau.TabIndex = 59;
             this.lblQuenMatKhau.Text = "Quên mật khẩu";
-            this.lblQuenMatKhau.TextAlignment = System.Drawing.ContentAlignment.MiddleRight;
+            this.lblQuenMatKhau.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft;
             this.lblQuenMatKhau.Click += new System.EventHandler(this.lblQuenMatKhau_Click);
+            // 
+            // errorProvider1
+            // 
+            this.errorProvider1.ContainerControl = this;
+            this.errorProvider1.RightToLeftChanged += new System.EventHandler(this.FormLogin_Load);
             // 
             // FormLogin
             // 
@@ -169,6 +178,7 @@
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Đăng nhập";
             this.Load += new System.EventHandler(this.FormLogin_Load);
+            ((System.ComponentModel.ISupportInitialize)(this.errorProvider1)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -182,5 +192,6 @@
         private Guna.UI2.WinForms.Guna2TextBox txtPassword;
         private Guna.UI2.WinForms.Guna2GradientButton btnDangNhap;
         private Guna.UI2.WinForms.Guna2HtmlLabel lblQuenMatKhau;
+        private System.Windows.Forms.ErrorProvider errorProvider1;
     }
 }

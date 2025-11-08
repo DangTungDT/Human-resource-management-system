@@ -18,10 +18,10 @@ namespace GUI
         }
 
         private void FormTest_Load(object sender, EventArgs e)
-        {
+        {   //"TPCNTT0001","Data Source=DESKTOP-UM1I61K\\THANHNGAN;Initial Catalog=PersonnelManagement;Integrated Security=True;Encrypt=False"
             //"Data Source=DESKTOP-6LE6PT2\\SQLEXPRESS;Initial Catalog=PersonnelManagement;Integrated Security=True;Encrypt=False"
             pnMain.Controls.Clear();
-            ucUngVien uc = new ucUngVien("","Data Source=DESKTOP-6LE6PT2\\SQLEXPRESS;Initial Catalog=PersonnelManagement;Integrated Security=True;Encrypt=False");
+            ucUngVien uc = new ucUngVien("", "Data Source=DESKTOP-6LE6PT2\\SQLEXPRESS;Initial Catalog=PersonnelManagement;Integrated Security=True;Encrypt=False");
             uc.Dock = DockStyle.Fill;
             pnMain.Controls.Add(uc);
         }

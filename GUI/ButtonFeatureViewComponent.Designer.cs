@@ -50,7 +50,7 @@
             this.flowLayoutPanel1.Controls.Add(this.guna2TileButton3);
             this.flowLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.flowLayoutPanel1.Location = new System.Drawing.Point(0, 0);
-            this.flowLayoutPanel1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.flowLayoutPanel1.Margin = new System.Windows.Forms.Padding(4);
             this.flowLayoutPanel1.Name = "flowLayoutPanel1";
             this.flowLayoutPanel1.Size = new System.Drawing.Size(1421, 77);
             this.flowLayoutPanel1.TabIndex = 4;
@@ -73,7 +73,7 @@
             this.btnChiTietLuong.ImeMode = System.Windows.Forms.ImeMode.NoControl;
             this.btnChiTietLuong.IndicateFocus = true;
             this.btnChiTietLuong.Location = new System.Drawing.Point(4, 4);
-            this.btnChiTietLuong.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btnChiTietLuong.Margin = new System.Windows.Forms.Padding(4);
             this.btnChiTietLuong.Name = "btnChiTietLuong";
             this.btnChiTietLuong.Size = new System.Drawing.Size(171, 64);
             this.btnChiTietLuong.TabIndex = 3;
@@ -99,7 +99,7 @@
             this.btnDanhGia.ImeMode = System.Windows.Forms.ImeMode.NoControl;
             this.btnDanhGia.IndicateFocus = true;
             this.btnDanhGia.Location = new System.Drawing.Point(183, 4);
-            this.btnDanhGia.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btnDanhGia.Margin = new System.Windows.Forms.Padding(4);
             this.btnDanhGia.Name = "btnDanhGia";
             this.btnDanhGia.Size = new System.Drawing.Size(171, 64);
             this.btnDanhGia.TabIndex = 4;
@@ -125,7 +125,7 @@
             this.btnKyLuat.ImeMode = System.Windows.Forms.ImeMode.NoControl;
             this.btnKyLuat.IndicateFocus = true;
             this.btnKyLuat.Location = new System.Drawing.Point(362, 4);
-            this.btnKyLuat.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btnKyLuat.Margin = new System.Windows.Forms.Padding(4);
             this.btnKyLuat.Name = "btnKyLuat";
             this.btnKyLuat.Size = new System.Drawing.Size(171, 64);
             this.btnKyLuat.TabIndex = 5;
@@ -150,7 +150,7 @@
             this.btnThongTinCaNhan.ImeMode = System.Windows.Forms.ImeMode.NoControl;
             this.btnThongTinCaNhan.IndicateFocus = true;
             this.btnThongTinCaNhan.Location = new System.Drawing.Point(541, 4);
-            this.btnThongTinCaNhan.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btnThongTinCaNhan.Margin = new System.Windows.Forms.Padding(4);
             this.btnThongTinCaNhan.Name = "btnThongTinCaNhan";
             this.btnThongTinCaNhan.Size = new System.Drawing.Size(171, 64);
             this.btnThongTinCaNhan.TabIndex = 9;
@@ -175,12 +175,13 @@
             this.btnNghiPhepCaNhan.ImeMode = System.Windows.Forms.ImeMode.NoControl;
             this.btnNghiPhepCaNhan.IndicateFocus = true;
             this.btnNghiPhepCaNhan.Location = new System.Drawing.Point(720, 4);
-            this.btnNghiPhepCaNhan.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btnNghiPhepCaNhan.Margin = new System.Windows.Forms.Padding(4);
             this.btnNghiPhepCaNhan.Name = "btnNghiPhepCaNhan";
             this.btnNghiPhepCaNhan.Size = new System.Drawing.Size(171, 64);
             this.btnNghiPhepCaNhan.TabIndex = 10;
             this.btnNghiPhepCaNhan.Text = "Nghỉ phép cá nhân";
             this.btnNghiPhepCaNhan.TextFormatNoPrefix = true;
+            this.btnNghiPhepCaNhan.Visible = false;
             this.btnNghiPhepCaNhan.Click += new System.EventHandler(this.btnNghiPhepCaNhan_Click);
             // 
             // btnChamCong
@@ -200,7 +201,7 @@
             this.btnChamCong.ImeMode = System.Windows.Forms.ImeMode.NoControl;
             this.btnChamCong.IndicateFocus = true;
             this.btnChamCong.Location = new System.Drawing.Point(899, 4);
-            this.btnChamCong.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btnChamCong.Margin = new System.Windows.Forms.Padding(4);
             this.btnChamCong.Name = "btnChamCong";
             this.btnChamCong.Size = new System.Drawing.Size(171, 64);
             this.btnChamCong.TabIndex = 11;
@@ -225,7 +226,7 @@
             this.guna2TileButton3.ImeMode = System.Windows.Forms.ImeMode.NoControl;
             this.guna2TileButton3.IndicateFocus = true;
             this.guna2TileButton3.Location = new System.Drawing.Point(1078, 4);
-            this.guna2TileButton3.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.guna2TileButton3.Margin = new System.Windows.Forms.Padding(4);
             this.guna2TileButton3.Name = "guna2TileButton3";
             this.guna2TileButton3.Size = new System.Drawing.Size(171, 64);
             this.guna2TileButton3.TabIndex = 12;
@@ -238,7 +239,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.flowLayoutPanel1);
-            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "ButtonFeatureViewComponent";
             this.Size = new System.Drawing.Size(1421, 77);
             this.Load += new System.EventHandler(this.ButtonFeatureViewComponent_Load);

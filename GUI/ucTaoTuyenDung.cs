@@ -57,9 +57,9 @@ namespace GUI
 
         private void ucTaoTuyenDung_Load(object sender, EventArgs e)
         {
-            SetPlaceholder(txtTitle, "Nhập tiêu đề tuyển dụng");
-            dgvRecruitment.DataSource = Recruitments;
-            txtCreateDate.Text = DateTime.Now.ToString();
+            //SetPlaceholder(txtTitle, "Nhập tiêu đề tuyển dụng");
+            //dgvRecruitment.DataSource = Recruitments;
+            //txtCreateDate.Text = DateTime.Now.ToString();
         }
     }
 }

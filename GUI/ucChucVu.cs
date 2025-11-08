@@ -14,10 +14,11 @@ namespace GUI
 {
     public partial class ucChucVu : UserControl
     {
-        BLLPhongBan bllPhongBan;
-        BLLChucVu bllChucVu;
         int idChucVu = 0;
+        BLLChucVu bllChucVu;
         DTOChucVu _oldPosition;
+        BLLPhongBan bllPhongBan;
+
         public ucChucVu(string conn)
         {
             bllChucVu = new BLLChucVu(conn);
@@ -48,6 +49,11 @@ namespace GUI
 
         private void ucChucVu_Load(object sender, EventArgs e)
         {
+            txtMoTa.MaxLength = 255;
+            txtTenChucVu.MaxLength = 255;
+            txtLuongCoBan.MaxLength = 18;
+            txtTyLeHoaHong.MaxLength = 3;
+
             btnFind.Visible = false;
             var listPhongBan = bllPhongBan.GetAllPhongBan();
 
@@ -205,6 +211,7 @@ namespace GUI
             }
             if (idChucVu > 0)
             {
+                
                 bllChucVu.Delete(idChucVu);
                 MessageBox.Show("Xóa thành công!", "Thông báo");
                 ResetValueInput();

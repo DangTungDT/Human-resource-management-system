@@ -19,6 +19,7 @@ namespace DAL
         public IQueryable GetAll() => db.ChamCongs;
 
         public IQueryable GetChamCongByIdNhanVien(string idNhanVien) => db.ChamCongs.Where(x => x.idNhanVien == idNhanVien);
+
         public bool UpdateGioRa(string idNhanVien, DateTime ngayChamCong, TimeSpan newGioRa)
         {
             try

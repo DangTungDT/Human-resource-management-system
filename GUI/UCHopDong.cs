@@ -193,6 +193,24 @@ namespace GUI
                     return;
                 }
 
+                if (dtpNgayBatDau.Value < DateTime.Now.Date)
+                {
+                    MessageBox.Show("Ngày bắt đầu hợp đồng không được trước ngày hiện tại!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+
+                if (dtpNgayBatDau.Value > DateTime.Now.Date.AddMonths(2))
+                {
+                    MessageBox.Show("Ngày bắt đầu hợp đồng không được quá 2 tháng kể từ ngày hiện tại!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+
+                if (dtpNgayKetThuc.Value < dtpNgayBatDau.Value)
+                {
+                    MessageBox.Show("Ngày kết thúc không được bé hơn ngày bắt đầu!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+
                 var dto = new DTOHopDongLaoDong
                 {
                     LoaiHopDong = cmbContractType.SelectedItem.ToString(),

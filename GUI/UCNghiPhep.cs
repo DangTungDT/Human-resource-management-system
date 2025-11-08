@@ -505,8 +505,6 @@ namespace GUI
                                                                }).ToList();
 
 
-
-
                 var tinhSoNgayNghiTheoThang = _dbContextNP.LayDsNghiPhep().Where(p => p.idNhanVien == nhanVien.id && p.NgayBatDau.Month == DateTime.Now.Month && p.NgayBatDau.Year == DateTime.Now.Year && p.TrangThai.Equals("Duyệt", StringComparison.OrdinalIgnoreCase));
 
                 txtSoNgayNghi.Text = tinhSoNgayNghiTheoThang.Count(p => !p.TrangThai.Equals("Đang yêu cầu", StringComparison.OrdinalIgnoreCase)).ToString();

@@ -49,19 +49,14 @@ namespace GUI
 
         private void guna2TileButton5_Click(object sender, EventArgs e)
         {
-            int idDepartment = int.Parse(_bllNhanVien.GetStaffById(_idNhanVien).IdPhongBan);
-            ucChamCongQuanLy uc = new ucChamCongQuanLy(_idNhanVien, idDepartment, _conn);
-            DisplayUserControlPanel.ChildUserControl(uc, _tpHome);
+            
         }
 
         private void guna2TileButton6_Click(object sender, EventArgs e)
         {
-            ////ucChamCongQuanLy uc = new ucChamCongQuanLy(_idNhanVien, _conn);
-            ////ChildUserControl(uc, _tpReport);
-
-            //var main = this.ParentForm as Main;
-            //main?.ShowUserControl("ucChamCongQuanLyHinh");
-            //main.ChildFormComponent(_tpHome, "ButtonFeatureHomeComponent");
+            int idDepartment = int.Parse(_bllNhanVien.GetStaffById(_idNhanVien).IdPhongBan);
+            ucChamCongQuanLy uc = new ucChamCongQuanLy(_idNhanVien, idDepartment, _conn);
+            DisplayUserControlPanel.ChildUserControl(uc, _tpHome);
         }
 
         private void ButtonFeatureHomeComponent_Load(object sender, EventArgs e)

@@ -103,10 +103,11 @@ create table NghiPhep
 	NgayBatDau date not null,
 	NgayKetThuc date not null,
 	LyDoNghi nvarchar(500) not null,
-	LoaiNghiPhep nvarchar(50) check(LoaiNghiPhep in(N'Nghỉ phép không lương', N'Nghỉ phép có lương')) not null,
+	LoaiNghiPhep nvarchar(50) check(LoaiNghiPhep in(N'Có phép', N'Không phép')) not null,
 	idNhanVien varchar(10) not null,
+	TrangThai nvarchar(50) not null,
 	primary key(id),
-	constraint chk_NgayBatDau check(NgayBatDau<= ngayKetThuc)
+	constraint chk_NgayBatDau check(NgayBatDau<= ngayKetThuc),
 )
 go
 

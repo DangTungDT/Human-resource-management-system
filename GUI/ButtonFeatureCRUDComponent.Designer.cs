@@ -199,7 +199,7 @@
             this.btnChucVu.Location = new System.Drawing.Point(713, 5);
             this.btnChucVu.Margin = new System.Windows.Forms.Padding(5);
             this.btnChucVu.Name = "btnChucVu";
-            this.btnChucVu.Size = new System.Drawing.Size(124, 64);
+            this.btnChucVu.Size = new System.Drawing.Size(159, 64);
             this.btnChucVu.TabIndex = 10;
             this.btnChucVu.Text = "Chức vụ";
             this.btnChucVu.TextFormatNoPrefix = true;
@@ -221,10 +221,10 @@
             this.guna2TileButton2.ImageSize = new System.Drawing.Size(30, 30);
             this.guna2TileButton2.ImeMode = System.Windows.Forms.ImeMode.NoControl;
             this.guna2TileButton2.IndicateFocus = true;
-            this.guna2TileButton2.Location = new System.Drawing.Point(846, 4);
+            this.guna2TileButton2.Location = new System.Drawing.Point(881, 4);
             this.guna2TileButton2.Margin = new System.Windows.Forms.Padding(4);
             this.guna2TileButton2.Name = "guna2TileButton2";
-            this.guna2TileButton2.Size = new System.Drawing.Size(137, 64);
+            this.guna2TileButton2.Size = new System.Drawing.Size(159, 64);
             this.guna2TileButton2.TabIndex = 11;
             this.guna2TileButton2.Text = "Kỳ lương";
             this.guna2TileButton2.TextFormatNoPrefix = true;
@@ -247,10 +247,10 @@
             this.guna2TileButton3.ImageSize = new System.Drawing.Size(30, 30);
             this.guna2TileButton3.ImeMode = System.Windows.Forms.ImeMode.NoControl;
             this.guna2TileButton3.IndicateFocus = true;
-            this.guna2TileButton3.Location = new System.Drawing.Point(991, 4);
+            this.guna2TileButton3.Location = new System.Drawing.Point(1048, 4);
             this.guna2TileButton3.Margin = new System.Windows.Forms.Padding(4);
             this.guna2TileButton3.Name = "guna2TileButton3";
-            this.guna2TileButton3.Size = new System.Drawing.Size(137, 64);
+            this.guna2TileButton3.Size = new System.Drawing.Size(159, 64);
             this.guna2TileButton3.TabIndex = 12;
             this.guna2TileButton3.Text = "Chi tiết lương";
             this.guna2TileButton3.TextFormatNoPrefix = true;
@@ -273,10 +273,10 @@
             this.guna2TileButton5.ImageSize = new System.Drawing.Size(30, 30);
             this.guna2TileButton5.ImeMode = System.Windows.Forms.ImeMode.NoControl;
             this.guna2TileButton5.IndicateFocus = true;
-            this.guna2TileButton5.Location = new System.Drawing.Point(1136, 4);
+            this.guna2TileButton5.Location = new System.Drawing.Point(1215, 4);
             this.guna2TileButton5.Margin = new System.Windows.Forms.Padding(4);
             this.guna2TileButton5.Name = "guna2TileButton5";
-            this.guna2TileButton5.Size = new System.Drawing.Size(137, 64);
+            this.guna2TileButton5.Size = new System.Drawing.Size(159, 64);
             this.guna2TileButton5.TabIndex = 13;
             this.guna2TileButton5.Text = "Ứng viên";
             this.guna2TileButton5.TextFormatNoPrefix = true;
@@ -298,10 +298,10 @@
             this.btnTaoDanhGiaHieuSuat.ImageSize = new System.Drawing.Size(30, 30);
             this.btnTaoDanhGiaHieuSuat.ImeMode = System.Windows.Forms.ImeMode.NoControl;
             this.btnTaoDanhGiaHieuSuat.IndicateFocus = true;
-            this.btnTaoDanhGiaHieuSuat.Location = new System.Drawing.Point(1281, 4);
+            this.btnTaoDanhGiaHieuSuat.Location = new System.Drawing.Point(1382, 4);
             this.btnTaoDanhGiaHieuSuat.Margin = new System.Windows.Forms.Padding(4);
             this.btnTaoDanhGiaHieuSuat.Name = "btnTaoDanhGiaHieuSuat";
-            this.btnTaoDanhGiaHieuSuat.Size = new System.Drawing.Size(144, 64);
+            this.btnTaoDanhGiaHieuSuat.Size = new System.Drawing.Size(159, 64);
             this.btnTaoDanhGiaHieuSuat.TabIndex = 14;
             this.btnTaoDanhGiaHieuSuat.Text = "ĐG hiệu suất";
             this.btnTaoDanhGiaHieuSuat.TextFormatNoPrefix = true;
@@ -323,10 +323,10 @@
             this.btnTaoKyLuat.ImageSize = new System.Drawing.Size(30, 30);
             this.btnTaoKyLuat.ImeMode = System.Windows.Forms.ImeMode.NoControl;
             this.btnTaoKyLuat.IndicateFocus = true;
-            this.btnTaoKyLuat.Location = new System.Drawing.Point(1433, 4);
+            this.btnTaoKyLuat.Location = new System.Drawing.Point(1549, 4);
             this.btnTaoKyLuat.Margin = new System.Windows.Forms.Padding(4);
             this.btnTaoKyLuat.Name = "btnTaoKyLuat";
-            this.btnTaoKyLuat.Size = new System.Drawing.Size(144, 64);
+            this.btnTaoKyLuat.Size = new System.Drawing.Size(159, 64);
             this.btnTaoKyLuat.TabIndex = 15;
             this.btnTaoKyLuat.Text = "Tạo kỷ luật";
             this.btnTaoKyLuat.TextFormatNoPrefix = true;
@@ -348,10 +348,10 @@
             this.btnTaoKhenThuong.ImageSize = new System.Drawing.Size(30, 30);
             this.btnTaoKhenThuong.ImeMode = System.Windows.Forms.ImeMode.NoControl;
             this.btnTaoKhenThuong.IndicateFocus = true;
-            this.btnTaoKhenThuong.Location = new System.Drawing.Point(1585, 4);
+            this.btnTaoKhenThuong.Location = new System.Drawing.Point(1716, 4);
             this.btnTaoKhenThuong.Margin = new System.Windows.Forms.Padding(4);
             this.btnTaoKhenThuong.Name = "btnTaoKhenThuong";
-            this.btnTaoKhenThuong.Size = new System.Drawing.Size(144, 64);
+            this.btnTaoKhenThuong.Size = new System.Drawing.Size(159, 64);
             this.btnTaoKhenThuong.TabIndex = 16;
             this.btnTaoKhenThuong.Text = "Tạo khen thưởng";
             this.btnTaoKhenThuong.TextFormatNoPrefix = true;
@@ -373,7 +373,7 @@
             this.btnCapNhatThongTinNV.ImageSize = new System.Drawing.Size(30, 30);
             this.btnCapNhatThongTinNV.ImeMode = System.Windows.Forms.ImeMode.NoControl;
             this.btnCapNhatThongTinNV.IndicateFocus = true;
-            this.btnCapNhatThongTinNV.Location = new System.Drawing.Point(1737, 4);
+            this.btnCapNhatThongTinNV.Location = new System.Drawing.Point(1883, 4);
             this.btnCapNhatThongTinNV.Margin = new System.Windows.Forms.Padding(4);
             this.btnCapNhatThongTinNV.Name = "btnCapNhatThongTinNV";
             this.btnCapNhatThongTinNV.Size = new System.Drawing.Size(172, 64);
@@ -398,7 +398,7 @@
             this.btnTaoThuongPhat.ImageSize = new System.Drawing.Size(30, 30);
             this.btnTaoThuongPhat.ImeMode = System.Windows.Forms.ImeMode.NoControl;
             this.btnTaoThuongPhat.IndicateFocus = true;
-            this.btnTaoThuongPhat.Location = new System.Drawing.Point(1918, 5);
+            this.btnTaoThuongPhat.Location = new System.Drawing.Point(2064, 5);
             this.btnTaoThuongPhat.Margin = new System.Windows.Forms.Padding(5);
             this.btnTaoThuongPhat.Name = "btnTaoThuongPhat";
             this.btnTaoThuongPhat.Size = new System.Drawing.Size(180, 64);
@@ -423,7 +423,7 @@
             this.btnTaoPhuCap.ImageSize = new System.Drawing.Size(30, 30);
             this.btnTaoPhuCap.ImeMode = System.Windows.Forms.ImeMode.NoControl;
             this.btnTaoPhuCap.IndicateFocus = true;
-            this.btnTaoPhuCap.Location = new System.Drawing.Point(2108, 5);
+            this.btnTaoPhuCap.Location = new System.Drawing.Point(2254, 5);
             this.btnTaoPhuCap.Margin = new System.Windows.Forms.Padding(5);
             this.btnTaoPhuCap.Name = "btnTaoPhuCap";
             this.btnTaoPhuCap.Size = new System.Drawing.Size(137, 64);
@@ -448,12 +448,12 @@
             this.btnPhuCapNV.ImageSize = new System.Drawing.Size(30, 30);
             this.btnPhuCapNV.ImeMode = System.Windows.Forms.ImeMode.NoControl;
             this.btnPhuCapNV.IndicateFocus = true;
-            this.btnPhuCapNV.Location = new System.Drawing.Point(2255, 5);
+            this.btnPhuCapNV.Location = new System.Drawing.Point(2401, 5);
             this.btnPhuCapNV.Margin = new System.Windows.Forms.Padding(5);
             this.btnPhuCapNV.Name = "btnPhuCapNV";
-            this.btnPhuCapNV.Size = new System.Drawing.Size(171, 64);
+            this.btnPhuCapNV.Size = new System.Drawing.Size(159, 64);
             this.btnPhuCapNV.TabIndex = 22;
-            this.btnPhuCapNV.Text = "Phụ Cấp Nhân Viên";
+            this.btnPhuCapNV.Text = "Phụ Cấp";
             this.btnPhuCapNV.TextFormatNoPrefix = true;
             this.btnPhuCapNV.Click += new System.EventHandler(this.btnPhuCapNV_Click);
             // 
@@ -473,12 +473,12 @@
             this.btnTaoNhanVien_KhauTru.ImageSize = new System.Drawing.Size(30, 30);
             this.btnTaoNhanVien_KhauTru.ImeMode = System.Windows.Forms.ImeMode.NoControl;
             this.btnTaoNhanVien_KhauTru.IndicateFocus = true;
-            this.btnTaoNhanVien_KhauTru.Location = new System.Drawing.Point(2436, 5);
+            this.btnTaoNhanVien_KhauTru.Location = new System.Drawing.Point(2570, 5);
             this.btnTaoNhanVien_KhauTru.Margin = new System.Windows.Forms.Padding(5);
             this.btnTaoNhanVien_KhauTru.Name = "btnTaoNhanVien_KhauTru";
             this.btnTaoNhanVien_KhauTru.Size = new System.Drawing.Size(196, 64);
             this.btnTaoNhanVien_KhauTru.TabIndex = 21;
-            this.btnTaoNhanVien_KhauTru.Text = "Khấu trừ nhân viên";
+            this.btnTaoNhanVien_KhauTru.Text = "Khấu trừ ";
             this.btnTaoNhanVien_KhauTru.TextFormatNoPrefix = true;
             this.btnTaoNhanVien_KhauTru.Click += new System.EventHandler(this.btnTaoNhanVien_KhauTru_Click);
             // 
@@ -498,7 +498,7 @@
             this.btnKhauTru.ImageSize = new System.Drawing.Size(30, 30);
             this.btnKhauTru.ImeMode = System.Windows.Forms.ImeMode.NoControl;
             this.btnKhauTru.IndicateFocus = true;
-            this.btnKhauTru.Location = new System.Drawing.Point(2642, 5);
+            this.btnKhauTru.Location = new System.Drawing.Point(2776, 5);
             this.btnKhauTru.Margin = new System.Windows.Forms.Padding(5);
             this.btnKhauTru.Name = "btnKhauTru";
             this.btnKhauTru.Size = new System.Drawing.Size(171, 64);

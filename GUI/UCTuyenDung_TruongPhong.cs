@@ -1,4 +1,5 @@
 ﻿using BLL;
+using DAL;
 using DTO;
 using Guna.UI2.WinForms;
 using System;
@@ -12,6 +13,8 @@ namespace GUI
     public partial class UCTuyenDung_TruongPhong : UserControl
     {
         private int _idSelected { get; set; } = 0;
+        private string _idNguoiTao { get; set; }
+
         private readonly string _idNhanVien, _con;
 
         private readonly BLLChucVu _dbContextCV;
@@ -40,6 +43,18 @@ namespace GUI
             dgvDsUngVienTuyen.DataSource = LoadDuLieuUngVienDuocTuyen(0);
             ChinhSuaGiaoDien();
 
+            if (_idNhanVien.Contains("GD"))
+            {
+                ckbDsTDTP.Visible = true;
+
+                if (ckbDsTDTP.Checked)
+                {
+                    dgvTPTuyenDung.DataSource = LoadDuLieuTuyenDung(true);
+                }
+                else dgvTPTuyenDung.DataSource = LoadDuLieuTuyenDung();
+            }
+            else ckbDsTDTP.Visible = false;
+
             var idPhongBan = _dbContextNV.KtraNhanVienQuaID(_idNhanVien).idPhongBan;
             txtPhongBan.Text = _dbContextPB.TimTenPhongBan(idPhongBan);
 
@@ -55,12 +70,12 @@ namespace GUI
             var ungVien = _dbContextUV.LayDsUngvien().Where(p => tuyenDung.Select(s => s.id).FirstOrDefault() == p.idTuyenDung && p.trangThai.Equals("Thử việc", StringComparison.OrdinalIgnoreCase)).ToList();
             var soLuongTD = tuyenDung.Select(s => s.soLuong).FirstOrDefault();
 
-            if (_idNhanVien.Contains("GD"))
-            {
-                btnThemTD.Enabled = false;
-                btnCapNhatTD.Enabled = false;
-                btnXoaLuong.Enabled = false;
-            }
+            //if (_idNhanVien.Contains("GD"))
+            //{
+            //    btnThemTD.Enabled = false;
+            //    btnCapNhatTD.Enabled = false;
+            //    btnXoaTuyenDung.Enabled = false;
+            //}
         }
 
         // Hien thi du lieu len textbox tu datagridview
@@ -69,6 +84,7 @@ namespace GUI
 
             if (e != null && e.RowIndex > -1)
             {
+                _idNguoiTao = dgvTPTuyenDung.Rows[e.RowIndex].Cells["IDNguoiTao"].Value?.ToString();
                 _idSelected = Convert.ToInt32(dgvTPTuyenDung.Rows[e.RowIndex].Cells["ID"].Value.ToString());
                 txtTieuDe.Text = dgvTPTuyenDung.Rows[e.RowIndex].Cells["TieuDe"].Value?.ToString();
                 txtSoLuong.Text = dgvTPTuyenDung.Rows[e.RowIndex].Cells["SoLuong"].Value?.ToString();
@@ -76,27 +92,39 @@ namespace GUI
                 rtGhiChu.Text = dgvTPTuyenDung.Rows[e.RowIndex].Cells["GhiChu"].Value?.ToString();
 
                 string[] arrType = { "Đang tuyển", "Ngừng tuyển", "Loại" };
-                var tuyenDung = _dbContextTD.KtraDsTuyenDung().FirstOrDefault(p => p.idNguoiTao == _idNhanVien && p.id == _idSelected && arrType.Contains(p.trangThai));
+                var tuyenDung = _dbContextTD.KtraDsTuyenDung().FirstOrDefault(p => p.id == _idSelected && arrType.Contains(p.trangThai)); //p.idNguoiTao == _idNhanVien && 
 
-                if (_idNhanVien.Contains("GD"))
-                {
-                    btnThemTD.Enabled = false;
-                    btnCapNhatTD.Enabled = false;
-                    btnXoaLuong.Enabled = false;
-                }
-                else
+                //if (_idNhanVien.Contains("GD"))
+                //{
+                //    btnThemTD.Enabled = false;
+                //    btnCapNhatTD.Enabled = false;
+                //    btnXoaTuyenDung.Enabled = false;
+                //}
+                //else
                 {
                     if (tuyenDung != null)
                     {
                         EnableAllField(true);
-                    }
-                    else EnableAllField(false);
-                }
+                        btnXoaTuyenDung.Text = "Ngừng tuyển dụng";
 
-                if (_idSelected > 0)
-                {
-                    dgvDsUngVienTuyen.DataSource = LoadDuLieuUngVienDuocTuyen(_idSelected);
-                    ChinhSuaGiaoDien();
+                        if (tuyenDung.trangThai.Equals("Ngừng tuyển", StringComparison.OrdinalIgnoreCase))
+                        {
+                            btnXoaTuyenDung.Enabled = false;
+                        }
+                        else btnXoaTuyenDung.Enabled = true;
+                    }
+                    else
+                    {
+                        EnableAllField(false);
+                        btnXoaTuyenDung.Text = "Xóa tuyển dụng";
+                        btnXoaTuyenDung.Enabled = true;
+                    }
+
+                    if (_idSelected > 0)
+                    {
+                        dgvDsUngVienTuyen.DataSource = LoadDuLieuUngVienDuocTuyen(_idSelected);
+                        ChinhSuaGiaoDien();
+                    }
                 }
             }
         }
@@ -112,7 +140,7 @@ namespace GUI
                         text.ReadOnly = true;
                         rtGhiChu.ReadOnly = true;
                         btnCapNhatTD.Enabled = false;
-                        btnXoaLuong.Enabled = false;
+                        //btnXoaTuyenDung.Enabled = false;
                     }
                     else
                     {
@@ -120,7 +148,7 @@ namespace GUI
                         rtGhiChu.ReadOnly = false;
                         txtSoLuong.ReadOnly = false;
                         btnCapNhatTD.Enabled = true;
-                        btnXoaLuong.Enabled = true;
+                        //btnXoaTuyenDung.Enabled = true;
                     }
                 }
             }
@@ -134,6 +162,11 @@ namespace GUI
             dgvTPTuyenDung.DataSource = LoadDuLieuTuyenDung();
             dgvDsUngVienTuyen.DataSource = LoadDuLieuUngVienDuocTuyen(0);
             rtGhiChu.ReadOnly = false;
+            txtSoLuong.ReadOnly = false;
+            btnCapNhatTD.Enabled = true;
+            btnXoaTuyenDung.Enabled = true;
+            ckbDsTDTP.Checked = false;
+            btnXoaTuyenDung.Text = "Xóa tuyển dụng";
             ChinhSuaGiaoDien();
         }
 
@@ -149,12 +182,15 @@ namespace GUI
                 {
                     if (DisplayUserControlPanel.KiemTraDuLieuDauVao(error, grbTPTuyenDung) && KtraGhiChu())
                     {
+                        string trangThai = _idNhanVien.StartsWith("GD") ? "Đang tuyển" : "Chờ duyệt";
+                        string chucVu = _idNhanVien.StartsWith("GD") ? "giám đốc" : "trưởng phòng";
+
                         if (tuyenDung)
                         {
                             if (MessageBox.Show($"Bạn có chắc chắn về thêm dữ liệu này ?", "Cảnh báo", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
                             {
                                 if (_dbContextTD.KtraThemTuyenDung(new DTOTuyenDung(0, Convert.ToInt32(nhanVien.idPhongBan), Convert.ToInt32(nhanVien.idChucVu),
-                                        txtTieuDe.Text, nhanVien.id, "Chờ duyệt", DateTime.Now, Convert.ToInt32(txtSoLuong.Text), rtGhiChu.Text)))
+                                        txtTieuDe.Text, nhanVien.id, trangThai, DateTime.Now, Convert.ToInt32(txtSoLuong.Text), rtGhiChu.Text)))
                                 {
                                     MessageBox.Show($"Thêm tuyển dụng thành công.");
 
@@ -164,7 +200,7 @@ namespace GUI
                             }
                             else return;
                         }
-                        else MessageBox.Show($"Đẵ có yêu cầu tuyển dụng từ trưởng phòng {nhanVien.TenNhanVien} !", "Thông báo", MessageBoxButtons.OK);
+                        else MessageBox.Show($"Đẵ có yêu cầu tuyển dụng từ {chucVu} {nhanVien.TenNhanVien} !", "Thông báo", MessageBoxButtons.OK);
                     }
                 }
                 else MessageBox.Show($"Nhân viên không tồn tại !");
@@ -234,12 +270,27 @@ namespace GUI
                 {
                     if (!tuyenDung)
                     {
-                        if (MessageBox.Show($"Bạn có chắc chắn muốn xóa yêu cầu đã chọn không ?", "Xác nhận", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+                        string type = btnXoaTuyenDung.Text.Contains("Ngừng") ? "ngừng" : "xóa";
+
+                        if (MessageBox.Show($"Bạn có chắc chắn muốn {type} yêu cầu đã chọn không ?", "Xác nhận", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
                         {
-                            if (_dbContextTD.KtraXoaTuyenDung(new DTOTuyenDung(_idSelected)))
+                            if (type == "xóa")
                             {
-                                MessageBox.Show($"Xóa tuyển dụng thành công.");
-                                CapNhatChung();
+                                if (_dbContextTD.KtraXoaTuyenDung(new DTOTuyenDung(_idSelected)))
+                                {
+                                    MessageBox.Show($"Xóa tuyển dụng thành công.", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                                    CapNhatChung();
+                                }
+                                else MessageBox.Show("Xóa tuyển dụng thất bại !", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            }
+                            else
+                            {
+                                if (_dbContextTD.KtraCapNhatTrangThaiTD(new DTOTuyenDung(_idSelected, "Ngừng tuyển", DateTime.Now)))
+                                {
+                                    MessageBox.Show($"Đã ngừng tuyển dụng cho tiêu đề: {_dbContextTD.KtraTuyenDungQuaID(_idSelected).tieuDe}.", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                                    CapNhatChung();
+                                }
+                                else MessageBox.Show("Ngừng tuyển dụng thất bại !", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
                             }
                         }
                     }
@@ -315,20 +366,20 @@ namespace GUI
             }
             catch
             {
-                MessageBox.Show($"Lôi load dữ liệu trưởng phòng tuyển dụng !", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show($"Lỗi load dữ liệu trưởng phòng tuyển dụng !", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return null;
             }
         }
 
         // Ham Load du lieu chung
-        private object LoadDuLieuTuyenDung()
+        private object LoadDuLieuTuyenDung(bool checkTP = false)
         {
             try
             {
                 _idSelected = 0;
                 var anonymous = new object();
 
-                var tuyenDungs = _dbContextTD.KtraDsTuyenDung().Where(p => p.idNguoiTao == _idNhanVien).ToList();
+                var tuyenDungs = _dbContextTD.KtraDsTuyenDung().Where(p =>  p.trangThai.Equals("Đang tuyển", StringComparison.OrdinalIgnoreCase)).ToList(); //p.idNguoiTao == _idNguoiTao &&
                 var idTuyenDung = tuyenDungs.Select(s => s.id).ToList();
                 var ungVien = _dbContextUV.LayDsUngvien().Where(p => idTuyenDung.Contains(p.idTuyenDung) && p.trangThai.Equals("Thử việc", StringComparison.OrdinalIgnoreCase)).ToList();
                 var soLuongTD = tuyenDungs.Select(s => s.soLuong).FirstOrDefault();
@@ -337,7 +388,7 @@ namespace GUI
 
                 foreach (var tuyenDung in tuyenDungs)
                 {
-                    if (ungVien.Where(p => p.idTuyenDung == tuyenDung.id).ToList().Count == tuyenDung.soLuong && !tuyenDung.trangThai.Equals("Ngừng tuyển", StringComparison.OrdinalIgnoreCase))
+                    if (ungVien.Where(p => p.idTuyenDung == tuyenDung.id).ToList().Count == tuyenDung.soLuong && tuyenDung.trangThai.Equals("Đang tuyển", StringComparison.OrdinalIgnoreCase))
                     {
                         setTrangThai = "Ngừng tuyển";
                         if (_dbContextTD.KtraCapNhatTrangThaiTD(new DTOTuyenDung(tuyenDung.id, setTrangThai, DateTime.Now)))
@@ -356,11 +407,15 @@ namespace GUI
                 var dsTPTuyenDung = _dbContextTD.KtraDsTuyenDung().Where(p => p.idNguoiTao == _idNhanVien);
                 if (_idNhanVien.Contains("GD"))
                 {
-                    dsTPTuyenDung = _dbContextTD.KtraDsTuyenDung();
+                    if (checkTP)
+                    {
+                        dsTPTuyenDung = _dbContextTD.KtraDsTuyenDung().Where(p => !p.idNguoiTao.StartsWith("GD")).ToList();
+                    }
                 }
-                anonymous = dsTPTuyenDung.OrderByDescending(p => p.id).Select(p => new
+                anonymous = dsTPTuyenDung.OrderBy(p => p.ngayTao).Select(p => new
                 {
                     ID = p.id,
+                    IDNguoitao = p.idNguoiTao,
                     TieuDe = p.tieuDe,
                     PhongBan = _dbContextPB.TimTenPhongBan(p.idPhongBan),
                     TrangThai = p.trangThai,
@@ -400,6 +455,8 @@ namespace GUI
             if (dgvTPTuyenDung.Columns["ID"] != null && dgvDsUngVienTuyen.Columns["ID"] != null)
             {
                 dgvTPTuyenDung.Columns["ID"].Visible = false;
+                dgvTPTuyenDung.Columns["IDNguoiTao"].Visible = false;
+
                 dgvDsUngVienTuyen.Columns["ID"].Visible = false;
 
                 dgvTPTuyenDung.Columns["TieuDe"].HeaderText = "Tiêu đề";
@@ -431,9 +488,30 @@ namespace GUI
 
             txtTieuDe.ReadOnly = false;
             txtTrangThai.ReadOnly = false;
-            txtTrangThai.Clear();
+            //txtTrangThai.Clear();
             txtSoLuong.Clear();
             rtGhiChu.Clear();
+
+            if (_idNhanVien.Contains("GD"))
+            {
+                ckbDsTDTP.Visible = true;
+
+                if (ckbDsTDTP.Checked)
+                {
+                    dgvTPTuyenDung.DataSource = LoadDuLieuTuyenDung(true);
+                }
+                else dgvTPTuyenDung.DataSource = LoadDuLieuTuyenDung();
+            }
+            else ckbDsTDTP.Visible = false;
+        }
+
+        private void ckbDsTDTP_CheckedChanged(object sender, EventArgs e)
+        {
+            if (ckbDsTDTP.Checked)
+            {
+                dgvTPTuyenDung.DataSource = LoadDuLieuTuyenDung(true);
+            }
+            else dgvTPTuyenDung.DataSource = LoadDuLieuTuyenDung();
         }
 
         // Kiem tra du lieu dau vao

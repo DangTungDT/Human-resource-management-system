@@ -1,6 +1,7 @@
 ﻿using DAL;
 using DTO;
 using System;
+using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using System.Security.Cryptography;
@@ -85,6 +86,9 @@ namespace BLL
                 throw new Exception("Lỗi lấy tìm tài khản nhân viên: " + ex.Message);
             }
         }
+
+        // ds tai khoan
+        public List<TaiKhoan> DsTaiKhoan() => _dalTK.DsTaiKhoan();
 
         public bool KiemTraMatKhauCu(string idNhanVien, string matKhau)
         {

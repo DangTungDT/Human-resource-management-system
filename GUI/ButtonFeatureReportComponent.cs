@@ -73,6 +73,12 @@ namespace GUI
             DisplayUserControlPanel.ChildUserControl(uc, _tpReport);
         }
 
+        private void btnThongKeTuyenDung_Click(object sender, EventArgs e)
+        {
+            ThongKeTuyenDung uc = new ThongKeTuyenDung(_idNhanVien, _conn);
+            DisplayUserControlPanel.ChildUserControl(uc, _tpReport);
+        }
+
         private void guna2TileButton2_Click(object sender, EventArgs e)
         {
             UCReportDanhSachKyLuat uc = new UCReportDanhSachKyLuat(_idNhanVien, _conn);

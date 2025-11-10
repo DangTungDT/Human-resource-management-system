@@ -2,6 +2,7 @@
 using DTO;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
@@ -234,6 +235,12 @@ namespace BLL
             {
                 throw new Exception("Lỗi tìm id: " + ex.Message);
             }
+        }
+
+        public DataTable GetBaoCaoTuyenDungTheoQuy(string quy, int nam, string idPhongBan, string viTri)
+        {
+            return _dbContext.BaoCaoTuyenDungTheoQuy(quy, nam, idPhongBan, viTri);
+            
         }
     }
 }

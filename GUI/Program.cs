@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Windows.Forms;
+using BLL;
+using DTO;
 
 namespace GUI
 {
@@ -15,7 +17,7 @@ namespace GUI
             Application.SetCompatibleTextRenderingDefault(false);
 
             // GD00000001, TPCNTT0001, NVKD000004
-            Application.Run(new FormLogin());
+            Application.Run(new FormThemHopDong(new DTOUngVien(), ""));
             //Application.Run(new TestGiaoDien("TPCNTT0001"));
 
 

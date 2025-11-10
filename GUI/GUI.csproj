@@ -168,6 +168,12 @@
     <Compile Include="FormTest.Designer.cs">
       <DependentUpon>FormTest.cs</DependentUpon>
     </Compile>
+    <Compile Include="FormThemHopDong.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormThemHopDong.Designer.cs">
+      <DependentUpon>FormThemHopDong.cs</DependentUpon>
+    </Compile>
     <Compile Include="FrmXemDanhGiaChiTietNV.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -445,6 +451,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="FormTest.resx">
       <DependentUpon>FormTest.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormThemHopDong.resx">
+      <DependentUpon>FormThemHopDong.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FrmXemDanhGiaChiTietNV.resx">
       <DependentUpon>FrmXemDanhGiaChiTietNV.cs</DependentUpon>

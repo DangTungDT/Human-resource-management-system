@@ -32,6 +32,7 @@ namespace GUI
             pnMain.Controls.Clear();
             ThongKeTuyenDung uc = new ThongKeTuyenDung("TPNS000001", "Data Source=DESKTOP-UM1I61K\\THANHNGAN;Initial Catalog=PersonnelManagement;Integrated Security=True;Encrypt=False");
             //BaoCaoHopDong uc = new BaoCaoHopDong("TPNS000001", "Data Source=DESKTOP-UM1I61K\\THANHNGAN;Initial Catalog=PersonnelManagement;Integrated Security=True;Encrypt=False");
+            //ucUngVien uc = new ucUngVien("", "Data Source=DESKTOP-6LE6PT2\\SQLEXPRESS;Initial Catalog=PersonnelManagement;Integrated Security=True;Encrypt=False");
             uc.Dock = DockStyle.Fill;
             pnMain.Controls.Add(uc);
         }

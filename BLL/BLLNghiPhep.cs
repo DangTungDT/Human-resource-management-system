@@ -41,7 +41,6 @@ namespace BLL
         {
             try
             {
-
                 var ktraNV = _dbContext.KiemTraIDNhanVien(DTO.IDNhanVien);
                 if (ktraNV)
                 {
@@ -265,21 +264,15 @@ namespace BLL
         }
 
         // Ktra so luong ngay nghi
-        public bool KtraTinhSoLuongNgayNghiCoPhep(string maNV, int batDau, int ketThuc, string loai)
+        public TinhLuong KtraTinhSoLuongNgayNghiCoPhep(string maNV, int batDau, int ketThuc, string loai)
         {
             try
             {
-                var checkQty = _dbContext.TinhSoLuongNgayNghiCoPhep(maNV, batDau, ketThuc, loai);
-                if (checkQty == 1)
-                {
-                    return true;
-                }
-                else return false;
-
+                return _dbContext.TinhSoLuongNgayNghiCoPhep(maNV, batDau, ketThuc, loai);
             }
             catch (Exception ex)
             {
-                throw new Exception("Lỗi tìm kiếm trạng thái nghỉ phép: " + ex.Message);
+                throw new Exception("Lỗi tính lương ngày nghỉ phép: " + ex.Message);
             }
         }
     }

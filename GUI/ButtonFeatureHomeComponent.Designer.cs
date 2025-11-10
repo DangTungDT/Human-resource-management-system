@@ -127,6 +127,7 @@
             this.guna2TileButton5.TabIndex = 9;
             this.guna2TileButton5.Text = "Chấm công check";
             this.guna2TileButton5.TextFormatNoPrefix = true;
+            this.guna2TileButton5.Visible = false;
             this.guna2TileButton5.Click += new System.EventHandler(this.guna2TileButton5_Click);
             // 
             // guna2TileButton6

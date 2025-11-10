@@ -102,6 +102,10 @@ namespace DAL
                     tuyenDung.trangThai = DTO.TrangThai;
                     tuyenDung.ngayTao = DTO.NgayTao;
 
+                    //using (var db = new PersonnelManagementDataContextDataContext(_dbContext.Connection.ConnectionString))
+                    //{
+                    //    db.SubmitChanges();
+                    //}
                     _dbContext.SubmitChanges();
 
                     return true;

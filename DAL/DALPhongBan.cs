@@ -57,8 +57,14 @@ namespace DAL
             }
         }
 
-        public bool InsertPhongBan(DTOPhongBan pb)
+        public string InsertPhongBan(DTOPhongBan pb)
         {
+            bool checkTenPhongBan = _dbContext.PhongBans.Any(x => x.TenPhongBan == pb.TenPhongBan);
+            if(checkTenPhongBan)
+            {
+                //Tên phòng ban mới đã tồn tại trong database
+                return "Tên phòng ban đã tồn tại không thể thêm";
+            }
             using (SqlConnection conn = new SqlConnection(connectionString))
             {
                 string query = "INSERT INTO PhongBan (TenPhongBan, MoTa) VALUES (@Ten, @MoTa)";
@@ -66,12 +72,22 @@ namespace DAL
                 cmd.Parameters.AddWithValue("@Ten", pb.TenPhongBan);
                 cmd.Parameters.AddWithValue("@MoTa", pb.MoTa ?? (object)DBNull.Value);
                 conn.Open();
-                return cmd.ExecuteNonQuery() > 0;
+                if(cmd.ExecuteNonQuery() > 0)
+                {
+                    return "Thêm phòng ban thành công!";
+                }
+                return "Thêm phòng ban thất bại!";
             }
         }
 
-        public bool UpdatePhongBan(DTOPhongBan pb)
+        public string UpdatePhongBan(DTOPhongBan pb)
         {
+            bool checkTenPhongBan = _dbContext.PhongBans.Any(x => x.TenPhongBan == pb.TenPhongBan && x.id != pb.Id);
+            if (checkTenPhongBan)
+            {
+                //Tên phòng ban mới đã tồn tại trong database
+                return "Tên phòng ban mới đã bị trùng, vui lòng nhập tên khác!";
+            }
             using (SqlConnection conn = new SqlConnection(connectionString))
             {
                 string query = "UPDATE PhongBan SET TenPhongBan=@Ten, MoTa=@MoTa WHERE id=@id";
@@ -80,27 +96,43 @@ namespace DAL
                 cmd.Parameters.AddWithValue("@MoTa", pb.MoTa ?? (object)DBNull.Value);
                 cmd.Parameters.AddWithValue("@id", pb.Id);
                 conn.Open();
-                return cmd.ExecuteNonQuery() > 0;
+                if (cmd.ExecuteNonQuery() > 0)
+                {
+                    return "Cập nhật thông tin phòng ban thành công!";
+                }
+                return "Cập nhật phòng ban thất bại!";
             }
         }
 
-        public bool DeletePhongBan(int id)
+        public string DeletePhongBan(int id)
         {
             using (SqlConnection conn = new SqlConnection(connectionString))
             {
                 var ktraIDPB = _dbContext.ChucVus.FirstOrDefault(cv => cv.idPhongBan == id);
                 var ktraIDNV = _dbContext.NhanViens.FirstOrDefault(cv => cv.idPhongBan == id);
 
-                if (ktraIDPB != null || ktraIDPB != null)
+                if (ktraIDPB != null && ktraIDPB != null)
                 {
-                    return false;
+                    return "Phòng ban hiện đang có dữ liệu nhân viên và chức vụ, nên không thể xóa";
+                }
+                if(ktraIDPB != null)
+                {
+                    return "Phòng ban hiện đang có dữ liệu chức vụ, nên không thể xóa";
+                }
+                if (ktraIDPB != null)
+                {
+                    return "Phòng ban hiện đang có dữ liệu nhân viên, nên không thể xóa";
                 }
 
                 string query = "DELETE FROM PhongBan WHERE id=@id";
                 SqlCommand cmd = new SqlCommand(query, conn);
                 cmd.Parameters.AddWithValue("@id", id);
                 conn.Open();
-                return cmd.ExecuteNonQuery() > 0;
+                if(cmd.ExecuteNonQuery() > 0)
+                {
+                    return "Xóa phòng ban thành công!";
+                }
+                return "Xóa phòng ban thất bại!";
             }
         }
 

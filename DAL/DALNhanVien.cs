@@ -71,7 +71,7 @@ namespace DAL
             if (!string.IsNullOrEmpty(name))
             {
                 string nameLower = name.ToLower();
-                list = list.Where(x => x.TenNhanVien.ToLower() == nameLower);
+                list = list.Where(x => x.TenNhanVien.ToLower().Contains(nameLower));
             }
 
             if (!string.IsNullOrEmpty(email))

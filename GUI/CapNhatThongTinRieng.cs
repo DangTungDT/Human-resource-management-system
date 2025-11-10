@@ -19,7 +19,7 @@ namespace GUI
         private Panel _panel;
 
         private string idNhanVien;
-        private string imagePath = "";
+        private string imagePath, _imageName = "";
         private string connectionString;
         private BLLNhanVien bllNhanVien;
 
@@ -207,7 +207,7 @@ namespace GUI
                 if (dlg.ShowDialog() == DialogResult.OK)
                 {
                     imagePath = dlg.FileName;
-
+                    _imageName = dlg.SafeFileName;
                     // ✅ Dùng stream để tránh khóa file
                     using (var stream = new FileStream(imagePath, FileMode.Open, FileAccess.Read))
                     {
@@ -229,14 +229,14 @@ namespace GUI
                 Directory.CreateDirectory(folderPath);
 
             // ✅ Lấy phần mở rộng của file (jpg/png/...)
-            string extension = Path.GetExtension(imagePath);
+            string extension = Path.GetExtension(_imageName);
             string newFileName = employeeId + extension; // ví dụ: NV001.jpg
             string destPath = Path.Combine(folderPath, newFileName);
+            _imageName = newFileName;
 
             string folder = Directory.GetParent(Application.StartupPath).Parent.Parent.FullName;
             folderPath = Path.Combine(folder, "Image");
             destPath = Path.Combine(folderPath, newFileName);
-            File.Copy(imagePath, destPath);
             // ✅ Nếu đã có ảnh cũ thì xóa trước khi copy ảnh mới
             if (File.Exists(destPath))
                 File.Delete(destPath);
@@ -320,7 +320,7 @@ namespace GUI
                     DiaChi = txtAddress.Text,
                     Que = txtQue.Text,
                     Email = txtEmail.Text,
-                    AnhDaiDien = savedFileName // 🟢 lưu đường dẫn ảnh
+                    AnhDaiDien = _imageName // 🟢 lưu đường dẫn ảnh
                 };
 
                 bllNhanVien.CapNhatThongTin(nv);
@@ -363,8 +363,8 @@ namespace GUI
                 txtAddress.Text = nv.DiaChi;
                 txtQue.Text = nv.Que;
                 txtEmail.Text = nv.Email;
+                _imageName = nv.AnhDaiDien;
             }
-
             if (!string.IsNullOrEmpty(nv.AnhDaiDien))
             {
                 string urlFolderImage = $"\\Image\\{nv.AnhDaiDien}";

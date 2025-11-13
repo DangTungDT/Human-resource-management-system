@@ -41,6 +41,7 @@ namespace GUI
         {
             btnDuyet.Enabled = false;
             btnKhongDuyet.Enabled = false;
+            rtGhiChu.Enabled = true;
             dgvDsXinNghiPhep.DataSource = LoadDuLieu();
 
         }
@@ -67,6 +68,8 @@ namespace GUI
                     btnDuyet.Enabled = true;
                     btnKhongDuyet.Enabled = true;
                 }
+
+                rtGhiChu.ReadOnly = false;
             }
         }
 
@@ -78,7 +81,7 @@ namespace GUI
         {
             try
             {
-                var setTrangThai = loai ? "Duyệt" : "Không duyệt";
+                var setTrangThai = loai ? "Đã duyệt" : "Không duyệt";
                 var nghiPhepCuaNV = _dbContextNP.KtraTrangThaiNghiPhepDonChuaDuyet(_idSelected);
 
                 var nghiPhep = _dbContextNP.KtraNghiPhepQuaID(Convert.ToInt32(_idTuyenDung));
@@ -91,7 +94,7 @@ namespace GUI
 
                 if (MessageBox.Show($"Bạn có chắc chắn về cập nhật với trạng thái là '{setTrangThai}' ?", "Cảnh báo", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
                 {
-                    if (_dbContextNP.KtraCapNhatTrangThaiNghiPhep(new DTONghiPhep(Convert.ToInt32(_idTuyenDung), _idNhanVien, setTrangThai)))
+                    if (_dbContextNP.KtraCapNhatTrangThaiNghiPhep(new DTONghiPhep(Convert.ToInt32(_idTuyenDung), _idNhanVien, setTrangThai, rtGhiChu.Text, DateTime.Now)))
                     {
                         MessageBox.Show($"Cập nhật trạng thái thành công. ", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
                         LoadGeneral();
@@ -127,9 +130,10 @@ namespace GUI
                     SoNgayNghi = (p.NgayKetThuc.Day - p.NgayBatDau.Day + 1).ToString(),
                     NgayNghiCoPhep = SoNgayNghiCoPhep(dsNghiPhep, DateTime.Now.Month, p.idNhanVien),
                     NgayNghiKhongPhep = SoNgayNghiKhongPhep(dsNghiPhep, DateTime.Now.Month, p.idNhanVien),
+                    LoaiTH = p.LoaiTruongHop,
                     TrangThai = p.TrangThai
 
-                }).ToList();
+                }).OrderBy(p => p.ID).OrderBy(p => p.LoaiTH).ToList();
 
                 return anonymous;
             }
@@ -139,7 +143,7 @@ namespace GUI
         // Lay so ngay co phep theo thang
         private string SoNgayNghiCoPhep(List<NghiPhep> DsNghiPhep, int thangHienTai, string maNV)
         {
-            var nghiCoLuong = DsNghiPhep.Where(p => p.idNhanVien == maNV && p.TrangThai.Equals("Duyệt", StringComparison.OrdinalIgnoreCase) && p.LoaiNghiPhep.Equals("Có lương", StringComparison.OrdinalIgnoreCase)).ToList();
+            var nghiCoLuong = DsNghiPhep.Where(p => p.idNhanVien == maNV && p.TrangThai.Equals("Đã duyệt", StringComparison.OrdinalIgnoreCase) && p.LoaiNghiPhep.Equals("Có lương", StringComparison.OrdinalIgnoreCase)).ToList();
             return nghiCoLuong.Where(p => p.NgayBatDau.Month == thangHienTai && p.NgayBatDau.Year == DateTime.Now.Year).ToList()
                                             .Sum(p => p.NgayKetThuc.Day - p.NgayBatDau.Day) + nghiCoLuong.Count + "";
         }
@@ -147,7 +151,7 @@ namespace GUI
         // Lay so ngay khong phep theo thang
         private string SoNgayNghiKhongPhep(List<NghiPhep> DsNghiPhep, int thangHienTai, string maNV)
         {
-            var nghiKhongLuong = DsNghiPhep.Where(p => p.idNhanVien == maNV && p.TrangThai.Equals("Duyệt", StringComparison.OrdinalIgnoreCase) && p.LoaiNghiPhep.Equals("Không lương", StringComparison.OrdinalIgnoreCase)).ToList();
+            var nghiKhongLuong = DsNghiPhep.Where(p => p.idNhanVien == maNV && p.TrangThai.Equals("Đã duyệt", StringComparison.OrdinalIgnoreCase) && p.LoaiNghiPhep.Equals("Không lương", StringComparison.OrdinalIgnoreCase)).ToList();
             return nghiKhongLuong.Where(p => p.NgayBatDau.Month == thangHienTai && p.NgayBatDau.Year == DateTime.Now.Year).ToList()
                                             .Sum(p => p.NgayKetThuc.Day - p.NgayBatDau.Day) + nghiKhongLuong.Count + "";
         }
@@ -163,6 +167,7 @@ namespace GUI
             dgvDsXinNghiPhep.Columns["SoNgayNghi"].HeaderText = "Số ngày xin nghỉ";
             dgvDsXinNghiPhep.Columns["NgayNghiCoPhep"].HeaderText = $"Số ngày có phép tháng {DateTime.Now.Month}";
             dgvDsXinNghiPhep.Columns["NgayNghiKhongPhep"].HeaderText = $"Số ngày không phép tháng {DateTime.Now.Month}";
+            dgvDsXinNghiPhep.Columns["LoaiTH"].HeaderText = "Loại TH đột xuất";
             dgvDsXinNghiPhep.Columns["TrangThai"].HeaderText = "Trạng thái";
         }
 

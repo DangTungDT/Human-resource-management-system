@@ -139,7 +139,7 @@ namespace GUI
         // Lay so ngay co phep theo thang
         private string SoNgayNghiCoPhep(List<NghiPhep> DsNghiPhep, int thangHienTai, string maNV)
         {
-            var nghiCoLuong = DsNghiPhep.Where(p => p.idNhanVien == maNV && p.TrangThai.Equals("Duyệt", StringComparison.OrdinalIgnoreCase) && p.LoaiNghiPhep.Equals("Có phép", StringComparison.OrdinalIgnoreCase)).ToList();
+            var nghiCoLuong = DsNghiPhep.Where(p => p.idNhanVien == maNV && p.TrangThai.Equals("Duyệt", StringComparison.OrdinalIgnoreCase) && p.LoaiNghiPhep.Equals("Có lương", StringComparison.OrdinalIgnoreCase)).ToList();
             return nghiCoLuong.Where(p => p.NgayBatDau.Month == thangHienTai && p.NgayBatDau.Year == DateTime.Now.Year).ToList()
                                             .Sum(p => p.NgayKetThuc.Day - p.NgayBatDau.Day) + nghiCoLuong.Count + "";
         }
@@ -147,7 +147,7 @@ namespace GUI
         // Lay so ngay khong phep theo thang
         private string SoNgayNghiKhongPhep(List<NghiPhep> DsNghiPhep, int thangHienTai, string maNV)
         {
-            var nghiKhongLuong = DsNghiPhep.Where(p => p.idNhanVien == maNV && p.TrangThai.Equals("Duyệt", StringComparison.OrdinalIgnoreCase) && p.LoaiNghiPhep.Equals("Không phép", StringComparison.OrdinalIgnoreCase)).ToList();
+            var nghiKhongLuong = DsNghiPhep.Where(p => p.idNhanVien == maNV && p.TrangThai.Equals("Duyệt", StringComparison.OrdinalIgnoreCase) && p.LoaiNghiPhep.Equals("Không lương", StringComparison.OrdinalIgnoreCase)).ToList();
             return nghiKhongLuong.Where(p => p.NgayBatDau.Month == thangHienTai && p.NgayBatDau.Year == DateTime.Now.Year).ToList()
                                             .Sum(p => p.NgayKetThuc.Day - p.NgayBatDau.Day) + nghiKhongLuong.Count + "";
         }

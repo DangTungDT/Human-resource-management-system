@@ -87,10 +87,10 @@ namespace GUI
         {
             try
             {
-                string loai = "Có phép";
+                string loai = "Có lương";
                 var thangHienTai = DateTime.Now.Month;
                 var DsNghiPhepTheoIDNV = _dbContextNP.LayDsNghiPhep().Where(p => p.idNhanVien == _idNhanVien).ToList();
-                var nghiPhep = _dbContextNP.LayDsNghiPhep().Where(p => p.LoaiNghiPhep == "Có phép" && p.TrangThai == "Duyệt" && p.idNhanVien == _idNhanVien && p.LoaiNghiPhep == loai && p.NgayBatDau.Month == DateTime.Now.Month).ToList();
+                var nghiPhep = _dbContextNP.LayDsNghiPhep().Where(p => p.LoaiNghiPhep == "Có lương" && p.TrangThai == "Duyệt" && p.idNhanVien == _idNhanVien && p.LoaiNghiPhep == loai && p.NgayBatDau.Month == DateTime.Now.Month).ToList();
 
                 var ktraDuyet = _dbContextNP.KtraTrangThaiDonChuaDuyet(_idNhanVien);
                 if (!ktraDuyet)
@@ -99,7 +99,7 @@ namespace GUI
                     {
                         if (int.TryParse(SoNgayNghiCoPhep(DsNghiPhepTheoIDNV, thangHienTai), out int countCoLuong) && countCoLuong >= 3)
                         {
-                            loai = "Không phép";
+                            loai = "Không lương";
                         }
 
                         string coLuong = "Số ngày nghỉ phép vượt quá quy định (số ngày nghỉ > 3/đơn nghỉ phép)";
@@ -136,7 +136,7 @@ namespace GUI
                                 if (KtraDuLieuBDKT(true))
                                 {
                                     _lyDo = rtLyDo.Text;
-                                    string[] LoaiNghi = { "Có phép", "Không phép" };
+                                    string[] LoaiNghi = { "Có lương", "Không lương" };
                                     int soNgayDaNghiCoLuong = nghiPhep.Sum(p => p.NgayKetThuc.Day - p.NgayBatDau.Day) + nghiPhep.Count;
 
                                     DateTime batDau = dtpBatDau.Value;
@@ -194,7 +194,7 @@ namespace GUI
 
                 var thangHienTai = DateTime.Now.Month;
                 string khongLuong = "";
-                string loai = "Có phép";
+                string loai = "Có lương";
                 string coLuong = "Số ngày nghỉ phép vượt quá quy định (số ngày nghỉ > 3/nghỉ phép)";
 
                 string ktraLoai = loai.Contains("có") ? coLuong : khongLuong;
@@ -207,7 +207,7 @@ namespace GUI
                     {
                         if (int.TryParse(SoNgayNghiCoPhep(DsNghiPhepTheoIDNV, thangHienTai), out int countCoLuong) && countCoLuong >= 3)
                         {
-                            loai = "Không phép";
+                            loai = "Không lương";
                         }
 
                         var tinhNgayNghi = _dbContextNP.KtraTinhSoLuongNgayNghiCoPhep(_idNhanVien, dtpBatDau.Value.Day, dtpKetThuc.Value.Day, loai);
@@ -300,8 +300,8 @@ namespace GUI
                 DsNghiPhepTheoIDNV = _dbContextNP.LayDsNghiPhep().Where(p => p.idNhanVien == _idNhanVien).ToList();
 
                 txtSoNgayNghi.Text = DsNghiPhepTheoIDNV.Count(p => p.TrangThai.Equals("Duyệt", StringComparison.OrdinalIgnoreCase)).ToString();
-                txtSoNgayCoPhep.Text = DsNghiPhepTheoIDNV.Count(p => p.LoaiNghiPhep.Equals("Có phép", StringComparison.OrdinalIgnoreCase) && p.TrangThai.Equals("Duyệt", StringComparison.OrdinalIgnoreCase)).ToString();
-                txtSoNgayKhongPhep.Text = DsNghiPhepTheoIDNV.Count(p => p.LoaiNghiPhep.Equals("Không phép", StringComparison.OrdinalIgnoreCase) && p.TrangThai.Equals("Duyệt", StringComparison.OrdinalIgnoreCase)).ToString();
+                txtSoNgayCoPhep.Text = DsNghiPhepTheoIDNV.Count(p => p.LoaiNghiPhep.Equals("Có lương", StringComparison.OrdinalIgnoreCase) && p.TrangThai.Equals("Duyệt", StringComparison.OrdinalIgnoreCase)).ToString();
+                txtSoNgayKhongPhep.Text = DsNghiPhepTheoIDNV.Count(p => p.LoaiNghiPhep.Equals("Không lương", StringComparison.OrdinalIgnoreCase) && p.TrangThai.Equals("Duyệt", StringComparison.OrdinalIgnoreCase)).ToString();
             }
 
             dgvDSNghiPhepCaNhan.DataSource = DsNghiPhepTheoIDNV.Select(p => new
@@ -321,9 +321,9 @@ namespace GUI
 
             if (int.TryParse(SoNgayNghiCoPhep(DsNghiPhepTheoIDNV, thangHienTai), out int countCoLuong) && countCoLuong >= 3)
             {
-                cmbLoaiNghi.DataSource = new List<string> { "Không phép" };
+                cmbLoaiNghi.DataSource = new List<string> { "Không lương" };
             }
-            else cmbLoaiNghi.DataSource = new List<string> { "Có phép", "Không phép" };
+            else cmbLoaiNghi.DataSource = new List<string> { "Có lương", "Không lương" };
 
 
             if (dgvDSNghiPhepCaNhan.Columns["id"].Visible)
@@ -342,7 +342,7 @@ namespace GUI
             {
                 if (!string.IsNullOrEmpty(_id))
                 {
-                    dgvDSLichSuNP.DataSource = _dbContextNP.LayDsNghiPhep().Where(p => p.idNhanVien == _id && p.LoaiNghiPhep.Equals("Không phép", StringComparison.OrdinalIgnoreCase) && p.TrangThai.Equals("Duyệt", StringComparison.OrdinalIgnoreCase) && p.NgayBatDau.Month == DateTime.Now.Month && p.NgayBatDau.Year == DateTime.Now.Year)
+                    dgvDSLichSuNP.DataSource = _dbContextNP.LayDsNghiPhep().Where(p => p.idNhanVien == _id && p.LoaiNghiPhep.Equals("Không lương", StringComparison.OrdinalIgnoreCase) && p.TrangThai.Equals("Duyệt", StringComparison.OrdinalIgnoreCase) && p.NgayBatDau.Month == DateTime.Now.Month && p.NgayBatDau.Year == DateTime.Now.Year)
                                                           .Select(p => new
                                                           {
                                                               NgayNghi = $"{p.NgayBatDau.Day}/{thangHienTai} - {p.NgayKetThuc.Day}/{thangHienTai}",
@@ -353,7 +353,7 @@ namespace GUI
                 else dgvDSLichSuNP.DataSource = new List<NghiPhep>().Select(p => new { NgayNghi = "", TruTien = "" }).ToList();
 
             }
-            else dgvDSLichSuNP.DataSource = DsNghiPhepTheoIDNV.Where(p => p.LoaiNghiPhep.Equals("Không phép", StringComparison.OrdinalIgnoreCase) && p.TrangThai.Equals("Duyệt", StringComparison.OrdinalIgnoreCase) && p.NgayBatDau.Month == DateTime.Now.Month && p.NgayBatDau.Year == DateTime.Now.Year)
+            else dgvDSLichSuNP.DataSource = DsNghiPhepTheoIDNV.Where(p => p.LoaiNghiPhep.Equals("Không lương", StringComparison.OrdinalIgnoreCase) && p.TrangThai.Equals("Duyệt", StringComparison.OrdinalIgnoreCase) && p.NgayBatDau.Month == DateTime.Now.Month && p.NgayBatDau.Year == DateTime.Now.Year)
                                                            .Select(p => new
                                                            {
                                                                NgayNghi = $"{p.NgayBatDau.Day}/{thangHienTai} - {p.NgayKetThuc.Day}/{thangHienTai}",
@@ -413,7 +413,7 @@ namespace GUI
 
             txtSoNgayNghi.Text = tinhSoNgayNghiTheoThang.Count(p => !p.TrangThai.Equals("Đang yêu cầu", StringComparison.OrdinalIgnoreCase)).ToString();
             txtSoNgayCoPhep.Text = tinhSoNgayNghiTheoThang.Count(p => p.TrangThai.Equals("Duyệt", StringComparison.OrdinalIgnoreCase)).ToString();
-            txtSoNgayKhongPhep.Text = tinhSoNgayNghiTheoThang.Count(p => p.LoaiNghiPhep.Equals("Không phép", StringComparison.OrdinalIgnoreCase)).ToString();
+            txtSoNgayKhongPhep.Text = tinhSoNgayNghiTheoThang.Count(p => p.LoaiNghiPhep.Equals("Không lương", StringComparison.OrdinalIgnoreCase)).ToString();
 
             //if (dgvDSNghiPhepCaNhan.Columns["id"].Visible)
             //{
@@ -484,7 +484,7 @@ namespace GUI
                 {
                     if (!string.IsNullOrEmpty(_id))
                     {
-                        dgvDSLichSuNP.DataSource = _dbContextNP.LayDsNghiPhep().Where(p => p.idNhanVien == _idSelected && p.LoaiNghiPhep.Equals("Không phép", StringComparison.OrdinalIgnoreCase) && p.TrangThai.Equals("Duyệt", StringComparison.OrdinalIgnoreCase) && p.NgayBatDau.Month == DateTime.Now.Month && p.NgayBatDau.Year == DateTime.Now.Year)
+                        dgvDSLichSuNP.DataSource = _dbContextNP.LayDsNghiPhep().Where(p => p.idNhanVien == _idSelected && p.LoaiNghiPhep.Equals("Không lương", StringComparison.OrdinalIgnoreCase) && p.TrangThai.Equals("Duyệt", StringComparison.OrdinalIgnoreCase) && p.NgayBatDau.Month == DateTime.Now.Month && p.NgayBatDau.Year == DateTime.Now.Year)
                                                               .Select(p => new
                                                               {
                                                                   NgayNghi = $"{p.NgayBatDau.Day}/{thangHienTai} - {p.NgayKetThuc.Day}/{thangHienTai}",
@@ -496,7 +496,7 @@ namespace GUI
                     else dgvDSLichSuNP.DataSource = new List<NghiPhep>().Select(p => new { NgayNghi = "", TruTien = "" }).ToList();
 
                 }
-                else dgvDSLichSuNP.DataSource = DsNghiPhepTheoIDNV.Where(p => p.LoaiNghiPhep.Equals("Không phép", StringComparison.OrdinalIgnoreCase) && p.TrangThai.Equals("Duyệt", StringComparison.OrdinalIgnoreCase) && p.NgayBatDau.Month == DateTime.Now.Month && p.NgayBatDau.Year == DateTime.Now.Year)
+                else dgvDSLichSuNP.DataSource = DsNghiPhepTheoIDNV.Where(p => p.LoaiNghiPhep.Equals("Không lương", StringComparison.OrdinalIgnoreCase) && p.TrangThai.Equals("Duyệt", StringComparison.OrdinalIgnoreCase) && p.NgayBatDau.Month == DateTime.Now.Month && p.NgayBatDau.Year == DateTime.Now.Year)
                                                                .Select(p => new
                                                                {
                                                                    NgayNghi = $"{p.NgayBatDau.Day}/{thangHienTai} - {p.NgayKetThuc.Day}/{thangHienTai}",
@@ -511,7 +511,7 @@ namespace GUI
 
                 txtSoNgayNghi.Text = tinhSoNgayNghiTheoThang.Count(p => !p.TrangThai.Equals("Đang yêu cầu", StringComparison.OrdinalIgnoreCase)).ToString();
                 txtSoNgayCoPhep.Text = tinhSoNgayNghiTheoThang.Count(p => p.TrangThai.Equals("Duyệt", StringComparison.OrdinalIgnoreCase)).ToString();
-                txtSoNgayKhongPhep.Text = tinhSoNgayNghiTheoThang.Count(p => p.LoaiNghiPhep.Equals("Không phép", StringComparison.OrdinalIgnoreCase)).ToString();
+                txtSoNgayKhongPhep.Text = tinhSoNgayNghiTheoThang.Count(p => p.LoaiNghiPhep.Equals("Không lương", StringComparison.OrdinalIgnoreCase)).ToString();
             }
         }
 
@@ -526,7 +526,7 @@ namespace GUI
         // Lay so ngay co phep theo thang
         private string SoNgayNghiCoPhep(List<NghiPhep> DsNghiPhep, int thangHienTai)
         {
-            var nghiCoLuong = DsNghiPhep.Where(p => p.LoaiNghiPhep.Equals("Có phép", StringComparison.OrdinalIgnoreCase)).ToList();
+            var nghiCoLuong = DsNghiPhep.Where(p => p.LoaiNghiPhep.Equals("Có lương", StringComparison.OrdinalIgnoreCase)).ToList();
             return nghiCoLuong.Where(p => p.NgayBatDau.Month == thangHienTai && p.NgayBatDau.Year == DateTime.Now.Year).ToList()
                                             .Sum(p => p.NgayKetThuc.Day - p.NgayBatDau.Day) + nghiCoLuong.Count + "";
         }
@@ -534,7 +534,7 @@ namespace GUI
         // Lay so ngay khong phep theo thang
         private string SoNgayNghiKhongPhep(List<NghiPhep> DsNghiPhep, int thangHienTai)
         {
-            var nghiKhongLuong = DsNghiPhep.Where(p => p.LoaiNghiPhep.Equals("Không phép", StringComparison.OrdinalIgnoreCase)).ToList();
+            var nghiKhongLuong = DsNghiPhep.Where(p => p.LoaiNghiPhep.Equals("Không lương", StringComparison.OrdinalIgnoreCase)).ToList();
             return nghiKhongLuong.Where(p => p.NgayBatDau.Month == thangHienTai && p.NgayBatDau.Year == DateTime.Now.Year).ToList()
                                             .Sum(p => p.NgayKetThuc.Day - p.NgayBatDau.Day) + nghiKhongLuong.Count + "";
         }

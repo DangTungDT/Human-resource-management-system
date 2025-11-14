@@ -77,6 +77,11 @@ namespace BLL
             _dal.UpdateNhanVien(nv);
         }
 
+        public string CreateIdStaff(string tenChucVu, string tenPhongBan)
+        {
+            if(tenChucVu != null && tenPhongBan != null) return _dal.SinhMaNhanVien(tenChucVu, tenPhongBan);
+            return "";
+        }
         public bool AddNhanVien(DTONhanVien nv, string tenChucVu, string TenPhongBan)
         {
             nv.ID = _dal.SinhMaNhanVien(tenChucVu, TenPhongBan);

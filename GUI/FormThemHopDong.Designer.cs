@@ -28,7 +28,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormThemHopDong));
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
@@ -44,7 +43,6 @@
             this.txtEmail = new Guna.UI2.WinForms.Guna2TextBox();
             this.txtChucVuLamViec = new Guna.UI2.WinForms.Guna2TextBox();
             this.txtphongBanLamViec = new Guna.UI2.WinForms.Guna2TextBox();
-            this.imbAnhNhanVien = new Guna.UI2.WinForms.Guna2ImageButton();
             this.btnAdd = new Guna.UI2.WinForms.Guna2Button();
             this.txtMoTaHopDong = new Guna.UI2.WinForms.Guna2TextBox();
             this.txtPhuCapNhanVien = new Guna.UI2.WinForms.Guna2TextBox();
@@ -64,7 +62,9 @@
             this.rdoGioiTinhNam = new Guna.UI2.WinForms.Guna2RadioButton();
             this.rdoGioiTinhNu = new Guna.UI2.WinForms.Guna2RadioButton();
             this.cmbThoiHanHopDong = new Guna.UI2.WinForms.Guna2ComboBox();
-            this.guna2ComboBox1 = new Guna.UI2.WinForms.Guna2ComboBox();
+            this.cmbLoaiHopDong = new Guna.UI2.WinForms.Guna2ComboBox();
+            this.ptbAnhNhanVien = new Guna.UI2.WinForms.Guna2PictureBox();
+            ((System.ComponentModel.ISupportInitialize)(this.ptbAnhNhanVien)).BeginInit();
             this.SuspendLayout();
             // 
             // label1
@@ -159,7 +159,8 @@
             // 
             // txtTenNhanVien
             // 
-            this.txtTenNhanVien.BorderRadius = 7;
+            this.txtTenNhanVien.BackColor = System.Drawing.SystemColors.Control;
+            this.txtTenNhanVien.BorderThickness = 0;
             this.txtTenNhanVien.Cursor = System.Windows.Forms.Cursors.IBeam;
             this.txtTenNhanVien.DefaultText = "";
             this.txtTenNhanVien.DisabledState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(208)))), ((int)(((byte)(208)))), ((int)(((byte)(208)))));
@@ -181,7 +182,8 @@
             // 
             // txtDiaChi
             // 
-            this.txtDiaChi.BorderRadius = 7;
+            this.txtDiaChi.BackColor = System.Drawing.SystemColors.Control;
+            this.txtDiaChi.BorderThickness = 0;
             this.txtDiaChi.Cursor = System.Windows.Forms.Cursors.IBeam;
             this.txtDiaChi.DefaultText = "";
             this.txtDiaChi.DisabledState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(208)))), ((int)(((byte)(208)))), ((int)(((byte)(208)))));
@@ -203,7 +205,8 @@
             // 
             // txtQue
             // 
-            this.txtQue.BorderRadius = 7;
+            this.txtQue.BackColor = System.Drawing.SystemColors.Control;
+            this.txtQue.BorderThickness = 0;
             this.txtQue.Cursor = System.Windows.Forms.Cursors.IBeam;
             this.txtQue.DefaultText = "";
             this.txtQue.DisabledState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(208)))), ((int)(((byte)(208)))), ((int)(((byte)(208)))));
@@ -225,7 +228,8 @@
             // 
             // txtEmail
             // 
-            this.txtEmail.BorderRadius = 7;
+            this.txtEmail.BackColor = System.Drawing.SystemColors.Control;
+            this.txtEmail.BorderThickness = 0;
             this.txtEmail.Cursor = System.Windows.Forms.Cursors.IBeam;
             this.txtEmail.DefaultText = "";
             this.txtEmail.DisabledState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(208)))), ((int)(((byte)(208)))), ((int)(((byte)(208)))));
@@ -247,7 +251,8 @@
             // 
             // txtChucVuLamViec
             // 
-            this.txtChucVuLamViec.BorderRadius = 7;
+            this.txtChucVuLamViec.BackColor = System.Drawing.SystemColors.Control;
+            this.txtChucVuLamViec.BorderThickness = 0;
             this.txtChucVuLamViec.Cursor = System.Windows.Forms.Cursors.IBeam;
             this.txtChucVuLamViec.DefaultText = "";
             this.txtChucVuLamViec.DisabledState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(208)))), ((int)(((byte)(208)))), ((int)(((byte)(208)))));
@@ -269,7 +274,8 @@
             // 
             // txtphongBanLamViec
             // 
-            this.txtphongBanLamViec.BorderRadius = 7;
+            this.txtphongBanLamViec.BackColor = System.Drawing.SystemColors.Control;
+            this.txtphongBanLamViec.BorderThickness = 0;
             this.txtphongBanLamViec.Cursor = System.Windows.Forms.Cursors.IBeam;
             this.txtphongBanLamViec.DefaultText = "";
             this.txtphongBanLamViec.DisabledState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(208)))), ((int)(((byte)(208)))), ((int)(((byte)(208)))));
@@ -289,19 +295,6 @@
             this.txtphongBanLamViec.Size = new System.Drawing.Size(327, 39);
             this.txtphongBanLamViec.TabIndex = 1;
             // 
-            // imbAnhNhanVien
-            // 
-            this.imbAnhNhanVien.CheckedState.ImageSize = new System.Drawing.Size(64, 64);
-            this.imbAnhNhanVien.HoverState.ImageSize = new System.Drawing.Size(64, 64);
-            this.imbAnhNhanVien.Image = ((System.Drawing.Image)(resources.GetObject("imbAnhNhanVien.Image")));
-            this.imbAnhNhanVien.ImageOffset = new System.Drawing.Point(0, 0);
-            this.imbAnhNhanVien.ImageRotate = 0F;
-            this.imbAnhNhanVien.Location = new System.Drawing.Point(828, 429);
-            this.imbAnhNhanVien.Name = "imbAnhNhanVien";
-            this.imbAnhNhanVien.PressedState.ImageSize = new System.Drawing.Size(64, 64);
-            this.imbAnhNhanVien.Size = new System.Drawing.Size(210, 280);
-            this.imbAnhNhanVien.TabIndex = 3;
-            // 
             // btnAdd
             // 
             this.btnAdd.BackColor = System.Drawing.SystemColors.MenuBar;
@@ -318,10 +311,12 @@
             this.btnAdd.Size = new System.Drawing.Size(180, 45);
             this.btnAdd.TabIndex = 20;
             this.btnAdd.Text = "Xác nhận";
+            this.btnAdd.Click += new System.EventHandler(this.btnAdd_Click);
             // 
             // txtMoTaHopDong
             // 
-            this.txtMoTaHopDong.BorderRadius = 7;
+            this.txtMoTaHopDong.BackColor = System.Drawing.SystemColors.Control;
+            this.txtMoTaHopDong.BorderThickness = 0;
             this.txtMoTaHopDong.Cursor = System.Windows.Forms.Cursors.IBeam;
             this.txtMoTaHopDong.DefaultText = "";
             this.txtMoTaHopDong.DisabledState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(208)))), ((int)(((byte)(208)))), ((int)(((byte)(208)))));
@@ -334,6 +329,7 @@
             this.txtMoTaHopDong.HoverState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(94)))), ((int)(((byte)(148)))), ((int)(((byte)(255)))));
             this.txtMoTaHopDong.Location = new System.Drawing.Point(214, 370);
             this.txtMoTaHopDong.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.txtMoTaHopDong.Multiline = true;
             this.txtMoTaHopDong.Name = "txtMoTaHopDong";
             this.txtMoTaHopDong.PlaceholderText = "";
             this.txtMoTaHopDong.SelectedText = "";
@@ -342,7 +338,8 @@
             // 
             // txtPhuCapNhanVien
             // 
-            this.txtPhuCapNhanVien.BorderRadius = 7;
+            this.txtPhuCapNhanVien.BackColor = System.Drawing.SystemColors.Control;
+            this.txtPhuCapNhanVien.BorderThickness = 0;
             this.txtPhuCapNhanVien.Cursor = System.Windows.Forms.Cursors.IBeam;
             this.txtPhuCapNhanVien.DefaultText = "";
             this.txtPhuCapNhanVien.DisabledState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(208)))), ((int)(((byte)(208)))), ((int)(((byte)(208)))));
@@ -355,15 +352,19 @@
             this.txtPhuCapNhanVien.HoverState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(94)))), ((int)(((byte)(148)))), ((int)(((byte)(255)))));
             this.txtPhuCapNhanVien.Location = new System.Drawing.Point(214, 320);
             this.txtPhuCapNhanVien.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.txtPhuCapNhanVien.MaxLength = 18;
             this.txtPhuCapNhanVien.Name = "txtPhuCapNhanVien";
             this.txtPhuCapNhanVien.PlaceholderText = "";
             this.txtPhuCapNhanVien.SelectedText = "";
             this.txtPhuCapNhanVien.Size = new System.Drawing.Size(327, 39);
             this.txtPhuCapNhanVien.TabIndex = 15;
+            this.txtPhuCapNhanVien.TextChanged += new System.EventHandler(this.txtPhuCapNhanVien_TextChanged);
+            this.txtPhuCapNhanVien.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtPhuCapNhanVien_KeyPress);
             // 
             // txtLuongNhanVien
             // 
-            this.txtLuongNhanVien.BorderRadius = 7;
+            this.txtLuongNhanVien.BackColor = System.Drawing.SystemColors.Control;
+            this.txtLuongNhanVien.BorderThickness = 0;
             this.txtLuongNhanVien.Cursor = System.Windows.Forms.Cursors.IBeam;
             this.txtLuongNhanVien.DefaultText = "";
             this.txtLuongNhanVien.DisabledState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(208)))), ((int)(((byte)(208)))), ((int)(((byte)(208)))));
@@ -376,11 +377,14 @@
             this.txtLuongNhanVien.HoverState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(94)))), ((int)(((byte)(148)))), ((int)(((byte)(255)))));
             this.txtLuongNhanVien.Location = new System.Drawing.Point(214, 270);
             this.txtLuongNhanVien.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.txtLuongNhanVien.MaxLength = 18;
             this.txtLuongNhanVien.Name = "txtLuongNhanVien";
             this.txtLuongNhanVien.PlaceholderText = "";
             this.txtLuongNhanVien.SelectedText = "";
             this.txtLuongNhanVien.Size = new System.Drawing.Size(327, 39);
             this.txtLuongNhanVien.TabIndex = 13;
+            this.txtLuongNhanVien.TextChanged += new System.EventHandler(this.txtLuongNhanVien_TextChanged);
+            this.txtLuongNhanVien.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtLuongNhanVien_KeyPress);
             // 
             // label17
             // 
@@ -456,11 +460,10 @@
             // 
             // dtpNgayBatDauHopDong
             // 
-            this.dtpNgayBatDauHopDong.BackColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.dtpNgayBatDauHopDong.BorderRadius = 7;
+            this.dtpNgayBatDauHopDong.BackColor = System.Drawing.SystemColors.Control;
             this.dtpNgayBatDauHopDong.Checked = true;
             this.dtpNgayBatDauHopDong.Enabled = false;
-            this.dtpNgayBatDauHopDong.FillColor = System.Drawing.Color.White;
+            this.dtpNgayBatDauHopDong.FillColor = System.Drawing.SystemColors.Control;
             this.dtpNgayBatDauHopDong.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.dtpNgayBatDauHopDong.ForeColor = System.Drawing.Color.Black;
             this.dtpNgayBatDauHopDong.Format = System.Windows.Forms.DateTimePickerFormat.Short;
@@ -471,13 +474,14 @@
             this.dtpNgayBatDauHopDong.Size = new System.Drawing.Size(327, 39);
             this.dtpNgayBatDauHopDong.TabIndex = 21;
             this.dtpNgayBatDauHopDong.Value = new System.DateTime(2025, 11, 10, 10, 36, 51, 862);
+            this.dtpNgayBatDauHopDong.ValueChanged += new System.EventHandler(this.dtpNgayBatDauHopDong_ValueChanged);
             // 
             // dtpNgayKyHopDong
             // 
-            this.dtpNgayKyHopDong.BackColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.dtpNgayKyHopDong.BorderRadius = 7;
+            this.dtpNgayKyHopDong.BackColor = System.Drawing.SystemColors.Control;
             this.dtpNgayKyHopDong.Checked = true;
-            this.dtpNgayKyHopDong.FillColor = System.Drawing.Color.White;
+            this.dtpNgayKyHopDong.Enabled = false;
+            this.dtpNgayKyHopDong.FillColor = System.Drawing.SystemColors.Control;
             this.dtpNgayKyHopDong.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.dtpNgayKyHopDong.ForeColor = System.Drawing.Color.Black;
             this.dtpNgayKyHopDong.Format = System.Windows.Forms.DateTimePickerFormat.Short;
@@ -491,11 +495,10 @@
             // 
             // dtpNgayKetThucHopDong
             // 
-            this.dtpNgayKetThucHopDong.BackColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.dtpNgayKetThucHopDong.BorderRadius = 7;
+            this.dtpNgayKetThucHopDong.BackColor = System.Drawing.SystemColors.Control;
             this.dtpNgayKetThucHopDong.Checked = true;
             this.dtpNgayKetThucHopDong.Enabled = false;
-            this.dtpNgayKetThucHopDong.FillColor = System.Drawing.Color.White;
+            this.dtpNgayKetThucHopDong.FillColor = System.Drawing.SystemColors.Control;
             this.dtpNgayKetThucHopDong.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.dtpNgayKetThucHopDong.ForeColor = System.Drawing.Color.Black;
             this.dtpNgayKetThucHopDong.Format = System.Windows.Forms.DateTimePickerFormat.Short;
@@ -509,11 +512,10 @@
             // 
             // dtpNgaySinh
             // 
-            this.dtpNgaySinh.BackColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.dtpNgaySinh.BorderRadius = 7;
+            this.dtpNgaySinh.BackColor = System.Drawing.SystemColors.Control;
             this.dtpNgaySinh.Checked = true;
             this.dtpNgaySinh.Enabled = false;
-            this.dtpNgaySinh.FillColor = System.Drawing.Color.White;
+            this.dtpNgaySinh.FillColor = System.Drawing.SystemColors.Control;
             this.dtpNgaySinh.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.dtpNgaySinh.ForeColor = System.Drawing.Color.Black;
             this.dtpNgaySinh.Format = System.Windows.Forms.DateTimePickerFormat.Short;
@@ -528,6 +530,7 @@
             // rdoGioiTinhNam
             // 
             this.rdoGioiTinhNam.AutoSize = true;
+            this.rdoGioiTinhNam.BackColor = System.Drawing.SystemColors.Control;
             this.rdoGioiTinhNam.CheckedState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(94)))), ((int)(((byte)(148)))), ((int)(((byte)(255)))));
             this.rdoGioiTinhNam.CheckedState.BorderThickness = 0;
             this.rdoGioiTinhNam.CheckedState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(94)))), ((int)(((byte)(148)))), ((int)(((byte)(255)))));
@@ -544,10 +547,12 @@
             this.rdoGioiTinhNam.UncheckedState.BorderThickness = 2;
             this.rdoGioiTinhNam.UncheckedState.FillColor = System.Drawing.Color.Transparent;
             this.rdoGioiTinhNam.UncheckedState.InnerColor = System.Drawing.Color.Transparent;
+            this.rdoGioiTinhNam.UseVisualStyleBackColor = false;
             // 
             // rdoGioiTinhNu
             // 
             this.rdoGioiTinhNu.AutoSize = true;
+            this.rdoGioiTinhNu.BackColor = System.Drawing.SystemColors.Control;
             this.rdoGioiTinhNu.CheckedState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(94)))), ((int)(((byte)(148)))), ((int)(((byte)(255)))));
             this.rdoGioiTinhNu.CheckedState.BorderThickness = 0;
             this.rdoGioiTinhNu.CheckedState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(94)))), ((int)(((byte)(148)))), ((int)(((byte)(255)))));
@@ -564,11 +569,12 @@
             this.rdoGioiTinhNu.UncheckedState.BorderThickness = 2;
             this.rdoGioiTinhNu.UncheckedState.FillColor = System.Drawing.Color.Transparent;
             this.rdoGioiTinhNu.UncheckedState.InnerColor = System.Drawing.Color.Transparent;
+            this.rdoGioiTinhNu.UseVisualStyleBackColor = false;
             // 
             // cmbThoiHanHopDong
             // 
-            this.cmbThoiHanHopDong.BackColor = System.Drawing.Color.Transparent;
-            this.cmbThoiHanHopDong.BorderRadius = 7;
+            this.cmbThoiHanHopDong.BackColor = System.Drawing.SystemColors.Control;
+            this.cmbThoiHanHopDong.BorderThickness = 0;
             this.cmbThoiHanHopDong.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed;
             this.cmbThoiHanHopDong.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cmbThoiHanHopDong.FocusedColor = System.Drawing.Color.FromArgb(((int)(((byte)(94)))), ((int)(((byte)(148)))), ((int)(((byte)(255)))));
@@ -580,29 +586,46 @@
             this.cmbThoiHanHopDong.Name = "cmbThoiHanHopDong";
             this.cmbThoiHanHopDong.Size = new System.Drawing.Size(327, 36);
             this.cmbThoiHanHopDong.TabIndex = 23;
+            this.cmbThoiHanHopDong.SelectedIndexChanged += new System.EventHandler(this.cmbThoiHanHopDong_SelectedIndexChanged);
             // 
-            // guna2ComboBox1
+            // cmbLoaiHopDong
             // 
-            this.guna2ComboBox1.BackColor = System.Drawing.Color.Transparent;
-            this.guna2ComboBox1.BorderRadius = 7;
-            this.guna2ComboBox1.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed;
-            this.guna2ComboBox1.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.guna2ComboBox1.FocusedColor = System.Drawing.Color.FromArgb(((int)(((byte)(94)))), ((int)(((byte)(148)))), ((int)(((byte)(255)))));
-            this.guna2ComboBox1.FocusedState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(94)))), ((int)(((byte)(148)))), ((int)(((byte)(255)))));
-            this.guna2ComboBox1.Font = new System.Drawing.Font("Segoe UI", 10F);
-            this.guna2ComboBox1.ForeColor = System.Drawing.Color.Black;
-            this.guna2ComboBox1.ItemHeight = 30;
-            this.guna2ComboBox1.Location = new System.Drawing.Point(214, 20);
-            this.guna2ComboBox1.Name = "guna2ComboBox1";
-            this.guna2ComboBox1.Size = new System.Drawing.Size(327, 36);
-            this.guna2ComboBox1.TabIndex = 23;
+            this.cmbLoaiHopDong.BackColor = System.Drawing.SystemColors.Control;
+            this.cmbLoaiHopDong.BorderThickness = 0;
+            this.cmbLoaiHopDong.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed;
+            this.cmbLoaiHopDong.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cmbLoaiHopDong.FocusedColor = System.Drawing.Color.FromArgb(((int)(((byte)(94)))), ((int)(((byte)(148)))), ((int)(((byte)(255)))));
+            this.cmbLoaiHopDong.FocusedState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(94)))), ((int)(((byte)(148)))), ((int)(((byte)(255)))));
+            this.cmbLoaiHopDong.Font = new System.Drawing.Font("Segoe UI", 10F);
+            this.cmbLoaiHopDong.ForeColor = System.Drawing.Color.Black;
+            this.cmbLoaiHopDong.ItemHeight = 30;
+            this.cmbLoaiHopDong.Items.AddRange(new object[] {
+            "Hợp đồng thử việc",
+            "Hợp đồng chính thức",
+            "Hợp đồng không thời hạn"});
+            this.cmbLoaiHopDong.Location = new System.Drawing.Point(214, 20);
+            this.cmbLoaiHopDong.Name = "cmbLoaiHopDong";
+            this.cmbLoaiHopDong.Size = new System.Drawing.Size(327, 36);
+            this.cmbLoaiHopDong.TabIndex = 23;
+            this.cmbLoaiHopDong.SelectedIndexChanged += new System.EventHandler(this.cmbLoaiHopDong_SelectedIndexChanged);
+            // 
+            // ptbAnhNhanVien
+            // 
+            this.ptbAnhNhanVien.BackColor = System.Drawing.SystemColors.Control;
+            this.ptbAnhNhanVien.ImageRotate = 0F;
+            this.ptbAnhNhanVien.Location = new System.Drawing.Point(828, 429);
+            this.ptbAnhNhanVien.Name = "ptbAnhNhanVien";
+            this.ptbAnhNhanVien.Size = new System.Drawing.Size(210, 280);
+            this.ptbAnhNhanVien.TabIndex = 24;
+            this.ptbAnhNhanVien.TabStop = false;
             // 
             // FormThemHopDong
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1173, 793);
-            this.Controls.Add(this.guna2ComboBox1);
+            this.Controls.Add(this.ptbAnhNhanVien);
+            this.Controls.Add(this.cmbLoaiHopDong);
             this.Controls.Add(this.cmbThoiHanHopDong);
             this.Controls.Add(this.rdoGioiTinhNu);
             this.Controls.Add(this.rdoGioiTinhNam);
@@ -622,7 +645,6 @@
             this.Controls.Add(this.label12);
             this.Controls.Add(this.label11);
             this.Controls.Add(this.label10);
-            this.Controls.Add(this.imbAnhNhanVien);
             this.Controls.Add(this.txtphongBanLamViec);
             this.Controls.Add(this.txtQue);
             this.Controls.Add(this.txtChucVuLamViec);
@@ -646,6 +668,7 @@
             this.Text = "Tạo hợp đồng cho ứng viên";
             this.Load += new System.EventHandler(this.FormThemHopDong_Load);
             this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.FormThemHopDong_KeyDown);
+            ((System.ComponentModel.ISupportInitialize)(this.ptbAnhNhanVien)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -667,7 +690,6 @@
         private Guna.UI2.WinForms.Guna2TextBox txtEmail;
         private Guna.UI2.WinForms.Guna2TextBox txtChucVuLamViec;
         private Guna.UI2.WinForms.Guna2TextBox txtphongBanLamViec;
-        private Guna.UI2.WinForms.Guna2ImageButton imbAnhNhanVien;
         private Guna.UI2.WinForms.Guna2Button btnAdd;
         private Guna.UI2.WinForms.Guna2TextBox txtMoTaHopDong;
         private Guna.UI2.WinForms.Guna2TextBox txtPhuCapNhanVien;
@@ -687,6 +709,7 @@
         private Guna.UI2.WinForms.Guna2RadioButton rdoGioiTinhNam;
         private Guna.UI2.WinForms.Guna2RadioButton rdoGioiTinhNu;
         private Guna.UI2.WinForms.Guna2ComboBox cmbThoiHanHopDong;
-        private Guna.UI2.WinForms.Guna2ComboBox guna2ComboBox1;
+        private Guna.UI2.WinForms.Guna2ComboBox cmbLoaiHopDong;
+        private Guna.UI2.WinForms.Guna2PictureBox ptbAnhNhanVien;
     }
 }

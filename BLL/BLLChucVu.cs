@@ -21,7 +21,7 @@ namespace BLL
             dal = new DALChucVu(conn);
         }
 
-        public string FindNameById(int id) => dal.FindNameById(id);
+        public DTOChucVu FindNameById(int id) => dal.FindNameById(id);
         public ChucVu GetPositionByIdStaff(string idStaff)
         {
             if (string.IsNullOrEmpty(idStaff)) return null;

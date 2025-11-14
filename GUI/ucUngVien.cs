@@ -496,7 +496,7 @@ namespace GUI
             {
                 dto.TrangThai = "Thử việc";
                 DTOPhongBan phongBan = _bllPhongBan.FindPhongBanByIdChucVu(dto.IdChucVuUngTuyen);
-                string namePosition = _bllChucVu.FindNameById(dto.IdChucVuUngTuyen);
+                string namePosition = _bllChucVu.FindNameById(dto.IdChucVuUngTuyen).TenChucVu;
                 //Tạo nhân sự 
                 DTONhanVien newStaff = new DTONhanVien
                 {

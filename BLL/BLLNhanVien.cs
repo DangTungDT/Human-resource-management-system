@@ -82,6 +82,7 @@ namespace BLL
             if(tenChucVu != null && tenPhongBan != null) return _dal.SinhMaNhanVien(tenChucVu, tenPhongBan);
             return "";
         }
+
         public bool AddNhanVien(DTONhanVien nv, string tenChucVu, string TenPhongBan)
         {
             nv.ID = _dal.SinhMaNhanVien(tenChucVu, TenPhongBan);

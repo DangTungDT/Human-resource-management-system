@@ -19,11 +19,13 @@ namespace GUI
 {
     public partial class FormThemHopDong : Form
     {
+        //DTO DAL BLL
         DTOUngVien _ungVien = new DTOUngVien();
         BLLHopDongLaoDong _bllHopDong;
         BLLChucVu _bllChucVu;
         BLLPhongBan _bllPhongBan;
         BLLNhanVien _bllNhanVien;
+        BLLUngVien _bllUngVien;
 
         string _idNewStaff = "";
         DTOPhongBan _dtoPhongBan;
@@ -50,7 +52,8 @@ namespace GUI
             _bllHopDong = new BLLHopDongLaoDong(conn);
             _bllChucVu = new BLLChucVu(conn);
             _bllNhanVien = new BLLNhanVien(conn);
-            _bllPhongBan = new BLLPhongBan(conn); 
+            _bllPhongBan = new BLLPhongBan(conn);
+            _bllUngVien = new BLLUngVien(conn);
             InitializeComponent();
         }
 
@@ -75,7 +78,7 @@ namespace GUI
         private void FormThemHopDong_Load(object sender, EventArgs e)
         {
             //dtpNgayKyHopDong.Enabled = false;
-            if (!IsValid(_ungVien))
+            if (!IsValidUngVien(_ungVien))
             {
                 MessageBox.Show("Dữ liệu ứng viên không hợp lệ!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 
@@ -180,7 +183,44 @@ namespace GUI
             txtPhuCapNhanVien.Text = "0";
         }
 
-        public bool IsValid(DTOUngVien uv)
+        public bool IsValidHopDong()
+        {
+            // Kiểm tra textbox Lương
+            if (string.IsNullOrWhiteSpace(txtLuongNhanVien.Text))
+            {
+                MessageBox.Show("Vui lòng nhập thông tin cho control đó", "Thiếu thông tin", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                txtLuongNhanVien.Focus();
+                return false;
+            }
+
+            // Kiểm tra textbox Phụ cấp
+            if (string.IsNullOrWhiteSpace(txtPhuCapNhanVien.Text))
+            {
+                MessageBox.Show("Vui lòng nhập thông tin cho control đó", "Thiếu thông tin", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                txtPhuCapNhanVien.Focus();
+                return false;
+            }
+
+            // Kiểm tra combobox Loại hợp đồng
+            if (cmbLoaiHopDong.SelectedIndex < 0 || string.IsNullOrWhiteSpace(cmbLoaiHopDong.Text))
+            {
+                MessageBox.Show("Vui lòng nhập thông tin cho control đó", "Thiếu thông tin", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                cmbLoaiHopDong.Focus();
+                return false;
+            }
+
+            // Kiểm tra combobox Thời hạn hợp đồng
+            if (cmbThoiHanHopDong.SelectedIndex < 0 || string.IsNullOrWhiteSpace(cmbThoiHanHopDong.Text))
+            {
+                MessageBox.Show("Vui lòng nhập thông tin cho control đó", "Thiếu thông tin", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                cmbThoiHanHopDong.Focus();
+                return false;
+            }
+
+            return true;
+
+        }
+        public bool IsValidUngVien(DTOUngVien uv)
         {
             if (uv == null)
                 return false;
@@ -209,6 +249,10 @@ namespace GUI
 
         private void btnAdd_Click(object sender, EventArgs e)
         {
+            if (!IsValidHopDong())
+            {
+                return;
+            }
             try
             {
                 _idNewStaff = _bllNhanVien.CreateIdStaff(txtChucVuLamViec.Text, txtphongBanLamViec.Text);
@@ -222,7 +266,6 @@ namespace GUI
                     IdNhanVien = _idNewStaff,
                     MoTa = txtMoTaHopDong.Text
                 };
-
                 DTONhanVien nv = new DTONhanVien
                 {
                     ID = _idNewStaff,
@@ -238,13 +281,20 @@ namespace GUI
 
                 if (!_bllNhanVien.AddNhanVien(nv, txtChucVuLamViec.Text, txtphongBanLamViec.Text))
                 {
-                    MessageBox.Show("Thêm nhân viên thất bại!", "Thông báo");
+                    MessageBox.Show("Thêm nhân viên và tài khoản tự động thất bại!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return;
                 }
 
                 var result = _bllHopDong.Create(dto);
                 if (result)
                 {
+                    if(!_bllUngVien.UpdateIsDelete(_ungVien.Id))
+                    {
+                        //Nếu không xóa mềm được ứng viên thì sẽ không thông báo gì
+                        return;
+                    }
+
+                    //Thông báo tạo hợp đồng thành công và thoát khỏi chương trình
                     MessageBox.Show("Tạo hợp đồng thành công", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     this.Close();
                 }
@@ -283,8 +333,7 @@ namespace GUI
             cmbThoiHanHopDong.Enabled = cmbThoiHanHopDong.Items.Count > 0;
             dtpNgayKetThucHopDong.Enabled = false;
 
-            // Nếu có sẵn item và muốn chọn mặc định, có thể uncomment:
-            // if (cmbThoiHanHopDong.Enabled) cmbThoiHanHopDong.SelectedIndex = 0;
+            if (cmbThoiHanHopDong.Enabled) cmbThoiHanHopDong.SelectedIndex = 0;
         }
 
         private void cmbThoiHanHopDong_SelectedIndexChanged(object sender, EventArgs e)

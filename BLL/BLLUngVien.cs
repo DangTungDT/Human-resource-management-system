@@ -20,6 +20,11 @@ namespace BLL
             dal = new DALUngVien(conn);
         }
 
+        public bool UpdateIsDelete(int id)
+        {
+            if(id < 1) return false;
+            return dal.UpdateIsDelete(id);
+        }
         public IQueryable GetUCIsDeleted(bool isDeleted, bool inComplete) => dal.GetUCIsDeleted(isDeleted, inComplete);
 
         public IQueryable GetAll() => dal.GetAll();

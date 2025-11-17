@@ -53,6 +53,7 @@
             this.guna2HtmlLabel23 = new Guna.UI2.WinForms.Guna2HtmlLabel();
             this.guna2Panel1 = new Guna.UI2.WinForms.Guna2Panel();
             this.grbTPTuyenDung = new Guna.UI2.WinForms.Guna2GroupBox();
+            this.ckbDsTDTP = new System.Windows.Forms.CheckBox();
             this.rtGhiChu = new System.Windows.Forms.RichTextBox();
             this.dgvTPTuyenDung = new Guna.UI2.WinForms.Guna2DataGridView();
             this.txtTrangThai = new Guna.UI2.WinForms.Guna2TextBox();
@@ -63,14 +64,6 @@
             this.txtNguoiTao = new Guna.UI2.WinForms.Guna2TextBox();
             this.guna2HtmlLabel1 = new Guna.UI2.WinForms.Guna2HtmlLabel();
             this.guna2HtmlLabel25 = new Guna.UI2.WinForms.Guna2HtmlLabel();
-            this.guna2HtmlLabel2 = new Guna.UI2.WinForms.Guna2HtmlLabel();
-            this.guna2HtmlLabel3 = new Guna.UI2.WinForms.Guna2HtmlLabel();
-            this.guna2HtmlLabel4 = new Guna.UI2.WinForms.Guna2HtmlLabel();
-            this.guna2HtmlLabel10 = new Guna.UI2.WinForms.Guna2HtmlLabel();
-            this.guna2HtmlLabel5 = new Guna.UI2.WinForms.Guna2HtmlLabel();
-            this.guna2HtmlLabel6 = new Guna.UI2.WinForms.Guna2HtmlLabel();
-            this.guna2HtmlLabel7 = new Guna.UI2.WinForms.Guna2HtmlLabel();
-            this.ckbDsTDTP = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.error)).BeginInit();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvDsUngVienTuyen)).BeginInit();
@@ -144,7 +137,7 @@
             this.guna2HtmlLabel9.Location = new System.Drawing.Point(10, 20);
             this.guna2HtmlLabel9.Margin = new System.Windows.Forms.Padding(3, 10, 3, 2);
             this.guna2HtmlLabel9.Name = "guna2HtmlLabel9";
-            this.guna2HtmlLabel9.Size = new System.Drawing.Size(356, 59);
+            this.guna2HtmlLabel9.Size = new System.Drawing.Size(348, 59);
             this.guna2HtmlLabel9.TabIndex = 14;
             this.guna2HtmlLabel9.Text = "THAO TÁC";
             this.guna2HtmlLabel9.TextAlignment = System.Drawing.ContentAlignment.TopCenter;
@@ -216,7 +209,7 @@
             this.panel1.Margin = new System.Windows.Forms.Padding(4);
             this.panel1.Name = "panel1";
             this.panel1.Padding = new System.Windows.Forms.Padding(10, 20, 20, 20);
-            this.panel1.Size = new System.Drawing.Size(386, 798);
+            this.panel1.Size = new System.Drawing.Size(378, 797);
             this.panel1.TabIndex = 21;
             // 
             // btnLoadDuLieu
@@ -263,7 +256,7 @@
             this.lblSoLuongUVTuyen.Location = new System.Drawing.Point(10, 421);
             this.lblSoLuongUVTuyen.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.lblSoLuongUVTuyen.Name = "lblSoLuongUVTuyen";
-            this.lblSoLuongUVTuyen.Size = new System.Drawing.Size(356, 37);
+            this.lblSoLuongUVTuyen.Size = new System.Drawing.Size(348, 37);
             this.lblSoLuongUVTuyen.TabIndex = 40;
             this.lblSoLuongUVTuyen.Text = "Số lượng ứng viên tuyển:";
             // 
@@ -300,7 +293,7 @@
             this.dgvDsUngVienTuyen.RowTemplate.Height = 35;
             this.dgvDsUngVienTuyen.RowTemplate.ReadOnly = true;
             this.dgvDsUngVienTuyen.RowTemplate.Resizable = System.Windows.Forms.DataGridViewTriState.False;
-            this.dgvDsUngVienTuyen.Size = new System.Drawing.Size(356, 342);
+            this.dgvDsUngVienTuyen.Size = new System.Drawing.Size(348, 342);
             this.dgvDsUngVienTuyen.TabIndex = 44;
             this.dgvDsUngVienTuyen.ThemeStyle.AlternatingRowsStyle.BackColor = System.Drawing.Color.White;
             this.dgvDsUngVienTuyen.ThemeStyle.AlternatingRowsStyle.Font = null;
@@ -366,11 +359,11 @@
             this.guna2Panel1.Controls.Add(this.grbTPTuyenDung);
             this.guna2Panel1.Controls.Add(this.panel1);
             this.guna2Panel1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.guna2Panel1.Location = new System.Drawing.Point(10, 78);
+            this.guna2Panel1.Location = new System.Drawing.Point(10, 79);
             this.guna2Panel1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.guna2Panel1.Name = "guna2Panel1";
             this.guna2Panel1.Padding = new System.Windows.Forms.Padding(0, 10, 10, 10);
-            this.guna2Panel1.Size = new System.Drawing.Size(2008, 818);
+            this.guna2Panel1.Size = new System.Drawing.Size(2008, 817);
             this.guna2Panel1.TabIndex = 19;
             // 
             // grbTPTuyenDung
@@ -397,13 +390,26 @@
             this.grbTPTuyenDung.Dock = System.Windows.Forms.DockStyle.Fill;
             this.grbTPTuyenDung.Font = new System.Drawing.Font("Times New Roman", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.grbTPTuyenDung.ForeColor = System.Drawing.Color.Black;
-            this.grbTPTuyenDung.Location = new System.Drawing.Point(386, 10);
+            this.grbTPTuyenDung.Location = new System.Drawing.Point(378, 10);
             this.grbTPTuyenDung.Margin = new System.Windows.Forms.Padding(0);
             this.grbTPTuyenDung.Name = "grbTPTuyenDung";
             this.grbTPTuyenDung.Padding = new System.Windows.Forms.Padding(10);
-            this.grbTPTuyenDung.Size = new System.Drawing.Size(1612, 798);
+            this.grbTPTuyenDung.Size = new System.Drawing.Size(1620, 797);
             this.grbTPTuyenDung.TabIndex = 22;
             this.grbTPTuyenDung.TextTransform = Guna.UI2.WinForms.Enums.TextTransform.UpperCase;
+            // 
+            // ckbDsTDTP
+            // 
+            this.ckbDsTDTP.BackColor = System.Drawing.Color.Transparent;
+            this.ckbDsTDTP.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.ckbDsTDTP.Font = new System.Drawing.Font("Times New Roman", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.ckbDsTDTP.Location = new System.Drawing.Point(10, 464);
+            this.ckbDsTDTP.Name = "ckbDsTDTP";
+            this.ckbDsTDTP.Size = new System.Drawing.Size(1600, 49);
+            this.ckbDsTDTP.TabIndex = 45;
+            this.ckbDsTDTP.Text = "Hiển thị danh sách tuyển dụng các trưởng phòng";
+            this.ckbDsTDTP.UseVisualStyleBackColor = false;
+            this.ckbDsTDTP.CheckedChanged += new System.EventHandler(this.ckbDsTDTP_CheckedChanged);
             // 
             // rtGhiChu
             // 
@@ -437,7 +443,7 @@
             this.dgvTPTuyenDung.DefaultCellStyle = dataGridViewCellStyle3;
             this.dgvTPTuyenDung.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.dgvTPTuyenDung.GridColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
-            this.dgvTPTuyenDung.Location = new System.Drawing.Point(10, 502);
+            this.dgvTPTuyenDung.Location = new System.Drawing.Point(10, 513);
             this.dgvTPTuyenDung.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.dgvTPTuyenDung.MultiSelect = false;
             this.dgvTPTuyenDung.Name = "dgvTPTuyenDung";
@@ -446,7 +452,7 @@
             this.dgvTPTuyenDung.RowTemplate.Height = 35;
             this.dgvTPTuyenDung.RowTemplate.ReadOnly = true;
             this.dgvTPTuyenDung.RowTemplate.Resizable = System.Windows.Forms.DataGridViewTriState.False;
-            this.dgvTPTuyenDung.Size = new System.Drawing.Size(1592, 286);
+            this.dgvTPTuyenDung.Size = new System.Drawing.Size(1600, 274);
             this.dgvTPTuyenDung.TabIndex = 5;
             this.dgvTPTuyenDung.ThemeStyle.AlternatingRowsStyle.BackColor = System.Drawing.Color.White;
             this.dgvTPTuyenDung.ThemeStyle.AlternatingRowsStyle.Font = null;
@@ -629,93 +635,10 @@
             this.guna2HtmlLabel25.Location = new System.Drawing.Point(10, 10);
             this.guna2HtmlLabel25.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.guna2HtmlLabel25.Name = "guna2HtmlLabel25";
-            this.guna2HtmlLabel25.Size = new System.Drawing.Size(2008, 68);
+            this.guna2HtmlLabel25.Size = new System.Drawing.Size(2008, 69);
             this.guna2HtmlLabel25.TabIndex = 18;
             this.guna2HtmlLabel25.Text = "TUYỂN DỤNG NHÂN SỰ";
             this.guna2HtmlLabel25.TextAlignment = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // guna2HtmlLabel2
-            // 
-            this.guna2HtmlLabel2.AutoSize = false;
-            this.guna2HtmlLabel2.BackColor = System.Drawing.Color.Transparent;
-            this.guna2HtmlLabel2.Location = new System.Drawing.Point(297, 41);
-            this.guna2HtmlLabel2.Name = "guna2HtmlLabel2";
-            this.guna2HtmlLabel2.Size = new System.Drawing.Size(161, 18);
-            this.guna2HtmlLabel2.TabIndex = 20;
-            this.guna2HtmlLabel2.Text = "Tiêu đề";
-            // 
-            // guna2HtmlLabel3
-            // 
-            this.guna2HtmlLabel3.AutoSize = false;
-            this.guna2HtmlLabel3.BackColor = System.Drawing.Color.Transparent;
-            this.guna2HtmlLabel3.Location = new System.Drawing.Point(297, 115);
-            this.guna2HtmlLabel3.Name = "guna2HtmlLabel3";
-            this.guna2HtmlLabel3.Size = new System.Drawing.Size(215, 18);
-            this.guna2HtmlLabel3.TabIndex = 26;
-            this.guna2HtmlLabel3.Text = "Phòng ban tuyển";
-            // 
-            // guna2HtmlLabel4
-            // 
-            this.guna2HtmlLabel4.AutoSize = false;
-            this.guna2HtmlLabel4.BackColor = System.Drawing.Color.Transparent;
-            this.guna2HtmlLabel4.Location = new System.Drawing.Point(814, 114);
-            this.guna2HtmlLabel4.Name = "guna2HtmlLabel4";
-            this.guna2HtmlLabel4.Size = new System.Drawing.Size(175, 18);
-            this.guna2HtmlLabel4.TabIndex = 24;
-            this.guna2HtmlLabel4.Text = "Vị trí tuyển";
-            // 
-            // guna2HtmlLabel10
-            // 
-            this.guna2HtmlLabel10.AutoSize = false;
-            this.guna2HtmlLabel10.BackColor = System.Drawing.Color.Transparent;
-            this.guna2HtmlLabel10.Location = new System.Drawing.Point(297, 198);
-            this.guna2HtmlLabel10.Name = "guna2HtmlLabel10";
-            this.guna2HtmlLabel10.Size = new System.Drawing.Size(175, 18);
-            this.guna2HtmlLabel10.TabIndex = 25;
-            this.guna2HtmlLabel10.Text = "Số lượng tuyển";
-            // 
-            // guna2HtmlLabel5
-            // 
-            this.guna2HtmlLabel5.AutoSize = false;
-            this.guna2HtmlLabel5.BackColor = System.Drawing.Color.Transparent;
-            this.guna2HtmlLabel5.Location = new System.Drawing.Point(814, 203);
-            this.guna2HtmlLabel5.Name = "guna2HtmlLabel5";
-            this.guna2HtmlLabel5.Size = new System.Drawing.Size(241, 18);
-            this.guna2HtmlLabel5.TabIndex = 23;
-            this.guna2HtmlLabel5.Text = "Người tạo tuyển dụng";
-            // 
-            // guna2HtmlLabel6
-            // 
-            this.guna2HtmlLabel6.AutoSize = false;
-            this.guna2HtmlLabel6.BackColor = System.Drawing.Color.Transparent;
-            this.guna2HtmlLabel6.Location = new System.Drawing.Point(814, 43);
-            this.guna2HtmlLabel6.Name = "guna2HtmlLabel6";
-            this.guna2HtmlLabel6.Size = new System.Drawing.Size(175, 18);
-            this.guna2HtmlLabel6.TabIndex = 22;
-            this.guna2HtmlLabel6.Text = "Trang thái";
-            // 
-            // guna2HtmlLabel7
-            // 
-            this.guna2HtmlLabel7.AutoSize = false;
-            this.guna2HtmlLabel7.BackColor = System.Drawing.Color.Transparent;
-            this.guna2HtmlLabel7.Location = new System.Drawing.Point(297, 283);
-            this.guna2HtmlLabel7.Name = "guna2HtmlLabel7";
-            this.guna2HtmlLabel7.Size = new System.Drawing.Size(170, 18);
-            this.guna2HtmlLabel7.TabIndex = 21;
-            this.guna2HtmlLabel7.Text = "Ngày tạo ";
-            // 
-            // ckbDsTDTP
-            // 
-            this.ckbDsTDTP.BackColor = System.Drawing.Color.Transparent;
-            this.ckbDsTDTP.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.ckbDsTDTP.Font = new System.Drawing.Font("Times New Roman", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.ckbDsTDTP.Location = new System.Drawing.Point(10, 466);
-            this.ckbDsTDTP.Name = "ckbDsTDTP";
-            this.ckbDsTDTP.Size = new System.Drawing.Size(1592, 36);
-            this.ckbDsTDTP.TabIndex = 45;
-            this.ckbDsTDTP.Text = "Hiển thị danh sách tuyển dụng các trưởng phòng";
-            this.ckbDsTDTP.UseVisualStyleBackColor = false;
-            this.ckbDsTDTP.CheckedChanged += new System.EventHandler(this.ckbDsTDTP_CheckedChanged);
             // 
             // UCTuyenDung_TruongPhong
             // 
@@ -723,13 +646,6 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.guna2Panel1);
             this.Controls.Add(this.guna2HtmlLabel25);
-            this.Controls.Add(this.guna2HtmlLabel2);
-            this.Controls.Add(this.guna2HtmlLabel3);
-            this.Controls.Add(this.guna2HtmlLabel4);
-            this.Controls.Add(this.guna2HtmlLabel10);
-            this.Controls.Add(this.guna2HtmlLabel5);
-            this.Controls.Add(this.guna2HtmlLabel6);
-            this.Controls.Add(this.guna2HtmlLabel7);
             this.Name = "UCTuyenDung_TruongPhong";
             this.Padding = new System.Windows.Forms.Padding(10);
             this.Size = new System.Drawing.Size(2028, 906);
@@ -770,13 +686,6 @@
         private Guna.UI2.WinForms.Guna2Button btnLoadDuLieu;
         private Guna.UI2.WinForms.Guna2HtmlLabel guna2HtmlLabel17;
         private Guna.UI2.WinForms.Guna2HtmlLabel guna2HtmlLabel25;
-        private Guna.UI2.WinForms.Guna2HtmlLabel guna2HtmlLabel2;
-        private Guna.UI2.WinForms.Guna2HtmlLabel guna2HtmlLabel3;
-        private Guna.UI2.WinForms.Guna2HtmlLabel guna2HtmlLabel4;
-        private Guna.UI2.WinForms.Guna2HtmlLabel guna2HtmlLabel10;
-        private Guna.UI2.WinForms.Guna2HtmlLabel guna2HtmlLabel5;
-        private Guna.UI2.WinForms.Guna2HtmlLabel guna2HtmlLabel6;
-        private Guna.UI2.WinForms.Guna2HtmlLabel guna2HtmlLabel7;
         private Guna.UI2.WinForms.Guna2DataGridView dgvDsUngVienTuyen;
         private Guna.UI2.WinForms.Guna2HtmlLabel lblSoLuongUVTuyen;
         private System.Windows.Forms.RichTextBox rtGhiChu;

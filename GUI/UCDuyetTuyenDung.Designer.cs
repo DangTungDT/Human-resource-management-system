@@ -38,7 +38,7 @@
             this.dgvTPTuyenDung = new Guna.UI2.WinForms.Guna2DataGridView();
             this.rtGhiChu = new System.Windows.Forms.RichTextBox();
             this.guna2HtmlLabel3 = new Guna.UI2.WinForms.Guna2HtmlLabel();
-            this.txtSoLuong = new Guna.UI2.WinForms.Guna2TextBox();
+            this.txtSoLuongDuyet = new Guna.UI2.WinForms.Guna2TextBox();
             this.txtNguoiTao = new Guna.UI2.WinForms.Guna2TextBox();
             this.txtTrangThai = new Guna.UI2.WinForms.Guna2TextBox();
             this.txtTieuDe = new Guna.UI2.WinForms.Guna2TextBox();
@@ -107,7 +107,7 @@
             this.pnlDuyet.Controls.Add(this.dgvTPTuyenDung);
             this.pnlDuyet.Controls.Add(this.rtGhiChu);
             this.pnlDuyet.Controls.Add(this.guna2HtmlLabel3);
-            this.pnlDuyet.Controls.Add(this.txtSoLuong);
+            this.pnlDuyet.Controls.Add(this.txtSoLuongDuyet);
             this.pnlDuyet.Controls.Add(this.txtNguoiTao);
             this.pnlDuyet.Controls.Add(this.txtTrangThai);
             this.pnlDuyet.Controls.Add(this.txtTieuDe);
@@ -204,28 +204,28 @@
             this.guna2HtmlLabel3.TabIndex = 64;
             this.guna2HtmlLabel3.Text = "Ghi chú:";
             // 
-            // txtSoLuong
+            // txtSoLuongDuyet
             // 
-            this.txtSoLuong.BackColor = System.Drawing.Color.Transparent;
-            this.txtSoLuong.BorderRadius = 7;
-            this.txtSoLuong.Cursor = System.Windows.Forms.Cursors.IBeam;
-            this.txtSoLuong.DefaultText = "";
-            this.txtSoLuong.DisabledState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(208)))), ((int)(((byte)(208)))), ((int)(((byte)(208)))));
-            this.txtSoLuong.DisabledState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(226)))), ((int)(((byte)(226)))), ((int)(((byte)(226)))));
-            this.txtSoLuong.DisabledState.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(138)))), ((int)(((byte)(138)))), ((int)(((byte)(138)))));
-            this.txtSoLuong.DisabledState.PlaceholderForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(138)))), ((int)(((byte)(138)))), ((int)(((byte)(138)))));
-            this.txtSoLuong.FocusedState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(94)))), ((int)(((byte)(148)))), ((int)(((byte)(255)))));
-            this.txtSoLuong.Font = new System.Drawing.Font("Times New Roman", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtSoLuong.HoverState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(94)))), ((int)(((byte)(148)))), ((int)(((byte)(255)))));
-            this.txtSoLuong.Location = new System.Drawing.Point(1128, 212);
-            this.txtSoLuong.Margin = new System.Windows.Forms.Padding(0);
-            this.txtSoLuong.Name = "txtSoLuong";
-            this.txtSoLuong.PlaceholderText = "";
-            this.txtSoLuong.SelectedText = "";
-            this.txtSoLuong.Size = new System.Drawing.Size(427, 53);
-            this.txtSoLuong.TabIndex = 60;
-            this.txtSoLuong.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.txtSoLuong.TextChanged += new System.EventHandler(this.txtSoLuong_TextChanged);
+            this.txtSoLuongDuyet.BackColor = System.Drawing.Color.Transparent;
+            this.txtSoLuongDuyet.BorderRadius = 7;
+            this.txtSoLuongDuyet.Cursor = System.Windows.Forms.Cursors.IBeam;
+            this.txtSoLuongDuyet.DefaultText = "";
+            this.txtSoLuongDuyet.DisabledState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(208)))), ((int)(((byte)(208)))), ((int)(((byte)(208)))));
+            this.txtSoLuongDuyet.DisabledState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(226)))), ((int)(((byte)(226)))), ((int)(((byte)(226)))));
+            this.txtSoLuongDuyet.DisabledState.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(138)))), ((int)(((byte)(138)))), ((int)(((byte)(138)))));
+            this.txtSoLuongDuyet.DisabledState.PlaceholderForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(138)))), ((int)(((byte)(138)))), ((int)(((byte)(138)))));
+            this.txtSoLuongDuyet.FocusedState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(94)))), ((int)(((byte)(148)))), ((int)(((byte)(255)))));
+            this.txtSoLuongDuyet.Font = new System.Drawing.Font("Times New Roman", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtSoLuongDuyet.HoverState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(94)))), ((int)(((byte)(148)))), ((int)(((byte)(255)))));
+            this.txtSoLuongDuyet.Location = new System.Drawing.Point(1128, 212);
+            this.txtSoLuongDuyet.Margin = new System.Windows.Forms.Padding(0);
+            this.txtSoLuongDuyet.Name = "txtSoLuongDuyet";
+            this.txtSoLuongDuyet.PlaceholderText = "";
+            this.txtSoLuongDuyet.SelectedText = "";
+            this.txtSoLuongDuyet.Size = new System.Drawing.Size(427, 53);
+            this.txtSoLuongDuyet.TabIndex = 60;
+            this.txtSoLuongDuyet.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.txtSoLuongDuyet.TextChanged += new System.EventHandler(this.txtSoLuong_TextChanged);
             // 
             // txtNguoiTao
             // 
@@ -413,7 +413,7 @@
         private Guna.UI2.WinForms.Guna2HtmlLabel guna2HtmlLabel20;
         private Guna.UI2.WinForms.Guna2HtmlLabel lblTieuDe;
         private Guna.UI2.WinForms.Guna2HtmlLabel guna2HtmlLabel23;
-        private Guna.UI2.WinForms.Guna2TextBox txtSoLuong;
+        private Guna.UI2.WinForms.Guna2TextBox txtSoLuongDuyet;
         private Guna.UI2.WinForms.Guna2HtmlLabel guna2HtmlLabel2;
         private System.Windows.Forms.RichTextBox rtGhiChu;
         private Guna.UI2.WinForms.Guna2HtmlLabel guna2HtmlLabel3;

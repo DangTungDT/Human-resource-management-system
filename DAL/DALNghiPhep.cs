@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Linq;
+using System.Runtime.Remoting.Lifetime;
 
 namespace DAL
 {
@@ -173,6 +174,30 @@ namespace DAL
             catch { return false; }
         }
 
+        // Cap nhat trang thai Nghi Phep
+        public bool CapNhatTrangThaiNghiPhepChoNhieuNV()
+        {
+            try
+            {
+                var dsNhaNVienNP = _dbContext.NghiPheps.Where(p => p.NgayBatDau.Date < DateTime.Now.Date && p.TrangThai == "Đang yêu cầu").ToList();
+
+                if (dsNhaNVienNP.Any())
+                {
+                    dsNhaNVienNP.ForEach(p =>
+                    {
+                        p.TrangThai = "Không duyệt";
+                        p.NgayDanhGia = DateTime.Now.Date;
+                    });
+
+                    _dbContext.SubmitChanges();
+
+                    return true;
+                }
+                else return false;
+            }
+            catch { return false; }
+        }
+
         // Xoa Nghi Phep
         public bool XoaNghiPhep(DTONghiPhep DTO)
         {
@@ -255,7 +280,7 @@ namespace DAL
             var nghiPhep = _dbContext.NghiPheps.Where(p => p.LoaiNghiPhep == "Có lương" && p.idNhanVien == maNV && p.LoaiNghiPhep == loai && p.NgayBatDau.Month == DateTime.Now.Month).ToList();
 
             int soNgayDaNghiCoLuong = 0;
-            int soNgayXin = (ketThuc - batDau).Days + 1;
+            int soNgayXin = (ketThuc.Date - batDau.Date).Days + 1;
 
             if (nghiPhep.Count == 0)
             {

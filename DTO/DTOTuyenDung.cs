@@ -27,7 +27,7 @@ namespace DTO
             SoLuong = soLuong;
             GhiChu = ghiChu;
             TrangThai = trangThai;
-            NgayTao = capNhatTG;    
+            NgayTao = capNhatTG;
         }
 
         public DTOTuyenDung(int id, int iDPhongBan, int iDChucVu, string tieuDe, string iDNguoiTao, string trangThai, DateTime ngayTao, int soLuong, string ghiChu)

@@ -1,5 +1,6 @@
-﻿using DAL;
-using BLL;
+﻿using BLL;
+using DAL;
+using DocumentFormat.OpenXml.Wordprocessing;
 using DTO;
 using Guna.UI2.WinForms;
 using System;
@@ -7,8 +8,6 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Windows.Forms;
-using DocumentFormat.OpenXml.Office2013.Excel;
-using System.DirectoryServices.ActiveDirectory;
 
 namespace GUI
 {
@@ -17,11 +16,27 @@ namespace GUI
         private string _id { get; set; }
         private string _lyDo { get; set; }
         private string _idSelected { get; set; }
+        private string[] truongHopNghi { get; set; } = {
+                    "Nghỉ phép năm",
+                    "Nghỉ ốm",
+                    "Nghỉ thai sản",
+                    "Nghỉ do tang lễ",
+                    "Nghỉ kết hôn",
+                    "Nghỉ chăm sóc con ốm",
+                    "Nghỉ công tác",
+                    "Nghỉ lễ, Tết",
+                    "Nghỉ bù",
+                    "Nghỉ do tai nạn lao động",
+                    "Nghỉ học tập / đào tạo",
+                    "Nghỉ tạm hoãn hợp đồng",
+                    "Khác ..."
+                };
 
         public readonly string _idNhanVien;
         public readonly BLLChucVu _dbContextCV;
         public readonly BLLNghiPhep _dbContextNP;
         public readonly BLLNhanVien _dbContextNV;
+        public readonly BLLHopDongLaoDong _dbContextHD;
 
         public UCNghiPhep(string idNhanVien, string connect)
         {
@@ -31,6 +46,7 @@ namespace GUI
             _dbContextCV = new BLLChucVu(connect);
             _dbContextNV = new BLLNhanVien(connect);
             _dbContextNP = new BLLNghiPhep(connect);
+            _dbContextHD = new BLLHopDongLaoDong(connect);
         }
 
         // Ktra cac field rong
@@ -54,7 +70,7 @@ namespace GUI
                         continue;
                     }
 
-                    error.SetError(combobox, $"'{combobox.Text}' Trống !");
+                    error.SetError(combobox, $"Trống !");
                     ktra = false;
                 }
             }
@@ -71,20 +87,35 @@ namespace GUI
                     cmbLocThang.Items.Add(i);
                 }
 
-                cmbLoaiTH.Enabled = false;
-                cmbTHNghi.SelectedIndex = 0;
+                var namHopDong = _dbContextHD.KtraDsHopDongLaoDong().Min(p => p.NgayKy.Date.Year);
+                for (int i = namHopDong; i <= DateTime.Now.AddYears(1).Year; i++)
+                {
+                    cmbLocNam.Items.Add(i);
+                }
+
+                cmbLocThang.Text = DateTime.Now.Month.ToString();
+                cmbLocNam.Text = DateTime.Now.Year.ToString();
+
                 grbNhanVien.Text += _dbContextNV.KtraNhanVienQuaID(_idNhanVien).TenNhanVien;
 
                 lblLichSu.Text = $"Lịch sử nghỉ phép tháng {DateTime.Now.Month}";
 
                 ChayLaiDuLieu();
 
+                if (!_idNhanVien.Contains("NV"))
+                {
+                    cmbTHNghi.Items.Add("Nghỉ thường");
+                    cmbTHNghi.Items.Add("Nghỉ đột xuất");
+                }
+                else cmbTHNghi.Items.Add("Nghỉ thường");
+
+                cmbLoaiTH.Enabled = false;
+                //cmbTHNghi.SelectedIndex = 0;
             }
             catch (Exception ex)
             {
                 MessageBox.Show("Lỗi trang load: " + ex.Message, "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-
         }
 
         // Gui don nghi phep
@@ -98,6 +129,7 @@ namespace GUI
                     MessageBox.Show("Không được chọn thời gian trong quá khứ !", "Cảnh báo", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                     dtpBatDau.Value = DateTime.Now;
                     dtpKetThuc.Value = DateTime.Now;
+                    cmbTHNghi.SelectedIndex = -1;
                     return;
                 }
 
@@ -105,6 +137,7 @@ namespace GUI
                 {
                     MessageBox.Show("Ngày kết thúc không được nhỏ hơn ngày bắt đầu !", "Cảnh báo", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                     dtpKetThuc.Value = dtpBatDau.Value.AddDays(1);
+                    cmbTHNghi.SelectedIndex = -1;
                     return;
                 }
 
@@ -112,6 +145,21 @@ namespace GUI
                 {
                     MessageBox.Show("Cần chọn loại trường hợp nghỉ đột xuất !", "Cảnh báo", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                     error.SetError(cmbLoaiTH, "Chọn loại nghỉ!");
+                    cmbTHNghi.SelectedIndex = -1;
+                    return;
+                }
+
+                if (dtpBatDau.Value.Date.Month < DateTime.Now.Date.Month)
+                {
+                    MessageBox.Show("Không được thêm đơn nghỉ phép tháng trong quá khứ !", "Cảnh báo", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                    cmbTHNghi.SelectedIndex = -1;
+                    return;
+                }
+
+                if (dtpBatDau.Value.Date.Year < DateTime.Now.Date.Year)
+                {
+                    MessageBox.Show("Không được thêm đơn nghỉ phép năm trong quá khứ !", "Cảnh báo", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                    cmbTHNghi.SelectedIndex = -1;
                     return;
                 }
 
@@ -131,7 +179,7 @@ namespace GUI
                         }
 
                         string loaiTH = cmbLoaiTH.Text;
-                        if (cmbLoaiTH.SelectedItem.ToString().Equals("Khác ...", StringComparison.OrdinalIgnoreCase))
+                        if (cmbLoaiTH.SelectedItem != null && cmbLoaiTH.SelectedItem.ToString().Equals("Khác ...", StringComparison.OrdinalIgnoreCase))
                         {
                             loaiTH = txtLoaiTHKhac.Text;
                         }
@@ -139,8 +187,6 @@ namespace GUI
                         string coLuong = "Số ngày nghỉ phép vượt quá quy định (số ngày nghỉ > 3/đơn nghỉ phép)";
                         string khongLuong = "";
                         string ktraLoai = loai.Contains("có") ? coLuong : khongLuong;
-
-                        int soNgayXin = dtpKetThuc.Value.Day - dtpBatDau.Value.Day + 1;
 
                         var tinhNgayNghi = _dbContextNP.KtraTinhSoLuongNgayNghiCoPhep(_idNhanVien, dtpBatDau.Value, dtpKetThuc.Value, loai);
                         if ((tinhNgayNghi.CoPhep > 0 && tinhNgayNghi.KhongPhep == 0) || (tinhNgayNghi.CoPhep == 0 && tinhNgayNghi.KhongPhep > 0))
@@ -160,9 +206,6 @@ namespace GUI
                             {
                                 MessageBox.Show($"Dữ liệu đơn xin phép của ngày bắt đầu hoặc ngày kết thúc đã trùng với đơn đã tồn tại!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                                 return;
-
-                                //dtpBatDau.Value = DsNghiPhepTheoIDNV.Max(p => p.NgayKetThuc.AddDays(1));
-                                //dtpKetThuc.Value = dtpBatDau.Value;
                             }
                         }
                         else if (tinhNgayNghi.CoPhep > 0 && tinhNgayNghi.KhongPhep > 0) // Xu ly them 2 don co phep va khong cung luc
@@ -176,8 +219,8 @@ namespace GUI
                                         _lyDo = rtLyDo.Text;
                                         string[] loaiNghi = { "Có lương", "Không lương" };
 
-                                        DateTime batDau = dtpBatDau.Value;
-                                        DateTime saveKT = dtpKetThuc.Value;
+                                        DateTime batDau = dtpBatDau.Value.Date;
+                                        DateTime saveKT = dtpKetThuc.Value.Date;
                                         DateTime ketThuc = dtpKetThuc.Value.Date.AddDays(-tinhNgayNghi.KhongPhep);
 
                                         foreach (var item in loaiNghi)
@@ -185,7 +228,6 @@ namespace GUI
                                             if (_dbContextNP.KtraThemNghiPhep(new DTONghiPhep(0, _idNhanVien, DateTime.Parse(batDau.ToString("yyyy-MM-dd")), DateTime.Parse(ketThuc.ToString("yyyy-MM-dd")), _lyDo, item, txtTrangThai.Text, loaiTH)))
                                             {
                                                 ChayLaiDuLieu();
-                                                Empty();
                                             }
                                             else MessageBox.Show("Thêm nghỉ phép thất bại !", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
 
@@ -194,6 +236,7 @@ namespace GUI
                                         }
 
                                         MessageBox.Show("Thêm dữ liệu thành công.");
+                                        Empty();
                                         _lyDo = null; return;
                                     }
                                     else return;
@@ -240,7 +283,7 @@ namespace GUI
                 }
 
                 string loaiTH = cmbLoaiTH.Text;
-                if (cmbLoaiTH.SelectedItem.ToString().Equals("Khác ...", StringComparison.OrdinalIgnoreCase))
+                if (cmbLoaiTH.SelectedItem != null && cmbLoaiTH.SelectedItem.ToString().Equals("Khác ...", StringComparison.OrdinalIgnoreCase))
                 {
                     loaiTH = txtLoaiTHKhac.Text;
                 }
@@ -255,7 +298,7 @@ namespace GUI
                         if (cmbLoaiNghi.Text.Equals("Có lương", StringComparison.OrdinalIgnoreCase))
                         {
                             var nghiPhepCapNhat = _dbContextNP.KtraNghiPhepQuaID(id);
-                            int soNgayNghiPhepCN = (nghiPhepCapNhat.NgayKetThuc - nghiPhepCapNhat.NgayBatDau).Days + 1;
+                            int soNgayNghiPhepCN = (nghiPhepCapNhat.NgayKetThuc.Date - nghiPhepCapNhat.NgayBatDau.Date).Days + 1;
                             int soLuongCoPheptrongThang = DsNghiPhepTheoIDNV.Where(p => p.NgayBatDau.Date.Month == dtpBatDau.Value.Date.Month && p.LoaiNghiPhep.Equals("Có lương", StringComparison.OrdinalIgnoreCase)).Count();
 
                             if (soLuongCoPheptrongThang + soNgayNghiPhepCN >= 3)
@@ -322,6 +365,12 @@ namespace GUI
         // Ham Load du lieu
         private void ChayLaiDuLieu()
         {
+            cmbLoaiTH.Items.Clear();
+            cmbLoaiTH.Enabled = false;
+            cmbTHNghi.SelectedIndex = -1;
+
+            _dbContextNP.KtraCapNhatTrangThaiNghiPhepChoNhieuNV();
+
             _id = null;
             var thangHienTai = DateTime.Now.Month;
 
@@ -336,20 +385,17 @@ namespace GUI
                 txtSoNgayCoPhep.Text = "0";
                 txtSoNgayKhongPhep.Text = "0";
             }
-            else
-            {
-                DsNghiPhepTheoIDNV = _dbContextNP.LayDsNghiPhep().Where(p => p.idNhanVien == _idNhanVien).ToList();
-
-                txtSoNgayNghi.Text = DsNghiPhepTheoIDNV.Count(p => p.TrangThai.Equals("Đã duyệt", StringComparison.OrdinalIgnoreCase)).ToString();
-                txtSoNgayCoPhep.Text = DsNghiPhepTheoIDNV.Count(p => p.LoaiNghiPhep.Equals("Có lương", StringComparison.OrdinalIgnoreCase) && p.TrangThai.Equals("Đã duyệt", StringComparison.OrdinalIgnoreCase)).ToString();
-                txtSoNgayKhongPhep.Text = DsNghiPhepTheoIDNV.Count(p => p.LoaiNghiPhep.Equals("Không lương", StringComparison.OrdinalIgnoreCase) && p.TrangThai.Equals("Đã duyệt", StringComparison.OrdinalIgnoreCase)).ToString();
-            }
+            else DsNghiPhepTheoIDNV = _dbContextNP.LayDsNghiPhep().Where(p => p.idNhanVien == _idNhanVien).ToList();
 
             var LoadData = DsNghiPhepTheoIDNV.Where(p => p.NgayBatDau.Month == DateTime.Now.Month && p.NgayBatDau.Year == DateTime.Now.Year).ToList();
             if (cmbLocThang.SelectedItem != null)
             {
                 LoadData = DsNghiPhepTheoIDNV.Where(p => p.NgayBatDau.Month == (int)cmbLocThang.SelectedItem && p.NgayBatDau.Year == DateTime.Now.Year).ToList();
             }
+
+            txtSoNgayNghi.Text = LoadData.Count(p => p.TrangThai.Equals("Đã duyệt", StringComparison.OrdinalIgnoreCase)).ToString();
+            txtSoNgayCoPhep.Text = LoadData.Count(p => p.LoaiNghiPhep.Equals("Có lương", StringComparison.OrdinalIgnoreCase) && p.TrangThai.Equals("Đã duyệt", StringComparison.OrdinalIgnoreCase)).ToString();
+            txtSoNgayKhongPhep.Text = LoadData.Count(p => p.LoaiNghiPhep.Equals("Không lương", StringComparison.OrdinalIgnoreCase) && p.TrangThai.Equals("Đã duyệt", StringComparison.OrdinalIgnoreCase)).ToString();
 
             dgvDSNghiPhepCaNhan.DataSource = LoadData.Select(p => new
             {
@@ -358,7 +404,7 @@ namespace GUI
                 TenNhanVien = _dbContextNV.KtraNhanVienQuaID(p.idNhanVien).TenNhanVien,
                 p.NgayBatDau,
                 p.NgayKetThuc,
-                SoNgayNghi = ((p.NgayKetThuc - p.NgayBatDau).Days + 1).ToString(),
+                SoNgayNghi = ((p.NgayKetThuc.Date - p.NgayBatDau.Date).Days + 1).ToString(),
                 p.LyDoNghi,
                 p.LoaiNghiPhep,
                 p.LoaiTruongHop,
@@ -414,7 +460,6 @@ namespace GUI
             var luongCBNV = _dbContextCV.LayDsChucVu().FirstOrDefault(p => p.id == nhanVien.idChucVu).luongCoBan;
             var tinhTienPhat = (double)luongCBNV / ngayTrongThang;
 
-            int soLuong = DsNghiPhepTheoIDNV.Sum(p => p.NgayKetThuc.Day - p.NgayBatDau.Day) + DsNghiPhepTheoIDNV.Count;
             if (_idNhanVien.Contains("GD"))
             {
                 if (!string.IsNullOrEmpty(_id))
@@ -453,13 +498,17 @@ namespace GUI
             }
 
             dgvDSNghiPhepCaNhan.Columns["LyDoNghi"].DefaultCellStyle.WrapMode = DataGridViewTriState.True;
-            dgvDSNghiPhepCaNhan.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells;
+            //dgvDSNghiPhepCaNhan..AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells;
 
             LoadHeaderText();
         }
 
         // Ham tra ve field trong
-        public void Empty() => rtLyDo.Text = string.Empty;
+        public void Empty()
+        {
+            rtLyDo.Text = string.Empty;
+            txtLoaiTHKhac.Clear();
+        }
 
         // Bang loc thang
         private void cmbLocThang_SelectionChangeCommitted(object sender, EventArgs e)
@@ -481,13 +530,12 @@ namespace GUI
             else
             {
                 DsNghiPhepTheoIDNV = _dbContextNP.LayDsNghiPhep().Where(p => p.idNhanVien == _idNhanVien).ToList();
-                tinhSoNgayNghiTheoThang = DsNghiPhepTheoIDNV.Where(p => p.NgayBatDau.Month == (int)cmbLocThang.SelectedItem && p.NgayBatDau.Year == DateTime.Now.Year && p.TrangThai.Equals("Đã duyệt", StringComparison.OrdinalIgnoreCase)).ToList();
+                tinhSoNgayNghiTheoThang = DsNghiPhepTheoIDNV.Where(p => p.idNhanVien == _idNhanVien && p.NgayBatDau.Month == (int)cmbLocThang.SelectedItem && p.NgayBatDau.Year == (int)cmbLocNam.SelectedItem).ToList();
             }
 
-
-            txtSoNgayNghi.Text = tinhSoNgayNghiTheoThang.Count(p => !p.TrangThai.Equals("Đang yêu cầu", StringComparison.OrdinalIgnoreCase)).ToString();
-            txtSoNgayCoPhep.Text = tinhSoNgayNghiTheoThang.Count(p => p.TrangThai.Equals("Đã duyệt", StringComparison.OrdinalIgnoreCase)).ToString();
-            txtSoNgayKhongPhep.Text = tinhSoNgayNghiTheoThang.Count(p => p.LoaiNghiPhep.Equals("Không lương", StringComparison.OrdinalIgnoreCase)).ToString();
+            txtSoNgayNghi.Text = tinhSoNgayNghiTheoThang.Count(p => p.TrangThai.Equals("Đã duyệt", StringComparison.OrdinalIgnoreCase)).ToString();
+            txtSoNgayCoPhep.Text = tinhSoNgayNghiTheoThang.Count(p => p.LoaiNghiPhep.Equals("Có lương", StringComparison.OrdinalIgnoreCase) && p.TrangThai.Equals("Đã duyệt", StringComparison.OrdinalIgnoreCase)).ToString();
+            txtSoNgayKhongPhep.Text = tinhSoNgayNghiTheoThang.Count(p => p.LoaiNghiPhep.Equals("Không lương", StringComparison.OrdinalIgnoreCase) && p.TrangThai.Equals("Đã duyệt", StringComparison.OrdinalIgnoreCase)).ToString();
 
             dtpBatDau.Enabled = true;
             dtpKetThuc.Enabled = true;
@@ -503,7 +551,7 @@ namespace GUI
             }
 
             dgvDSLichSuNP.DataSource = new List<NghiPhep>().Select(p => new { NgayNghi = "", TruTien = "" }).ToList();
-            dgvDSNghiPhepCaNhan.DataSource = _dbContextNP.LayDsNghiPhep().Where(p => checkIDNVdgvDSNghiPhepCaNhan(p.idNhanVien) && p.NgayBatDau.Month == (int)cmbLocThang.SelectedItem && p.NgayBatDau.Year == DateTime.Now.Year)
+            dgvDSNghiPhepCaNhan.DataSource = _dbContextNP.LayDsNghiPhep().Where(p => checkIDNVdgvDSNghiPhepCaNhan(p.idNhanVien) && p.NgayBatDau.Month == (int)cmbLocThang.SelectedItem && p.NgayBatDau.Year == (int)cmbLocNam.SelectedItem)
                                                                         .Select(p => new
                                                                         {
                                                                             p.id,
@@ -529,6 +577,9 @@ namespace GUI
                 else cmbLoaiNghi.DataSource = new List<string> { "Có lương", "Không lương" };
             }
 
+            cmbLoaiTH.Items.Clear();
+            cmbLoaiTH.Enabled = false;
+            cmbTHNghi.SelectedIndex = -1;
             LoadHeaderText();
         }
 
@@ -536,6 +587,7 @@ namespace GUI
 
         private void dgvDSNghiPhepCaNhan_CellClick(object sender, DataGridViewCellEventArgs e)
         {
+            cmbLoaiTH.Items.Clear();
             if (e != null && e.RowIndex > -1)
             {
                 _id = dgvDSNghiPhepCaNhan.Rows[e.RowIndex].Cells["id"]?.Value.ToString();
@@ -543,6 +595,30 @@ namespace GUI
                 _idSelected = dgvDSNghiPhepCaNhan.Rows[e.RowIndex].Cells["idNhanVien"]?.Value.ToString();
                 rtLyDo.Text = dgvDSNghiPhepCaNhan.Rows[e.RowIndex].Cells["LyDonghi"]?.Value.ToString();
                 cmbLoaiNghi.Text = dgvDSNghiPhepCaNhan.Rows[e.RowIndex].Cells["LoaiNghiPhep"]?.Value.ToString();
+
+                if (dgvDSNghiPhepCaNhan.Rows[e.RowIndex].Cells["LoaiTruongHop"]?.Value.ToString() == "Nghỉ thường")
+                {
+                    //cmbTHNghi.SelectedIndex = -1;
+                    cmbLoaiTH.Visible = true;
+                    txtLoaiTHKhac.Visible = false;
+
+                    cmbTHNghi.Text = dgvDSNghiPhepCaNhan.Rows[e.RowIndex].Cells["LoaiTruongHop"]?.Value.ToString();
+                    if (cmbTHNghi.SelectedItem == null)
+                    {
+                        cmbLoaiTH.Enabled = true;
+                        cmbLoaiTH.SelectedIndex = -1;
+                    }
+                    else cmbLoaiTH.Enabled = false;
+                }
+                else
+                {
+                    cmbTHNghi.Text = "Nghỉ đột xuất";
+                    cmbLoaiTH.Enabled = true;
+
+                    cmbLoaiTH.Items.AddRange(truongHopNghi);
+                    cmbLoaiTH.Text = dgvDSNghiPhepCaNhan.Rows[e.RowIndex].Cells["LoaiTruongHop"]?.Value.ToString();
+                }
+
                 dtpBatDau.Value = DateTime.Parse(dgvDSNghiPhepCaNhan.Rows[e.RowIndex].Cells["NgayBatDau"]?.Value.ToString());
                 dtpKetThuc.Value = DateTime.Parse(dgvDSNghiPhepCaNhan.Rows[e.RowIndex].Cells["NgayKetThuc"]?.Value.ToString());
 
@@ -586,7 +662,6 @@ namespace GUI
                                                                   TruTien = "- " + string.Format(new CultureInfo("vi-VN"), "{0:C0}", tinhTienPhat * (p.NgayKetThuc.Day - p.NgayBatDau.Day + 1))
 
                                                               }).ToList();
-
                     }
                     else dgvDSLichSuNP.DataSource = new List<NghiPhep>().Select(p => new { NgayNghi = "", TruTien = "" }).ToList();
 
@@ -612,9 +687,15 @@ namespace GUI
 
                 var tinhSoNgayNghiTheoThang = _dbContextNP.LayDsNghiPhep().Where(p => p.idNhanVien == nhanVien.id && p.NgayBatDau.Month == selectedNP.NgayBatDau.Month && p.NgayBatDau.Year == DateTime.Now.Year && p.TrangThai.Equals("Đã duyệt", StringComparison.OrdinalIgnoreCase));
 
-                txtSoNgayNghi.Text = tinhSoNgayNghiTheoThang.Count(p => !p.TrangThai.Equals("Đang yêu cầu", StringComparison.OrdinalIgnoreCase)).ToString();
-                txtSoNgayCoPhep.Text = tinhSoNgayNghiTheoThang.Count(p => p.LoaiNghiPhep.Equals("Có lương", StringComparison.OrdinalIgnoreCase) && p.TrangThai.Equals("Đã duyệt", StringComparison.OrdinalIgnoreCase)).ToString();
-                txtSoNgayKhongPhep.Text = tinhSoNgayNghiTheoThang.Count(p => p.LoaiNghiPhep.Equals("Không lương", StringComparison.OrdinalIgnoreCase) && p.TrangThai.Equals("Đã duyệt", StringComparison.OrdinalIgnoreCase)).ToString();
+                var LoadData = DsNghiPhepTheoIDNV.Where(p => p.NgayBatDau.Month == DateTime.Now.Month && p.NgayBatDau.Year == DateTime.Now.Year).ToList();
+                if (cmbLocThang.SelectedItem != null)
+                {
+                    LoadData = DsNghiPhepTheoIDNV.Where(p => p.NgayBatDau.Month == (int)cmbLocThang.SelectedItem && p.NgayBatDau.Year == DateTime.Now.Year).ToList();
+                }
+
+                txtSoNgayNghi.Text = LoadData.Count(p => p.TrangThai.Equals("Đã duyệt", StringComparison.OrdinalIgnoreCase)).ToString();
+                txtSoNgayCoPhep.Text = LoadData.Count(p => p.LoaiNghiPhep.Equals("Có lương", StringComparison.OrdinalIgnoreCase) && p.TrangThai.Equals("Đã duyệt", StringComparison.OrdinalIgnoreCase)).ToString();
+                txtSoNgayKhongPhep.Text = LoadData.Count(p => p.LoaiNghiPhep.Equals("Không lương", StringComparison.OrdinalIgnoreCase) && p.TrangThai.Equals("Đã duyệt", StringComparison.OrdinalIgnoreCase)).ToString();
             }
         }
 
@@ -632,7 +713,7 @@ namespace GUI
             var nghiCoLuong = DsNghiPhep.Where(p => p.LoaiNghiPhep.Equals("Có lương", StringComparison.OrdinalIgnoreCase) &&
                                                     p.NgayBatDau.Month == thangHienTai && p.NgayBatDau.Year == DateTime.Now.Year).ToList();
 
-            return nghiCoLuong.Sum(p => p.NgayKetThuc.Day - p.NgayBatDau.Day) + nghiCoLuong.Count + "";
+            return nghiCoLuong.Sum(p => (p.NgayKetThuc - p.NgayBatDau).Days) + 1 + "";
         }
 
         // Lay so ngay khong phep theo thang
@@ -647,6 +728,7 @@ namespace GUI
         // Xu ly click ngay bat dau
         private void dtpBatDau_CloseUp(object sender, EventArgs e)
         {
+            error.Clear();
             if (!_idNhanVien.Contains("GD"))
             {
                 var ngayKetThuc = _dbContextNP.LayDsNghiPhep().Where(p => p.idNhanVien == _idNhanVien && p.NgayKetThuc.Month == dtpBatDau.Value.Date.Month);
@@ -655,7 +737,7 @@ namespace GUI
                 {
                     if (dtpBatDau.Value.Date < DateTime.Now.Date)
                     {
-                        MessageBox.Show("Không được chọn thời gian trong quá khứ!", "Cảnh báo", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                        error.SetError(dtpBatDau, "Không được chọn thời gian trong quá khứ !");
                         if (ngayKetThuc.Any())
                         {
                             dtpBatDau.Value = ngayKetThuc.Max(p => p.NgayKetThuc).AddDays(1);
@@ -664,7 +746,7 @@ namespace GUI
                     }
                     else if (dtpBatDau.Value.Date > dtpKetThuc.Value.Date)
                     {
-                        MessageBox.Show("Ngày bắt đầu không được lớn hơn ngày kết thúc!", "Cảnh báo", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                        error.SetError(dtpBatDau, "Ngày bắt đầu không được lớn hơn ngày kết thúc !");
                         if (ngayKetThuc.Any())
                         {
                             dtpBatDau.Value = ngayKetThuc.Max(p => p.NgayKetThuc).AddDays(1);
@@ -679,16 +761,16 @@ namespace GUI
                 }
                 else
                 {
-                    var sau1Tuan = dtpBatDau.Value.Date.AddDays(7);
+                    var sau1Tuan = DateTime.Now.Date.AddDays(7);
                     if (sau1Tuan > dtpBatDau.Value.Date)
                     {
-                        MessageBox.Show("Cần chọn ngày nghỉ phép sau 1 tuần kể từ ngày hiện tại!", "Cảnh báo", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                        error.SetError(dtpBatDau, "Cần chọn ngày nghỉ phép sau 1 tuần kể từ ngày hiện tại !");
                         dtpBatDau.Value = sau1Tuan;
                         dtpKetThuc.Value = sau1Tuan;
                     }
                     else if (dtpBatDau.Value.Date > dtpKetThuc.Value.Date)
                     {
-                        MessageBox.Show("Ngày bắt đầu không được lớn hơn ngày kết thúc!", "Cảnh báo", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                        error.SetError(dtpBatDau, "Ngày bắt đầu không được lớn hơn ngày kết thúc !");
                         dtpBatDau.Value = sau1Tuan;
                         dtpKetThuc.Value = sau1Tuan;
                     }
@@ -699,10 +781,17 @@ namespace GUI
         // Xu ly click ngay ket thuc
         private void dtpKetThuc_CloseUp(object sender, EventArgs e)
         {
+            var date = DateTime.Now.Date;
             if (dtpKetThuc.Value.Date < dtpBatDau.Value.Date)
             {
-                MessageBox.Show("Ngày kết thúc không được nhỏ hơn ngày bắt đầu !", "Cảnh báo", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                error.SetError(dtpKetThuc, "Ngày kết thúc không được nhỏ hơn ngày bắt đầu !");
                 dtpKetThuc.Value = dtpBatDau.Value;
+            }
+            else if (dtpKetThuc.Value.Date > date.AddMonths(3))
+            {
+                MessageBox.Show($"Đơn nghỉ phép chỉ được xử lý từ {date.ToString("dd/MM/yyyy")} - {date.AddMonths(3).ToString("dd/MM/yyyy")} !", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                dtpKetThuc.Value = dtpBatDau.Value.Date;
+                return;
             }
         }
 
@@ -763,22 +852,6 @@ namespace GUI
                     cmbLoaiNghi.Text = "Không lương";
                     cmbLoaiTH.Enabled = true;
 
-                    string[] truongHopNghi = {
-                                        "Nghỉ phép năm",
-                                        "Nghỉ ốm",
-                                        "Nghỉ thai sản",
-                                        "Nghỉ do tang lễ",
-                                        "Nghỉ kết hôn",
-                                        "Nghỉ chăm sóc con ốm",
-                                        "Nghỉ công tác",
-                                        "Nghỉ lễ, Tết",
-                                        "Nghỉ bù",
-                                        "Nghỉ do tai nạn lao động",
-                                        "Nghỉ học tập / đào tạo",
-                                        "Nghỉ tạm hoãn hợp đồng",
-                                        "Khác ..."
-                                    };
-
                     cmbLoaiTH.Items.AddRange(truongHopNghi);
 
                     dtpBatDau.Value = DateTime.Now;
@@ -807,6 +880,14 @@ namespace GUI
             {
                 cmbLoaiTH.Visible = false;
                 txtLoaiTHKhac.Visible = true;
+            }
+        }
+
+        private void cmbLocNam_SelectionChangeCommitted(object sender, EventArgs e)
+        {
+            if (cmbLocThang.SelectedItem != null)
+            {
+                cmbLocThang.SelectedIndex = -1;
             }
         }
     }

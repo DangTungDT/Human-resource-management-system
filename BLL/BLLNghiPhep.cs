@@ -110,11 +110,34 @@ namespace BLL
                         }
                         else return false;
                     }
-                    else throw new Exception("Không tìm thấy dữ liệu nghỉ phép trong hệ thống !");
+                    else return false;
 
                 }
                 else throw new Exception("Không tìm thấy dữ liệu nhân viên trong hệ thống !");
 
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Lỗi cập nhật nghỉ phép: " + ex.Message);
+            }
+        }
+
+        // Ktra cap nhat trang thai nghi phep   
+        public bool KtraCapNhatTrangThaiNghiPhepChoNhieuNV()
+        {
+            try
+            {
+                var dsNVNghiPhep = _dbContext.LayDsNghiPhep().Where(p => p.NgayBatDau.Date > DateTime.Now.Date && p.TrangThai == "Đang yêu cầu").ToList();
+                if (dsNVNghiPhep.Any())
+                {
+                    var KtraThemNP = _dbContext.CapNhatTrangThaiNghiPhepChoNhieuNV();
+                    if (KtraThemNP)
+                    {
+                        return true;
+                    }
+                    else return false;
+                }
+                else return false;
             }
             catch (Exception ex)
             {

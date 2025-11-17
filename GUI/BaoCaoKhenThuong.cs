@@ -23,13 +23,14 @@ namespace GUI
 
         public BaoCaoKhenThuong(string conn, string idNhanVien)
         {
+            _connectionString = conn;
+            _idNhanVien = idNhanVien;
+
             InitializeComponent();
             BuildUI();
             LoadPhongBan();
             LoadKhenThuong();
 
-            _connectionString = conn;
-            _idNhanVien = idNhanVien;
         }
 
         private void BuildUI()

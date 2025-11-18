@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace BLL
 {
@@ -19,6 +20,21 @@ namespace BLL
             dal = new DALUngVien(conn);
         }
 
+        public bool TuChoiUngVienConLai(int idTuyenDung)
+        {
+            if (idTuyenDung < 1) return false;
+            return dal.TuChoiUngVienConLai(idTuyenDung);
+        }
+        public List<DTOUngVien> GetUngVienstatusThuViec(int idTuyenDung)
+        {
+            if(idTuyenDung < 1) return null;
+            return dal.GetUngVienstatusThuViec(idTuyenDung);
+        }
+        public bool UpdateIsDelete(int id)
+        {
+            if(id < 1) return false;
+            return dal.UpdateIsDelete(id);
+        }
         public IQueryable GetUCIsDeleted(bool isDeleted, bool inComplete) => dal.GetUCIsDeleted(isDeleted, inComplete);
 
         public IQueryable GetAll() => dal.GetAll();
@@ -90,8 +106,7 @@ namespace BLL
             return "Isvalid data";
         }
 
-
-        public List<UngVien> LayDsUngVien() => dal.LayDsUngVien();
+        public List<UngVien> LayDsUngvien() => dal.LayDsUngvien();
     }
 
 }

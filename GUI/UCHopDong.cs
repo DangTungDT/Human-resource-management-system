@@ -77,7 +77,14 @@ namespace GUI
                 cmbContractType.SelectedItem = row.Cells["LoaiHopDong"].Value.ToString();
                 dtpNgayKy.Text = row.Cells["NgayKy"].Value.ToString();
                 dtpNgayBatDau.Text = row.Cells["NgayBatDau"].Value.ToString();
-                dtpNgayKetThuc.Text = row.Cells["NgayKetThuc"].Value.ToString();
+                if (row.Cells["NgayKetThuc"].Value == null)
+                {
+                    dtpNgayKetThuc.Text = "";
+                }
+                else
+                {
+                    dtpNgayKetThuc.Text = row.Cells["NgayKetThuc"].Value.ToString();
+                }
                 txtLuong.Text = row.Cells["Luong"].Value.ToString();
                 cmbNhanVien.SelectedValue = row.Cells["idNhanVien"].Value.ToString();
                 txtMoTa.Text = row.Cells["MoTa"].Value.ToString();
@@ -186,6 +193,24 @@ namespace GUI
                     return;
                 }
 
+                if (dtpNgayBatDau.Value < DateTime.Now.Date)
+                {
+                    MessageBox.Show("Ngày bắt đầu hợp đồng không được trước ngày hiện tại!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+
+                if (dtpNgayBatDau.Value > DateTime.Now.Date.AddMonths(2))
+                {
+                    MessageBox.Show("Ngày bắt đầu hợp đồng không được quá 2 tháng kể từ ngày hiện tại!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+
+                if (dtpNgayKetThuc.Value < dtpNgayBatDau.Value)
+                {
+                    MessageBox.Show("Ngày kết thúc không được bé hơn ngày bắt đầu!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+
                 var dto = new DTOHopDongLaoDong
                 {
                     LoaiHopDong = cmbContractType.SelectedItem.ToString(),
@@ -230,7 +255,6 @@ namespace GUI
                     MessageBox.Show("Vui lòng chọn hợp đồng cần sửa", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return;
                 }
-
                 var dto = new DTOHopDongLaoDong
                 {
                     Id = _idHopDong,
@@ -242,6 +266,11 @@ namespace GUI
                     IdNhanVien = cmbNhanVien.SelectedValue?.ToString(),
                     MoTa = txtMoTa.Text
                 };
+
+                if (cmbContractType.SelectedItem.ToString().ToLower() == "không xác định thời hạn")
+                {
+                    dto.NgayKetThuc = null;
+                }
 
                 //Nếu ảnh thay đổi (đường dẫn khác so với cũ) lưu ảnh mới và cập nhật tên
                 if (!string.IsNullOrEmpty(_urlImage) && File.Exists(_urlImage))
@@ -337,6 +366,15 @@ namespace GUI
             {
                 MessageBox.Show("Lỗi khi tải lại danh sách: " + ex.Message, "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+        }
+
+        private void txtLuong_KeyPress(object sender, KeyPressEventArgs e)
+        {
+        }
+
+        private void txtLuong_TextChanged(object sender, EventArgs e)
+        {
+            DisplayUserControlPanel.LayKiTuSo(sender);
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using BLL;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -13,6 +14,7 @@ namespace GUI
     public partial class ButtonFeatureViewComponent : UserControl
     {
         private readonly Panel _tpView;
+        private readonly BLLNhanVien _bllNhanVien;
         public readonly string _idNhanVien, _conn;
 
         public ButtonFeatureViewComponent(Panel tpView, string idNhanVien, string conn)
@@ -23,6 +25,7 @@ namespace GUI
             _conn = conn;
             _tpView = tpView;
             _idNhanVien = idNhanVien;
+            _bllNhanVien = new BLLNhanVien(conn);
         }
 
         private void btnDanhGia_Click(object sender, EventArgs e)
@@ -72,7 +75,8 @@ namespace GUI
 
         private void btnChamCong_Click(object sender, EventArgs e)
         {
-            ucXemChamCong uc = new ucXemChamCong(_idNhanVien, _conn);
+            int idDepartment = int.Parse(_bllNhanVien.GetStaffById(_idNhanVien).IdPhongBan);
+            ucChamCongQuanLy uc = new ucChamCongQuanLy(_idNhanVien, idDepartment, _conn);
             DisplayUserControlPanel.ChildUserControl(uc, _tpView);
         }
     }

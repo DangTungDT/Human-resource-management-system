@@ -1,4 +1,5 @@
-﻿using Guna.UI2.WinForms;
+﻿using BLL;
+using Guna.UI2.WinForms;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -16,7 +17,7 @@ namespace GUI
     {
         private readonly Panel _tpHome;
         public readonly string _idNhanVien, _conn;
-
+        private BLLNhanVien _bllNhanVien;
         public ButtonFeatureHomeComponent(Panel tpHome, string idNhanVien, string conn)
         {
             InitializeComponent();
@@ -25,6 +26,7 @@ namespace GUI
             _conn = conn;
             _tpHome = tpHome;
             _idNhanVien = idNhanVien;
+            _bllNhanVien = new BLLNhanVien(conn);
         }
 
         private void btnNghiPhep_Click(object sender, EventArgs e)
@@ -47,18 +49,13 @@ namespace GUI
 
         private void guna2TileButton5_Click(object sender, EventArgs e)
         {
-            ucChamCongQuanLy uc = new ucChamCongQuanLy(_idNhanVien, 2, _conn);
-            DisplayUserControlPanel.ChildUserControl(uc, _tpHome);
         }
 
         private void guna2TileButton6_Click(object sender, EventArgs e)
         {
-            ////ucChamCongQuanLy uc = new ucChamCongQuanLy(_idNhanVien, _conn);
-            ////ChildUserControl(uc, _tpReport);
-
-            //var main = this.ParentForm as Main;
-            //main?.ShowUserControl("ucChamCongQuanLyHinh");
-            //main.ChildFormComponent(_tpHome, "ButtonFeatureHomeComponent");
+            int idDepartment = int.Parse(_bllNhanVien.GetStaffById(_idNhanVien).IdPhongBan);
+            ucChamCongQuanLy uc = new ucChamCongQuanLy(_idNhanVien, idDepartment, _conn);
+            DisplayUserControlPanel.ChildUserControl(uc, _tpHome);
         }
 
         private void ButtonFeatureHomeComponent_Load(object sender, EventArgs e)
@@ -68,7 +65,6 @@ namespace GUI
 
             if (_idNhanVien.Contains("NV"))
             {
-                guna2TileButton5.Visible = false;
                 guna2TileButton6.Visible = false;
             }
 

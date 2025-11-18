@@ -67,7 +67,7 @@ namespace GUI
             txtTrangThai.Text = "Chờ duyệt";
 
             var tuyenDung = _dbContextTD.KtraDsTuyenDung().Where(p => p.idNguoiTao == _idNhanVien).ToList();
-            var ungVien = _dbContextUV.LayDsUngVien().Where(p => tuyenDung.Select(s => s.id).FirstOrDefault() == p.idTuyenDung && p.trangThai.Equals("Thử việc", StringComparison.OrdinalIgnoreCase)).ToList();
+            var ungVien = _dbContextUV.LayDsUngvien().Where(p => tuyenDung.Select(s => s.id).FirstOrDefault() == p.idTuyenDung && p.trangThai.Equals("Thử việc", StringComparison.OrdinalIgnoreCase)).ToList();
             var soLuongTD = tuyenDung.Select(s => s.soLuong).FirstOrDefault();
 
             //if (_idNhanVien.Contains("GD"))
@@ -348,7 +348,7 @@ namespace GUI
                 //var idTuyenDung = id > 0 ? id : tuyenDung.id;
                 var idTuyenDung = _idSelected;
 
-                var ungVien = _dbContextUV.LayDsUngVien().Where(p => idTuyenDung == p.idTuyenDung && p.trangThai.Equals("Thử việc", StringComparison.OrdinalIgnoreCase)).ToList();
+                var ungVien = _dbContextUV.LayDsUngvien().Where(p => idTuyenDung == p.idTuyenDung && p.trangThai.Equals("Thử việc", StringComparison.OrdinalIgnoreCase)).ToList();
 
                 anonymous = ungVien.Select(p => new
                 {
@@ -381,7 +381,7 @@ namespace GUI
 
                 var tuyenDungs = _dbContextTD.KtraDsTuyenDung().Where(p => p.trangThai.Equals("Đang tuyển", StringComparison.OrdinalIgnoreCase)).ToList(); //p.idNguoiTao == _idNguoiTao &&
                 var idTuyenDung = tuyenDungs.Select(s => s.id).ToList();
-                var ungVien = _dbContextUV.LayDsUngVien().Where(p => idTuyenDung.Contains(p.idTuyenDung) && p.trangThai.Equals("Thử việc", StringComparison.OrdinalIgnoreCase)).ToList();
+                var ungVien = _dbContextUV.LayDsUngvien().Where(p => idTuyenDung.Contains(p.idTuyenDung) && p.trangThai.Equals("Thử việc", StringComparison.OrdinalIgnoreCase)).ToList();
                 var soLuongTD = tuyenDungs.Select(s => s.soLuong).FirstOrDefault();
 
                 string setTrangThai = "Chờ duyệt";

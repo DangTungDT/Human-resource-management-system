@@ -82,5 +82,13 @@ namespace BLL
         }
 
         public List<ChamCong> LayDsChamCong() => dal.dsChamCong();
+        public bool CheckAttendanceOutArr(List<string> arrIdStaff)
+        {
+            if (arrIdStaff == null)
+            {
+                return false;
+            }
+            return dal.CheckAttendanceOutArr(arrIdStaff);
+        }
     }
 }

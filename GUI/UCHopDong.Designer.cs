@@ -368,6 +368,7 @@
             this.dtpNgayKy.Checked = true;
             this.dtpNgayKy.FillColor = System.Drawing.Color.LightGray;
             this.dtpNgayKy.Font = new System.Drawing.Font("Segoe UI", 9F);
+            this.dtpNgayKy.ForeColor = System.Drawing.Color.Black;
             this.dtpNgayKy.Format = System.Windows.Forms.DateTimePickerFormat.Short;
             this.dtpNgayKy.Location = new System.Drawing.Point(211, 73);
             this.dtpNgayKy.MaxDate = new System.DateTime(9998, 12, 31, 0, 0, 0, 0);
@@ -393,6 +394,7 @@
             this.dtpNgayBatDau.Checked = true;
             this.dtpNgayBatDau.FillColor = System.Drawing.Color.LightGray;
             this.dtpNgayBatDau.Font = new System.Drawing.Font("Segoe UI", 9F);
+            this.dtpNgayBatDau.ForeColor = System.Drawing.Color.Black;
             this.dtpNgayBatDau.Format = System.Windows.Forms.DateTimePickerFormat.Short;
             this.dtpNgayBatDau.Location = new System.Drawing.Point(211, 140);
             this.dtpNgayBatDau.MaxDate = new System.DateTime(9998, 12, 31, 0, 0, 0, 0);
@@ -418,6 +420,7 @@
             this.dtpNgayKetThuc.Checked = true;
             this.dtpNgayKetThuc.FillColor = System.Drawing.Color.LightGray;
             this.dtpNgayKetThuc.Font = new System.Drawing.Font("Segoe UI", 9F);
+            this.dtpNgayKetThuc.ForeColor = System.Drawing.Color.Black;
             this.dtpNgayKetThuc.Format = System.Windows.Forms.DateTimePickerFormat.Short;
             this.dtpNgayKetThuc.Location = new System.Drawing.Point(211, 200);
             this.dtpNgayKetThuc.MaxDate = new System.DateTime(9998, 12, 31, 0, 0, 0, 0);
@@ -450,6 +453,8 @@
             this.txtLuong.SelectedText = "";
             this.txtLuong.Size = new System.Drawing.Size(279, 36);
             this.txtLuong.TabIndex = 10;
+            this.txtLuong.TextChanged += new System.EventHandler(this.txtLuong_TextChanged);
+            this.txtLuong.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtLuong_KeyPress);
             // 
             // lblNhanVien
             // 

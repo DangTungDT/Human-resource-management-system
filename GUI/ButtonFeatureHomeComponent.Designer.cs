@@ -125,8 +125,9 @@
             this.guna2TileButton5.Name = "guna2TileButton5";
             this.guna2TileButton5.Size = new System.Drawing.Size(180, 64);
             this.guna2TileButton5.TabIndex = 9;
-            this.guna2TileButton5.Text = "Chấm công check";
+            this.guna2TileButton5.Text = "Chấm công";
             this.guna2TileButton5.TextFormatNoPrefix = true;
+            this.guna2TileButton5.Visible = false;
             this.guna2TileButton5.Click += new System.EventHandler(this.guna2TileButton5_Click);
             // 
             // guna2TileButton6
@@ -150,7 +151,7 @@
             this.guna2TileButton6.Name = "guna2TileButton6";
             this.guna2TileButton6.Size = new System.Drawing.Size(180, 64);
             this.guna2TileButton6.TabIndex = 10;
-            this.guna2TileButton6.Text = "Chấm công hình";
+            this.guna2TileButton6.Text = "Chấm công";
             this.guna2TileButton6.TextFormatNoPrefix = true;
             this.guna2TileButton6.Click += new System.EventHandler(this.guna2TileButton6_Click);
             // 

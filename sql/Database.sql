@@ -455,9 +455,9 @@ go
 
 -- 17) NghiPhep (3 rows)
 insert into NghiPhep (NgayBatDau, NgayKetThuc, LyDoNghi, LoaiNghiPhep, idNhanVien, TrangThai) values
-('10/09/2025','12/09/2025', N'Nghỉ phép cá nhân', N'Có phép', 'NVCNTT0001', N'Đã duyệt'),
-('20/09/2025','22/09/2025', N'Bệnh', N'Không phép', 'TPCNTT0001', N'Đang yêu cầu'),
-('25/09/2025','25/09/2025', N'Việc riêng', N'Có phép', 'GDGD0001', N'Đã duyệt');
+('10/09/2025','12/09/2025', N'Nghỉ phép cá nhân', N'Nghỉ phép có lương', 'NVCNTT0001', N'Đã duyệt'),
+('20/09/2025','22/09/2025', N'Bệnh', N'Nghỉ phép không lương', 'TPCNTT0001', N'Đang yêu cầu'),
+('25/09/2025','25/09/2025', N'Việc riêng', N'Nghỉ phép có lương', 'GDGD0001', N'Đã duyệt');
 go
 
 -- 18) TuyenDung (3 rows)

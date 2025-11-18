@@ -241,6 +241,12 @@
     <Compile Include="DoiMatKhauRieng.Designer.cs">
       <DependentUpon>DoiMatKhauRieng.cs</DependentUpon>
     </Compile>
+    <Compile Include="FormBaoCaoChamCong.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormBaoCaoChamCong.Designer.cs">
+      <DependentUpon>FormBaoCaoChamCong.cs</DependentUpon>
+    </Compile>
     <Compile Include="FormBaoCaoDanhGia.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -252,6 +258,12 @@
     </Compile>
     <Compile Include="FormBaoCaoNhanVien.Designer.cs">
       <DependentUpon>FormBaoCaoNhanVien.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormChamCong.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormChamCong.Designer.cs">
+      <DependentUpon>FormChamCong.cs</DependentUpon>
     </Compile>
     <Compile Include="FormTest.cs">
       <SubType>Form</SubType>
@@ -276,6 +288,11 @@
     </Compile>
     <Compile Include="frmKhenThuongNhanVien.Designer.cs">
       <DependentUpon>frmKhenThuongNhanVien.cs</DependentUpon>
+    <Compile Include="FormThemHopDong.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormThemHopDong.Designer.cs">
+      <DependentUpon>FormThemHopDong.cs</DependentUpon>
     </Compile>
     <Compile Include="FrmXemDanhGiaChiTietNV.cs">
       <SubType>Form</SubType>
@@ -308,6 +325,12 @@
     </Compile>
     <Compile Include="QuenMatKhau.Designer.cs">
       <DependentUpon>QuenMatKhau.cs</DependentUpon>
+    </Compile>
+    <Compile Include="report\crpChamCong.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>crpChamCong.rpt</DependentUpon>
+      <SubType>Component</SubType>
     </Compile>
     <Compile Include="RPBaoCaoKyLuat.cs">
       <AutoGen>True</AutoGen>
@@ -523,6 +546,12 @@
     <Compile Include="UCDanhGiaHieuSuat.Designer.cs">
       <DependentUpon>UCDanhGiaHieuSuat.cs</DependentUpon>
     </Compile>
+    <Compile Include="ucPhongBan.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="ucPhongBan.Designer.cs">
+      <DependentUpon>ucPhongBan.cs</DependentUpon>
+    </Compile>
     <Compile Include="UCReportDanhSachKyLuat.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -562,11 +591,17 @@
     <EmbeddedResource Include="ButtonFeatureViewComponent.resx">
       <DependentUpon>ButtonFeatureViewComponent.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="FormBaoCaoChamCong.resx">
+      <DependentUpon>FormBaoCaoChamCong.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="FormBaoCaoDanhGia.resx">
       <DependentUpon>FormBaoCaoDanhGia.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FormBaoCaoNhanVien.resx">
       <DependentUpon>FormBaoCaoNhanVien.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormChamCong.resx">
+      <DependentUpon>FormChamCong.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FormTest.resx">
       <DependentUpon>FormTest.cs</DependentUpon>
@@ -579,9 +614,15 @@
     </EmbeddedResource>
     <EmbeddedResource Include="frmKhenThuongNhanVien.resx">
       <DependentUpon>frmKhenThuongNhanVien.cs</DependentUpon>
+    <EmbeddedResource Include="FormThemHopDong.resx">
+      <DependentUpon>FormThemHopDong.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FrmXemDanhGiaChiTietNV.resx">
       <DependentUpon>FrmXemDanhGiaChiTietNV.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="report\crpChamCong.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>crpChamCong.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="RPBaoCaoKyLuat.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
@@ -763,6 +804,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="UCDanhGiaHieuSuat.resx">
       <DependentUpon>UCDanhGiaHieuSuat.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ucPhongBan.resx">
+      <DependentUpon>ucPhongBan.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UCReportDanhSachKyLuat.resx">
       <DependentUpon>UCReportDanhSachKyLuat.cs</DependentUpon>

@@ -19,6 +19,12 @@ namespace BLL
             dal = new DALPhongBan(conn);
         }
 
+
+        public DTOPhongBan GetDepartmentByID(int id)
+        {
+            if (id < 1) return null;
+            return dal.GetDepartmentByID(id);
+        }
         public DTOPhongBan FindPhongBanByIdChucVu(int id)
         {
             if(id < 1) return null;
@@ -50,12 +56,24 @@ namespace BLL
             return dal.ComBoBoxPhongBan();
         }
 
-        public bool SavePhongBan(DTOPhongBan pb, bool isNew)
+        public string SavePhongBan(DTOPhongBan pb, bool isNew)
         {
+            if(pb.MoTa.Length > 255 && pb.TenPhongBan.Length > 255)
+            {
+                return "Tên và mô tả phòng ban không được dài quá 255 ký tự!";
+            }
+            if(pb.TenPhongBan.Length > 255)
+            {
+                return "Tên phòng ban không được dài quá 255 ký tự";
+            }
+            if(pb.MoTa.Length > 255 )
+            {
+                return "Mô tả không được dài quá 255 ký tự";
+            }
             return isNew ? dal.InsertPhongBan(pb) : dal.UpdatePhongBan(pb);
         }
 
-        public bool DeletePhongBan(int id) => dal.DeletePhongBan(id);
+        public string DeletePhongBan(int id) => dal.DeletePhongBan(id);
 
         public string KtraPhongBan(int id)
         {

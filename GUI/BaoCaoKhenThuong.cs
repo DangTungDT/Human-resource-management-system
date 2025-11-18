@@ -31,7 +31,6 @@ namespace GUI
             InitializeComponent();
             BuildUI();
             LoadPhongBan();
-            LoadKhenThuong();
 
         }
 

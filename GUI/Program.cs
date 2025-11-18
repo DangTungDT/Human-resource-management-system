@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Windows.Forms;
+using BLL;
+using DTO;
 
 namespace GUI
 {
@@ -18,6 +20,9 @@ namespace GUI
             Application.Run(new FormLogin());
             //Application.Run(new TestGiaoDien(""));
             //Application.Run(new frmBaoCaoHopDong(""));
+            //Application.Run(new TestGiaoDien("TPCNTT0001"));
+
+
         }
     }
 }

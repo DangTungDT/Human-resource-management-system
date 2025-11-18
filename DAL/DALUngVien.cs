@@ -1,7 +1,9 @@
 ﻿using DTO;
 using System;
 using System.Collections.Generic;
+using System.Data.Linq;
 using System.Linq;
+using System.Net.NetworkInformation;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -16,128 +18,254 @@ namespace DAL
             db = new PersonnelManagementDataContextDataContext(conn);
         }
 
+
+        //Cập nhật trạng thái cho ứng viên thành "Loại" và xóa mềm
+        public bool TuChoiUngVienConLai(int idTuyenDung)
+        {
+            try
+            {
+                // Lấy danh sách ứng viên thỏa điều kiện và materialize bằng ToList()
+                var listUngVien = db.UngViens
+                    .Where(x => x.idTuyenDung == idTuyenDung && x.trangThai.ToLower() != "thử việc".ToLower())
+                    .ToList();
+
+                // Nếu không có bản ghi thì trả về true (không có gì để làm)
+                if (!listUngVien.Any())
+                    return true;
+
+                // Cập nhật các trường cần thiết
+                foreach (var item in listUngVien)
+                {
+                    item.trangThai = "Loại";
+                    item.daXoa = true;
+                }
+
+                // Lưu thay đổi vào DB
+                db.SubmitChanges();
+                return true;
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
+        }
+
+        //Lấy ứng viên thử việc theo idTuyenDung
+        public List<DTOUngVien> GetUngVienstatusThuViec(int idTuyenDung)
+        {
+            return db.UngViens.Where(x=> x.trangThai.ToLower() == "thử việc".ToLower() && x.idTuyenDung == idTuyenDung).Select(x=> new DTOUngVien()
+            {
+                Id = x.id,
+                TenNhanVien = x.tenNhanVien,
+                NgaySinh = x.ngaySinh,
+                DiaChi = x.diaChi,
+                Que = x.que,
+                GioiTinh = x.gioiTinh,
+                Email = x.email,
+                DuongDanCV = x.duongDanCV,
+                IdChucVuUngTuyen = x.idChucVuUngTuyen,
+                IdTuyenDung = x.idTuyenDung,
+                NgayUngTuyen = (DateTime)x.ngayUngTuyen,
+                TrangThai = x.trangThai,
+                DaXoa = x.daXoa
+            }).ToList();
+        }
+
+        public bool UpdateIsDelete(int id)
+        {
+            try
+            {
+                if (id < 1) return false;
+                var ungVien = db.UngViens.FirstOrDefault(x => x.id == id);
+                if (ungVien == null) return false;
+                ungVien.daXoa = true;
+                db.SubmitChanges();
+                return true;
+            }
+            catch (ChangeConflictException)
+            {
+                // Xử lý xung đột nếu cần: ví dụ resolve hoặc ghi log
+                db.ChangeConflicts.ResolveAll(System.Data.Linq.RefreshMode.OverwriteCurrentValues);
+                return false;
+            }
+            catch (Exception)
+            {
+                // Ghi log, thông báo, v.v.
+                return false;
+            }
+        }
+
         public IQueryable GetFind(string status, string name, int idChucVu)
         {
-            var listUngVien = from uv in db.UngViens
-                              join cv in db.ChucVus on uv.idChucVuUngTuyen equals cv.id
-                              join td in db.TuyenDungs on uv.idTuyenDung equals td.id
-                              select new
-                              {
-                                  uv.id,
-                                  uv.tenNhanVien,
-                                  uv.ngaySinh,
-                                  uv.diaChi,
-                                  uv.que,
-                                  uv.gioiTinh,
-                                  uv.email,
-                                  uv.duongDanCV,
-                                  uv.idChucVuUngTuyen,
-                                  uv.idTuyenDung,
-                                  uv.ngayUngTuyen,
-                                  tenChucVu = cv.TenChucVu,
-                                  tieuDeTuyenDung = td.tieuDe,
-                                  uv.trangThai,
-                                  uv.daXoa
-                              };
-            if (status != "") listUngVien = listUngVien.Where(x => x.trangThai == status);
-            if (name != "") listUngVien = listUngVien.Where(x => x.tenNhanVien == name);
-            if (idChucVu != 0) listUngVien = listUngVien.Where(x => x.idChucVuUngTuyen == idChucVu);
+            try
+            {
+                var listUngVien = from uv in db.UngViens
+                                  join cv in db.ChucVus on uv.idChucVuUngTuyen equals cv.id
+                                  join td in db.TuyenDungs on uv.idTuyenDung equals td.id
+                                  select new
+                                  {
+                                      uv.id,
+                                      uv.tenNhanVien,
+                                      uv.ngaySinh,
+                                      uv.diaChi,
+                                      uv.que,
+                                      uv.gioiTinh,
+                                      uv.email,
+                                      uv.duongDanCV,
+                                      uv.idChucVuUngTuyen,
+                                      uv.idTuyenDung,
+                                      uv.ngayUngTuyen,
+                                      tenChucVu = cv.TenChucVu,
+                                      tieuDeTuyenDung = td.tieuDe,
+                                      uv.trangThai,
+                                      uv.daXoa
+                                  };
+                if (status != "") listUngVien = listUngVien.Where(x => x.trangThai == status);
+                if (name != "") listUngVien = listUngVien.Where(x => x.tenNhanVien == name);
+                if (idChucVu != 0) listUngVien = listUngVien.Where(x => x.idChucVuUngTuyen == idChucVu);
 
-            return listUngVien;
+                return listUngVien;
+            }
+            catch (Exception)
+            {
+                return null;
+            }
         }
 
         public IQueryable GetUCIsDeleted(bool isDeleted, bool inComplete)
         {
-            var listUngVien = from uv in db.UngViens
-                              join cv in db.ChucVus on uv.idChucVuUngTuyen equals cv.id
-                              join td in db.TuyenDungs on uv.idTuyenDung equals td.id
-                              where uv.daXoa == isDeleted
-                              select new
-                              {
-                                  uv.id,
-                                  uv.tenNhanVien,
-                                  uv.ngaySinh,
-                                  uv.diaChi,
-                                  uv.que,
-                                  uv.gioiTinh,
-                                  uv.email,
-                                  uv.duongDanCV,
-                                  uv.idChucVuUngTuyen,
-                                  uv.idTuyenDung,
-                                  uv.ngayUngTuyen,
-                                  tenChucVu = cv.TenChucVu,
-                                  tieuDeTuyenDung = td.tieuDe,
-                                  uv.trangThai,
-                                  uv.daXoa
-                              };
-            if (inComplete)
+            try
             {
-                listUngVien.Where(x => x.trangThai.ToLower() == "trúng tuyển");
+                var listUngVien = from uv in db.UngViens
+                                  join cv in db.ChucVus on uv.idChucVuUngTuyen equals cv.id
+                                  join td in db.TuyenDungs on uv.idTuyenDung equals td.id
+                                  where uv.daXoa == isDeleted
+                                  select new
+                                  {
+                                      uv.id,
+                                      uv.tenNhanVien,
+                                      uv.ngaySinh,
+                                      uv.diaChi,
+                                      uv.que,
+                                      uv.gioiTinh,
+                                      uv.email,
+                                      uv.duongDanCV,
+                                      uv.idChucVuUngTuyen,
+                                      uv.idTuyenDung,
+                                      uv.ngayUngTuyen,
+                                      tenChucVu = cv.TenChucVu,
+                                      tieuDeTuyenDung = td.tieuDe,
+                                      uv.trangThai,
+                                      uv.daXoa
+                                  };
+                if (inComplete)
+                {
+                    // gán lại để filter có hiệu lực
+                    listUngVien = listUngVien.Where(x => x.trangThai.ToLower() == "thử việc".ToLower());
+                }
+                return listUngVien;
             }
-            return listUngVien;
+            catch (Exception)
+            {
+                return null;
+            }
         }
+
         public IQueryable GetAll()
         {
-            var listUngVien = from uv in db.UngViens
-                              join cv in db.ChucVus on uv.idChucVuUngTuyen equals cv.id
-                              join td in db.TuyenDungs on uv.idTuyenDung equals td.id
-                              select new
-                              {
-                                  uv.id,
-                                  uv.tenNhanVien,
-                                  uv.ngaySinh,
-                                  uv.diaChi,
-                                  uv.que,
-                                  uv.gioiTinh,
-                                  uv.email,
-                                  uv.duongDanCV,
-                                  uv.idChucVuUngTuyen,
-                                  uv.idTuyenDung,
-                                  uv.ngayUngTuyen,
-                                  tenChucVu = cv.TenChucVu,
-                                  tieuDeTuyenDung = td.tieuDe,
-                                  uv.trangThai,
-                                  uv.daXoa
-                              };
-            return listUngVien;
+            try
+            {
+                var listUngVien = from uv in db.UngViens
+                                  join cv in db.ChucVus on uv.idChucVuUngTuyen equals cv.id
+                                  join td in db.TuyenDungs on uv.idTuyenDung equals td.id
+                                  select new
+                                  {
+                                      uv.id,
+                                      uv.tenNhanVien,
+                                      uv.ngaySinh,
+                                      uv.diaChi,
+                                      uv.que,
+                                      uv.gioiTinh,
+                                      uv.email,
+                                      uv.duongDanCV,
+                                      uv.idChucVuUngTuyen,
+                                      uv.idTuyenDung,
+                                      uv.ngayUngTuyen,
+                                      tenChucVu = cv.TenChucVu,
+                                      tieuDeTuyenDung = td.tieuDe,
+                                      uv.trangThai,
+                                      uv.daXoa
+                                  };
+                return listUngVien;
+            }
+            catch (Exception)
+            {
+                return null;
+            }
         }
 
         public IQueryable GetUngVienStatus(bool flag)
         {
-            string requestStatus = "Trúng tuyển";
-            if (!flag)
+            try
             {
-                requestStatus = "Loại";
+                string requestStatus = "Thử việc";
+                if (!flag)
+                {
+                    requestStatus = "Loại";
+                }
+                var listUngVien = from uv in db.UngViens
+                                  join cv in db.ChucVus on uv.idChucVuUngTuyen equals cv.id
+                                  join td in db.TuyenDungs on uv.idTuyenDung equals td.id
+                                  where uv.trangThai.ToLower() == requestStatus.ToLower()
+                                  select new
+                                  {
+                                      uv.id,
+                                      uv.tenNhanVien,
+                                      uv.ngaySinh,
+                                      uv.diaChi,
+                                      uv.que,
+                                      uv.gioiTinh,
+                                      uv.email,
+                                      uv.duongDanCV,
+                                      uv.idChucVuUngTuyen,
+                                      uv.idTuyenDung,
+                                      uv.ngayUngTuyen,
+                                      tenChucVu = cv.TenChucVu,
+                                      tieuDeTuyenDung = td.tieuDe,
+                                      uv.trangThai,
+                                      uv.daXoa
+                                  };
+                return listUngVien;
             }
-            var listUngVien = from uv in db.UngViens
-                              join cv in db.ChucVus on uv.idChucVuUngTuyen equals cv.id
-                              join td in db.TuyenDungs on uv.idTuyenDung equals td.id
-                              where uv.trangThai.ToLower() == requestStatus.ToLower()
-                              select new
-                              {
-                                  uv.id,
-                                  uv.tenNhanVien,
-                                  uv.ngaySinh,
-                                  uv.diaChi,
-                                  uv.que,
-                                  uv.gioiTinh,
-                                  uv.email,
-                                  uv.duongDanCV,
-                                  uv.idChucVuUngTuyen,
-                                  uv.idTuyenDung,
-                                  uv.ngayUngTuyen,
-                                  tenChucVu = cv.TenChucVu,
-                                  tieuDeTuyenDung = td.tieuDe,
-                                  uv.trangThai,
-                                  uv.daXoa
-                              };
-            return listUngVien;
+            catch (Exception)
+            {
+                return null;
+            }
         }
+
         public IQueryable GetUngTuyenByChucVu(int idChucVu)
-            => db.UngViens.Where(x => x.idChucVuUngTuyen == idChucVu);
+        {
+            try
+            {
+                return db.UngViens.Where(x => x.idChucVuUngTuyen == idChucVu);
+            }
+            catch (Exception)
+            {
+                return null;
+            }
+        }
 
         public IQueryable GetUngTuyenByTuyenDung(int idTuyenDung)
-            => db.UngViens.Where(x => x.idTuyenDung == idTuyenDung);
+        {
+            try
+            {
+                return db.UngViens.Where(x => x.idTuyenDung == idTuyenDung);
+            }
+            catch (Exception)
+            {
+                return null;
+            }
+        }
 
         public bool Update(DTOUngVien dto)
         {
@@ -223,7 +351,17 @@ namespace DAL
             }
         }
 
-        public List<UngVien> LayDsUngVien() => db.UngViens.ToList();
+        public List<UngVien> LayDsUngvien()
+        {
+            try
+            {
+                return db.UngViens.ToList();
+            }
+            catch
+            {
+                return new List<UngVien>();
+            }
+        }
     }
 
 }

@@ -326,8 +326,8 @@ namespace DAL
                 using (SqlConnection conn = new SqlConnection(connectionString))
                 {
                     conn.Open();
-                    string sql = @"INSERT INTO NhanVien (id, TenNhanVien, NgaySinh, GioiTinh, DiaChi, Que, Email, idChucVu, idPhongBan, DaXoa)
-                           VALUES (@id, @Ten, @Ngay, @GT, @DC, @Que, @Email, @idCV, @idPB, 0)";
+                    string sql = @"INSERT INTO NhanVien (id, TenNhanVien, NgaySinh, GioiTinh, DiaChi, Que, Email, idChucVu, idPhongBan, AnhDaiDien, DaXoa)
+                           VALUES (@id, @Ten, @Ngay, @GT, @DC, @Que, @Email, @idCV, @idPB, @AnhDaiDien, 0)";
                     SqlCommand cmd = new SqlCommand(sql, conn);
                     cmd.Parameters.AddWithValue("@id", nv.ID);
                     cmd.Parameters.AddWithValue("@Ten", nv.TenNhanVien);
@@ -338,6 +338,7 @@ namespace DAL
                     cmd.Parameters.AddWithValue("@Email", nv.Email);
                     cmd.Parameters.AddWithValue("@idCV", nv.IdChucVu);
                     cmd.Parameters.AddWithValue("@idPB", nv.IdPhongBan);
+                    cmd.Parameters.AddWithValue("@AnhDaiDien", nv.AnhDaiDien);
 
                     return cmd.ExecuteNonQuery() > 0;
                 }

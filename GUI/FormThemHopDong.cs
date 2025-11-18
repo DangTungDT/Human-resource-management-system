@@ -14,6 +14,7 @@ using DocumentFormat.OpenXml.Spreadsheet;
 using System.IO;
 using ClosedXML.Excel;
 using Guna.UI2.WinForms;
+using DocumentFormat.OpenXml.Office2010.Excel;
 
 namespace GUI
 {
@@ -26,34 +27,21 @@ namespace GUI
         BLLPhongBan _bllPhongBan;
         BLLNhanVien _bllNhanVien;
         BLLUngVien _bllUngVien;
+        BLLTuyenDung _bllTuyenDung;
 
         string _idNewStaff = "";
         DTOPhongBan _dtoPhongBan;
         DTOChucVu _dtoChucVu;
         string conn = "Data Source=DESKTOP-6LE6PT2\\SQLEXPRESS;Initial Catalog=PersonnelManagement;Integrated Security=True;Encrypt=False";
-        public FormThemHopDong()
+        public FormThemHopDong(DTOUngVien dto)
         {
-            _ungVien = new DTOUngVien()
-            {
-                Id = 1,
-                TenNhanVien = "Tiền Quang Minh Nhân",
-                NgaySinh = new DateTime(2000, 10, 20),
-                DiaChi = "TP HCM",
-                Que = "Tỉnh",
-                GioiTinh = "Nữ",
-                Email = "uv1@example.com",
-                DuongDanCV = "1.png",
-                IdChucVuUngTuyen = 4,
-                IdTuyenDung = 9,
-                NgayUngTuyen = new DateTime(2025, 11, 9),
-                TrangThai = "Thử việc",
-                DaXoa = false
-            };
+            _ungVien = dto;
             _bllHopDong = new BLLHopDongLaoDong(conn);
             _bllChucVu = new BLLChucVu(conn);
             _bllNhanVien = new BLLNhanVien(conn);
             _bllPhongBan = new BLLPhongBan(conn);
             _bllUngVien = new BLLUngVien(conn);
+            _bllTuyenDung = new BLLTuyenDung(conn);
             InitializeComponent();
         }
 
@@ -87,6 +75,10 @@ namespace GUI
             {
                 PopulateFieldsFromDto(_ungVien);
             }
+
+            //gán giá trị mặc định ban đầu cho hợp đồng thử việc 2 tháng
+            cmbLoaiHopDong.SelectedItem = "Hợp đồng thử việc";
+            cmbThoiHanHopDong.SelectedItem = "2 tháng";
         }
 
         private void PopulateFieldsFromDto(DTOUngVien uv)
@@ -188,7 +180,7 @@ namespace GUI
             // Kiểm tra textbox Lương
             if (string.IsNullOrWhiteSpace(txtLuongNhanVien.Text))
             {
-                MessageBox.Show("Vui lòng nhập thông tin cho control đó", "Thiếu thông tin", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("Vui lòng nhập lương nhân viên!", "Thiếu thông tin", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 txtLuongNhanVien.Focus();
                 return false;
             }
@@ -196,7 +188,7 @@ namespace GUI
             // Kiểm tra textbox Phụ cấp
             if (string.IsNullOrWhiteSpace(txtPhuCapNhanVien.Text))
             {
-                MessageBox.Show("Vui lòng nhập thông tin cho control đó", "Thiếu thông tin", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("Vui lòng nhập phụ cấp nhân viên!", "Thiếu thông tin", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 txtPhuCapNhanVien.Focus();
                 return false;
             }
@@ -204,7 +196,7 @@ namespace GUI
             // Kiểm tra combobox Loại hợp đồng
             if (cmbLoaiHopDong.SelectedIndex < 0 || string.IsNullOrWhiteSpace(cmbLoaiHopDong.Text))
             {
-                MessageBox.Show("Vui lòng nhập thông tin cho control đó", "Thiếu thông tin", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("Vui lòng chọn loại hợp đồng!", "Thiếu thông tin", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 cmbLoaiHopDong.Focus();
                 return false;
             }
@@ -212,7 +204,7 @@ namespace GUI
             // Kiểm tra combobox Thời hạn hợp đồng
             if (cmbThoiHanHopDong.SelectedIndex < 0 || string.IsNullOrWhiteSpace(cmbThoiHanHopDong.Text))
             {
-                MessageBox.Show("Vui lòng nhập thông tin cho control đó", "Thiếu thông tin", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("Vui lòng chọn thời hạn hợp động!", "Thiếu thông tin", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 cmbThoiHanHopDong.Focus();
                 return false;
             }
@@ -275,6 +267,7 @@ namespace GUI
                     DiaChi = _ungVien.DiaChi,
                     Que = _ungVien.Que,
                     Email = _ungVien.Email,
+                    AnhDaiDien = _ungVien.DuongDanCV,
                     IdChucVu = _ungVien.IdChucVuUngTuyen.ToString(),
                     IdPhongBan = _dtoPhongBan.Id.ToString()
                 };
@@ -292,6 +285,17 @@ namespace GUI
                     {
                         //Nếu không xóa mềm được ứng viên thì sẽ không thông báo gì
                         return;
+                    }
+
+                    //Kiểm tra số lượng ứng viên thử việc trong tuyển dụng nếu đã đủ số lượng tuyển thì sẽ loại phần còn lại
+                    int soLuongThuViec = _bllUngVien.GetUngVienstatusThuViec(_ungVien.IdChucVuUngTuyen).Count;
+                    int soLuongTuyen = -1;
+                    TuyenDung tuyenDung = _bllTuyenDung.KtraTuyenDungQuaID(_ungVien.IdTuyenDung);
+                    soLuongTuyen = tuyenDung.soLuongDuyet ?? tuyenDung.soLuong;
+                    if(soLuongTuyen == soLuongThuViec)
+                    {
+                        if (!_bllUngVien.TuChoiUngVienConLai(_ungVien.IdTuyenDung)) MessageBox.Show("Lỗi khi loại tất cả các ứng viên còn lại!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Error);
+
                     }
 
                     //Thông báo tạo hợp đồng thành công và thoát khỏi chương trình

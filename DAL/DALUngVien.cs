@@ -18,6 +18,59 @@ namespace DAL
             db = new PersonnelManagementDataContextDataContext(conn);
         }
 
+
+        //Cập nhật trạng thái cho ứng viên thành "Loại" và xóa mềm
+        public bool TuChoiUngVienConLai(int idTuyenDung)
+        {
+            try
+            {
+                // Lấy danh sách ứng viên thỏa điều kiện và materialize bằng ToList()
+                var listUngVien = db.UngViens
+                    .Where(x => x.idTuyenDung == idTuyenDung && x.trangThai.ToLower() != "thử việc".ToLower())
+                    .ToList();
+
+                // Nếu không có bản ghi thì trả về true (không có gì để làm)
+                if (!listUngVien.Any())
+                    return true;
+
+                // Cập nhật các trường cần thiết
+                foreach (var item in listUngVien)
+                {
+                    item.trangThai = "Loại";
+                    item.daXoa = true;
+                }
+
+                // Lưu thay đổi vào DB
+                db.SubmitChanges();
+                return true;
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
+        }
+
+        //Lấy ứng viên thử việc theo idTuyenDung
+        public List<DTOUngVien> GetUngVienstatusThuViec(int idTuyenDung)
+        {
+            return db.UngViens.Where(x=> x.trangThai.ToLower() == "thử việc".ToLower() && x.idTuyenDung == idTuyenDung).Select(x=> new DTOUngVien()
+            {
+                Id = x.id,
+                TenNhanVien = x.tenNhanVien,
+                NgaySinh = x.ngaySinh,
+                DiaChi = x.diaChi,
+                Que = x.que,
+                GioiTinh = x.gioiTinh,
+                Email = x.email,
+                DuongDanCV = x.duongDanCV,
+                IdChucVuUngTuyen = x.idChucVuUngTuyen,
+                IdTuyenDung = x.idTuyenDung,
+                NgayUngTuyen = (DateTime)x.ngayUngTuyen,
+                TrangThai = x.trangThai,
+                DaXoa = x.daXoa
+            }).ToList();
+        }
+
         public bool UpdateIsDelete(int id)
         {
             try
@@ -108,7 +161,7 @@ namespace DAL
                 if (inComplete)
                 {
                     // gán lại để filter có hiệu lực
-                    listUngVien = listUngVien.Where(x => x.trangThai.ToLower() == "trúng tuyển");
+                    listUngVien = listUngVien.Where(x => x.trangThai.ToLower() == "thử việc".ToLower());
                 }
                 return listUngVien;
             }
@@ -155,7 +208,7 @@ namespace DAL
         {
             try
             {
-                string requestStatus = "Trúng tuyển";
+                string requestStatus = "Thử việc";
                 if (!flag)
                 {
                     requestStatus = "Loại";

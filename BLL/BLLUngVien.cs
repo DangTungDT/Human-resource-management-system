@@ -20,6 +20,16 @@ namespace BLL
             dal = new DALUngVien(conn);
         }
 
+        public bool TuChoiUngVienConLai(int idTuyenDung)
+        {
+            if (idTuyenDung < 1) return false;
+            return dal.TuChoiUngVienConLai(idTuyenDung);
+        }
+        public List<DTOUngVien> GetUngVienstatusThuViec(int idTuyenDung)
+        {
+            if(idTuyenDung < 1) return null;
+            return dal.GetUngVienstatusThuViec(idTuyenDung);
+        }
         public bool UpdateIsDelete(int id)
         {
             if(id < 1) return false;

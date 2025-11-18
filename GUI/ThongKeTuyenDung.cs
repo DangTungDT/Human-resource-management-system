@@ -59,8 +59,8 @@ namespace GUI
             pnlTop.Controls.Add(lblTitle);
 
             // ComboBox & Button
-            cbQuy = new Guna2ComboBox { Width = 90 };
-            cbQuy.Items.AddRange(new string[] { "Q1", "Q2", "Q3", "Q4" });
+            cbQuy = new Guna2ComboBox { Width = 120 };
+            cbQuy.Items.AddRange(new string[] { "Cả năm", "Q1", "Q2", "Q3", "Q4" });
             cbQuy.SelectedIndex = 0;
 
             cbNam = new Guna2ComboBox { Width = 90 };
@@ -180,13 +180,13 @@ namespace GUI
             layout.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50));
             layout.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50));
             layout.Controls.Add(chartCot, 0, 0);
-            layout.Controls.Add(chartTron, 1, 0);
+            layout.Controls.Add(chartTongQuan, 1, 0);
 
-            layout.RowCount = 2;
-            layout.RowStyles.Add(new RowStyle(SizeType.Percent, 50));
-            layout.RowStyles.Add(new RowStyle(SizeType.Percent, 50));
-            layout.Controls.Add(chartTongQuan, 0, 1);
-            layout.SetColumnSpan(chartTongQuan, 2);
+            //layout.RowCount = 2;
+            //layout.RowStyles.Add(new RowStyle(SizeType.Percent, 50));
+            //layout.RowStyles.Add(new RowStyle(SizeType.Percent, 50));
+            //layout.Controls.Add(chartTongQuan, 0, 1);
+            //layout.SetColumnSpan(chartTongQuan, 2);
 
             this.Controls.Add(layout);
             this.Controls.Add(dgv);
@@ -239,6 +239,8 @@ namespace GUI
             int nam = int.Parse(cbNam.SelectedItem.ToString());
             string phongBan = cbPhongBan.Text;
             string viTri = cbChucVu.Text;
+            if (quy == "Cả năm")
+                quy = null;
 
             if (phongBan == "-- Tất cả phòng ban --")
                 phongBan = null;
@@ -263,6 +265,7 @@ namespace GUI
                 {
                     PhongBan = g.Key,
                     UngTuyen = g.Sum(r => Convert.ToInt32(r["UngTuyen"])),
+                    DangPV = g.Sum(r => Convert.ToInt32(r["DangPhongVan"])),
                     TrungTuyen = g.Sum(r => Convert.ToInt32(r["TrungTuyen"])),
                     BiLoai = g.Sum(r => Convert.ToInt32(r["BiLoai"]))
                 });
@@ -270,37 +273,38 @@ namespace GUI
             foreach (var g in groupByPhongBan)
             {
                 chartCot.Series["Ứng tuyển"].Points.AddXY(g.PhongBan, g.UngTuyen);
+                chartCot.Series["Đang phỏng vấn"].Points.AddXY(g.PhongBan, g.DangPV);
                 chartCot.Series["Trúng tuyển"].Points.AddXY(g.PhongBan, g.TrungTuyen);
                 chartCot.Series["Bị loại"].Points.AddXY(g.PhongBan, g.BiLoai);
             }
 
             // --- Biểu đồ tròn: Đang phỏng vấn ---
-            chartTron.Series["Đang phỏng vấn"].Points.Clear();
+            //chartTron.Series["Đang phỏng vấn"].Points.Clear();
 
-            var groupByViTri = dt.AsEnumerable()
-                .GroupBy(r => r["TenViTri"].ToString())
-                .Select(g => new
-                {
-                    ViTri = g.Key,
-                    DangPhongVan = g.Sum(r => Convert.ToInt32(r["DangPhongVan"]))
-                })
-                .Where(g => g.DangPhongVan > 0) // ✅ chỉ lấy có dữ liệu
-                .ToList();
+            //var groupByViTri = dt.AsEnumerable()
+            //    .GroupBy(r => r["TenViTri"].ToString())
+            //    .Select(g => new
+            //    {
+            //        ViTri = g.Key,
+            //        DangPhongVan = g.Sum(r => Convert.ToInt32(r["DangPhongVan"]))
+            //    })
+            //    .Where(g => g.DangPhongVan > 0) // ✅ chỉ lấy có dữ liệu
+            //    .ToList();
 
-            if (groupByViTri.Count == 0)
-            {
-                chartTron.Titles.Clear();
-                chartTron.Titles.Add("Không có dữ liệu đang phỏng vấn");
-            }
-            else
-            {
-                chartTron.Titles.Clear();
-                chartTron.Titles.Add("Tình trạng đang phỏng vấn");
-                foreach (var g in groupByViTri)
-                {
-                    chartTron.Series["Đang phỏng vấn"].Points.AddXY(g.ViTri, g.DangPhongVan);
-                }
-            }
+            //if (groupByViTri.Count == 0)
+            //{
+            //    chartTron.Titles.Clear();
+            //    chartTron.Titles.Add("Không có dữ liệu đang phỏng vấn");
+            //}
+            //else
+            //{
+            //    chartTron.Titles.Clear();
+            //    chartTron.Titles.Add("Tình trạng đang phỏng vấn");
+            //    foreach (var g in groupByViTri)
+            //    {
+            //        chartTron.Series["Đang phỏng vấn"].Points.AddXY(g.ViTri, g.DangPhongVan);
+            //    }
+            //}
             // --- Biểu đồ tròn tổng quan (thêm mới riêng, không đè chartTron) ---
             LoadPieChart(dt);
         }
@@ -359,10 +363,11 @@ namespace GUI
             }
 
             int tongUngTuyen = dt.AsEnumerable().Sum(r => Convert.ToInt32(r["UngTuyen"]));
+            int tongDangPV = dt.AsEnumerable().Sum(r => Convert.ToInt32(r["DangPhongVan"]));
             int tongTrungTuyen = dt.AsEnumerable().Sum(r => Convert.ToInt32(r["TrungTuyen"]));
             int tongBiLoai = dt.AsEnumerable().Sum(r => Convert.ToInt32(r["BiLoai"]));
 
-            if (tongUngTuyen == 0 && tongTrungTuyen == 0 && tongBiLoai == 0)
+            if (tongUngTuyen == 0 && tongDangPV == 0 && tongTrungTuyen == 0 && tongBiLoai == 0)
             {
                 chartTongQuan.Titles.Add("Không có dữ liệu biểu đồ tròn");
                 return;
@@ -371,6 +376,7 @@ namespace GUI
             Series series = new Series("Tổng quan");
             series.ChartType = SeriesChartType.Pie;
             series.Points.AddXY("Ứng tuyển", tongUngTuyen);
+            series.Points.AddXY("Ứng tuyển", tongDangPV);
             series.Points.AddXY("Trúng tuyển", tongTrungTuyen);
             series.Points.AddXY("Bị loại", tongBiLoai);
             series.Label = "#PERCENT{P1}";

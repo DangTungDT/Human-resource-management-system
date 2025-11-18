@@ -1,464 +1,558 @@
 ﻿using BLL;
+using ClosedXML.Excel;
 using DAL;
 using DTO;
 using Guna.UI2.WinForms;
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
 using System.Data.SqlClient;
 using System.Drawing;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-using System.Xml.Linq;
 
 namespace GUI
 {
     public partial class TaoDanhGiaHieuSuat : UserControl
     {
-        private Guna2ComboBox cbEmployee;
-        private Guna2DateTimePicker dtReview;
-        private NumericUpDown numScore;
-        private Guna2TextBox txtNote, txtSearch;
-        private Guna2Button btnSave, btnUndo, btnReload, btnExport;
+        private Guna2TextBox txtSearch;
+        private NumericUpDown nudThang, nudNam;
+        private Guna2Button btnReload, btnSaveAll, btnExport;
         private Guna2DataGridView dgv;
-
         private string connectionString;
-        private string idNguoiDanhGia = "GD00000001"; // người đánh giá giả định
-        private int? selectedId = null;
-        private DataTable dtDanhGia; // lưu dữ liệu toàn bộ để lọc tại chỗ
+        private string idNguoiDanhGia;
+        private int? idPhongBanCuaTP = null;
         private BLLDanhGiaNhanVien bllDanhGia;
         private BLLNhanVien bllNhanVien;
+        private DALNhanVien dalNhanVien;
+        private bool isHandling = false;
 
-        public TaoDanhGiaHieuSuat(string idNhanVien, string conn)
+        public TaoDanhGiaHieuSuat(string idNguoiDanhGia, string conn)
         {
-            connectionString = conn;
-            InitializeComponent();
+            this.idNguoiDanhGia = idNguoiDanhGia;
+            this.connectionString = conn;
+
+            // KHÔNG gọi InitializeComponent() ở đây nữa
+            // InitializeComponent();  <-- XÓA DÒNG NÀY HOẶC COMMENT LẠI
+
+            // Khởi tạo BLL/DAL trước
             bllDanhGia = new BLLDanhGiaNhanVien(conn);
             bllNhanVien = new BLLNhanVien(conn);
-            BuildUI();
-            LoadNhanVien();
-            LoadDanhGia(); // tải dữ liệu ban đầu
+            dalNhanVien = new DALNhanVien(conn);
+
+            // Lấy phòng ban của TP
+            if (!idNguoiDanhGia.StartsWith("GD") && idNguoiDanhGia.StartsWith("TP"))
+            {
+                idPhongBanCuaTP = dalNhanVien.LayIDPhongBanTheoNhanVien(idNguoiDanhGia); // sửa tên DAL nếu sai chính tả
+            }
+
+            // BÂY GIỜ MỚI ĐƯỢC GỌI
+            InitializeComponent(); // <-- ĐẶT LẠI Ở ĐÂY
+
+            // Sau khi InitializeComponent() xong → tất cả control đã được tạo
+            BuildUI(); // vẫn giữ BuildUI như cũ
+
+            // Cuối cùng mới load dữ liệu (lúc này dgv đã tồn tại)
+            this.Load += (s, e) => LoadDanhGia(); // Dùng event Load của UserControl để load dữ liệu
         }
 
         private void BuildUI()
         {
-            // === TOÀN BỘ FORM ===
             this.Dock = DockStyle.Fill;
             this.BackColor = Color.FromArgb(245, 247, 250);
 
-            // === TIÊU ĐỀ CHÍNH ===
-            Label lblTitle = new Label()
+            // ===== TITLE ĐẸP =====
+            var lblTitle = new Label
             {
                 Text = "ĐÁNH GIÁ HIỆU SUẤT NHÂN VIÊN",
-                Font = new Font("Times New Roman", 20, FontStyle.Bold),
-                ForeColor = Color.FromArgb(33, 70, 139),
+                Font = new Font("Segoe UI", 24F, FontStyle.Bold),
+                ForeColor = Color.FromArgb(30, 58, 138),
                 Dock = DockStyle.Top,
-                Height = 70,
-                TextAlign = ContentAlignment.MiddleCenter
-            };
-
-            // === THANH TÌM KIẾM ===
-            FlowLayoutPanel searchPanel = new FlowLayoutPanel()
-            {
-                AutoSize = true,
-                AutoSizeMode = AutoSizeMode.GrowAndShrink,
-                Padding = new Padding(25, 15, 25, 10),
-                BackColor = Color.White,
-                FlowDirection = FlowDirection.LeftToRight,
-                WrapContents = false,
-                Margin = new Padding(0)
-            };
-
-            Label lblSearch = new Label()
-            {
-                Text = "🔍 Tìm kiếm:",
-                Font = new Font("Times New Roman", 13, FontStyle.Bold),
-                ForeColor = Color.FromArgb(50, 50, 70),
-                AutoSize = true,
-                Margin = new Padding(0, 10, 10, 0)
-            };
-
-            txtSearch = new Guna2TextBox()
-            {
-                PlaceholderText = "Nhập tên nhân viên hoặc nhận xét...",
-                Width = 350,
-                BorderRadius = 10,
-                BorderThickness = 1,
-                BorderColor = Color.Silver,
-                Font = new Font("Times New Roman", 12),
-                FillColor = Color.FromArgb(250, 250, 255),
-                Margin = new Padding(0, 5, 15, 0)
-            };
-            txtSearch.TextChanged += (s, e) => FilterDanhGia();
-
-            Guna2Button btnClear = new Guna2Button()
-            {
-                Text = "Làm mới",
-                BorderRadius = 10,
-                FillColor = Color.FromArgb(40, 120, 220),
-                HoverState = { FillColor = Color.FromArgb(70, 145, 245) },
-                ForeColor = Color.White,
-                Font = new Font("Times New Roman", 12, FontStyle.Bold),
-                Height = 40,
-                Width = 120,
-                Margin = new Padding(10, 5, 0, 0)
-            };
-            btnClear.Click += (s, e) =>
-            {
-                txtSearch.Clear();
-                FilterDanhGia();
-            };
-
-            searchPanel.Controls.Add(lblSearch);
-            searchPanel.Controls.Add(txtSearch);
-            searchPanel.Controls.Add(btnClear);
-
-            Panel searchContainer = new Panel()
-            {
-                Dock = DockStyle.Top,
-                Height = 80,
+                Height = 100,
+                TextAlign = ContentAlignment.MiddleCenter,
                 BackColor = Color.White
             };
-            searchContainer.Controls.Add(searchPanel);
-            searchContainer.Resize += (s, e) =>
-            {
-                searchPanel.Left = (searchContainer.ClientSize.Width - searchPanel.Width) / 2;
-                searchPanel.Top = (searchContainer.ClientSize.Height - searchPanel.Height) / 2;
-            };
 
-            // === FORM NHẬP THÔNG TIN ĐÁNH GIÁ ===
-            Panel cardPanel = new Panel()
+            // ===== PANEL TÌM KIẾM ĐẸP (Tăng chiều cao, chỉnh layout để thẳng hàng) =====
+            var searchPanel = new Panel
             {
-                BackColor = Color.White,
-                Padding = new Padding(30),
                 Dock = DockStyle.Top,
-                Height = 270,
+                Height = 120,
+                BackColor = Color.White,
+                Padding = new Padding(20)
             };
 
-            TableLayoutPanel form = new TableLayoutPanel()
+            var flow = new FlowLayoutPanel
             {
-                ColumnCount = 2,
-                Padding = new Padding(0, 30, 0, 0),
-                AutoSize = true
+                Dock = DockStyle.Top,
+                Height =100,
+                FlowDirection = FlowDirection.LeftToRight,
+                BackColor = Color.FromArgb(248, 250, 252),
+                Padding = new Padding(20, 18, 20, 18), // Tăng padding để cân bằng
+                Margin = new Padding(0),
+                BorderStyle = BorderStyle.None
             };
-            form.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 150));
-            form.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100));
-
-            Font lblFont = new Font("Times New Roman", 12, FontStyle.Bold);
-            Color lblColor = Color.FromArgb(45, 45, 70);
-
-            // Combobox chọn nhân viên
-            cbEmployee = new Guna2ComboBox()
+            // Bo tròn border
+            flow.Paint += (s, e) =>
             {
-                BorderRadius = 8,
-                Font = new Font("Times New Roman", 12),
-                DropDownStyle = ComboBoxStyle.DropDownList,
-                Width = 600,
-                MaxDropDownItems = 6,
-                IntegralHeight = false,
+                var rect = flow.ClientRectangle;
+                rect.Inflate(-1, -1);
+                using (var pen = new Pen(Color.FromArgb(220, 220, 220), 2))
+                    e.Graphics.DrawRectangle(pen, rect.X, rect.Y, rect.Width - 1, rect.Height - 1);
             };
 
-            // Ô nhập điểm số
-            numScore = new NumericUpDown()
+            // Icon tìm kiếm (tăng kích thước, căn giữa)
+            var lblSearchIcon = new Label
             {
-                Minimum = 0,
-                Maximum = 100,
-                Font = new Font("Times New Roman", 12),
-                Width = 600
+                Text = "🔍",
+                Font = new Font("Segoe UI Emoji", 20F),
+                AutoSize = true,
+                ForeColor = Color.Gray,
+                Margin = new Padding(10, 15, 0, 0) // Căn cao hơn
             };
 
-            // Ô chọn ngày đánh giá
-            dtReview = new Guna2DateTimePicker()
+            txtSearch = new Guna2TextBox
             {
-                Format = DateTimePickerFormat.Custom,
-                CustomFormat = "dd/MM/yyyy",
-                BorderRadius = 8,
-                Font = new Font("Times New Roman", 12),
-                Width = 600
-            };
-
-            // Ô nhận xét
-            txtNote = new Guna2TextBox()
-            {
-                PlaceholderText = "Nhập nhận xét về hiệu suất...",
-                BorderRadius = 8,
-                Font = new Font("Times New Roman", 12),
-                Width = 600,
-                Multiline = true,
-                Height = 70
-            };
-
-            // Nút Lưu
-            btnSave = new Guna2Button()
-            {
-                Text = "💾 Lưu đánh giá",
-                BorderRadius = 8,
-                FillColor = Color.MediumSeaGreen,
-                HoverState = { FillColor = Color.SeaGreen },
-                ForeColor = Color.White,
-                Font = new Font("Times New Roman", 12, FontStyle.Bold),
-                Width = 150,
+                Width = 280, // Tăng rộng để không lệch
                 Height = 40,
-                Margin = new Padding(0, 10, 10, 0)
+                PlaceholderText = " Nhập tên nhân viên hoặc nhận xét để tìm kiếm...",
+                BorderRadius = 25,
+                BorderColor = Color.FromArgb(200, 200, 200),
+                Font = new Font("Segoe UI", 12F),
+                Animated = true,
+                Padding = new Padding(10),
+                //Margin = new Padding(0, 0, 20, 0) // Thêm margin phải để cân bằng
             };
-            btnSave.Click += BtnSave_Click;
+            txtSearch.TextChanged += (s, e) => Filter();
 
-            // Nút Hoàn tác
-            btnUndo = new Guna2Button()
+            // Nhóm Tháng + Năm (tăng rộng, font to, căn giữa)
+            var pnlThoiGian = new Panel
             {
-                Text = "↩️ Hoàn tác",
-                BorderRadius = 8,
-                FillColor = Color.Gray,
-                HoverState = { FillColor = Color.DimGray },
-                ForeColor = Color.White,
-                Font = new Font("Times New Roman", 12, FontStyle.Bold),
-                Width = 130,
+                Width = 500, // Tăng rộng để hiển thị đầy đủ
                 Height = 40,
-                Margin = new Padding(10, 10, 0, 0)
+                BackColor = Color.White,
+                Margin = new Padding(20, 0, 20, 0) // Cân bằng khoảng cách
             };
-            btnUndo.Click += BtnUndo_Click;
-
-            // Nút Xuất Excel
-            Guna2Button btnExportExcel = new Guna2Button()
-            {
-                Text = "📊 Xuất Excel",
-                BorderRadius = 10,
-                FillColor = Color.FromArgb(60, 140, 230),
-                HoverState = { FillColor = Color.FromArgb(80, 160, 250) },
-                ForeColor = Color.White,
-                Font = new Font("Times New Roman", 12, FontStyle.Bold),
-                Width = 140,
-                Height = 40,
-                Margin = new Padding(10, 10, 0, 0)
-            };
-            btnExportExcel.Click += BtnExportExcel_Click;
-
-            // Thêm các control vào bảng nhập
-            form.Controls.Add(new Label() { Text = "Nhân viên:", AutoSize = true, Font = lblFont, ForeColor = lblColor, Anchor = AnchorStyles.Left }, 0, 0);
-            form.Controls.Add(cbEmployee, 1, 0);
-
-            form.Controls.Add(new Label() { Text = "Điểm số:", AutoSize = true, Font = lblFont, ForeColor = lblColor, Anchor = AnchorStyles.Left }, 0, 1);
-            form.Controls.Add(numScore, 1, 1);
-
-            form.Controls.Add(new Label() { Text = "Ngày đánh giá:", AutoSize = true, Font = lblFont, ForeColor = lblColor, Anchor = AnchorStyles.Left }, 0, 2);
-            form.Controls.Add(dtReview, 1, 2);
-
-            form.Controls.Add(new Label() { Text = "Nhận xét:", AutoSize = true, Font = lblFont, ForeColor = lblColor, Anchor = AnchorStyles.Left }, 0, 3);
-            form.Controls.Add(txtNote, 1, 3);
-
-            // Panel chứa nút thao tác
-            FlowLayoutPanel btnPanel = new FlowLayoutPanel() { FlowDirection = FlowDirection.LeftToRight, Dock = DockStyle.Fill };
-            btnPanel.Controls.Add(btnSave);
-            btnPanel.Controls.Add(btnUndo);
-            btnPanel.Controls.Add(btnExportExcel);
-            form.Controls.Add(btnPanel, 1, 4);
-
-            // Căn giữa form nhập
-            cardPanel.Controls.Add(form);
-            form.Anchor = AnchorStyles.None;
-            cardPanel.Resize += (s, e) =>
-            {
-                form.Left = (cardPanel.ClientSize.Width - form.Width) / 2;
-                form.Top = (cardPanel.ClientSize.Height - form.Height) / 2;
-            };
-
-            // === DỮ LIỆU (DGV) ===
-            dgv = new Guna2DataGridView()
+            var flowTime = new FlowLayoutPanel
             {
                 Dock = DockStyle.Fill,
-                AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill,
-                ReadOnly = true,
-                AllowUserToAddRows = false,
-                SelectionMode = DataGridViewSelectionMode.FullRowSelect,
-                MultiSelect = false,
+                Padding = new Padding(15, 8, 15, 8)
+            };
+
+            nudThang = new NumericUpDown
+            {
+                Minimum = 1,
+                Maximum = 12,
+                Value = DateTime.Now.AddMonths(-1).Month,
+                Width = 90, // Tăng rộng
+                Height = 50,
+                Font = new Font("Segoe UI", 12F, FontStyle.Bold),
+                TextAlign = HorizontalAlignment.Center
+            };
+            nudThang.ValueChanged += (s, e) => LoadDanhGia();
+
+            nudNam = new NumericUpDown
+            {
+                Minimum = 2010,
+                Maximum = 2100,
+                Value = DateTime.Now.Year,
+                Width = 120, // Tăng rộng để hiển thị năm đầy đủ
+                Font = new Font("Segoe UI", 12F, FontStyle.Bold),
+                TextAlign = HorizontalAlignment.Center,
+                Margin = new Padding(20, 0, 0, 0)
+            };
+            nudNam.ValueChanged += (s, e) => LoadDanhGia();
+
+            flowTime.Controls.Add(new Label { Text = "Tháng", AutoSize = true, Font = new Font("Segoe UI", 11F, FontStyle.Bold), ForeColor = Color.Gray, Margin = new Padding(0, 12, 8, 0) });
+            flowTime.Controls.Add(nudThang);
+            flowTime.Controls.Add(new Label { Text = "Năm", AutoSize = true, Font = new Font("Segoe UI", 11F, FontStyle.Bold), ForeColor = Color.Gray, Margin = new Padding(20, 12, 8, 0) });
+            flowTime.Controls.Add(nudNam);
+            pnlThoiGian.Controls.Add(flowTime);
+
+            // Nút bấm
+            btnReload = CreateStyledButton(" Tải lại", Color.FromArgb(0, 123, 255), "🔄");
+            btnSaveAll = CreateStyledButton(" Lưu tất cả", Color.FromArgb(40, 167, 69), "💾");
+            btnExport = CreateStyledButton(" Xuất Excel", Color.FromArgb(255, 193, 7), "📊");
+
+            btnReload.Click += (s, e) => LoadDanhGia();
+            btnSaveAll.Click += (s, e) => SaveAll();
+            btnExport.Click += (s, e) => ExportExcel();
+
+            // Thêm vào flow (thêm margin để không sát nhau)
+            flow.Controls.Add(lblSearchIcon);
+            flow.Controls.Add(txtSearch);
+            flow.Controls.Add(pnlThoiGian);
+            flow.Controls.Add(btnReload);
+            flow.Controls.Add(btnSaveAll);
+            flow.Controls.Add(btnExport);
+
+            searchPanel.Controls.Add(flow);
+
+            // ===== DATAGRIDVIEW ĐẸP HƠN (xen kẽ trắng nhạt, header đậm, checkbox bo tròn) =====
+            dgv = new Guna2DataGridView
+            {
+                Dock = DockStyle.Fill,
                 BackgroundColor = Color.White,
-                AlternatingRowsDefaultCellStyle = new DataGridViewCellStyle() { BackColor = Color.FromArgb(250, 250, 250) }
+                BorderStyle = BorderStyle.None,
+                AllowUserToAddRows = false,
+                RowTemplate = { Height = 60 }, // Tăng cao rows
+                AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill,
+                SelectionMode = DataGridViewSelectionMode.FullRowSelect,
+                EnableHeadersVisualStyles = false,
+                ColumnHeadersHeight = 55,
+                ColumnHeadersDefaultCellStyle = new DataGridViewCellStyle
+                {
+                    BackColor = Color.FromArgb(25, 50, 120), // Header đậm hơn
+                    ForeColor = Color.White,
+                    Font = new Font("Segoe UI", 12F, FontStyle.Bold),
+                    Alignment = DataGridViewContentAlignment.MiddleCenter,
+                    Padding = new Padding(15, 0, 15, 0)
+                },
+                DefaultCellStyle = new DataGridViewCellStyle
+                {
+                    Font = new Font("Segoe UI", 11F),
+                    SelectionBackColor = Color.FromArgb(0, 123, 255),
+                    SelectionForeColor = Color.White,
+                    Padding = new Padding(15, 5, 15, 5) // Thêm padding cells
+                },
+                AlternatingRowsDefaultCellStyle = new DataGridViewCellStyle
+                {
+                    BackColor = Color.FromArgb(245, 247, 250) // Xen kẽ nhạt đẹp
+                }
             };
-            dgv.Theme = Guna.UI2.WinForms.Enums.DataGridViewPresetThemes.LightGrid;
-            dgv.ThemeStyle.HeaderStyle.Font = new Font("Times New Roman", 12, FontStyle.Bold);
-            dgv.ThemeStyle.HeaderStyle.BackColor = Color.FromArgb(230, 240, 255);
-            dgv.ThemeStyle.HeaderStyle.ForeColor = Color.FromArgb(30, 60, 110);
-            dgv.ThemeStyle.RowsStyle.SelectionBackColor = Color.FromArgb(220, 230, 255);
-            dgv.DefaultCellStyle.Font = new Font("Times New Roman", 12);
-            dgv.CellClick += Dgv_CellClick;
 
-            // === BỐ CỤC CHÍNH ===
-            TableLayoutPanel main = new TableLayoutPanel()
+            dgv.CellValueChanged += Dgv_CellValueChanged;
+            dgv.CurrentCellDirtyStateChanged += (s, e) =>
             {
-                Dock = DockStyle.Fill,
-                RowCount = 4,
-                ColumnCount = 1
+                if (dgv.IsCurrentCellDirty) dgv.CommitEdit(DataGridViewDataErrorContexts.Commit);
             };
-            main.RowStyles.Add(new RowStyle(SizeType.Absolute, 70));
-            main.RowStyles.Add(new RowStyle(SizeType.Absolute, 80));
-            main.RowStyles.Add(new RowStyle(SizeType.Absolute, 270));
-            main.RowStyles.Add(new RowStyle(SizeType.Percent, 100));
 
-            main.Controls.Add(lblTitle, 0, 0);
-            main.Controls.Add(searchContainer, 0, 1);
-            main.Controls.Add(cardPanel, 0, 2);
-            main.Controls.Add(dgv, 0, 3);
+            
 
-            this.Controls.Add(main);
+            // LAYOUT CHÍNH (tăng chiều cao searchPanel)
+            var mainLayout = new TableLayoutPanel { Dock = DockStyle.Fill };
+            mainLayout.RowStyles.Add(new RowStyle(SizeType.Absolute, 100));
+            mainLayout.RowStyles.Add(new RowStyle(SizeType.Absolute, 120));
+            mainLayout.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
+
+            mainLayout.Controls.Add(lblTitle, 0, 0);
+            mainLayout.Controls.Add(searchPanel, 0, 1);
+            mainLayout.Controls.Add(dgv, 0, 2);
+
+            this.Controls.Add(mainLayout);
         }
 
 
-
-
-
-        // ===== LOAD NHÂN VIÊN =====
-        private void LoadNhanVien()
+        // Hàm tạo nút đẹp
+        private Guna2Button CreateStyledButton(string text, Color fillColor, string emoji)
         {
-            cbEmployee.DataSource = bllNhanVien.ComboboxNhanVien();
-            cbEmployee.DisplayMember = "TenNhanVien";
-            cbEmployee.ValueMember = "id";
+            var btn = new Guna2Button
+            {
+                Text = emoji + text,
+                FillColor = fillColor,
+                ForeColor = Color.White,
+                Font = new Font("Segoe UI", 11F, FontStyle.Bold),
+                BorderRadius = 24,
+                Width = 160,
+                Height = 48,
+                Margin = new Padding(12, 0, 0, 0),
+                Animated = true
+            };
+            btn.MouseEnter += (s, e) => btn.FillColor = ControlPaint.Light(fillColor, 0.2f);
+            btn.MouseLeave += (s, e) => btn.FillColor = fillColor;
+            return btn;
         }
 
-        // ===== LOAD DỮ LIỆU ĐÁNH GIÁ =====
         private void LoadDanhGia()
         {
-            dtDanhGia = bllDanhGia.GetAll();
-            dgv.DataSource = dtDanhGia;
+            int thang = (int)nudThang.Value;
+            int nam = (int)nudNam.Value;
 
-            // thêm cột xóa nếu chưa có
-            if (!dgv.Columns.Contains("Xoa"))
+            // Dùng method bạn đã có trong code cũ
+            DataTable dt = bllDanhGia.GetAllPB(idNguoiDanhGia, thang, nam, txtSearch.Text, idPhongBanCuaTP, null);
+
+            if (dt == null || dt.Rows.Count == 0)
             {
-                DataGridViewImageColumn colDelete = new DataGridViewImageColumn()
+                dgv.DataSource = null;
+                return;
+            }
+
+            var display = new DataTable();
+            display.Columns.Add("STT", typeof(int));
+            display.Columns.Add("IDNhanVien", typeof(string));
+            display.Columns.Add("TenNhanVien", typeof(string));
+            if (idNguoiDanhGia.StartsWith("GD"))
+            {
+                display.Columns.Add("PhongBan", typeof(string));
+                display.Columns.Add("ChucVu", typeof(string));
+            }
+            display.Columns.Add("DiemCC", typeof(int));
+            display.Columns.Add("NL_Te", typeof(bool));
+            display.Columns.Add("NL_TB", typeof(bool));
+            display.Columns.Add("NL_Tot", typeof(bool));
+            display.Columns.Add("DiemNL", typeof(int));
+            display.Columns.Add("TongDiem", typeof(int));
+            display.Columns.Add("XepLoai", typeof(string));
+            display.Columns.Add("NhanXet", typeof(string));
+
+            // Lấy đánh giá mới nhất của từng nhân viên trong tháng
+            var unique = dt.AsEnumerable()
+                .GroupBy(r => r["IDNhanVien"])
+                .Select(g => g.OrderByDescending(x => x.Field<DateTime?>("NgayTao") ?? DateTime.MinValue).First());
+
+            int stt = 1;
+            foreach (DataRow r in unique)
+            {
+                string idNV = r["IDNhanVien"].ToString();
+                int misses = Convert.ToInt32(r["Misses"] ?? 0);
+                int diemCC = Math.Max(0, 5 - misses * 2);
+
+                int? diemNL_old = r["DiemNangLucStored"] as int?;
+                int diemNL = diemNL_old ?? 5;
+                bool te = diemNL == 1;
+                bool tb = diemNL == 2;
+                bool tot = diemNL == 5 || diemNL_old == null;
+
+                int tong = diemCC + diemNL;
+                string xepLoai = tong <= 6 ? "Tệ" : (tong <= 8 ? "Trung bình" : "Tốt");
+                string nhanXet = r["NhanXet"]?.ToString() ?? "";
+                if (string.IsNullOrWhiteSpace(nhanXet))
                 {
-                    Name = "Xoa",
-                    HeaderText = "Xóa",
-                    Image = Properties.Resources.delete,
-                    ImageLayout = DataGridViewImageCellLayout.Zoom,
-                    Width = 50
-                };
-                dgv.Columns.Add(colDelete);
-                dgv.Columns["Xoa"].DisplayIndex = dgv.Columns.Count - 1;
+                    nhanXet = tong <= 6 ? "Cần cải thiện nghiêm túc về chuyên cần và hiệu suất làm việc."
+                            : tong <= 8 ? "Đạt yêu cầu, cần cố gắng hơn."
+                            : "Nhân viên xuất sắc, làm việc hiệu quả!";
+                }
+
+                var row = display.NewRow();
+                row["STT"] = stt++;
+                row["IDNhanVien"] = idNV;
+                row["TenNhanVien"] = r["TenNhanVien"];
+                if (idNguoiDanhGia.StartsWith("GD"))
+                {
+                    row["PhongBan"] = r["TenPhongBan"];
+                    row["ChucVu"] = r["TenChucVu"];
+                }
+                row["DiemCC"] = diemCC;
+                row["NL_Te"] = te;
+                row["NL_TB"] = tb;
+                row["NL_Tot"] = tot;
+                row["DiemNL"] = diemNL;
+                row["TongDiem"] = tong;
+                row["XepLoai"] = xepLoai;
+                row["NhanXet"] = nhanXet;
+
+                display.Rows.Add(row);
+            }
+
+            dgv.DataSource = display;
+            dgv.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.None; // Quan trọng!
+
+            // Bạn tự chỉnh số pixel tùy thích ở đây (rất dễ đọc, dễ sửa)
+            SetColWidth("STT", 80);
+            SetColWidth("IDNhanVien", 120);   // Mã NV
+            SetColWidth("TenNhanVien", 220);   // Họ tên
+            SetColWidth("DiemCC", 85);   // Điểm CC (hoặc DiemChuyenCan)
+            SetColWidth("DiemChuyenCan", 85);   // nếu tên cột là thế này
+            SetColWidth("NL_Te", 65);   // Tệ
+            SetColWidth("NL_TB", 65);   // TB
+            SetColWidth("NL_Tot", 65);   // Tốt
+            SetColWidth("XepLoai", 100);   // Xếp loại
+            SetColWidth("NhanXet", 350);   // Nhận xét (rộng để đọc)
+
+            // Căn giữa các cột nhỏ cho đẹp
+            CenterSmallColumns();
+
+            // Bật lại Fill để các cột còn lại tự co giãn khi resize form
+            dgv.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            ConfigDGV();
+            Filter();
+        }
+
+        // Hàm tiện lợi để bạn tự set width (chỉ gọi 1 dòng là xong)
+        private void SetColWidth(string columnNameContains, int width)
+        {
+            foreach (DataGridViewColumn col in dgv.Columns)
+            {
+                if (col.Name.IndexOf(columnNameContains, StringComparison.OrdinalIgnoreCase) >= 0)
+                {
+                    col.Width = width;
+                    col.MinimumWidth = width;     // Không cho co nhỏ hơn
+                    col.FillWeight = 1;           // Giữ nguyên kích thước khi resize form
+                    break;
+                }
             }
         }
 
-        // ===== LỌC KẾT QUẢ =====
-        private void FilterDanhGia()
+        // Căn giữa tự động các cột nhỏ (STT, Điểm CC, Tệ/TB/Tốt, Xếp loại)
+        private void CenterSmallColumns()
         {
-            if (dtDanhGia == null) return;
-            string kw = txtSearch.Text.Trim().Replace("'", "''");
-
-            if (string.IsNullOrEmpty(kw))
+            foreach (DataGridViewColumn col in dgv.Columns)
             {
-                dtDanhGia.DefaultView.RowFilter = ""; // hiển thị tất cả
-                return;
-            }
-
-            if (decimal.TryParse(kw, out decimal diem))
-            {
-                dtDanhGia.DefaultView.RowFilter = $"Convert([Điểm số], 'System.String') LIKE '%{diem}%'";
-            }
-            else
-            {
-                dtDanhGia.DefaultView.RowFilter =
-                    $"[Nhân viên] LIKE '%{kw}%' OR [Nhận xét] LIKE '%{kw}%'";
+                if (col.Width <= 110) // các cột nhỏ
+                {
+                    col.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+                    col.HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
+                }
             }
         }
 
-        // ===== LƯU / CẬP NHẬT =====
-        private void BtnSave_Click(object sender, EventArgs e)
+        private void ConfigDGV()
         {
-            if (cbEmployee.SelectedValue == null)
-            {
-                MessageBox.Show("Vui lòng chọn nhân viên!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                return;
-            }
+            dgv.Columns["DiemNL"].Visible = false;
+            dgv.Columns["TongDiem"].Visible = false;
 
-            if (cbEmployee.SelectedValue.ToString() == idNguoiDanhGia)
+            dgv.Columns["STT"].Width = 50;
+            dgv.Columns["IDNhanVien"].HeaderText = "Mã NV";
+            dgv.Columns["TenNhanVien"].HeaderText = "Họ tên";
+            if (idNguoiDanhGia.StartsWith("GD"))
             {
-                MessageBox.Show("Người đánh giá không được trùng với nhân viên được đánh giá!", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return;
+                dgv.Columns["PhongBan"].HeaderText = "Phòng ban";
+                dgv.Columns["ChucVu"].HeaderText = "Chức vụ";
             }
+            dgv.Columns["DiemCC"].HeaderText = "Điểm CC";
+            dgv.Columns["NL_Te"].HeaderText = "Tệ";
+            dgv.Columns["NL_TB"].HeaderText = "TB";
+            dgv.Columns["NL_Tot"].HeaderText = "Tốt";
+            dgv.Columns["XepLoai"].HeaderText = "Xếp loại";
+            dgv.Columns["NhanXet"].HeaderText = "Nhận xét";
 
-            // ===== TẠO DTO =====
-            DTODanhGiaNhanVien dg = new DTODanhGiaNhanVien
+            // Chỉ cho sửa checkbox + nhận xét
+            dgv.CellBeginEdit += (s, e) =>
             {
-                ID = selectedId ?? 0,
-                IDNhanVien = cbEmployee.SelectedValue.ToString(),
-                IDNguoiDanhGia = idNguoiDanhGia,
-                NgayTao = dtReview.Value,
-                DiemSo = (int)numScore.Value,
-                NhanXet = txtNote.Text.Trim()
+                string col = dgv.Columns[e.ColumnIndex].Name;
+                if (!new[] { "NL_Te", "NL_TB", "NL_Tot", "NhanXet" }.Contains(col))
+                    e.Cancel = true;
             };
 
-            try
+            // Tô màu theo xếp loại
+            dgv.CellFormatting += (s, e) =>
             {
-                if (selectedId == null)
+                if (e.RowIndex < 0) return;
+                string xl = dgv.Rows[e.RowIndex].Cells["XepLoai"].Value?.ToString();
+                Color bg = xl == "Tốt" ? Color.FromArgb(220, 255, 220) :
+                           xl == "Trung bình" ? Color.FromArgb(255, 255, 200) :
+                           Color.FromArgb(255, 220, 220);
+                dgv.Rows[e.RowIndex].DefaultCellStyle.BackColor = bg;
+            };
+        }
+
+        private void Dgv_CellValueChanged(object sender, DataGridViewCellEventArgs e)
+        {
+            if (isHandling || e.RowIndex < 0) return;
+            isHandling = true;
+
+            var row = dgv.Rows[e.RowIndex];
+            string col = dgv.Columns[e.ColumnIndex].Name;
+
+            if (col.StartsWith("NL_"))
+            {
+                bool val = Convert.ToBoolean(row.Cells[col].Value);
+                if (val)
                 {
-                    // ===== THÊM MỚI =====
-                    bllDanhGia.Save(dg, isNew: true);
-                    MessageBox.Show("✅ Đã thêm đánh giá mới!");
+                    row.Cells["NL_Te"].Value = col == "NL_Te";
+                    row.Cells["NL_TB"].Value = col == "NL_TB";
+                    row.Cells["NL_Tot"].Value = col == "NL_Tot";
+
+                    row.Cells["DiemNL"].Value = col == "NL_Te" ? 1 : col == "NL_TB" ? 2 : 5;
                 }
                 else
                 {
-                    // ===== CẬP NHẬT =====
-                    bllDanhGia.Save(dg, isNew: false);
-                    MessageBox.Show("✏️ Đã cập nhật đánh giá!");
+                    row.Cells["NL_Tot"].Value = true;
+                    row.Cells["DiemNL"].Value = 5;
                 }
+                UpdateRow(row.Index);
+            }
+            else if (col == "NhanXet")
+            {
+                UpdateRow(e.RowIndex);
+            }
 
-                // ===== LÀM MỚI DỮ LIỆU =====
-                LoadDanhGia();
-                ClearForm();
+            isHandling = false;
+        }
+
+        private void UpdateRow(int rowIndex)
+        {
+            var row = dgv.Rows[rowIndex];
+            int diemCC = Convert.ToInt32(row.Cells["DiemCC"].Value);
+            int diemNL = Convert.ToInt32(row.Cells["DiemNL"].Value);
+            int tong = diemCC + diemNL;
+            string xepLoai = tong <= 6 ? "Tệ" : tong <= 8 ? "Trung bình" : "Tốt";
+
+            row.Cells["TongDiem"].Value = tong;
+            row.Cells["XepLoai"].Value = xepLoai;
+
+            if (string.IsNullOrWhiteSpace(row.Cells["NhanXet"].Value?.ToString()))
+            {
+                string nx = tong <= 6 ? "Cần cải thiện nghiêm túc về chuyên cần và hiệu suất."
+                          : tong <= 8 ? "Đạt yêu cầu, cần cố gắng hơn."
+                          : "Nhân viên xuất sắc, làm việc hiệu quả!";
+                row.Cells["NhanXet"].Value = nx;
+            }
+        }
+
+        private void SaveAll()
+        {
+            int saved = 0;
+            foreach (DataGridViewRow row in dgv.Rows)
+            {
+                if (row.IsNewRow) continue;
+
+                var dto = new DTODanhGiaNhanVien
+                {
+                    IDNhanVien = row.Cells["IDNhanVien"].Value.ToString(),
+                    IDNguoiDanhGia = idNguoiDanhGia,
+                    DiemChuyenCan = Convert.ToDecimal(row.Cells["DiemCC"].Value),
+                    DiemNangLuc = Convert.ToDecimal(row.Cells["DiemNL"].Value),
+                    DiemSo = Convert.ToInt32(row.Cells["TongDiem"].Value),
+                    NhanXet = row.Cells["NhanXet"].Value?.ToString() ?? "",
+                    NgayTao = DateTime.Now
+                };
+
+                try
+                {
+                    // Dùng Insert/Update bạn đã có
+                    bllDanhGia.Insert(dto); // hoặc Update nếu đã có ID
+                    saved++;
+                }
+                catch { }
+            }
+
+            MessageBox.Show($"Đã lưu {saved} bản ghi thành công!", "Thành công", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            LoadDanhGia();
+
+            // ===== TỰ ĐỘNG THƯỞNG + KỶ LUẬT =====
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(connectionString))
+                {
+                    SqlCommand cmd = new SqlCommand("sp_TuDongThuongPhatKyLuat", conn);
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@Thang", (int)nudThang.Value);
+                    cmd.Parameters.AddWithValue("@Nam", (int)nudNam.Value);
+                    cmd.Parameters.AddWithValue("@idNguoiLap", idNguoiDanhGia);
+
+                    conn.Open();
+                    using (SqlDataReader r = cmd.ExecuteReader())
+                    {
+                        if (r.Read())
+                        {
+                            int thuong = r.GetInt32(0);
+                            int kyluat = r.GetInt32(1);
+                            string msg = "";
+                            if (thuong > 0) msg += $"✓ Đã thưởng {thuong} nhân viên xuất sắc 2 tháng liên tiếp!\n";
+                            if (kyluat > 0) msg += $"⚠ Đã lập kỷ luật cho {kyluat} nhân viên đánh giá TỆ 2 tháng liên tiếp!";
+                            if (!string.IsNullOrEmpty(msg))
+                                MessageBox.Show(msg, "Tự động thưởng & kỷ luật", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        }
+                    }
+                }
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Lỗi khi lưu đánh giá: " + ex.Message);
+                MessageBox.Show("Lỗi tự động thưởng/phạt: " + ex.Message);
             }
         }
 
-        // ===== CLICK DGV =====
-        private void Dgv_CellClick(object sender, DataGridViewCellEventArgs e)
-        {
-            if (e.RowIndex < 0) return;
-
-            if (dgv.Columns[e.ColumnIndex].Name == "Xoa")
-            {
-                int id = Convert.ToInt32(dgv.Rows[e.RowIndex].Cells["Mã đánh giá"].Value);
-                if (MessageBox.Show("Bạn có chắc muốn xóa đánh giá này?", "Xác nhận", MessageBoxButtons.YesNo) == DialogResult.Yes)
-                {
-                    bllDanhGia.Delete(id);
-                    LoadDanhGia();
-                }
-                return;
-            }
-
-            selectedId = Convert.ToInt32(dgv.Rows[e.RowIndex].Cells["Mã đánh giá"].Value);
-            cbEmployee.Text = dgv.Rows[e.RowIndex].Cells["Nhân viên"].Value.ToString();
-            dtReview.Value = DateTime.TryParse(dgv.Rows[e.RowIndex].Cells["Ngày đánh giá"].Value.ToString(), out DateTime dt) ? dt : DateTime.Now;
-            numScore.Value = Convert.ToDecimal(dgv.Rows[e.RowIndex].Cells["Điểm số"].Value ?? 0);
-            txtNote.Text = dgv.Rows[e.RowIndex].Cells["Nhận xét"].Value?.ToString();
-
-            btnSave.Text = "✏️ Cập nhật";
-            btnSave.FillColor = Color.Orange;
-        }
-
-        // ===== HOÀN TÁC =====
-        private void BtnUndo_Click(object sender, EventArgs e)
-        {
-            if (MessageBox.Show("Hoàn tác dữ liệu đang nhập?", "Xác nhận", MessageBoxButtons.YesNo) == DialogResult.Yes)
-                ClearForm();
-        }
-
-        private void ClearForm()
-        {
-            selectedId = null;
-            cbEmployee.SelectedIndex = -1;
-            numScore.Value = 0;
-            txtNote.Clear();
-            dtReview.Value = DateTime.Now;
-            btnSave.Text = "💾 Lưu đánh giá";
-            btnSave.FillColor = Color.MediumSeaGreen;
-            dgv.ClearSelection();
-        }
-
-        private void BtnExportExcel_Click(object sender, EventArgs e)
+        private void ExportExcel()
         {
             if (dgv.Rows.Count == 0)
             {
@@ -466,38 +560,102 @@ namespace GUI
                 return;
             }
 
-            using (SaveFileDialog sfd = new SaveFileDialog()
+            using (SaveFileDialog sfd = new SaveFileDialog
             {
                 Filter = "Excel Workbook|*.xlsx",
-                Title = "Lưu file Excel"
+                FileName = $"DanhGia_HieuSuat_Thang{(int)nudThang.Value}_Nam{(int)nudNam.Value}.xlsx",
+                Title = "Xuất đánh giá hiệu suất ra Excel"
             })
             {
-                if (sfd.ShowDialog() == DialogResult.OK)
-                {
-                    using (var wb = new ClosedXML.Excel.XLWorkbook())
-                    {
-                        var ws = wb.Worksheets.Add("DanhGiaNhanVien");
+                if (sfd.ShowDialog() != DialogResult.OK) return;
 
-                        for (int i = 0; i < dgv.Columns.Count; i++)
+                try
+                {
+                    using (var wb = new XLWorkbook())
+                    {
+                        var ws = wb.Worksheets.Add("Đánh giá hiệu suất");
+
+                        // ===== TIÊU ĐỀ BẢNG =====
+                        ws.Cell(1, 1).Value = $"BẢNG ĐÁNH GIÁ HIỆU SUẤT NHÂN VIÊN - THÁNG {nudThang.Value:00}/{nudNam.Value}";
+                        ws.Cell(1, 1).Style.Font.Bold = true;
+                        ws.Cell(1, 1).Style.Font.FontSize = 16;
+                        ws.Cell(1, 1).Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Center;
+                        ws.Range(1, 1, 1, dgv.Columns.Count).Merge();
+
+                        // ===== HEADER CỘT =====
+                        int colIdx = 1;
+                        foreach (DataGridViewColumn col in dgv.Columns)
                         {
-                            ws.Cell(1, i + 1).Value = dgv.Columns[i].HeaderText;
-                            ws.Cell(1, i + 1).Style.Font.Bold = true;
-                            ws.Cell(1, i + 1).Style.Fill.BackgroundColor = ClosedXML.Excel.XLColor.LightGray;
-                            ws.Cell(1, i + 1).Style.Alignment.Horizontal = ClosedXML.Excel.XLAlignmentHorizontalValues.Center;
+                            if (col.Visible)
+                            {
+                                ws.Cell(3, colIdx).Value = col.HeaderText;
+                                ws.Cell(3, colIdx).Style.Font.Bold = true;
+                                ws.Cell(3, colIdx).Style.Fill.BackgroundColor = XLColor.FromArgb(25, 50, 120);
+                                ws.Cell(3, colIdx).Style.Font.FontColor = XLColor.White;
+                                ws.Cell(3, colIdx).Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Center;
+                                colIdx++;
+                            }
                         }
 
-                        for (int r = 0; r < dgv.Rows.Count; r++)
-                            for (int c = 0; c < dgv.Columns.Count; c++)
-                                ws.Cell(r + 2, c + 1).Value = dgv.Rows[r].Cells[c].Value?.ToString();
+                        // ===== DỮ LIỆU =====
+                        int rowIdx = 4;
+                        foreach (DataGridViewRow row in dgv.Rows)
+                        {
+                            colIdx = 1;
+                            foreach (DataGridViewCell cell in row.Cells)
+                            {
+                                if (dgv.Columns[cell.ColumnIndex].Visible)
+                                {
+                                    var xlCell = ws.Cell(rowIdx, colIdx);
 
+                                    // Xử lý checkbox năng lực → hiện chữ thay vì True/False
+                                    if (dgv.Columns[cell.ColumnIndex].Name.Contains("NL_"))
+                                    {
+                                        xlCell.Value = Convert.ToBoolean(cell.Value) ? "✓" : "";
+                                        xlCell.Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Center;
+                                    }
+                                    else
+                                    {
+                                        xlCell.Value = cell.FormattedValue?.ToString() ?? "";
+                                    }
+
+                                    // Tô màu nền theo xếp loại
+                                    string xepLoai = row.Cells["XepLoai"]?.Value?.ToString() ?? "";
+                                    if (xepLoai == "Tốt") xlCell.Style.Fill.BackgroundColor = XLColor.FromArgb(220, 255, 220);
+                                    else if (xepLoai == "Trung bình") xlCell.Style.Fill.BackgroundColor = XLColor.FromArgb(255, 255, 200);
+                                    else if (xepLoai == "Tệ") xlCell.Style.Fill.BackgroundColor = XLColor.FromArgb(255, 220, 220);
+
+                                    colIdx++;
+                                }
+                            }
+                            rowIdx++;
+                        }
+
+                        // ===== ĐỊNH DẠNG ĐẸP =====
+                        var range = ws.Range(3, 1, rowIdx - 1, colIdx - 1);
+                        range.Style.Border.OutsideBorder = XLBorderStyleValues.Thin;
+                        range.Style.Border.InsideBorder = XLBorderStyleValues.Thin;
                         ws.Columns().AdjustToContents();
+                        ws.Rows().AdjustToContents();
+
                         wb.SaveAs(sfd.FileName);
                     }
 
-                    MessageBox.Show("Xuất Excel thành công!", "Thành công", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    MessageBox.Show($"Xuất Excel thành công!\nFile: {sfd.FileName}", "Thành công", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo(sfd.FileName) { UseShellExecute = true }); // Mở file luôn
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Lỗi xuất Excel: " + ex.Message, "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
         }
-
+        private void Filter()
+        {
+            if (dgv.DataSource == null) return;
+            var view = ((DataTable)dgv.DataSource).DefaultView;
+            string kw = txtSearch.Text.Trim().Replace("'", "''");
+            view.RowFilter = string.IsNullOrEmpty(kw) ? "" : $"TenNhanVien LIKE '%{kw}%' OR NhanXet LIKE '%{kw}%'";
+        }
     }
 }

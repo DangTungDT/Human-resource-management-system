@@ -1,16 +1,12 @@
 ﻿using BLL;
+using CrystalDecisions.CrystalReports.ViewerObjectModel;
+using CrystalDecisions.Shared;
 using DAL;
 using DTO;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
-using System.Diagnostics;
-using System.Diagnostics.CodeAnalysis;
-using System.Drawing;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace GUI
@@ -25,6 +21,7 @@ namespace GUI
 
         private readonly BLLNghiPhep _dbContextNP;
         private readonly BLLNhanVien _dbContextNV;
+        private readonly BLLPhongBan _dbContextPB;
 
         public UCDuyetNghiPhep(string idNhanVien, string conn)
         {
@@ -35,6 +32,7 @@ namespace GUI
 
             _dbContextNP = new BLLNghiPhep(conn);
             _dbContextNV = new BLLNhanVien(conn);
+            _dbContextPB = new BLLPhongBan(conn);
         }
 
         private void btnLoad_Click(object sender, EventArgs e)
@@ -67,6 +65,9 @@ namespace GUI
                     btnDuyet.Enabled = true;
                     btnKhongDuyet.Enabled = true;
                 }
+
+                rtGhiChu.ReadOnly = false;
+
             }
         }
 
@@ -78,10 +79,14 @@ namespace GUI
         {
             try
             {
-                var setTrangThai = loai ? "Duyệt" : "Không duyệt";
+                var setTrangThai = loai ? "Đã duyệt" : "Không duyệt";
                 var nghiPhepCuaNV = _dbContextNP.KtraTrangThaiNghiPhepDonChuaDuyet(_idSelected);
 
-                var nghiPhep = _dbContextNP.KtraNghiPhepQuaID(Convert.ToInt32(_idTuyenDung));
+                NghiPhep nghiPhep = null;
+                if (int.TryParse(_idTuyenDung, out int id))
+                {
+                    nghiPhep = _dbContextNP.KtraNghiPhepQuaID(id);
+                }
 
                 if (nghiPhep == null)
                 {
@@ -91,7 +96,8 @@ namespace GUI
 
                 if (MessageBox.Show($"Bạn có chắc chắn về cập nhật với trạng thái là '{setTrangThai}' ?", "Cảnh báo", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
                 {
-                    if (_dbContextNP.KtraCapNhatTrangThaiNghiPhep(new DTONghiPhep(Convert.ToInt32(_idTuyenDung), _idNhanVien, setTrangThai)))
+
+                    if (_dbContextNP.KtraCapNhatTrangThaiNghiPhep(new DTONghiPhep(id, _idNhanVien, setTrangThai, rtGhiChu.Text, DateTime.Now)))
                     {
                         MessageBox.Show($"Cập nhật trạng thái thành công. ", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
                         LoadGeneral();
@@ -116,30 +122,67 @@ namespace GUI
             {
                 object anonymous = new object();
                 var dsNghiPhep = _dbContextNP.LayDsNghiPhep();
-                anonymous = _dbContextNP.LayDsNghiPhep().Where(p => p.TrangThai.Equals("Đang yêu cầu", StringComparison.OrdinalIgnoreCase)).Select(p => new
-                {
-                    ID = p.id,
-                    IDNhanVien = p.idNhanVien,
-                    NhanVien = _dbContextNV.KtraNhanVienQuaID(p.idNhanVien).TenNhanVien,
-                    LyDoNghi = p.LyDoNghi,
-                    LoaiNghiPhep = p.LoaiNghiPhep,
-                    ThoiGianNghi = p.NgayBatDau.ToString("dd/MM") + " - " + p.NgayKetThuc.ToString("dd/MM"),
-                    SoNgayNghi = (p.NgayKetThuc.Day - p.NgayBatDau.Day + 1).ToString(),
-                    NgayNghiCoPhep = SoNgayNghiCoPhep(dsNghiPhep, DateTime.Now.Month, p.idNhanVien),
-                    NgayNghiKhongPhep = SoNgayNghiKhongPhep(dsNghiPhep, DateTime.Now.Month, p.idNhanVien),
-                    TrangThai = p.TrangThai
+                var dsNhanVien = _dbContextNV.KtraDsNhanVien();
+                var dsPhongBan = _dbContextPB.KtraDsPhongBan();
 
-                }).ToList();
+                anonymous = _dbContextNP.LayDsNghiPhep()
+
+                        .Join(dsNhanVien,
+                        np => np.idNhanVien,
+                        nv => nv.id, (np, nv)
+                        => new { np, nv }).
+
+                        Join(dsPhongBan,
+                        nvnp => nvnp.nv.idPhongBan,
+                        pb => pb.id, (nvnp, pb)
+                        => new { nvnp.np, nvnp.nv, pb })
+
+                        .Where(p => (_idNhanVien.Contains("TPNS") || _idNhanVien.Contains("GD")
+                                        ? p.nv.id.Contains("TP") || p.nv.id.Contains("NVNS") || p.nv.id.Contains("NVGD")
+                                        : p.nv.idPhongBan == _dbContextNV.KtraNhanVienQuaID(_idNhanVien).idPhongBan)
+
+                                        && ktraHienThiTP(p.np.idNhanVien)
+                                        && p.np.NgayBatDau.Date > DateTime.Now.Date
+                                        && p.np.TrangThai.Equals("Đang yêu cầu", StringComparison.OrdinalIgnoreCase)
+
+                                ).Select(p => new
+                        {
+                            ID = p.np.id,
+                            IDNhanVien = p.np.idNhanVien,
+                            NhanVien = p.nv.TenNhanVien,
+                            LyDoNghi = p.np.LyDoNghi,
+                            LoaiNghiPhep = p.np.LoaiNghiPhep,
+                            ThoiGianNghi = p.np.NgayBatDau.ToString("dd/MM") + " - " + p.np.NgayKetThuc.ToString("dd/MM"),
+                            SoNgayNghi = (p.np.NgayKetThuc.Day - p.np.NgayBatDau.Day + 1).ToString(),
+                            NgayNghiCoPhep = SoNgayNghiCoPhep(dsNghiPhep, DateTime.Now.Month, p.np.idNhanVien),
+                            NgayNghiKhongPhep = SoNgayNghiKhongPhep(dsNghiPhep, DateTime.Now.Month, p.np.idNhanVien),
+                            LoaiTH = p.np.LoaiTruongHop,
+                            TrangThai = p.np.TrangThai
+
+                        }).OrderBy(p => p.ID).ThenBy(p => p.LoaiTH).ToList();
 
                 return anonymous;
             }
             catch { return null; }
         }
 
+        public bool ktraHienThiTP(string nv)
+        {
+            if (nv.Contains("TP") && (_idNhanVien.Contains("TPNS") || _idNhanVien.Contains("GD")))
+            {
+                return true;
+            }
+            else if (nv == _idNhanVien)
+            {
+                return false;
+            }
+            else return true;
+        }
+
         // Lay so ngay co phep theo thang
         private string SoNgayNghiCoPhep(List<NghiPhep> DsNghiPhep, int thangHienTai, string maNV)
         {
-            var nghiCoLuong = DsNghiPhep.Where(p => p.idNhanVien == maNV && p.TrangThai.Equals("Duyệt", StringComparison.OrdinalIgnoreCase) && p.LoaiNghiPhep.Equals("Có phép", StringComparison.OrdinalIgnoreCase)).ToList();
+            var nghiCoLuong = DsNghiPhep.Where(p => p.idNhanVien == maNV && p.TrangThai.Equals("Đã duyệt", StringComparison.OrdinalIgnoreCase) && p.LoaiNghiPhep.Equals("Có lương", StringComparison.OrdinalIgnoreCase)).ToList();
             return nghiCoLuong.Where(p => p.NgayBatDau.Month == thangHienTai && p.NgayBatDau.Year == DateTime.Now.Year).ToList()
                                             .Sum(p => p.NgayKetThuc.Day - p.NgayBatDau.Day) + nghiCoLuong.Count + "";
         }
@@ -147,7 +190,7 @@ namespace GUI
         // Lay so ngay khong phep theo thang
         private string SoNgayNghiKhongPhep(List<NghiPhep> DsNghiPhep, int thangHienTai, string maNV)
         {
-            var nghiKhongLuong = DsNghiPhep.Where(p => p.idNhanVien == maNV && p.TrangThai.Equals("Duyệt", StringComparison.OrdinalIgnoreCase) && p.LoaiNghiPhep.Equals("Không phép", StringComparison.OrdinalIgnoreCase)).ToList();
+            var nghiKhongLuong = DsNghiPhep.Where(p => p.idNhanVien == maNV && p.TrangThai.Equals("Đã duyệt", StringComparison.OrdinalIgnoreCase) && p.LoaiNghiPhep.Equals("Không lương", StringComparison.OrdinalIgnoreCase)).ToList();
             return nghiKhongLuong.Where(p => p.NgayBatDau.Month == thangHienTai && p.NgayBatDau.Year == DateTime.Now.Year).ToList()
                                             .Sum(p => p.NgayKetThuc.Day - p.NgayBatDau.Day) + nghiKhongLuong.Count + "";
         }
@@ -163,11 +206,16 @@ namespace GUI
             dgvDsXinNghiPhep.Columns["SoNgayNghi"].HeaderText = "Số ngày xin nghỉ";
             dgvDsXinNghiPhep.Columns["NgayNghiCoPhep"].HeaderText = $"Số ngày có phép tháng {DateTime.Now.Month}";
             dgvDsXinNghiPhep.Columns["NgayNghiKhongPhep"].HeaderText = $"Số ngày không phép tháng {DateTime.Now.Month}";
+            dgvDsXinNghiPhep.Columns["LoaiTH"].HeaderText = "Loại TH đột xuất";
             dgvDsXinNghiPhep.Columns["TrangThai"].HeaderText = "Trạng thái";
+
+            dgvDsXinNghiPhep.Columns["LyDoNghi"].DefaultCellStyle.WrapMode = DataGridViewTriState.True;
+            dgvDsXinNghiPhep.Columns["LyDoNghi"].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
         }
 
         private void UCDuyetNghiPhep_Load_1(object sender, EventArgs e)
         {
+            rtGhiChu.Enabled = true;
             LoadGeneral();
         }
 
@@ -178,6 +226,7 @@ namespace GUI
             dgvDsXinNghiPhep.DataSource = LoadDuLieu();
             ConvertHeaderTextDGV();
             _idSelected = "0";
+
         }
     }
 }

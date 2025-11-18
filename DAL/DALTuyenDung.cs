@@ -68,7 +68,6 @@ namespace DAL
                     tuyenDung.idPhongBan = DTO.IDPhongBan;
                     tuyenDung.idChucVu = DTO.IDChucVu;
                     tuyenDung.idNguoiTao = DTO.IDNguoiTao;
-                    tuyenDung.trangThai = DTO.TrangThai;
                     tuyenDung.ngayTao = DTO.NgayTao;
                     tuyenDung.soLuong = DTO.SoLuong;
                     tuyenDung.ghiChu = DTO.GhiChu;
@@ -117,9 +116,9 @@ namespace DAL
                 {
 
                     tuyenDung.tieuDe = DTO.TieuDe;
-                    tuyenDung.soLuong = DTO.SoLuong;
-                    tuyenDung.ghiChu = DTO.GhiChu;
-                    tuyenDung.trangThai = DTO.TrangThai;
+                    tuyenDung.soLuongDuyet = DTO.SoLuong;
+                    tuyenDung.ghiChuDuyet = DTO.GhiChu;
+                    tuyenDung.trangThai = DTO.TrangThai.Equals("Loại", StringComparison.CurrentCultureIgnoreCase) ? "Ngừng tuyển" : DTO.TrangThai;
                     tuyenDung.ngayTao = DTO.NgayTao;
 
                     _dbContext.SubmitChanges();

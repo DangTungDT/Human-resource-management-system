@@ -7,7 +7,7 @@ using DTO;
 
 namespace DAL
 {
-    public  class DALChamCong
+    public class DALChamCong
     {
         PersonnelManagementDataContextDataContext db;
 
@@ -62,7 +62,7 @@ namespace DAL
         {
             try
             {
-                ChamCong check = db.ChamCongs.Where(x=> x.id == id).FirstOrDefault();
+                ChamCong check = db.ChamCongs.Where(x => x.id == id).FirstOrDefault();
                 if (check != null)
                 {
                     db.ChamCongs.DeleteOnSubmit(check);
@@ -95,7 +95,7 @@ namespace DAL
                 db.SubmitChanges();
                 return "data added successfully";
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 return "failed to add data";
             }
@@ -103,9 +103,9 @@ namespace DAL
 
         public bool CheckAttendance(string[,] arrIdStaff)
         {
-            foreach(string s in arrIdStaff)
+            foreach (string s in arrIdStaff)
             {
-                if(s != null)
+                if (s != null)
                 {
                     bool check = db.ChamCongs.Any(x => x.idNhanVien == s && x.NgayChamCong.Date == DateTime.Now.Date);
                     if (!check) return false;
@@ -116,7 +116,7 @@ namespace DAL
                 }
                 continue;
             }
-            return true;    
+            return true;
         }
 
         public bool CheckAttendanceOut(string[,] arrIdStaff)
@@ -133,6 +133,8 @@ namespace DAL
             return true;
         }
 
+        // danh sach cham cong
+        public List<ChamCong> dsChamCong() => db.ChamCongs.ToList();
         public bool CheckAttendanceOutArr(List<string> arrIdStaff)
         {
             foreach (string s in arrIdStaff)

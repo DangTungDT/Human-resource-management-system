@@ -20,13 +20,14 @@ namespace GUI
         private Guna2Button btnSearch, btnExcel, btnPDF, btnXuatReport;
         private Guna2DataGridView dgv;
         private readonly string _idNhanVien, _connectionString;
-
-        public BaoCaoHopDong(string stringConnection, string idNhanVien)
+        private Panel _panel;
+        public BaoCaoHopDong(string stringConnection, string idNhanVien, Panel panel)
         {
             InitializeComponent();
 
             _idNhanVien = idNhanVien;
             _connectionString = stringConnection;
+            _panel = panel;
 
             BuildUI();
             LoadFilterData();
@@ -221,8 +222,11 @@ namespace GUI
             string maHD = dgv.SelectedRows[0].Cells["Mã HĐ"].Value.ToString();
 
             // Truyền Mã HĐ vào form report
-            FrmReportHopDong frm = new FrmReportHopDong(maHD);
-            frm.ShowDialog();
+            //UCBaoCaoHopDong uc = new UCBaoCaoHopDong(_connectionString);
+            //DisplayUserControlPanel.ChildUserControl(uc, _panel);
+
+            frmBaoCaoHopDong frm = new frmBaoCaoHopDong(_connectionString);
+            frm.ShowDialog(this);
         }
     }
 }

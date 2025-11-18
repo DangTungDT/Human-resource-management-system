@@ -19,6 +19,7 @@ namespace BLL
 
         public IQueryable GetAll() => dal.GetAll();
 
+
         public IQueryable GetChamCongByIdNhanVien(string idNhanVien)
         {
             if (!string.IsNullOrEmpty(idNhanVien))
@@ -37,7 +38,7 @@ namespace BLL
         }
         public bool Update(DTOChamCong dto)
         {
-            if (dto.IdNhanVien != null || dto.NgayChamCong != DateTime.Now|| dto.GioVao > dto.GioRa)
+            if (dto.IdNhanVien != null || dto.NgayChamCong != DateTime.Now || dto.GioVao > dto.GioRa)
             {
                 return false;
             }
@@ -53,7 +54,7 @@ namespace BLL
         }
         public string Add(DTOChamCong dto)
         {
-            if( dto.NgayChamCong == DateTime.Now.Date ||
+            if (dto.NgayChamCong == DateTime.Now.Date ||
                 dto.GioVao > DateTime.Now.TimeOfDay ||
                 !string.IsNullOrEmpty(dto.IdNhanVien))
             {
@@ -64,7 +65,7 @@ namespace BLL
 
         public bool CheckAttendance(string[,] arrIdStaff)
         {
-            if(arrIdStaff == null)
+            if (arrIdStaff == null)
             {
                 return false;
             }
@@ -80,6 +81,7 @@ namespace BLL
             return dal.CheckAttendanceOut(arrIdStaff);
         }
 
+        public List<ChamCong> LayDsChamCong() => dal.dsChamCong();
         public bool CheckAttendanceOutArr(List<string> arrIdStaff)
         {
             if (arrIdStaff == null)

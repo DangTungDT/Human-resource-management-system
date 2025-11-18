@@ -49,7 +49,7 @@ namespace BLL
                     {
                         return true;
                     }
-                    else throw new Exception("Lỗi thêm nghỉ phép !");
+                    else return false;
                 }
                 else throw new Exception("Không tìm thấy dữ liệu nhân viên trong hệ thống !");
 
@@ -110,11 +110,34 @@ namespace BLL
                         }
                         else return false;
                     }
-                    else throw new Exception("Không tìm thấy dữ liệu nghỉ phép trong hệ thống !");
+                    else return false;
 
                 }
                 else throw new Exception("Không tìm thấy dữ liệu nhân viên trong hệ thống !");
 
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Lỗi cập nhật nghỉ phép: " + ex.Message);
+            }
+        }
+
+        // Ktra cap nhat trang thai nghi phep   
+        public bool KtraCapNhatTrangThaiNghiPhepChoNhieuNV()
+        {
+            try
+            {
+                var dsNVNghiPhep = _dbContext.LayDsNghiPhep().Where(p => p.NgayBatDau.Date > DateTime.Now.Date && p.TrangThai == "Đang yêu cầu").ToList();
+                if (dsNVNghiPhep.Any())
+                {
+                    var KtraThemNP = _dbContext.CapNhatTrangThaiNghiPhepChoNhieuNV();
+                    if (KtraThemNP)
+                    {
+                        return true;
+                    }
+                    else return false;
+                }
+                else return false;
             }
             catch (Exception ex)
             {
@@ -156,6 +179,29 @@ namespace BLL
         public List<DTONghiPhep> LayDanhSachNghiPhepQuaID(string idNhanVien)
         {
             return _dbContext.LayDanhSachNghiPhep(idNhanVien);
+        }
+
+        // Ktra nghi phep qua trang thai dang yeu cau
+        public NghiPhep LayNghiPhepDangYeuCau(int id)
+        {
+            try
+            {
+                if (id > 0)
+                {
+                    var nghiPhep = _dbContext.LayNghiPhepDangYeuCau(id);
+                    if (nghiPhep != null)
+                    {
+                        return nghiPhep;
+                    }
+                    else return null;
+                }
+                else return null;
+
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Lỗi tìm kiếm nghỉ phép: " + ex.Message);
+            }
         }
 
         // Ktra nghi phep qua id
@@ -228,11 +274,11 @@ namespace BLL
         }
 
         // Ktra don don nghi phep moi nhat da duoc duyet chua
-        public bool KtraTrangThaiDonChuaDuyet(string maNV)
+        public bool KtraTrangThaiDonChuaDuyet(string maNV, int thang, int nam)
         {
             try
             {
-                var checkStatus = _dbContext.TimDonChuaDuyet(maNV);
+                var checkStatus = _dbContext.TimDonChuaDuyetTrongThang(maNV, thang, nam);
                 if (checkStatus)
                 {
                     return true;
@@ -264,7 +310,7 @@ namespace BLL
         }
 
         // Ktra so luong ngay nghi
-        public TinhLuong KtraTinhSoLuongNgayNghiCoPhep(string maNV, int batDau, int ketThuc, string loai)
+        public TinhLuong KtraTinhSoLuongNgayNghiCoPhep(string maNV, DateTime batDau, DateTime ketThuc, string loai)
         {
             try
             {

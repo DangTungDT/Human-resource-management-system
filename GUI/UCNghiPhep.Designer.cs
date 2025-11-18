@@ -46,19 +46,13 @@
             this.label11 = new System.Windows.Forms.Label();
             this.lblIDNP = new System.Windows.Forms.Label();
             this.cmbTHNghi = new Guna.UI2.WinForms.Guna2ComboBox();
-            this.cmbLoaiNghi = new Guna.UI2.WinForms.Guna2ComboBox();
-            this.dtpKetThuc = new Guna.UI2.WinForms.Guna2DateTimePicker();
             this.txtLoaiTHKhac = new Guna.UI2.WinForms.Guna2TextBox();
             this.txtTrangThai = new Guna.UI2.WinForms.Guna2TextBox();
-            this.dtpBatDau = new Guna.UI2.WinForms.Guna2DateTimePicker();
             this.rtLyDo = new System.Windows.Forms.RichTextBox();
             this.label7 = new System.Windows.Forms.Label();
             this.dgvDSNghiPhepCaNhan = new Guna.UI2.WinForms.Guna2DataGridView();
             this.lblTHNghi = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
-            this.label4 = new System.Windows.Forms.Label();
-            this.label3 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
             this.btnXoa = new Guna.UI2.WinForms.Guna2GradientButton();
             this.btnSua = new Guna.UI2.WinForms.Guna2GradientButton();
@@ -67,7 +61,9 @@
             this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
             this.lblLichSu = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
+            this.label12 = new System.Windows.Forms.Label();
             this.cmbLocThang = new Guna.UI2.WinForms.Guna2ComboBox();
+            this.cmbLocNam = new Guna.UI2.WinForms.Guna2ComboBox();
             this.label8 = new System.Windows.Forms.Label();
             this.txtSoNgayNghi = new Guna.UI2.WinForms.Guna2TextBox();
             this.label9 = new System.Windows.Forms.Label();
@@ -77,8 +73,12 @@
             this.btnLoadDuLieu = new Guna.UI2.WinForms.Guna2GradientButton();
             this.error = new System.Windows.Forms.ErrorProvider(this.components);
             this.guna2HtmlLabel25 = new Guna.UI2.WinForms.Guna2HtmlLabel();
-            this.cmbLocNam = new Guna.UI2.WinForms.Guna2ComboBox();
-            this.label12 = new System.Windows.Forms.Label();
+            this.label2 = new System.Windows.Forms.Label();
+            this.cmbLoaiNghi = new Guna.UI2.WinForms.Guna2ComboBox();
+            this.dtpBatDau = new Guna.UI2.WinForms.Guna2DateTimePicker();
+            this.label4 = new System.Windows.Forms.Label();
+            this.label3 = new System.Windows.Forms.Label();
+            this.dtpKetThuc = new Guna.UI2.WinForms.Guna2DateTimePicker();
             this.pnlNghiPhep.SuspendLayout();
             this.grbNhanVien.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvDSNghiPhepCaNhan)).BeginInit();
@@ -248,43 +248,6 @@
             this.cmbTHNghi.TabIndex = 42;
             this.cmbTHNghi.SelectionChangeCommitted += new System.EventHandler(this.cmbTHNghi_SelectionChangeCommitted);
             // 
-            // cmbLoaiNghi
-            // 
-            this.cmbLoaiNghi.BackColor = System.Drawing.Color.Transparent;
-            this.cmbLoaiNghi.BorderRadius = 5;
-            this.cmbLoaiNghi.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed;
-            this.cmbLoaiNghi.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cmbLoaiNghi.FocusedColor = System.Drawing.Color.FromArgb(((int)(((byte)(94)))), ((int)(((byte)(148)))), ((int)(((byte)(255)))));
-            this.cmbLoaiNghi.FocusedState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(94)))), ((int)(((byte)(148)))), ((int)(((byte)(255)))));
-            this.cmbLoaiNghi.Font = new System.Drawing.Font("Segoe UI", 10F);
-            this.cmbLoaiNghi.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(68)))), ((int)(((byte)(88)))), ((int)(((byte)(112)))));
-            this.cmbLoaiNghi.ItemHeight = 30;
-            this.cmbLoaiNghi.Location = new System.Drawing.Point(364, 94);
-            this.cmbLoaiNghi.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.cmbLoaiNghi.Name = "cmbLoaiNghi";
-            this.cmbLoaiNghi.Size = new System.Drawing.Size(403, 36);
-            this.cmbLoaiNghi.TabIndex = 42;
-            // 
-            // dtpKetThuc
-            // 
-            this.dtpKetThuc.BackColor = System.Drawing.Color.Transparent;
-            this.dtpKetThuc.BorderRadius = 10;
-            this.dtpKetThuc.BorderThickness = 1;
-            this.dtpKetThuc.Checked = true;
-            this.dtpKetThuc.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(224)))), ((int)(((byte)(192)))));
-            this.dtpKetThuc.Font = new System.Drawing.Font("Segoe UI", 9F);
-            this.dtpKetThuc.ForeColor = System.Drawing.Color.Black;
-            this.dtpKetThuc.Format = System.Windows.Forms.DateTimePickerFormat.Short;
-            this.dtpKetThuc.Location = new System.Drawing.Point(970, 170);
-            this.dtpKetThuc.Margin = new System.Windows.Forms.Padding(4);
-            this.dtpKetThuc.MaxDate = new System.DateTime(9998, 12, 31, 0, 0, 0, 0);
-            this.dtpKetThuc.MinDate = new System.DateTime(1753, 1, 1, 0, 0, 0, 0);
-            this.dtpKetThuc.Name = "dtpKetThuc";
-            this.dtpKetThuc.Size = new System.Drawing.Size(405, 44);
-            this.dtpKetThuc.TabIndex = 39;
-            this.dtpKetThuc.Value = new System.DateTime(2025, 10, 2, 11, 50, 23, 195);
-            this.dtpKetThuc.CloseUp += new System.EventHandler(this.dtpKetThuc_CloseUp);
-            // 
             // txtLoaiTHKhac
             // 
             this.txtLoaiTHKhac.BackColor = System.Drawing.Color.Transparent;
@@ -328,26 +291,6 @@
             this.txtTrangThai.SelectedText = "";
             this.txtTrangThai.Size = new System.Drawing.Size(403, 44);
             this.txtTrangThai.TabIndex = 48;
-            // 
-            // dtpBatDau
-            // 
-            this.dtpBatDau.BackColor = System.Drawing.Color.Transparent;
-            this.dtpBatDau.BorderRadius = 10;
-            this.dtpBatDau.BorderThickness = 1;
-            this.dtpBatDau.Checked = true;
-            this.dtpBatDau.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(224)))), ((int)(((byte)(192)))));
-            this.dtpBatDau.Font = new System.Drawing.Font("Segoe UI", 9F);
-            this.dtpBatDau.ForeColor = System.Drawing.Color.Black;
-            this.dtpBatDau.Format = System.Windows.Forms.DateTimePickerFormat.Short;
-            this.dtpBatDau.Location = new System.Drawing.Point(970, 97);
-            this.dtpBatDau.Margin = new System.Windows.Forms.Padding(4);
-            this.dtpBatDau.MaxDate = new System.DateTime(9998, 12, 31, 0, 0, 0, 0);
-            this.dtpBatDau.MinDate = new System.DateTime(2025, 1, 1, 0, 0, 0, 0);
-            this.dtpBatDau.Name = "dtpBatDau";
-            this.dtpBatDau.Size = new System.Drawing.Size(405, 44);
-            this.dtpBatDau.TabIndex = 40;
-            this.dtpBatDau.Value = new System.DateTime(2025, 10, 16, 0, 0, 0, 0);
-            this.dtpBatDau.CloseUp += new System.EventHandler(this.dtpBatDau_CloseUp);
             // 
             // rtLyDo
             // 
@@ -450,44 +393,6 @@
             this.label6.Size = new System.Drawing.Size(133, 28);
             this.label6.TabIndex = 46;
             this.label6.Text = "Trạng thái:";
-            // 
-            // label2
-            // 
-            this.label2.BackColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.label2.Font = new System.Drawing.Font("Times New Roman", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(163)));
-            this.label2.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
-            this.label2.Location = new System.Drawing.Point(233, 107);
-            this.label2.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(133, 28);
-            this.label2.TabIndex = 47;
-            this.label2.Text = "Loại nghỉ:";
-            // 
-            // label4
-            // 
-            this.label4.BackColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.label4.Font = new System.Drawing.Font("Times New Roman", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(163)));
-            this.label4.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
-            this.label4.Location = new System.Drawing.Point(814, 175);
-            this.label4.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(160, 28);
-            this.label4.TabIndex = 44;
-            this.label4.Text = "Ngày kết thúc:";
-            this.label4.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // label3
-            // 
-            this.label3.BackColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.label3.Font = new System.Drawing.Font("Times New Roman", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(163)));
-            this.label3.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
-            this.label3.Location = new System.Drawing.Point(814, 102);
-            this.label3.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(160, 28);
-            this.label3.TabIndex = 45;
-            this.label3.Text = "Ngày bắt đầu:";
-            this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // label5
             // 
@@ -679,6 +584,19 @@
             this.label1.Text = "Theo tháng";
             this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
+            // label12
+            // 
+            this.label12.BackColor = System.Drawing.SystemColors.Control;
+            this.label12.Font = new System.Drawing.Font("Times New Roman", 10.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(163)));
+            this.label12.ForeColor = System.Drawing.Color.Black;
+            this.label12.Location = new System.Drawing.Point(190, 343);
+            this.label12.Margin = new System.Windows.Forms.Padding(13, 10, 4, 0);
+            this.label12.Name = "label12";
+            this.label12.Size = new System.Drawing.Size(150, 28);
+            this.label12.TabIndex = 54;
+            this.label12.Text = "Theo năm";
+            this.label12.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
             // cmbLocThang
             // 
             this.cmbLocThang.BackColor = System.Drawing.Color.Transparent;
@@ -697,6 +615,25 @@
             this.cmbLocThang.TabIndex = 42;
             this.cmbLocThang.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.cmbLocThang.SelectionChangeCommitted += new System.EventHandler(this.cmbLocThang_SelectionChangeCommitted);
+            // 
+            // cmbLocNam
+            // 
+            this.cmbLocNam.BackColor = System.Drawing.Color.Transparent;
+            this.cmbLocNam.BorderRadius = 5;
+            this.cmbLocNam.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed;
+            this.cmbLocNam.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cmbLocNam.FocusedColor = System.Drawing.Color.FromArgb(((int)(((byte)(94)))), ((int)(((byte)(148)))), ((int)(((byte)(255)))));
+            this.cmbLocNam.FocusedState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(94)))), ((int)(((byte)(148)))), ((int)(((byte)(255)))));
+            this.cmbLocNam.Font = new System.Drawing.Font("Times New Roman", 9F);
+            this.cmbLocNam.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(68)))), ((int)(((byte)(88)))), ((int)(((byte)(112)))));
+            this.cmbLocNam.ItemHeight = 30;
+            this.cmbLocNam.Location = new System.Drawing.Point(185, 373);
+            this.cmbLocNam.Margin = new System.Windows.Forms.Padding(4, 2, 3, 2);
+            this.cmbLocNam.Name = "cmbLocNam";
+            this.cmbLocNam.Size = new System.Drawing.Size(155, 36);
+            this.cmbLocNam.TabIndex = 53;
+            this.cmbLocNam.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.cmbLocNam.SelectionChangeCommitted += new System.EventHandler(this.cmbLocNam_SelectionChangeCommitted);
             // 
             // label8
             // 
@@ -845,37 +782,100 @@
             this.guna2HtmlLabel25.Text = "XIN NGHỈ PHÉP CÁ NHÂN";
             this.guna2HtmlLabel25.TextAlignment = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // cmbLocNam
+            // label2
             // 
-            this.cmbLocNam.BackColor = System.Drawing.Color.Transparent;
-            this.cmbLocNam.BorderRadius = 5;
-            this.cmbLocNam.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed;
-            this.cmbLocNam.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cmbLocNam.FocusedColor = System.Drawing.Color.FromArgb(((int)(((byte)(94)))), ((int)(((byte)(148)))), ((int)(((byte)(255)))));
-            this.cmbLocNam.FocusedState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(94)))), ((int)(((byte)(148)))), ((int)(((byte)(255)))));
-            this.cmbLocNam.Font = new System.Drawing.Font("Times New Roman", 9F);
-            this.cmbLocNam.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(68)))), ((int)(((byte)(88)))), ((int)(((byte)(112)))));
-            this.cmbLocNam.ItemHeight = 30;
-            this.cmbLocNam.Location = new System.Drawing.Point(185, 373);
-            this.cmbLocNam.Margin = new System.Windows.Forms.Padding(4, 2, 3, 2);
-            this.cmbLocNam.Name = "cmbLocNam";
-            this.cmbLocNam.Size = new System.Drawing.Size(155, 36);
-            this.cmbLocNam.TabIndex = 53;
-            this.cmbLocNam.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.cmbLocNam.SelectionChangeCommitted += new System.EventHandler(this.cmbLocNam_SelectionChangeCommitted);
+            this.label2.BackColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.label2.Font = new System.Drawing.Font("Times New Roman", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(163)));
+            this.label2.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.label2.Location = new System.Drawing.Point(233, 107);
+            this.label2.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(133, 28);
+            this.label2.TabIndex = 47;
+            this.label2.Text = "Loại nghỉ:";
             // 
-            // label12
+            // cmbLoaiNghi
             // 
-            this.label12.BackColor = System.Drawing.SystemColors.Control;
-            this.label12.Font = new System.Drawing.Font("Times New Roman", 10.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(163)));
-            this.label12.ForeColor = System.Drawing.Color.Black;
-            this.label12.Location = new System.Drawing.Point(190, 343);
-            this.label12.Margin = new System.Windows.Forms.Padding(13, 10, 4, 0);
-            this.label12.Name = "label12";
-            this.label12.Size = new System.Drawing.Size(150, 28);
-            this.label12.TabIndex = 54;
-            this.label12.Text = "Theo năm";
-            this.label12.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.cmbLoaiNghi.BackColor = System.Drawing.Color.Transparent;
+            this.cmbLoaiNghi.BorderRadius = 5;
+            this.cmbLoaiNghi.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed;
+            this.cmbLoaiNghi.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cmbLoaiNghi.FocusedColor = System.Drawing.Color.FromArgb(((int)(((byte)(94)))), ((int)(((byte)(148)))), ((int)(((byte)(255)))));
+            this.cmbLoaiNghi.FocusedState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(94)))), ((int)(((byte)(148)))), ((int)(((byte)(255)))));
+            this.cmbLoaiNghi.Font = new System.Drawing.Font("Segoe UI", 10F);
+            this.cmbLoaiNghi.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(68)))), ((int)(((byte)(88)))), ((int)(((byte)(112)))));
+            this.cmbLoaiNghi.ItemHeight = 30;
+            this.cmbLoaiNghi.Location = new System.Drawing.Point(364, 94);
+            this.cmbLoaiNghi.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.cmbLoaiNghi.Name = "cmbLoaiNghi";
+            this.cmbLoaiNghi.Size = new System.Drawing.Size(403, 36);
+            this.cmbLoaiNghi.TabIndex = 42;
+            // 
+            // dtpBatDau
+            // 
+            this.dtpBatDau.BackColor = System.Drawing.Color.Transparent;
+            this.dtpBatDau.BorderRadius = 10;
+            this.dtpBatDau.BorderThickness = 1;
+            this.dtpBatDau.Checked = true;
+            this.dtpBatDau.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(224)))), ((int)(((byte)(192)))));
+            this.dtpBatDau.Font = new System.Drawing.Font("Segoe UI", 9F);
+            this.dtpBatDau.ForeColor = System.Drawing.Color.Black;
+            this.dtpBatDau.Format = System.Windows.Forms.DateTimePickerFormat.Short;
+            this.dtpBatDau.Location = new System.Drawing.Point(970, 97);
+            this.dtpBatDau.Margin = new System.Windows.Forms.Padding(4);
+            this.dtpBatDau.MaxDate = new System.DateTime(9998, 12, 31, 0, 0, 0, 0);
+            this.dtpBatDau.MinDate = new System.DateTime(2025, 1, 1, 0, 0, 0, 0);
+            this.dtpBatDau.Name = "dtpBatDau";
+            this.dtpBatDau.Size = new System.Drawing.Size(405, 44);
+            this.dtpBatDau.TabIndex = 40;
+            this.dtpBatDau.Value = new System.DateTime(2025, 10, 16, 0, 0, 0, 0);
+            this.dtpBatDau.CloseUp += new System.EventHandler(this.dtpBatDau_CloseUp);
+            // 
+            // label4
+            // 
+            this.label4.BackColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.label4.Font = new System.Drawing.Font("Times New Roman", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(163)));
+            this.label4.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.label4.Location = new System.Drawing.Point(814, 175);
+            this.label4.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(160, 28);
+            this.label4.TabIndex = 44;
+            this.label4.Text = "Ngày kết thúc:";
+            this.label4.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // label3
+            // 
+            this.label3.BackColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.label3.Font = new System.Drawing.Font("Times New Roman", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(163)));
+            this.label3.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.label3.Location = new System.Drawing.Point(814, 102);
+            this.label3.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(160, 28);
+            this.label3.TabIndex = 45;
+            this.label3.Text = "Ngày bắt đầu:";
+            this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // dtpKetThuc
+            // 
+            this.dtpKetThuc.BackColor = System.Drawing.Color.Transparent;
+            this.dtpKetThuc.BorderRadius = 10;
+            this.dtpKetThuc.BorderThickness = 1;
+            this.dtpKetThuc.Checked = true;
+            this.dtpKetThuc.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(224)))), ((int)(((byte)(192)))));
+            this.dtpKetThuc.Font = new System.Drawing.Font("Segoe UI", 9F);
+            this.dtpKetThuc.ForeColor = System.Drawing.Color.Black;
+            this.dtpKetThuc.Format = System.Windows.Forms.DateTimePickerFormat.Short;
+            this.dtpKetThuc.Location = new System.Drawing.Point(970, 170);
+            this.dtpKetThuc.Margin = new System.Windows.Forms.Padding(4);
+            this.dtpKetThuc.MaxDate = new System.DateTime(9998, 12, 31, 0, 0, 0, 0);
+            this.dtpKetThuc.MinDate = new System.DateTime(1753, 1, 1, 0, 0, 0, 0);
+            this.dtpKetThuc.Name = "dtpKetThuc";
+            this.dtpKetThuc.Size = new System.Drawing.Size(405, 44);
+            this.dtpKetThuc.TabIndex = 39;
+            this.dtpKetThuc.Value = new System.DateTime(2025, 10, 2, 11, 50, 23, 195);
+            this.dtpKetThuc.CloseUp += new System.EventHandler(this.dtpKetThuc_CloseUp);
             // 
             // UCNghiPhep
             // 
@@ -908,9 +908,6 @@
         private Guna.UI2.WinForms.Guna2HtmlLabel guna2HtmlLabel5;
         private System.Windows.Forms.Panel pnlNghiPhep;
         private Guna.UI2.WinForms.Guna2GroupBox grbNhanVien;
-        private Guna.UI2.WinForms.Guna2ComboBox cmbLoaiNghi;
-        private Guna.UI2.WinForms.Guna2DateTimePicker dtpKetThuc;
-        private Guna.UI2.WinForms.Guna2DateTimePicker dtpBatDau;
         private System.Windows.Forms.RichTextBox rtLyDo;
         private Guna.UI2.WinForms.Guna2GradientButton btnGui;
         private Guna.UI2.WinForms.Guna2DataGridView dgvDSLichSuNP;
@@ -934,9 +931,6 @@
         private System.Windows.Forms.Label lblIDNP;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Label label6;
-        private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.Label label3;
         private Guna.UI2.WinForms.Guna2HtmlLabel guna2HtmlLabel25;
         private Guna.UI2.WinForms.Guna2ComboBox cmbTHNghi;
         private System.Windows.Forms.Label lblTHNghi;
@@ -945,5 +939,11 @@
         private Guna.UI2.WinForms.Guna2TextBox txtLoaiTHKhac;
         private Guna.UI2.WinForms.Guna2ComboBox cmbLocNam;
         private System.Windows.Forms.Label label12;
+        private Guna.UI2.WinForms.Guna2ComboBox cmbLoaiNghi;
+        private Guna.UI2.WinForms.Guna2DateTimePicker dtpKetThuc;
+        private Guna.UI2.WinForms.Guna2DateTimePicker dtpBatDau;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.Label label3;
     }
 }

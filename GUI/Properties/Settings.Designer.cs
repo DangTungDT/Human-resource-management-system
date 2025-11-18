@@ -22,5 +22,16 @@ namespace GUI.Properties {
                 return defaultInstance;
             }
         }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.ConnectionString)]
+        [global::System.Configuration.DefaultSettingValueAttribute("Data Source=LAPTOP-PNFFHRG1\\MSSQLSERVER01;Initial Catalog=PersonnelManagement;Int" +
+            "egrated Security=True;TrustServerCertificate=True")]
+        public string PersonnelManagementConnectionString {
+            get {
+                return ((string)(this["PersonnelManagementConnectionString"]));
+            }
+        }
     }
 }

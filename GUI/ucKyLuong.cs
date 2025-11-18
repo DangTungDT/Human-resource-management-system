@@ -109,7 +109,7 @@ namespace GUI
             }
             catch (Exception ex)
             {
-                throw new Exception("Lỗi: " + ex.Message);
+                MessageBox.Show("Lỗi: " + ex.Message);
             }
 
             finally
@@ -203,7 +203,8 @@ namespace GUI
             }
             catch (Exception ex)
             {
-                throw new Exception("Lỗi: " + ex.Message);
+                MessageBox.Show("Lỗi: " + ex.Message);
+                return;
             }
         }
 

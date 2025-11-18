@@ -28,7 +28,7 @@ namespace GUI
 
         private void btnChiTietLuong_Click(object sender, EventArgs e)
         {
-            FormBaoCaoChamCongCaNhan form = new FormBaoCaoChamCongCaNhan();
+            FormBaoCaoChamCongCaNhan form = new FormBaoCaoChamCongCaNhan(_idNhanVien, _conn);
             form.ShowDialog();
         }
 
@@ -71,6 +71,13 @@ namespace GUI
         {
             ThongKeDanhGia uc = new ThongKeDanhGia(_idNhanVien, _conn);
             DisplayUserControlPanel.ChildUserControl(uc, _tpReport);
+        }
+
+        private void guna2TileButton3_Click(object sender, EventArgs e)
+        {
+            //Chấm công nhân viên
+            FormBaoCaoChamCong newForm = new FormBaoCaoChamCong(_idNhanVien, _conn);
+            newForm.ShowDialog();
         }
 
         private void guna2TileButton2_Click(object sender, EventArgs e)

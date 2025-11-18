@@ -132,5 +132,20 @@ namespace DAL
             }
             return true;
         }
+
+        public bool CheckAttendanceOutArr(List<string> arrIdStaff)
+        {
+            foreach (string s in arrIdStaff)
+            {
+                if (s != null)
+                {
+                    bool check = db.ChamCongs.Any(x => x.idNhanVien == s && x.NgayChamCong.Date == DateTime.Now.Date && x.GioRa == null);
+                    if (check) return false;
+                }
+                continue;
+            }
+            return true;
+        }
+
     }
 }

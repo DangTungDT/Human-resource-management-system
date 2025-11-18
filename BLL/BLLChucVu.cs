@@ -21,12 +21,15 @@ namespace BLL
             dal = new DALChucVu(conn);
         }
 
-        public string FindNameById(int id) => dal.FindNameById(id);
+        //Tìm 1 value dự trên id ChucVu
+        public DTOChucVu FindNameById(int id) => dal.FindNameById(id);
         public ChucVu GetPositionByIdStaff(string idStaff)
         {
             if (string.IsNullOrEmpty(idStaff)) return null;
             return dal.GetPositionByIdStaff(idStaff);
         }
+
+        //
         public bool CheckPosition(string namePosition, int departmentId)
         {
             if (string.IsNullOrEmpty(namePosition) || departmentId < 1) return false;

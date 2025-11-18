@@ -25,6 +25,7 @@ namespace GUI
         private readonly int _idStaffDepartment;
         private BLLChamCong _bllChamCong;
         private bool _checkedIn, _checkedOut = false;
+        string _conn = "";
 
         //Cham cong = hinh anh
         public ucChamCongQuanLy(string idEmployee, int idDepartment, string conn)
@@ -33,7 +34,7 @@ namespace GUI
             _idStaffDepartment = idDepartment;
             _dbContextStaff = new BLLNhanVien(conn);
             _idNhanVien = idEmployee;
-
+            _conn = conn;
             _bllChamCong = new BLLChamCong(conn);
         }
         public ucChamCongQuanLy()
@@ -241,48 +242,51 @@ namespace GUI
 
         private void btnChamCongVaoTatCa_Click(object sender, EventArgs e)
         {
-            if(!_checkedIn)
-            {
-                //Chưa chấm công vào cho tất cả
-                //Sử lý và tạo chấm công
-                foreach (string idStaff in _arrIdSelected)
-                {
-                    //Bỏ qua id nào bị null
-                    if (idStaff == null) continue;
+            FormChamCong newForm = new FormChamCong(_idNhanVien, _idStaffDepartment, false, _conn);
+            newForm.ShowDialog();
 
-                    //Tạo Và thêm chamCong
-                    DTOChamCong dto = new DTOChamCong
-                    {
-                        NgayChamCong = DateTime.Now,
-                        GioVao = DateTime.Now.TimeOfDay,
-                        IdNhanVien = idStaff
-                    };
-                    string result = _bllChamCong.Add(dto).ToLower();
+            //if(!_checkedIn)
+            //{
+            //    //Chưa chấm công vào cho tất cả
+            //    //Sử lý và tạo chấm công
+            //    foreach (string idStaff in _arrIdSelected)
+            //    {
+            //        //Bỏ qua id nào bị null
+            //        if (idStaff == null) continue;
 
-                    if (result == "invalid data")
-                    {
-                        //Dữ liệu sai
-                        MessageBox.Show("Dữ liệu không hợp lệ!", "Thông báo");
-                        return;
-                    }
-                    else if (result == "failed to add data")
-                    {
-                        //Thêm thất bại
-                        MessageBox.Show("Chấm công thất bại!", "Thông báo");
-                        return;
-                    }
-                }
-                MessageBox.Show("Chấm công thành công cho tất cả!", "Thông báo");
+            //        //Tạo Và thêm chamCong
+            //        DTOChamCong dto = new DTOChamCong
+            //        {
+            //            NgayChamCong = DateTime.Now,
+            //            GioVao = DateTime.Now.TimeOfDay,
+            //            IdNhanVien = idStaff
+            //        };
+            //        string result = _bllChamCong.Add(dto).ToLower();
 
-                //Lưu trạng thái chấm công cho tất cả rồi và reset trạng thái chấm công out
-                _checkedIn = true;
-                _checkedOut = false;
+            //        if (result == "invalid data")
+            //        {
+            //            //Dữ liệu sai
+            //            MessageBox.Show("Dữ liệu không hợp lệ!", "Thông báo");
+            //            return;
+            //        }
+            //        else if (result == "failed to add data")
+            //        {
+            //            //Thêm thất bại
+            //            MessageBox.Show("Chấm công thất bại!", "Thông báo");
+            //            return;
+            //        }
+            //    }
+            //    MessageBox.Show("Chấm công thành công cho tất cả!", "Thông báo");
 
-            }else
-            {
-                //Đã chấm công từ trước
-                MessageBox.Show("Tất cả nhân viên đã được chấm công vào từ trước!", "Thông báo");
-            }
+            //    //Lưu trạng thái chấm công cho tất cả rồi và reset trạng thái chấm công out
+            //    _checkedIn = true;
+            //    _checkedOut = false;
+
+            //}else
+            //{
+            //    //Đã chấm công từ trước
+            //    MessageBox.Show("Tất cả nhân viên đã được chấm công vào từ trước!", "Thông báo");
+            //}
         }
 
         private void txtEmployeeName_KeyPress(object sender, KeyPressEventArgs e)
@@ -362,43 +366,46 @@ namespace GUI
 
         private void btnChamCongRaTatCa_Click(object sender, EventArgs e)
         {
-            //Kiểm tra đã chấm công cho tất cả chưa
-            if(_checkedIn)
-            {
-                //Kiểm tra đã có chấm công out từ trước chưa
-                _checkedOut = _bllChamCong.CheckAttendanceOut(_arrIdSelected);
+            FormChamCong newForm = new FormChamCong(_idNhanVien, _idStaffDepartment, true, _conn);
+            newForm.ShowDialog();
 
-                if (!_checkedOut) {
-                    //Đã chấm công vào cho tất cả
-                    //Sử lý và cập nhật field GioRa cho ChamCong
-                    foreach (string idStaff in _arrIdSelected)
-                    {
-                        if (idStaff == null) continue;
-                        DTOChamCong dto = new DTOChamCong
-                        {
-                            NgayChamCong = DateTime.Now,
-                            GioVao = DateTime.Now.TimeOfDay,
-                            IdNhanVien = idStaff
-                        };
-                        dto.GioRa = DateTime.Now.TimeOfDay;
-                        if (!_bllChamCong.UpdateGioRa(dto))
-                        {
-                            MessageBox.Show("Chấm công về thất bại!", "Thông báo");
-                            return;
-                        }
-                    }
-                    MessageBox.Show("Chấm công về cho tất cả thành công!", "Thông báo");
-                    _checkedOut = true;
-                }
-                else
-                {
-                    MessageBox.Show("Đã chấm công về cho tất cả rồi, vui lòng không chấm nữa!", "Thông báo");
-                }
-            }
-            else
-            {
-                MessageBox.Show("Chưa chấm công vào tất cả, vui lòng chấm công cho tất cả trước khi chấm ra!", "Thông báo");
-            }
+            ////Kiểm tra đã chấm công cho tất cả chưa
+            //if(_checkedIn)
+            //{
+            //    //Kiểm tra đã có chấm công out từ trước chưa
+            //    _checkedOut = _bllChamCong.CheckAttendanceOut(_arrIdSelected);
+
+            //    if (!_checkedOut) {
+            //        //Đã chấm công vào cho tất cả
+            //        //Sử lý và cập nhật field GioRa cho ChamCong
+            //        foreach (string idStaff in _arrIdSelected)
+            //        {
+            //            if (idStaff == null) continue;
+            //            DTOChamCong dto = new DTOChamCong
+            //            {
+            //                NgayChamCong = DateTime.Now,
+            //                GioVao = DateTime.Now.TimeOfDay,
+            //                IdNhanVien = idStaff
+            //            };
+            //            dto.GioRa = DateTime.Now.TimeOfDay;
+            //            if (!_bllChamCong.UpdateGioRa(dto))
+            //            {
+            //                MessageBox.Show("Chấm công về thất bại!", "Thông báo");
+            //                return;
+            //            }
+            //        }
+            //        MessageBox.Show("Chấm công về cho tất cả thành công!", "Thông báo");
+            //        _checkedOut = true;
+            //    }
+            //    else
+            //    {
+            //        MessageBox.Show("Đã chấm công về cho tất cả rồi, vui lòng không chấm nữa!", "Thông báo");
+            //    }
+            //}
+            //else
+            //{
+            //    MessageBox.Show("Chưa chấm công vào tất cả, vui lòng chấm công cho tất cả trước khi chấm ra!", "Thông báo");
+            //}
         }
     }
 }

@@ -19,6 +19,12 @@ namespace BLL
             dal = new DALPhongBan(conn);
         }
 
+
+        public DTOPhongBan GetDepartmentByID(int id)
+        {
+            if (id < 1) return null;
+            return dal.GetDepartmentByID(id);
+        }
         public DTOPhongBan FindPhongBanByIdChucVu(int id)
         {
             if(id < 1) return null;

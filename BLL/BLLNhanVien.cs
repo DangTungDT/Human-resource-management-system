@@ -21,6 +21,17 @@ namespace BLL
             _tkBus = new BLLTaiKhoan(conn);
         }
 
+        public IQueryable<NhanVien> LayNhanVienChamCongVe(string idStaff, int idDepartment)
+        {
+            return _dal.LayNhanVienChamCongVe(idStaff, idDepartment);
+        }
+
+        public IQueryable<NhanVien> LayNhanVienQuanLy(string idStaff, int idDepartment)
+        {
+            return _dal.LayNhanVienQuanLy(idStaff, idDepartment);
+        }
+
+
         public List<ImageStaff> GetStaffByRole(string idStaff, int idDepartment)
         {
             //Phòng ban không tồn tại
@@ -75,6 +86,12 @@ namespace BLL
                 throw new Exception("Tên nhân viên không được để trống!");
 
             _dal.UpdateNhanVien(nv);
+        }
+
+        public string CreateIdStaff(string tenChucVu, string tenPhongBan)
+        {
+            if(tenChucVu != null && tenPhongBan != null) return _dal.SinhMaNhanVien(tenChucVu, tenPhongBan);
+            return "";
         }
 
         public bool AddNhanVien(DTONhanVien nv, string tenChucVu, string TenPhongBan)

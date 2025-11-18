@@ -25,6 +25,85 @@ namespace DAL
             _dbContext = new PersonnelManagementDataContextDataContext(conn);
         }
 
+        public IQueryable<NhanVien> LayNhanVienChamCongVe(string idStaff, int idDepartment)
+        {
+            // Bảo vệ input: nếu idStaff không hợp lệ thì trả về IQueryable rỗng
+            if (string.IsNullOrWhiteSpace(idStaff))
+                return Enumerable.Empty<DAL.NhanVien>().AsQueryable();
+
+            // Tránh lỗi khi idStaff ngắn hơn 2 ký tự
+            var role = idStaff.Length >= 2 ? idStaff.Substring(0, 2) : idStaff;
+
+            IQueryable<NhanVien> ketQua;
+            if (role == "NV")
+            {
+                // Role nhân viên: chỉ lấy chính họ
+                ketQua = _dbContext.NhanViens.Where(x => x.id == idStaff);
+            }
+            else if (role == "TP")
+            {
+                // Role trưởng phòng: lấy theo phòng ban
+                ketQua = _dbContext.NhanViens.Where(x => x.idPhongBan == idDepartment);
+            }
+            else
+            {
+                // Role Giám đốc: trả về tất cả nhân viên
+                ketQua = _dbContext.NhanViens;
+            }
+
+            // INNER JOIN để lấy người đã chấm công hôm nay
+            ketQua = from nv in ketQua
+                     join cc in _dbContext.ChamCongs
+                         on nv.id equals cc.idNhanVien
+                     where cc.NgayChamCong.Date == DateTime.Today.Date && cc.GioRa == null
+                     select nv;
+            return ketQua;
+        }
+
+        public IQueryable<NhanVien> LayNhanVienQuanLy(string idStaff, int idDepartment)
+        {
+            // Bảo vệ input: nếu idStaff không hợp lệ thì trả về IQueryable rỗng
+            if (string.IsNullOrWhiteSpace(idStaff))
+                return Enumerable.Empty<DAL.NhanVien>().AsQueryable();
+
+            // Tránh lỗi khi idStaff ngắn hơn 2 ký tự
+            var role = idStaff.Length >= 2 ? idStaff.Substring(0, 2) : idStaff;
+
+            // Lấy base query theo role
+            IQueryable<NhanVien> ketQua;
+            if (role == "NV")
+            {
+                // Role nhân viên: chỉ lấy chính họ
+                ketQua = _dbContext.NhanViens.Where(x => x.id == idStaff);
+            }
+            else if (role == "TP")
+            {
+                // Role trưởng phòng: lấy theo phòng ban
+                ketQua = _dbContext.NhanViens.Where(x => x.idPhongBan == idDepartment);
+            }
+            else
+            {
+                // Role Giám đốc: trả về tất cả nhân viên
+                ketQua = _dbContext.NhanViens;
+            }
+
+            // Xác định khoảng "hôm nay" để so sánh với cột NgayChamCong (an toàn hơn so sánh ngày bằng DbFunctions)
+            var today = DateTime.Today;
+            var tomorrow = today.AddDays(1);
+
+            // Lọc ra những nhân viên KHÔNG có bản ghi chấm công trong ngày hôm nay
+            // (tức là chưa chấm công vào hôm nay)
+            var notCheckedToday = ketQua
+                .Where(nv => !_dbContext.ChamCongs
+                    .Any(cc =>
+                        cc.idNhanVien == nv.id
+                        && cc.NgayChamCong >= today
+                        && cc.NgayChamCong < tomorrow
+                    ));
+
+            return notCheckedToday;
+        }
+
         public List<ImageStaff> GetStaffByRole(string idStaff, int idDepartment)
         {
             string role = idStaff.Substring(0, 2);

@@ -79,5 +79,14 @@ namespace BLL
             }
             return dal.CheckAttendanceOut(arrIdStaff);
         }
+
+        public bool CheckAttendanceOutArr(List<string> arrIdStaff)
+        {
+            if (arrIdStaff == null)
+            {
+                return false;
+            }
+            return dal.CheckAttendanceOutArr(arrIdStaff);
+        }
     }
 }

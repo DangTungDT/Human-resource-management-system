@@ -21,6 +21,17 @@ namespace BLL
             _tkBus = new BLLTaiKhoan(conn);
         }
 
+        public IQueryable<NhanVien> LayNhanVienChamCongVe(string idStaff, int idDepartment)
+        {
+            return _dal.LayNhanVienChamCongVe(idStaff, idDepartment);
+        }
+
+        public IQueryable<NhanVien> LayNhanVienQuanLy(string idStaff, int idDepartment)
+        {
+            return _dal.LayNhanVienQuanLy(idStaff, idDepartment);
+        }
+
+
         public List<ImageStaff> GetStaffByRole(string idStaff, int idDepartment)
         {
             //Phòng ban không tồn tại

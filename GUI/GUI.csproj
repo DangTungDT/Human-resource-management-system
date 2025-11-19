@@ -271,6 +271,11 @@
     <Compile Include="FormTest.Designer.cs">
       <DependentUpon>FormTest.cs</DependentUpon>
     </Compile>
+    <Compile Include="FrmBaoCaoTuyenDungTheoQuy.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FrmBaoCaoTuyenDungTheoQuy.Designer.cs">
+      <DependentUpon>FrmBaoCaoTuyenDungTheoQuy.cs</DependentUpon>
     <Compile Include="frmBaoCaoHopDong.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -399,6 +404,11 @@
     <Compile Include="ThongKeDanhGia.Designer.cs">
       <DependentUpon>ThongKeDanhGia.cs</DependentUpon>
     </Compile>
+    <Compile Include="ThongKeTuyenDung.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="ThongKeTuyenDung.Designer.cs">
+      <DependentUpon>ThongKeTuyenDung.cs</DependentUpon>
     <Compile Include="UCBaoCaoHopDong.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -606,6 +616,8 @@
     <EmbeddedResource Include="FormTest.resx">
       <DependentUpon>FormTest.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="FrmBaoCaoTuyenDungTheoQuy.resx">
+      <DependentUpon>FrmBaoCaoTuyenDungTheoQuy.cs</DependentUpon>
     <EmbeddedResource Include="frmBaoCaoHopDong.resx">
       <DependentUpon>frmBaoCaoHopDong.cs</DependentUpon>
     </EmbeddedResource>

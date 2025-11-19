@@ -107,7 +107,6 @@ CREATE TABLE HopDongLaoDong
 );
 GO
 
--- them ngay danh gia, loaiTruongHopNPDotXuat 8:22 - 13/11
 CREATE TABLE NghiPhep
 (
 	id INT IDENTITY(1,1) NOT NULL,
@@ -123,8 +122,6 @@ CREATE TABLE NghiPhep
 	constraint chk_NghiPhep_Ngay CHECK (NgayBatDau <= NgayKetThuc)
 );
 GO
-
-drop table NghiPhep
 
 CREATE TABLE DanhGiaNhanVien
 (
@@ -864,8 +861,8 @@ BEGIN TRY
         END
     END
 
-
-
+    -- 18) ChiTietLuong ensure >=30
+    IF (SELECT COUNT(*) FROM ChiTietLuong) < 30
     BEGIN
         INSERT INTO ChiTietLuong (ngayNhanLuong, luongTruocKhauTru, luongSauKhauTru, tongKhauTru, tongPhuCap, tongKhenThuong, tongTienPhat, trangThai, ghiChu, idNhanVien, idKyLuong)
         SELECT GETDATE(), c.luongCoBan, c.luongCoBan * 0.9, c.luongCoBan * 0.1, 500000, 0, 0, N'Chưa giải quyết', N'Lương mẫu', NV.id,
@@ -1013,6 +1010,20 @@ BEGIN
 END;
 GO
 
+--EXEC sp_BaoCaoTuyenDungTheoQuy 
+--    @Quy = 'Q4', 
+--    @Nam = 2025, 
+--	@PhongBan = null,
+--    @ViTri = null;
+
+
+CREATE PROCEDURE [dbo].[sp_GetDanhGiaNhanVien]
+    @IdDangNhap VARCHAR(20),
+    @Thang INT,
+    @Nam INT,
+    @SearchTen NVARCHAR(255) = NULL,
+    @SearchPhongBan INT = NULL,
+    @SearchChucVu INT = NULL
 IF OBJECT_ID('sp_BaoCao_KhenThuong', 'P') IS NOT NULL
     DROP PROCEDURE dbo.sp_BaoCao_KhenThuong;
 GO
@@ -1022,6 +1033,84 @@ AS
 BEGIN
     SET NOCOUNT ON;
 
+    DECLARE @IsGiamDoc BIT = CASE WHEN @IdDangNhap LIKE 'GD%' THEN 1 ELSE 0 END
+    DECLARE @IdPhongBanCuaTP INT = NULL
+
+    -- Lấy phòng ban của trưởng phòng (nếu là TP)
+    IF @IsGiamDoc = 0 AND @IdDangNhap LIKE 'TP%'
+    BEGIN
+        SELECT @IdPhongBanCuaTP = nv.idPhongBan
+        FROM NhanVien nv
+        JOIN ChucVu cv ON nv.idChucVu = cv.id
+        WHERE nv.id = @IdDangNhap AND cv.TenChucVu LIKE N'Trưởng phòng%'
+    END
+
+    -- Tính số ngày tự ý nghỉ trong tháng @Thang/@Nam
+    ;WITH MissesCTE AS (
+        SELECT 
+            cc.idNhanVien,
+            COUNT(*) AS Misses
+        FROM ChamCong cc
+        CROSS APPLY (VALUES (CAST(cc.NgayChamCong AS DATE))) v(Ngay)
+        WHERE MONTH(cc.NgayChamCong) = @Thang
+          AND YEAR(cc.NgayChamCong) = @Nam
+          AND DATENAME(WEEKDAY, cc.NgayChamCong) NOT IN ('Saturday', 'Sunday')
+          AND (cc.GioVao IS NULL OR cc.GioRa IS NULL)
+          AND NOT EXISTS (
+                SELECT 1 FROM NghiPhep np
+                WHERE np.idNhanVien = cc.idNhanVien
+                  AND np.TrangThai = N'Đã duyệt'
+                  AND CAST(cc.NgayChamCong AS DATE) BETWEEN np.NgayBatDau AND np.NgayKetThuc
+          )
+        GROUP BY cc.idNhanVien
+    ),
+    LatestDanhGia AS (
+        SELECT 
+            dg.*,
+            ROW_NUMBER() OVER (PARTITION BY dg.idNhanVien ORDER BY dg.ngayTao DESC) AS RN
+        FROM DanhGiaNhanVien dg
+        WHERE MONTH(dg.ngayTao) = @Thang AND YEAR(dg.ngayTao) = @Nam
+           OR dg.ngayTao IS NULL -- cho phép lấy nếu chưa có đánh giá
+    )
+
+    SELECT 
+        ISNULL(dg.id, 0) AS ID,
+        nv.id AS IDNhanVien,
+        nv.TenNhanVien,
+        pb.TenPhongBan,
+        cv.TenChucVu,
+        ISNULL(m.Misses, 0) AS Misses,
+        ISNULL(dg.DiemChuyenCan, 5) AS DiemChuyenCanStored,
+        ISNULL(dg.DiemNangLuc, 5) AS DiemNangLucStored,
+        ISNULL(dg.DiemSo, 0) AS DiemSo,
+        dg.NhanXet,
+        ISNULL(dg.ngayTao, GETDATE()) AS NgayTao
+    FROM NhanVien nv
+    JOIN PhongBan pb ON nv.idPhongBan = pb.id
+    JOIN ChucVu cv ON nv.idChucVu = cv.id
+    LEFT JOIN LatestDanhGia dg ON nv.id = dg.idNhanVien AND dg.RN = 1
+    LEFT JOIN MissesCTE m ON nv.id = m.idNhanVien
+    WHERE nv.DaXoa = 0
+      AND nv.LoaiNhanVien = N'Nhân viên chính thức'
+      AND nv.id != @IdDangNhap
+      AND (@IsGiamDoc = 1 OR nv.idPhongBan = @IdPhongBanCuaTP)
+      AND (@SearchTen IS NULL OR nv.TenNhanVien LIKE N'%' + @SearchTen + N'%')
+      AND (@SearchPhongBan IS NULL OR nv.idPhongBan = @SearchPhongBan)
+      AND (@SearchChucVu IS NULL OR nv.idChucVu = @SearchChucVu)
+    ORDER BY nv.TenNhanVien
+END
+
+GO
+
+INSERT INTO ThuongPhat (tienThuongPhat, loai, lyDo, idNguoiTao) VALUES
+(2000000, N'Thưởng', N'Thưởng nhân viên xuất sắc đạt đánh giá TỐT 2 tháng liên tiếp', 'GDGD0001'),
+(0, N'Phạt', N'Cảnh cáo bằng văn bản do đánh giá TỆ 2 tháng liên tiếp', 'GDGD0001')
+GO
+
+CREATE PROCEDURE sp_TuDongThuongPhatKyLuat
+    @Thang INT,
+    @Nam INT,
+    @idNguoiLap VARCHAR(10) = 'GDGD0001'
     SELECT 
         tp.id AS ThuongPhatID,
         nv.TenNhanVien,
@@ -1109,6 +1198,58 @@ CREATE PROCEDURE dbo.sp_BaoCao_HopDongNhanVien
 AS
 BEGIN
     SET NOCOUNT ON;
+
+    DECLARE @idThuong INT = (SELECT TOP 1 id FROM ThuongPhat WHERE loai = N'Thưởng' AND lyDo LIKE N'%TỐT%');
+    DECLARE @idKyLuat INT = (SELECT TOP 1 id FROM ThuongPhat WHERE loai = N'Phạt' AND lyDo LIKE N'%TỆ%');
+
+    -- Xóa thưởng/phạt/kỷ luật của tháng này trước khi tạo mới (tránh trùng
+    DELETE FROM NhanVien_ThuongPhat
+    WHERE MONTH(thangApDung) = @Thang 
+      AND YEAR(thangApDung) = @Nam
+      AND idThuongPhat IN (SELECT id FROM ThuongPhat WHERE loai IN (N'Thưởng', N'Phạt', N'Kỷ luật'));
+
+    DECLARE @NgayApDung DATE = DATEFROMPARTS(@Nam, @Thang, 1);
+
+    -- === 1. TỰ ĐỘNG THƯỞNG: Tốt (DiemSo >= 9) 2 tháng liên tiếp ===
+    INSERT INTO NhanVien_ThuongPhat (idNhanVien, idThuongPhat, thangApDung)
+    SELECT DISTINCT dg.idNhanVien, @idThuong, @NgayApDung
+    FROM DanhGiaNhanVien dg
+    WHERE dg.DiemSo >= 9
+      AND (
+            (MONTH(dg.ngayTao) = @Thang AND YEAR(dg.ngayTao) = @Nam)
+         OR (MONTH(dg.ngayTao) = @Thang - 1 AND YEAR(dg.ngayTao) = @Nam)
+         OR (@Thang = 1 AND MONTH(dg.ngayTao) = 12 AND YEAR(dg.ngayTao) = @Nam - 1)
+          )
+    GROUP BY dg.idNhanVien
+    HAVING COUNT(*) >= 2;
+
+    -- === 2. TỰ ĐỘNG KỶ LUẬT + PHẠT TIỀN: Tệ (DiemSo <= 6) 2 tháng liên tiếp ===
+    INSERT INTO NhanVien_ThuongPhat (idNhanVien, idThuongPhat, thangApDung)
+    SELECT DISTINCT dg.idNhanVien, @idKyLuat, @NgayApDung
+    FROM DanhGiaNhanVien dg
+    WHERE dg.DiemSo <= 6
+      AND (
+            (MONTH(dg.ngayTao) = @Thang AND YEAR(dg.ngayTao) = @Nam)
+         OR (MONTH(dg.ngayTao) = @Thang - 1 AND YEAR(dg.ngayTao) = @Nam)
+         OR (@Thang = 1 AND MONTH(dg.ngayTao) = 12 AND YEAR(dg.ngayTao) = @Nam - 1)
+          )
+    GROUP BY dg.idNhanVien
+    HAVING COUNT(*) >= 2;
+
+    -- Nếu bạn muốn phạt tiền thay vì chỉ kỷ luật, bỏ comment dòng dưới
+    -- INSERT INTO NhanVien_ThuongPhat (idNhanVien, idThuongPhat, thangApDung)
+    -- SELECT DISTINCT idNhanVien, @idPhatTien, @NgayApDung FROM (...) same query
+
+    -- Trả về kết quả để hiển thị thông báo
+    SELECT 
+        (SELECT COUNT(*) FROM NhanVien_ThuongPhat WHERE idThuongPhat = @idThuong AND MONTH(thangApDung)=@Thang AND YEAR(thangApDung)=@Nam) AS SoNguoiThuong,
+        (SELECT COUNT(*) FROM NhanVien_ThuongPhat WHERE idThuongPhat = @idKyLuat AND MONTH(thangApDung)=@Thang AND YEAR(thangApDung)=@Nam) AS SoNguoiKyLuat;
+END
+GO
+--USE master;
+--ALTER DATABASE PersonnelManagement SET SINGLE_USER WITH ROLLBACK IMMEDIATE;
+--DROP DATABASE PersonnelManagement;
+
 
     SELECT
         hd.id AS HopDongID,

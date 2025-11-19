@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Data.SqlClient;
 using System.Drawing;
 using System.IO;
 using System.Linq;
@@ -40,7 +41,40 @@ namespace GUI
         public ucChamCongQuanLy()
         {
             InitializeComponent();
+            SaveAll();
 
+        }
+
+        private void SaveAll()
+        {
+            int thang = DateTime.Now.Month;
+            int nam = DateTime.Now.Year;
+
+            // ===== TỰ ĐỘNG PHẠT NGHỈ KHÔNG PHÉP > 3 NGÀY =====
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(connectionString))
+                {
+                    SqlCommand cmd = new SqlCommand("sp_TuDongPhat_NghiKhongPhep_Qua3Ngay", conn);
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@Thang", thang);
+                    cmd.Parameters.AddWithValue("@Nam", nam);
+                    cmd.Parameters.AddWithValue("@idNguoiLap", _idNhanVien);
+
+                    conn.Open();
+                    int soNguoiPhat = (int)cmd.ExecuteScalar();
+
+                    if (soNguoiPhat > 0)
+                    {
+                        MessageBox.Show($"⚠ Đã tự động phạt {soNguoiPhat} nhân viên nghỉ không phép quá 3 ngày trong tháng!",
+                                        "Phạt chuyên cần", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Lỗi tự động phạt nghỉ phép: " + ex.Message);
+            }
         }
 
 

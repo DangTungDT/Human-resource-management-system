@@ -13,13 +13,11 @@ namespace GUI
         [STAThread]
         static void Main()
         {
-            Application.EnableVisualStyles();
+            Application.EnableVisualStyles(); 
             Application.SetCompatibleTextRenderingDefault(false);
 
             // GD00000001, TPCNTT0001, NVKD000004
-            Application.Run(new FormLogin());
-            //Application.Run(new TestGiaoDien(""));
-            //Application.Run(new frmBaoCaoHopDong(""));
+            Application.Run(new FormTest());
             //Application.Run(new TestGiaoDien("TPCNTT0001"));
 
 

@@ -7,6 +7,7 @@ using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace BLL
 {
@@ -60,9 +61,18 @@ namespace BLL
             return null;
         }
 
+        public DataTable ComboboxNhanVien1() => _dal.ComboboxNhanVien();
+
+        public DataTable GetNhanVienTheoTruongPhong(string idNguoi) => _dal.GetNhanVienTheoTruongPhong(idNguoi);
+
         public DataTable GetById(string id)
         {
             return _dal.GetById(id);
+        }
+
+        public int GetByIdPB(string id)
+        {
+            return _dal.GetByIdPB(id);
         }
 
         public DataTable ComboboxNhanVien()

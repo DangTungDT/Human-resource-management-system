@@ -37,7 +37,7 @@
             this.guna2TileButton2 = new Guna.UI2.WinForms.Guna2TileButton();
             this.btnDSNV = new Guna.UI2.WinForms.Guna2TileButton();
             this.btnThongKeBCDGNV = new Guna.UI2.WinForms.Guna2TileButton();
-            this.guna2TileButton3 = new Guna.UI2.WinForms.Guna2TileButton();
+            this.btnThongKeTuyenDung = new Guna.UI2.WinForms.Guna2TileButton();
             this.flowLayoutPanel1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -51,12 +51,12 @@
             this.flowLayoutPanel1.Controls.Add(this.guna2TileButton2);
             this.flowLayoutPanel1.Controls.Add(this.btnDSNV);
             this.flowLayoutPanel1.Controls.Add(this.btnThongKeBCDGNV);
-            this.flowLayoutPanel1.Controls.Add(this.guna2TileButton3);
+            this.flowLayoutPanel1.Controls.Add(this.btnThongKeTuyenDung);
             this.flowLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.flowLayoutPanel1.Location = new System.Drawing.Point(0, 0);
             this.flowLayoutPanel1.Margin = new System.Windows.Forms.Padding(4);
             this.flowLayoutPanel1.Name = "flowLayoutPanel1";
-            this.flowLayoutPanel1.Size = new System.Drawing.Size(1634, 77);
+            this.flowLayoutPanel1.Size = new System.Drawing.Size(2065, 77);
             this.flowLayoutPanel1.TabIndex = 5;
             // 
             // btnChiTietLuong
@@ -262,30 +262,30 @@
             this.btnThongKeBCDGNV.TextFormatNoPrefix = true;
             this.btnThongKeBCDGNV.Click += new System.EventHandler(this.btnThongKeBCDGNV_Click);
             // 
-            // guna2TileButton3
+            // btnThongKeTuyenDung
             // 
-            this.guna2TileButton3.BorderRadius = 5;
-            this.guna2TileButton3.BorderThickness = 1;
-            this.guna2TileButton3.DisabledState.BorderColor = System.Drawing.Color.DarkGray;
-            this.guna2TileButton3.DisabledState.CustomBorderColor = System.Drawing.Color.DarkGray;
-            this.guna2TileButton3.DisabledState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(169)))), ((int)(((byte)(169)))), ((int)(((byte)(169)))));
-            this.guna2TileButton3.DisabledState.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(141)))), ((int)(((byte)(141)))), ((int)(((byte)(141)))));
-            this.guna2TileButton3.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
-            this.guna2TileButton3.Font = new System.Drawing.Font("Segoe UI", 9F);
-            this.guna2TileButton3.ForeColor = System.Drawing.Color.Black;
-            this.guna2TileButton3.Image = global::GUI.Properties.Resources.Permission;
-            this.guna2TileButton3.ImageOffset = new System.Drawing.Point(0, 8);
-            this.guna2TileButton3.ImageSize = new System.Drawing.Size(30, 30);
-            this.guna2TileButton3.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.guna2TileButton3.IndicateFocus = true;
-            this.guna2TileButton3.Location = new System.Drawing.Point(4, 76);
-            this.guna2TileButton3.Margin = new System.Windows.Forms.Padding(4);
-            this.guna2TileButton3.Name = "guna2TileButton3";
-            this.guna2TileButton3.Size = new System.Drawing.Size(180, 64);
-            this.guna2TileButton3.TabIndex = 14;
-            this.guna2TileButton3.Text = "Chấm công";
-            this.guna2TileButton3.TextFormatNoPrefix = true;
-            this.guna2TileButton3.Click += new System.EventHandler(this.guna2TileButton3_Click);
+            this.btnThongKeTuyenDung.BorderRadius = 5;
+            this.btnThongKeTuyenDung.BorderThickness = 1;
+            this.btnThongKeTuyenDung.DisabledState.BorderColor = System.Drawing.Color.DarkGray;
+            this.btnThongKeTuyenDung.DisabledState.CustomBorderColor = System.Drawing.Color.DarkGray;
+            this.btnThongKeTuyenDung.DisabledState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(169)))), ((int)(((byte)(169)))), ((int)(((byte)(169)))));
+            this.btnThongKeTuyenDung.DisabledState.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(141)))), ((int)(((byte)(141)))), ((int)(((byte)(141)))));
+            this.btnThongKeTuyenDung.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
+            this.btnThongKeTuyenDung.Font = new System.Drawing.Font("Segoe UI", 9F);
+            this.btnThongKeTuyenDung.ForeColor = System.Drawing.Color.Black;
+            this.btnThongKeTuyenDung.Image = global::GUI.Properties.Resources.Permission;
+            this.btnThongKeTuyenDung.ImageOffset = new System.Drawing.Point(0, 8);
+            this.btnThongKeTuyenDung.ImageSize = new System.Drawing.Size(30, 30);
+            this.btnThongKeTuyenDung.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+            this.btnThongKeTuyenDung.IndicateFocus = true;
+            this.btnThongKeTuyenDung.Location = new System.Drawing.Point(1508, 4);
+            this.btnThongKeTuyenDung.Margin = new System.Windows.Forms.Padding(4);
+            this.btnThongKeTuyenDung.Name = "btnThongKeTuyenDung";
+            this.btnThongKeTuyenDung.Size = new System.Drawing.Size(180, 64);
+            this.btnThongKeTuyenDung.TabIndex = 14;
+            this.btnThongKeTuyenDung.Text = "Thống Kế Tuyển Dụng";
+            this.btnThongKeTuyenDung.TextFormatNoPrefix = true;
+            this.btnThongKeTuyenDung.Click += new System.EventHandler(this.btnThongKeTuyenDung_Click);
             // 
             // ButtonFeatureReportComponent
             // 
@@ -294,7 +294,7 @@
             this.Controls.Add(this.flowLayoutPanel1);
             this.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.Name = "ButtonFeatureReportComponent";
-            this.Size = new System.Drawing.Size(1634, 77);
+            this.Size = new System.Drawing.Size(2065, 77);
             this.Load += new System.EventHandler(this.ButtonFeatureReportComponent_Load);
             this.flowLayoutPanel1.ResumeLayout(false);
             this.ResumeLayout(false);
@@ -312,6 +312,6 @@
         private Guna.UI2.WinForms.Guna2TileButton guna2TileButton2;
         private Guna.UI2.WinForms.Guna2TileButton btnDSNV;
         private Guna.UI2.WinForms.Guna2TileButton btnThongKeBCDGNV;
-        private Guna.UI2.WinForms.Guna2TileButton guna2TileButton3;
+        private Guna.UI2.WinForms.Guna2TileButton btnThongKeTuyenDung;
     }
 }

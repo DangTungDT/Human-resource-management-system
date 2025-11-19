@@ -433,9 +433,9 @@ namespace GUI
 
                 if (KiemTraDuLieuDauVao())
                 {
-                    var nv_tp = _dbContextNV_TP.KtraDsNhanVien_ThuongPhat();
-                    var nv_kt = _dbContextNV_KT.KtraDsNhanVien_KhauTru();
                     var nv_pc = _dbContextNV_PC.KtraDsNV_PC();
+                    var nv_kt = _dbContextNV_KT.KtraDsNhanVien_KhauTru();
+                    var nv_tp = _dbContextNV_TP.KtraDsNhanVien_ThuongPhat();
 
                     var timeCurrent = DateTime.Now;
                     var idKyLuong = _dbContextKL.KtraDsKyLuong().FirstOrDefault(p => p.ngayBatDau != null && p.ngayBatDau.Value.Year == timeCurrent.Year && p.ngayBatDau.Value.Month == timeCurrent.Month).id;
@@ -445,10 +445,10 @@ namespace GUI
                     foreach (var idNhanVien in _layDsChiTietLuong)
                     {
 
-                        decimal tongTienThuong = 0;
-                        decimal tongTienPhat = 0;
-                        decimal tongKhauTru = 0;
                         decimal tongPhuCap = 0;
+                        decimal tongKhauTru = 0;
+                        decimal tongTienPhat = 0;
+                        decimal tongTienThuong = 0;
 
                         if (nv_tp != null)
                         {

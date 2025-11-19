@@ -116,6 +116,8 @@ CREATE TABLE NghiPhep
 	LoaiNghiPhep NVARCHAR(50) CHECK(LoaiNghiPhep IN (N'Có lương', N'Không lương')) NOT NULL,
 	idNhanVien VARCHAR(10) NOT NULL,
 	TrangThai NVARCHAR(50) NOT NULL DEFAULT N'Đang yêu cầu',
+    NgayDanhGia DATE NULL,
+    LoaiTruongHop NVARCHAR(255) NULL,
 	PRIMARY KEY(id),
 	constraint chk_NghiPhep_Ngay CHECK (NgayBatDau <= NgayKetThuc)
 );
@@ -236,6 +238,7 @@ CREATE TABLE ThuongPhat
 	loai NVARCHAR(20) DEFAULT N'Thưởng',
 	lyDo NVARCHAR(255) NOT NULL,
 	idNguoiTao VARCHAR(10) NOT NULL,
+    ngayTao date NOT NULL default '2025/11/30',
 	constraint check_loai_ThuongPhat CHECK(loai IN (N'Thưởng', N'Phạt', N'Kỷ luật')),
 	PRIMARY KEY(id)
 );
@@ -1021,6 +1024,11 @@ CREATE PROCEDURE [dbo].[sp_GetDanhGiaNhanVien]
     @SearchTen NVARCHAR(255) = NULL,
     @SearchPhongBan INT = NULL,
     @SearchChucVu INT = NULL
+IF OBJECT_ID('sp_BaoCao_KhenThuong', 'P') IS NOT NULL
+    DROP PROCEDURE dbo.sp_BaoCao_KhenThuong;
+GO
+
+CREATE PROCEDURE dbo.sp_BaoCao_KhenThuong @IdNhanVien NVARCHAR(10) = NULL
 AS
 BEGIN
     SET NOCOUNT ON;
@@ -1103,6 +1111,90 @@ CREATE PROCEDURE sp_TuDongThuongPhatKyLuat
     @Thang INT,
     @Nam INT,
     @idNguoiLap VARCHAR(10) = 'GDGD0001'
+    SELECT 
+        tp.id AS ThuongPhatID,
+        nv.TenNhanVien,
+        nv.GioiTinh,
+        nv.NgaySinh,
+        nv.DiaChi,
+        tp.tienThuongPhat,
+        tp.loai AS LoaiThuongPhat,
+        tp.lyDo,
+        tp.idNguoiTao
+    FROM ThuongPhat tp
+    INNER JOIN NhanVien_ThuongPhat tp_nv ON tp_nv.idThuongPhat = tp.id
+    INNER JOIN NhanVien nv ON nv.id = tp_nv.idNhanVien
+
+    WHERE 1=1 AND (@IdNhanVien IS NULL OR nv.id = @IdNhanVien)
+     
+END;
+GO
+
+EXEC sp_BaoCao_KhenThuong;
+EXEC sp_BaoCao_KhenThuong @IdNhanVien='TPCNTT0022';
+
+IF OBJECT_ID('dbo.sp_BaoCao_Luong', 'P') IS NOT NULL
+    DROP PROCEDURE dbo.sp_BaoCao_Luong;
+GO
+
+CREATE PROCEDURE dbo.sp_BaoCao_Luong
+
+AS
+BEGIN
+    SET NOCOUNT ON;
+
+    SELECT 
+        l.id AS LuongID,
+        nv.TenNhanVien,
+        nv.GioiTinh,
+        nv.NgaySinh,
+        nv.DiaChi,
+        nv.Que,
+        nv.Email,
+        l.ngayNhanLuong,
+        l.luongTruocKhauTru,
+        l.luongSauKhauTru,
+        l.tongKhauTru,
+        l.tongPhuCap,
+        l.tongKhenThuong,
+        l.tongTienPhat,
+        l.trangThai,
+        l.ghiChu,
+        l.idKyLuong,
+        kl.ngayChiTra,
+        tongTien = l.luongSauKhauTru + l.tongPhuCap + l.tongKhenThuong - l.tongTienPhat 
+    FROM ChiTietLuong l
+    INNER JOIN NhanVien nv ON l.idNhanVien = nv.id
+    INNER JOIN KyLuong kl ON kl.id = l.idKyLuong
+    WHERE 1=1
+
+    ORDER BY l.ngayNhanLuong DESC, nv.TenNhanVien;
+    
+END;
+GO
+
+-- 1. Lấy tất cả bảng lương
+EXEC dbo.sp_BaoCao_Luong;
+
+-- 2. Lấy lương từ 01/01/2025 đến 31/12/2025
+EXEC dbo.sp_BaoCao_Luong @TuNgay='2025-01-01', @DenNgay='2025-12-31';
+
+-- 3. Lấy lương nhân viên ID=5, trạng thái "Đã chi trả"
+EXEC dbo.sp_BaoCao_Luong @IdNhanVien=5, @TrangThai=N'Đã chi trả';
+
+-- 4. Lọc theo kỳ lương ID=3
+EXEC dbo.sp_BaoCao_Luong @IdKyLuong=3;
+
+--drop proc sp_BaoCao_KhenThuong
+
+IF OBJECT_ID('dbo.sp_BaoCao_HopDongNhanVien', 'P') IS NOT NULL
+    DROP PROCEDURE dbo.sp_BaoCao_HopDongNhanVien;
+GO
+
+CREATE PROCEDURE dbo.sp_BaoCao_HopDongNhanVien
+    @IdNhanVien NVARCHAR(10) = NULL,
+    @IdPhongBan INT = NULL,
+    @LoaiHopDong NVARCHAR(50) = NULL
 AS
 BEGIN
     SET NOCOUNT ON;
@@ -1159,3 +1251,36 @@ GO
 --DROP DATABASE PersonnelManagement;
 
 
+    SELECT
+        hd.id AS HopDongID,
+        nv.TenNhanVien,
+        nv.GioiTinh,
+        nv.NgaySinh,
+        nv.DiaChi,
+        nv.Que,
+        nv.Email,
+        hd.LoaiHopDong,
+        hd.NgayKy,
+        hd.NgayBatDau,
+        hd.NgayKetThuc,
+        hd.Luong,
+        ctl.tongPhuCap,
+        hd.MoTa,
+        hd.HinhAnh,
+        cv.TenChucVu,
+        nv.idPhongBan
+    FROM HopDongLaoDong hd
+    INNER JOIN NhanVien nv ON hd.idNhanVien = nv.id
+    INNER JOIN ChucVu cv ON cv.id = nv.idChucVu
+    INNER JOIN ChiTietLuong ctl ON ctl.idNhanVien = nv.id
+    WHERE 1=1 AND (@IdNhanVien IS NULL OR nv.id = @IdNhanVien)
+END;
+GO
+
+EXEC dbo.sp_BaoCao_HopDongNhanVien;
+
+EXEC dbo.sp_BaoCao_HopDongNhanVien @IdNhanVien='TPCNTT0022';
+
+--USE master;
+--ALTER DATABASE PersonnelManagement SET SINGLE_USER WITH ROLLBACK IMMEDIATE;
+--DROP DATABASE PersonnelManagement;

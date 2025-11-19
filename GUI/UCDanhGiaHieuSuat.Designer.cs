@@ -459,12 +459,12 @@
             this.dgvDSHieuSuatNV.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvDSHieuSuatNV_CellClick);
             this.dgvDSHieuSuatNV.DoubleClick += new System.EventHandler(this.dgvDSHieuSuatNV_DoubleClick);
             // 
-            // lblIDNV
+            // lblIDNP
             // 
             this.lblIDNV.BackColor = System.Drawing.SystemColors.ButtonHighlight;
             this.lblIDNV.Location = new System.Drawing.Point(17, 62);
             this.lblIDNV.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.lblIDNV.Name = "lblIDNV";
+            this.lblIDNV.Name = "lblIDNP";
             this.lblIDNV.Size = new System.Drawing.Size(133, 28);
             this.lblIDNV.TabIndex = 47;
             this.lblIDNV.Visible = false;

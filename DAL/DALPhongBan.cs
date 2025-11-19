@@ -14,6 +14,17 @@ namespace DAL
         private readonly string connectionString;
         private readonly PersonnelManagementDataContextDataContext _dbContext;
 
+
+        public DTOPhongBan GetDepartmentByID(int id)
+        {
+            DTOPhongBan phongBan = _dbContext.PhongBans.Where(pb => pb.id == id).Select(pb => new DTOPhongBan
+            {
+                Id = pb.id,
+                TenPhongBan = pb.TenPhongBan,
+                MoTa = pb.Mota
+            }).FirstOrDefault();
+            return phongBan;
+        }
         public DALPhongBan(string conn)
         {
             connectionString = conn;
@@ -24,6 +35,7 @@ namespace DAL
         {
             DTOPhongBan phongBan = (from pb in _dbContext.PhongBans
                                     join cv in _dbContext.ChucVus on pb.id equals cv.idPhongBan
+                                    where cv.id == id
                                     select new DTOPhongBan
                                     {
                                         Id = pb.id,

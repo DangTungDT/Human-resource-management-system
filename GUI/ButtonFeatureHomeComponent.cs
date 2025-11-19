@@ -49,7 +49,6 @@ namespace GUI
 
         private void guna2TileButton5_Click(object sender, EventArgs e)
         {
-            
         }
 
         private void guna2TileButton6_Click(object sender, EventArgs e)
@@ -61,11 +60,12 @@ namespace GUI
 
         private void ButtonFeatureHomeComponent_Load(object sender, EventArgs e)
         {
+            guna2TileButton7.Visible = false;
+            btnDuyetNghiPhep.Visible = false;
+
             if (_idNhanVien.Contains("NV"))
             {
                 guna2TileButton6.Visible = false;
-                guna2TileButton7.Visible = false;
-                btnDuyetNghiPhep.Visible = false;
             }
 
             if (_idNhanVien.Contains("NVNS"))
@@ -73,19 +73,16 @@ namespace GUI
                 btnDuyetNghiPhep.Visible = true;
             }
 
-            if (_idNhanVien.Contains("TP"))
+            if (_idNhanVien.Contains("TP") || _idNhanVien.Contains("GD"))
             {
-                guna2TileButton7.Visible = false;
-                btnDuyetNghiPhep.Visible = false;
-            }
-
-            if (_idNhanVien.Contains("TPNS") || _idNhanVien.Contains("GD"))
-            {
-                guna2TileButton7.Visible = true;
                 btnDuyetNghiPhep.Visible = true;
+
+                if (_idNhanVien.Contains("TPNS") || _idNhanVien.Contains("GD"))
+                {
+                    guna2TileButton7.Visible = true;
+                }
             }
 
-            
         }
 
         private void btnDuyetNghiPhep_Click(object sender, EventArgs e)

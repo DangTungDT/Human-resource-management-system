@@ -28,7 +28,7 @@ namespace GUI
 
         private void btnChiTietLuong_Click(object sender, EventArgs e)
         {
-            FormBaoCaoChamCongCaNhan form = new FormBaoCaoChamCongCaNhan();
+            FormBaoCaoChamCongCaNhan form = new FormBaoCaoChamCongCaNhan(_idNhanVien, _conn);
             form.ShowDialog();
         }
 
@@ -40,20 +40,22 @@ namespace GUI
 
         private void btnKyLuat_Click(object sender, EventArgs e)
         {
-            BaoCaoHopDong uc = new BaoCaoHopDong(_conn, _idNhanVien);
+            BaoCaoHopDong uc = new BaoCaoHopDong(_conn, _idNhanVien, _tpReport);
             DisplayUserControlPanel.ChildUserControl(uc, _tpReport);
         }
 
         private void guna2TileButton4_Click(object sender, EventArgs e)
         {
-            BaoCaoKhenThuong uc = new BaoCaoKhenThuong(_conn, _idNhanVien);
+            BaoCaoKhenThuong uc = new BaoCaoKhenThuong(_conn, _idNhanVien, _tpReport);
             DisplayUserControlPanel.ChildUserControl(uc, _tpReport);
         }
 
         private void guna2TileButton1_Click(object sender, EventArgs e)
         {
-            UCReportDanhSachLuongPBan uc = new UCReportDanhSachLuongPBan(_idNhanVien, _conn);
-            DisplayUserControlPanel.ChildUserControl(uc, _tpReport);
+            frmDSLuongNhanVien frm = new frmDSLuongNhanVien(_conn);
+            frm.Show();
+            //UCReportDanhSachLuongPBan uc = new UCReportDanhSachLuongPBan(_idNhanVien, _conn);
+            //DisplayUserControlPanel.ChildUserControl(uc, _tpReport);
         }
 
         private void ButtonFeatureReportComponent_Load(object sender, EventArgs e)

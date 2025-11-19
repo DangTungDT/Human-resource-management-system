@@ -25,8 +25,8 @@ namespace GUI
         private Guna2Button btnSearch, btnExcel, btnPDF, btnWord, btnCrystal;
         private Guna2DataGridView dgv;
         private readonly string _idNhanVien, _connectionString;
-
-        public BaoCaoHopDong(string stringConnection, string idNhanVien)
+        private Panel _panel;
+        public BaoCaoHopDong(string stringConnection, string idNhanVien, Panel panel)
         {
             InitializeComponent();
             _idNhanVien = idNhanVien;
@@ -34,6 +34,11 @@ namespace GUI
             //BuildUI();
             //LoadFilterData();
             //LoadHopDong();
+            _panel = panel;
+
+            BuildUI();
+            LoadFilterData();
+            LoadHopDong();
         }
 
         //private void BuildUI()
@@ -277,5 +282,24 @@ namespace GUI
         //    //FrmReport frm = new FrmReport(rpt);
         //    //frm.ShowDialog();
         //}
+        // 📃 Nút Xuất Report
+        private void BtnXuatReport_Click(object sender, EventArgs e)
+        {
+            if (dgv.SelectedRows.Count == 0)
+            {
+                MessageBox.Show("Vui lòng chọn một hợp đồng để xuất báo cáo!", "Thông báo");
+                return;
+            }
+
+            // Lấy Mã HĐ của dòng được chọn
+            string maHD = dgv.SelectedRows[0].Cells["Mã HĐ"].Value.ToString();
+
+            // Truyền Mã HĐ vào form report
+            //UCBaoCaoHopDong uc = new UCBaoCaoHopDong(_connectionString);
+            //DisplayUserControlPanel.ChildUserControl(uc, _panel);
+
+            frmBaoCaoHopDong frm = new frmBaoCaoHopDong(_connectionString);
+            frm.ShowDialog(this);
+        }
     }
 }

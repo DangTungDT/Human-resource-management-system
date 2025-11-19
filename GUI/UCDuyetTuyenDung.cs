@@ -58,11 +58,11 @@ namespace GUI
                 _idSelected = dgvTPTuyenDung.Rows[e.RowIndex].Cells["ID"].Value?.ToString();
                 rtGhiChu.Text = dgvTPTuyenDung.Rows[e.RowIndex].Cells["GhiChu"].Value?.ToString();
                 txtTieuDe.Text = dgvTPTuyenDung.Rows[e.RowIndex].Cells["TieuDe"].Value?.ToString();
-                txtSoLuong.Text = dgvTPTuyenDung.Rows[e.RowIndex].Cells["SoLuong"].Value?.ToString();
+                txtSoLuongDuyet.Text = dgvTPTuyenDung.Rows[e.RowIndex].Cells["SoLuong"].Value?.ToString();
                 txtNguoiTao.Text = dgvTPTuyenDung.Rows[e.RowIndex].Cells["NguoiTao"].Value?.ToString();
                 txtTrangThai.Text = dgvTPTuyenDung.Rows[e.RowIndex].Cells["TrangThai"].Value?.ToString();
 
-                if (_idNhanVien.Contains("TPNS"))
+                if (idTPNS.Contains("TPNS") && _idNhanVien == idTPNS)
                 {
                     btnDuyet.Enabled = false;
                     btnKhongDuyet.Enabled = false;
@@ -88,7 +88,6 @@ namespace GUI
                 IDNhanVien = p.idNguoiTao,
                 TieuDe = p.tieuDe,
                 NguoiTao = _dbContextNV.KtraNhanVienQuaID(p.idNguoiTao).TenNhanVien,
-                PhongBan = _dbContextPB.TimTenPhongBan(p.idPhongBan),
                 ChucVu = _dbContextCV.TimTenChucVu(p.idChucVu),
                 TrangThai = p.trangThai,
                 SoLuong = p.soLuong,
@@ -119,8 +118,18 @@ namespace GUI
 
                 var setTrangThai = ops ? "Đang tuyển" : "Loại";
                 var buttonText = ops ? "Duyệt" : "Không duyệt";
-
                 var tuyenDung = _dbContextTD.KtraTuyenDungQuaID(Convert.ToInt32(_idSelected));
+
+                string ghiChu = "Không duyệt";
+                if (tuyenDung.ghiChu.Equals(rtGhiChu.Text, StringComparison.OrdinalIgnoreCase))
+                {
+                    if (buttonText.Equals("Duyệt", StringComparison.OrdinalIgnoreCase))
+                    {
+                        ghiChu = "Duyệt";
+                    }
+                    else ghiChu = "Không duyệt";
+                }
+                else ghiChu = rtGhiChu.Text;
 
                 if (tuyenDung == null)
                 {
@@ -131,7 +140,7 @@ namespace GUI
                 {
                     if (DisplayUserControlPanel.KiemTraDuLieuDauVao(error, pnlDuyet) && KtraGhiChu())
                     {
-                        if (_dbContextTD.KtraCapNhatDuyetTuyenDung(new DTOTuyenDung(tuyenDung.id, txtTieuDe.Text, Convert.ToInt32(txtSoLuong.Text), setTrangThai, rtGhiChu.Text, DateTime.Now)))
+                        if (_dbContextTD.KtraCapNhatDuyetTuyenDung(new DTOTuyenDung(tuyenDung.id, txtTieuDe.Text, Convert.ToInt32(txtSoLuongDuyet.Text), setTrangThai, ghiChu, DateTime.Now)))
                         {
                             MessageBox.Show($"Cập nhật duyệt tuyển dụng thành công.");
                             CapNhatChung();
@@ -180,12 +189,14 @@ namespace GUI
             dgvTPTuyenDung.Columns["GhiChu"].HeaderText = "Ghi chú";
             dgvTPTuyenDung.Columns["ChucVu"].HeaderText = "Chức vụ";
             dgvTPTuyenDung.Columns["SoLuong"].HeaderText = "Số lượng";
-            dgvTPTuyenDung.Columns["PhongBan"].HeaderText = "Phòng ban";
             dgvTPTuyenDung.Columns["NguoiTao"].HeaderText = "Người tạo";
             dgvTPTuyenDung.Columns["TrangThai"].HeaderText = "Trạng thái";
 
             dgvTPTuyenDung.Columns["SoLuong"].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
             dgvTPTuyenDung.Columns["TrangThai"].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
+            dgvTPTuyenDung.Columns["GhiChu"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            dgvTPTuyenDung.Columns["GhiChu"].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            dgvTPTuyenDung.Columns["SoLuong"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
         }
 
         private void txtSoLuong_TextChanged(object sender, EventArgs e)
@@ -195,20 +206,20 @@ namespace GUI
                 error.Clear();
 
                 DisplayUserControlPanel.LayKiTuSo(sender);
-                sender = txtSoLuong.MaxLength = 2;
-                if (int.TryParse(txtSoLuong.Text, out int qty) && qty < 11)
+                sender = txtSoLuongDuyet.MaxLength = 2;
+                if (int.TryParse(txtSoLuongDuyet.Text, out int qty) && qty < 11)
                 {
                     if (qty == 0)
                     {
-                        txtSoLuong.Clear();
-                        error.SetError(txtSoLuong, "Số lượng tuyển dụng không được bằng 0 !");
+                        txtSoLuongDuyet.Clear();
+                        error.SetError(txtSoLuongDuyet, "Số lượng tuyển dụng không được bằng 0 !");
                     }
-                    else txtSoLuong.Text = qty.ToString();
+                    else txtSoLuongDuyet.Text = qty.ToString();
                 }
                 else
                 {
-                    txtSoLuong.Clear();
-                    error.SetError(txtSoLuong, "Số lượng tuyển dụng không được vượt quá 10 người !");
+                    txtSoLuongDuyet.Clear();
+                    //error.SetError(txtSoLuongDuyet, "Số lượng tuyển dụng không được vượt quá 10 người !");
                 }
             }
             catch (Exception ex)

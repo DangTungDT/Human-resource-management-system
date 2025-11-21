@@ -53,7 +53,7 @@ namespace GUI
             // ===== TỰ ĐỘNG PHẠT NGHỈ KHÔNG PHÉP > 3 NGÀY =====
             try
             {
-                using (SqlConnection conn = new SqlConnection(connectionString))
+                using (SqlConnection conn = new SqlConnection(_conn))
                 {
                     SqlCommand cmd = new SqlCommand("sp_TuDongPhat_NghiKhongPhep_Qua3Ngay", conn);
                     cmd.CommandType = CommandType.StoredProcedure;

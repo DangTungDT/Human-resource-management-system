@@ -116,8 +116,8 @@ CREATE TABLE NghiPhep
 	LoaiNghiPhep NVARCHAR(50) CHECK(LoaiNghiPhep IN (N'Có lương', N'Không lương')) NOT NULL,
 	idNhanVien VARCHAR(10) NOT NULL,
 	TrangThai NVARCHAR(50) NOT NULL DEFAULT N'Đang yêu cầu',
-    NgayDanhGia DATE NULL,
-    LoaiTruongHop NVARCHAR(255) NULL,
+	NgayDanhGia date null,
+	LoaiTruongHop nvarchar(255) null,
 	PRIMARY KEY(id),
 	constraint chk_NghiPhep_Ngay CHECK (NgayBatDau <= NgayKetThuc)
 );
@@ -238,7 +238,6 @@ CREATE TABLE ThuongPhat
 	loai NVARCHAR(20) DEFAULT N'Thưởng',
 	lyDo NVARCHAR(255) NOT NULL,
 	idNguoiTao VARCHAR(10) NOT NULL,
-    ngayTao date NOT NULL default '2025/11/30',
 	constraint check_loai_ThuongPhat CHECK(loai IN (N'Thưởng', N'Phạt', N'Kỷ luật')),
 	PRIMARY KEY(id)
 );
@@ -1010,276 +1009,112 @@ BEGIN
 END;
 GO
 
---EXEC sp_BaoCaoTuyenDungTheoQuy 
---    @Quy = 'Q4', 
---    @Nam = 2025, 
---	@PhongBan = null,
---    @ViTri = null;
-
-
-CREATE PROCEDURE [dbo].[sp_GetDanhGiaNhanVien]
-    @IdDangNhap VARCHAR(20),
-    @Thang INT,
-    @Nam INT,
-    @SearchTen NVARCHAR(255) = NULL,
-    @SearchPhongBan INT = NULL,
-    @SearchChucVu INT = NULL
-IF OBJECT_ID('sp_BaoCao_KhenThuong', 'P') IS NOT NULL
-    DROP PROCEDURE dbo.sp_BaoCao_KhenThuong;
-GO
-
-CREATE PROCEDURE dbo.sp_BaoCao_KhenThuong @IdNhanVien NVARCHAR(10) = NULL
+CREATE OR ALTER PROCEDURE sp_ChamCong
+    @Thang INT = NULL,       -- tháng (1-12). Nếu NULL mặc định là tháng hiện tại
+    @Nam   INT = NULL,       -- năm. Nếu NULL mặc định là năm hiện tại
+    @IdPhongBan INT = -1     -- nếu = -1 => tất cả phòng ban; nếu >=1 => lọc theo idPhongBan
 AS
 BEGIN
     SET NOCOUNT ON;
 
-    DECLARE @IsGiamDoc BIT = CASE WHEN @IdDangNhap LIKE 'GD%' THEN 1 ELSE 0 END
-    DECLARE @IdPhongBanCuaTP INT = NULL
+    -- Mặc định nếu không truyền
+    IF @Thang IS NULL SET @Thang = MONTH(GETDATE());
+    IF @Nam   IS NULL SET @Nam   = YEAR(GETDATE());
 
-    -- Lấy phòng ban của trưởng phòng (nếu là TP)
-    IF @IsGiamDoc = 0 AND @IdDangNhap LIKE 'TP%'
+    -- Validate đơn giản
+    IF @Thang < 1 OR @Thang > 12
     BEGIN
-        SELECT @IdPhongBanCuaTP = nv.idPhongBan
-        FROM NhanVien nv
-        JOIN ChucVu cv ON nv.idChucVu = cv.id
-        WHERE nv.id = @IdDangNhap AND cv.TenChucVu LIKE N'Trưởng phòng%'
+        RAISERROR('Tham số @Thang phải nằm trong [1,12].', 16, 1);
+        RETURN;
     END
 
-    -- Tính số ngày tự ý nghỉ trong tháng @Thang/@Nam
-    ;WITH MissesCTE AS (
-        SELECT 
-            cc.idNhanVien,
-            COUNT(*) AS Misses
-        FROM ChamCong cc
-        CROSS APPLY (VALUES (CAST(cc.NgayChamCong AS DATE))) v(Ngay)
-        WHERE MONTH(cc.NgayChamCong) = @Thang
-          AND YEAR(cc.NgayChamCong) = @Nam
-          AND DATENAME(WEEKDAY, cc.NgayChamCong) NOT IN ('Saturday', 'Sunday')
-          AND (cc.GioVao IS NULL OR cc.GioRa IS NULL)
-          AND NOT EXISTS (
-                SELECT 1 FROM NghiPhep np
-                WHERE np.idNhanVien = cc.idNhanVien
-                  AND np.TrangThai = N'Đã duyệt'
-                  AND CAST(cc.NgayChamCong AS DATE) BETWEEN np.NgayBatDau AND np.NgayKetThuc
-          )
-        GROUP BY cc.idNhanVien
-    ),
-    LatestDanhGia AS (
-        SELECT 
-            dg.*,
-            ROW_NUMBER() OVER (PARTITION BY dg.idNhanVien ORDER BY dg.ngayTao DESC) AS RN
-        FROM DanhGiaNhanVien dg
-        WHERE MONTH(dg.ngayTao) = @Thang AND YEAR(dg.ngayTao) = @Nam
-           OR dg.ngayTao IS NULL -- cho phép lấy nếu chưa có đánh giá
-    )
+    IF @Nam < 1900 OR @Nam > 9999
+    BEGIN
+        RAISERROR('Tham số @Nam không hợp lệ.', 16, 1);
+        RETURN;
+    END
 
-    SELECT 
-        ISNULL(dg.id, 0) AS ID,
-        nv.id AS IDNhanVien,
-        nv.TenNhanVien,
-        pb.TenPhongBan,
-        cv.TenChucVu,
-        ISNULL(m.Misses, 0) AS Misses,
-        ISNULL(dg.DiemChuyenCan, 5) AS DiemChuyenCanStored,
-        ISNULL(dg.DiemNangLuc, 5) AS DiemNangLucStored,
-        ISNULL(dg.DiemSo, 0) AS DiemSo,
-        dg.NhanXet,
-        ISNULL(dg.ngayTao, GETDATE()) AS NgayTao
-    FROM NhanVien nv
-    JOIN PhongBan pb ON nv.idPhongBan = pb.id
-    JOIN ChucVu cv ON nv.idChucVu = cv.id
-    LEFT JOIN LatestDanhGia dg ON nv.id = dg.idNhanVien AND dg.RN = 1
-    LEFT JOIN MissesCTE m ON nv.id = m.idNhanVien
-    WHERE nv.DaXoa = 0
-      AND nv.LoaiNhanVien = N'Nhân viên chính thức'
-      AND nv.id != @IdDangNhap
-      AND (@IsGiamDoc = 1 OR nv.idPhongBan = @IdPhongBanCuaTP)
-      AND (@SearchTen IS NULL OR nv.TenNhanVien LIKE N'%' + @SearchTen + N'%')
-      AND (@SearchPhongBan IS NULL OR nv.idPhongBan = @SearchPhongBan)
-      AND (@SearchChucVu IS NULL OR nv.idChucVu = @SearchChucVu)
-    ORDER BY nv.TenNhanVien
-END
+    IF @IdPhongBan < -1
+    BEGIN
+        RAISERROR('Tham số @IdPhongBan không hợp lệ. Sử dụng -1 cho tất cả hoặc giá trị >= 1 cho phòng cụ thể.', 16, 1);
+        RETURN;
+    END
 
-GO
+    -- Xác định khoảng ngày cho "tháng" yêu cầu
+    DECLARE @StartDate DATE = DATEFROMPARTS(@Nam, @Thang, 1);
+    DECLARE @EndDate   DATE = DATEADD(MONTH, 1, @StartDate);
 
-INSERT INTO ThuongPhat (tienThuongPhat, loai, lyDo, idNguoiTao) VALUES
-(2000000, N'Thưởng', N'Thưởng nhân viên xuất sắc đạt đánh giá TỐT 2 tháng liên tiếp', 'GDGD0001'),
-(0, N'Phạt', N'Cảnh cáo bằng văn bản do đánh giá TỆ 2 tháng liên tiếp', 'GDGD0001')
-GO
-
-CREATE PROCEDURE sp_TuDongThuongPhatKyLuat
-    @Thang INT,
-    @Nam INT,
-    @idNguoiLap VARCHAR(10) = 'GDGD0001'
-    SELECT 
-        tp.id AS ThuongPhatID,
-        nv.TenNhanVien,
-        nv.GioiTinh,
-        nv.NgaySinh,
-        nv.DiaChi,
-        tp.tienThuongPhat,
-        tp.loai AS LoaiThuongPhat,
-        tp.lyDo,
-        tp.idNguoiTao
-    FROM ThuongPhat tp
-    INNER JOIN NhanVien_ThuongPhat tp_nv ON tp_nv.idThuongPhat = tp.id
-    INNER JOIN NhanVien nv ON nv.id = tp_nv.idNhanVien
-
-    WHERE 1=1 AND (@IdNhanVien IS NULL OR nv.id = @IdNhanVien)
-     
-END;
-GO
-
-EXEC sp_BaoCao_KhenThuong;
-EXEC sp_BaoCao_KhenThuong @IdNhanVien='TPCNTT0022';
-
-IF OBJECT_ID('dbo.sp_BaoCao_Luong', 'P') IS NOT NULL
-    DROP PROCEDURE dbo.sp_BaoCao_Luong;
-GO
-
-CREATE PROCEDURE dbo.sp_BaoCao_Luong
-
-AS
-BEGIN
-    SET NOCOUNT ON;
-
-    SELECT 
-        l.id AS LuongID,
-        nv.TenNhanVien,
-        nv.GioiTinh,
-        nv.NgaySinh,
-        nv.DiaChi,
-        nv.Que,
-        nv.Email,
-        l.ngayNhanLuong,
-        l.luongTruocKhauTru,
-        l.luongSauKhauTru,
-        l.tongKhauTru,
-        l.tongPhuCap,
-        l.tongKhenThuong,
-        l.tongTienPhat,
-        l.trangThai,
-        l.ghiChu,
-        l.idKyLuong,
-        kl.ngayChiTra,
-        tongTien = l.luongSauKhauTru + l.tongPhuCap + l.tongKhenThuong - l.tongTienPhat 
-    FROM ChiTietLuong l
-    INNER JOIN NhanVien nv ON l.idNhanVien = nv.id
-    INNER JOIN KyLuong kl ON kl.id = l.idKyLuong
-    WHERE 1=1
-
-    ORDER BY l.ngayNhanLuong DESC, nv.TenNhanVien;
-    
-END;
-GO
-
--- 1. Lấy tất cả bảng lương
-EXEC dbo.sp_BaoCao_Luong;
-
--- 2. Lấy lương từ 01/01/2025 đến 31/12/2025
-EXEC dbo.sp_BaoCao_Luong @TuNgay='2025-01-01', @DenNgay='2025-12-31';
-
--- 3. Lấy lương nhân viên ID=5, trạng thái "Đã chi trả"
-EXEC dbo.sp_BaoCao_Luong @IdNhanVien=5, @TrangThai=N'Đã chi trả';
-
--- 4. Lọc theo kỳ lương ID=3
-EXEC dbo.sp_BaoCao_Luong @IdKyLuong=3;
-
---drop proc sp_BaoCao_KhenThuong
-
-IF OBJECT_ID('dbo.sp_BaoCao_HopDongNhanVien', 'P') IS NOT NULL
-    DROP PROCEDURE dbo.sp_BaoCao_HopDongNhanVien;
-GO
-
-CREATE PROCEDURE dbo.sp_BaoCao_HopDongNhanVien
-    @IdNhanVien NVARCHAR(10) = NULL,
-    @IdPhongBan INT = NULL,
-    @LoaiHopDong NVARCHAR(50) = NULL
-AS
-BEGIN
-    SET NOCOUNT ON;
-
-    DECLARE @idThuong INT = (SELECT TOP 1 id FROM ThuongPhat WHERE loai = N'Thưởng' AND lyDo LIKE N'%TỐT%');
-    DECLARE @idKyLuat INT = (SELECT TOP 1 id FROM ThuongPhat WHERE loai = N'Phạt' AND lyDo LIKE N'%TỆ%');
-
-    -- Xóa thưởng/phạt/kỷ luật của tháng này trước khi tạo mới (tránh trùng
-    DELETE FROM NhanVien_ThuongPhat
-    WHERE MONTH(thangApDung) = @Thang 
-      AND YEAR(thangApDung) = @Nam
-      AND idThuongPhat IN (SELECT id FROM ThuongPhat WHERE loai IN (N'Thưởng', N'Phạt', N'Kỷ luật'));
-
-    DECLARE @NgayApDung DATE = DATEFROMPARTS(@Nam, @Thang, 1);
-
-    -- === 1. TỰ ĐỘNG THƯỞNG: Tốt (DiemSo >= 9) 2 tháng liên tiếp ===
-    INSERT INTO NhanVien_ThuongPhat (idNhanVien, idThuongPhat, thangApDung)
-    SELECT DISTINCT dg.idNhanVien, @idThuong, @NgayApDung
-    FROM DanhGiaNhanVien dg
-    WHERE dg.DiemSo >= 9
-      AND (
-            (MONTH(dg.ngayTao) = @Thang AND YEAR(dg.ngayTao) = @Nam)
-         OR (MONTH(dg.ngayTao) = @Thang - 1 AND YEAR(dg.ngayTao) = @Nam)
-         OR (@Thang = 1 AND MONTH(dg.ngayTao) = 12 AND YEAR(dg.ngayTao) = @Nam - 1)
-          )
-    GROUP BY dg.idNhanVien
-    HAVING COUNT(*) >= 2;
-
-    -- === 2. TỰ ĐỘNG KỶ LUẬT + PHẠT TIỀN: Tệ (DiemSo <= 6) 2 tháng liên tiếp ===
-    INSERT INTO NhanVien_ThuongPhat (idNhanVien, idThuongPhat, thangApDung)
-    SELECT DISTINCT dg.idNhanVien, @idKyLuat, @NgayApDung
-    FROM DanhGiaNhanVien dg
-    WHERE dg.DiemSo <= 6
-      AND (
-            (MONTH(dg.ngayTao) = @Thang AND YEAR(dg.ngayTao) = @Nam)
-         OR (MONTH(dg.ngayTao) = @Thang - 1 AND YEAR(dg.ngayTao) = @Nam)
-         OR (@Thang = 1 AND MONTH(dg.ngayTao) = 12 AND YEAR(dg.ngayTao) = @Nam - 1)
-          )
-    GROUP BY dg.idNhanVien
-    HAVING COUNT(*) >= 2;
-
-    -- Nếu bạn muốn phạt tiền thay vì chỉ kỷ luật, bỏ comment dòng dưới
-    -- INSERT INTO NhanVien_ThuongPhat (idNhanVien, idThuongPhat, thangApDung)
-    -- SELECT DISTINCT idNhanVien, @idPhatTien, @NgayApDung FROM (...) same query
-
-    -- Trả về kết quả để hiển thị thông báo
-    SELECT 
-        (SELECT COUNT(*) FROM NhanVien_ThuongPhat WHERE idThuongPhat = @idThuong AND MONTH(thangApDung)=@Thang AND YEAR(thangApDung)=@Nam) AS SoNguoiThuong,
-        (SELECT COUNT(*) FROM NhanVien_ThuongPhat WHERE idThuongPhat = @idKyLuat AND MONTH(thangApDung)=@Thang AND YEAR(thangApDung)=@Nam) AS SoNguoiKyLuat;
-END
-GO
---USE master;
---ALTER DATABASE PersonnelManagement SET SINGLE_USER WITH ROLLBACK IMMEDIATE;
---DROP DATABASE PersonnelManagement;
-
-
+    -- Trả về: Ngày chấm công, Giờ vào, Giờ ra, Id nhân viên, Tên nhân viên, Ngày sinh, IdPhòngBan, Tên phòng ban
     SELECT
-        hd.id AS HopDongID,
-        nv.TenNhanVien,
-        nv.GioiTinh,
-        nv.NgaySinh,
-        nv.DiaChi,
-        nv.Que,
-        nv.Email,
-        hd.LoaiHopDong,
-        hd.NgayKy,
-        hd.NgayBatDau,
-        hd.NgayKetThuc,
-        hd.Luong,
-        ctl.tongPhuCap,
-        hd.MoTa,
-        hd.HinhAnh,
-        cv.TenChucVu,
-        nv.idPhongBan
-    FROM HopDongLaoDong hd
-    INNER JOIN NhanVien nv ON hd.idNhanVien = nv.id
-    INNER JOIN ChucVu cv ON cv.id = nv.idChucVu
-    INNER JOIN ChiTietLuong ctl ON ctl.idNhanVien = nv.id
-    WHERE 1=1 AND (@IdNhanVien IS NULL OR nv.id = @IdNhanVien)
+        c.NgayChamCong       AS NgayChamCong,
+        c.GioVao             AS GioVao,
+        c.GioRa              AS GioRa,
+        nv.id                AS IdNhanVien,
+        nv.TenNhanVien       AS TenNhanVien,
+        nv.NgaySinh          AS NgaySinh,
+        nv.idPhongBan        AS IdPhongBan,
+        pb.TenPhongBan       AS TenPhongBan
+    FROM ChamCong c
+    INNER JOIN NhanVien nv ON c.idNhanVien = nv.id
+    LEFT JOIN PhongBan pb ON nv.idPhongBan = pb.id
+    WHERE c.NgayChamCong >= @StartDate
+      AND c.NgayChamCong <  @EndDate
+      AND ( @IdPhongBan = -1 OR nv.idPhongBan = @IdPhongBan )
+    ORDER BY c.NgayChamCong, pb.TenPhongBan, nv.TenNhanVien;
 END;
-GO
+go
+--EXEC sp_ChamCong @Thang = 10, @Nam = 2025, @IdPhongBan = 1;
 
-EXEC dbo.sp_BaoCao_HopDongNhanVien;
 
-EXEC dbo.sp_BaoCao_HopDongNhanVien @IdNhanVien='TPCNTT0022';
+CREATE OR ALTER PROCEDURE sp_ChamCongCaNhan
+    @IdNhanVien VARCHAR(10)
+AS
+BEGIN
+    SET NOCOUNT ON;
+
+    -- Validate input
+    IF @IdNhanVien IS NULL OR LTRIM(RTRIM(@IdNhanVien)) = ''
+    BEGIN
+        RAISERROR('Tham số @IdNhanVien không được null hoặc rỗng.', 16, 1);
+        RETURN;
+    END
+
+    -- Xác định khoảng thời gian cho "tháng hiện tại"
+    DECLARE @StartDate DATE = DATEFROMPARTS(YEAR(GETDATE()), MONTH(GETDATE()), 1);
+    DECLARE @EndDate   DATE = DATEADD(MONTH, 1, @StartDate);
+
+    /*
+      Trả về:
+        - TenNhanVien   : Tên nhân viên
+        - IdNhanVien    : Mã nhân viên
+        - TenChucVu     : Tên chức vụ
+        - TenPhongBan   : Tên phòng ban
+        - NgayChamCong  : Ngày chấm công (null nếu chưa có bản ghi trong tháng)
+        - GioVao        : Giờ vào (null nếu chưa có)
+        - GioRa         : Giờ ra (null nếu chưa có)
+      Sử dụng LEFT JOIN trên ChamCong với điều kiện ngày để luôn trả về
+      thông tin nhân viên ngay cả khi chưa có bản ghi chấm công trong tháng.
+    */
+    SELECT
+        nv.TenNhanVien    AS TenNhanVien,
+        nv.id             AS IdNhanVien,
+        cv.TenChucVu      AS TenChucVu,
+        pb.TenPhongBan    AS TenPhongBan,
+        cc.NgayChamCong   AS NgayChamCong,
+        cc.GioVao         AS GioVao,
+        cc.GioRa          AS GioRa
+    FROM NhanVien nv
+    LEFT JOIN ChucVu cv ON nv.idChucVu = cv.id
+    LEFT JOIN PhongBan pb ON nv.idPhongBan = pb.id
+    LEFT JOIN ChamCong cc
+        ON cc.idNhanVien = nv.id
+        AND cc.NgayChamCong >= @StartDate
+        AND cc.NgayChamCong <  @EndDate
+    WHERE nv.id = @IdNhanVien
+    ORDER BY cc.NgayChamCong;
+END;
+go
+
 
 --USE master;
 --ALTER DATABASE PersonnelManagement SET SINGLE_USER WITH ROLLBACK IMMEDIATE;

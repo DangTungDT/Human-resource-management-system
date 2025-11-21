@@ -18,7 +18,10 @@ namespace BLL
             _dbContext = new DALDanhGiaNhanVien(stringConnection);
             dal = new DALDanhGiaNhanVien(stringConnection);
         }
-
+        public bool KiemTraDaDanhGiaThang(string idNhanVien, int thang, int nam)
+        {
+            return dal.KiemTraTonTaiDanhGiaThang(idNhanVien, thang, nam);
+        }
         // Danh sach danh gia nhan vien
         public List<DTODanhGiaNhanVien> KtraDsDanhGiaNhanVien()
         {

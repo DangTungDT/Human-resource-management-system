@@ -127,7 +127,7 @@ namespace GUI
             // Nhóm Tháng + Năm (tăng rộng, font to, căn giữa)
             var pnlThoiGian = new Panel
             {
-                Width = 500, // Tăng rộng để hiển thị đầy đủ
+                Width = 400, // Tăng rộng để hiển thị đầy đủ
                 Height = 40,
                 BackColor = Color.White,
                 Margin = new Padding(20, 0, 20, 0) // Cân bằng khoảng cách
@@ -212,7 +212,8 @@ namespace GUI
                     Font = new Font("Segoe UI", 11F),
                     SelectionBackColor = Color.FromArgb(0, 123, 255),
                     SelectionForeColor = Color.White,
-                    Padding = new Padding(15, 5, 15, 5) // Thêm padding cells
+                    Padding = new Padding(15, 5, 15, 5), // Thêm padding cells
+                    ForeColor = Color.Black,
                 },
                 AlternatingRowsDefaultCellStyle = new DataGridViewCellStyle
                 {
@@ -492,32 +493,54 @@ namespace GUI
         private void SaveAll()
         {
             int saved = 0;
+            int updated = 0;
+
             foreach (DataGridViewRow row in dgv.Rows)
             {
                 if (row.IsNewRow) continue;
 
+                string idNV = row.Cells["IDNhanVien"].Value.ToString();
+                int diemCC = Convert.ToInt32(row.Cells["DiemCC"].Value);
+                int diemNL = Convert.ToInt32(row.Cells["DiemNL"].Value);
+                int tongDiem = diemCC + diemNL;
+                string nhanXet = row.Cells["NhanXet"].Value?.ToString() ?? "";
+                DateTime ngayTao = new DateTime((int)nudNam.Value, (int)nudThang.Value, DateTime.DaysInMonth((int)nudNam.Value, (int)nudThang.Value)); // Ngày cuối tháng
+
                 var dto = new DTODanhGiaNhanVien
                 {
-                    IDNhanVien = row.Cells["IDNhanVien"].Value.ToString(),
+                    IDNhanVien = idNV,
                     IDNguoiDanhGia = idNguoiDanhGia,
-                    DiemChuyenCan = Convert.ToDecimal(row.Cells["DiemCC"].Value),
-                    DiemNangLuc = Convert.ToDecimal(row.Cells["DiemNL"].Value),
-                    DiemSo = Convert.ToInt32(row.Cells["TongDiem"].Value),
-                    NhanXet = row.Cells["NhanXet"].Value?.ToString() ?? "",
-                    NgayTao = DateTime.Now
+                    DiemChuyenCan = diemCC,
+                    DiemNangLuc = diemNL,
+                    DiemSo = tongDiem,
+                    NhanXet = nhanXet,
+                    NgayTao = ngayTao // Quan trọng: ngày thuộc đúng tháng đang đánh giá
                 };
 
                 try
                 {
-                    // Dùng Insert/Update bạn đã có
-                    bllDanhGia.Insert(dto); // hoặc Update nếu đã có ID
-                    saved++;
+                    // Kiểm tra đã có đánh giá tháng này chưa
+                    if (bllDanhGia.KiemTraDaDanhGiaThang(idNV, (int)nudThang.Value, (int)nudNam.Value))
+                    {
+                        bllDanhGia.Update(dto); // CẬP NHẬT bản ghi cũ
+                        updated++;
+                    }
+                    else
+                    {
+                        bllDanhGia.Insert(dto); // THÊM MỚI
+                        saved++;
+                    }
                 }
-                catch { }
+                catch (Exception ex)
+                {
+                    MessageBox.Show($"Lỗi lưu nhân viên {idNV}: {ex.Message}");
+                }
             }
 
-            MessageBox.Show($"Đã lưu {saved} bản ghi thành công!", "Thành công", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            LoadDanhGia();
+            MessageBox.Show($"Hoàn tất!\n✓ Thêm mới: {saved} nhân viên\n✓ Cập nhật: {updated} nhân viên",
+                     "Thành công", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+            LoadDanhGia(); // Reload → hiển thị đúng dữ liệu vừa sửa
 
             // ===== TỰ ĐỘNG THƯỞNG + KỶ LUẬT =====
             try

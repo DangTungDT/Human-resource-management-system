@@ -22,6 +22,25 @@ namespace DAL
             _dbContext = new PersonnelManagementDataContextDataContext(stringConnection);
         }
 
+
+        public bool KiemTraTonTaiDanhGiaThang(string idNhanVien, int thang, int nam)
+        {
+            string sql = @"
+                        SELECT COUNT(*) FROM DanhGiaNhanVien 
+                        WHERE idNhanVien = @idNV 
+                          AND MONTH(ngayTao) = @thang 
+                          AND YEAR(ngayTao) = @nam";
+
+            using (SqlConnection conn = new SqlConnection(connectionString))
+            using (SqlCommand cmd = new SqlCommand(sql, conn))
+            {
+                cmd.Parameters.AddWithValue("@idNV", idNhanVien);
+                cmd.Parameters.AddWithValue("@thang", thang);
+                cmd.Parameters.AddWithValue("@nam", nam);
+                conn.Open();
+                return (int)cmd.ExecuteScalar() > 0;
+            }
+        }
         public IQueryable<DTODanhGiaNhanVien> DanhSachDanhGiaNV() => _dbContext.DanhGiaNhanViens.Select(p => new DTODanhGiaNhanVien
         {
             ID = p.id,

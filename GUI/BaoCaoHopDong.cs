@@ -36,9 +36,6 @@ namespace GUI
             //LoadHopDong();
             _panel = panel;
 
-            BuildUI();
-            LoadFilterData();
-            LoadHopDong();
         }
 
         //private void BuildUI()

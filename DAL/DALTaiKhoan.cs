@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
+using System.Globalization;
 using System.IO.Pipes;
 using System.Linq;
 using System.Runtime.InteropServices;
@@ -135,6 +136,23 @@ namespace DAL
         //        }
         //    }
         //}
+        private string LocKyTuKhongDau(string value)
+        {
+            if (string.IsNullOrEmpty(value)) return string.Empty;
+
+            var normalized = value.ToLowerInvariant().Normalize(NormalizationForm.FormD);
+            var builder = new StringBuilder();
+
+            foreach (char c in normalized)
+            {
+                if (CharUnicodeInfo.GetUnicodeCategory(c) != UnicodeCategory.NonSpacingMark)
+                {
+                    builder.Append(c);
+                }
+            }
+
+            return builder.ToString().Replace(" ", "").Replace("đ", "d");
+        }
 
         public void CreateDefaultAccount(string idNV, string tenNhanVien, string tenChucVu)
         {
@@ -155,7 +173,7 @@ namespace DAL
                                  .Select(s => char.ToUpper(s[0]))
                                  .ToArray()
                     );
-
+                    tenNhanVien = LocKyTuKhongDau(tenNhanVien);
                     // 🟢 Lấy chữ cái đầu của tên nhân viên
                     string nvPrefix = new string(
                         tenNhanVien.Split(' ')

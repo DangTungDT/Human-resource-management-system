@@ -25,6 +25,101 @@ namespace DAL
             _dbContext = new PersonnelManagementDataContextDataContext(conn);
         }
 
+        public int? LayIDPhongBanTheoNhanVien(string idNhanVien)
+        {
+            string query = "SELECT idPhongBan FROM NhanVien WHERE id = @IDNhanVien";
+
+            using (SqlConnection conn = new SqlConnection(connectionString))
+            using (SqlCommand cmd = new SqlCommand(query, conn))
+            {
+                cmd.Parameters.AddWithValue("@IDNhanVien", idNhanVien);
+                conn.Open();
+                object result = cmd.ExecuteScalar();
+                if (result != null && result != DBNull.Value)
+                    return Convert.ToInt32(result);
+                else
+                    return null; // không tìm thấy
+            }
+        }
+        public IQueryable<NhanVien> LayNhanVienChamCongVe(string idStaff, int idDepartment)
+        {
+            // Bảo vệ input: nếu idStaff không hợp lệ thì trả về IQueryable rỗng
+            if (string.IsNullOrWhiteSpace(idStaff))
+                return Enumerable.Empty<DAL.NhanVien>().AsQueryable();
+
+            // Tránh lỗi khi idStaff ngắn hơn 2 ký tự
+            var role = idStaff.Length >= 2 ? idStaff.Substring(0, 2) : idStaff;
+
+            IQueryable<NhanVien> ketQua;
+            if (role == "NV")
+            {
+                // Role nhân viên: chỉ lấy chính họ
+                ketQua = _dbContext.NhanViens.Where(x => x.id == idStaff);
+            }
+            else if (role == "TP")
+            {
+                // Role trưởng phòng: lấy theo phòng ban
+                ketQua = _dbContext.NhanViens.Where(x => x.idPhongBan == idDepartment);
+            }
+            else
+            {
+                // Role Giám đốc: trả về tất cả nhân viên
+                ketQua = _dbContext.NhanViens;
+            }
+
+            // INNER JOIN để lấy người đã chấm công hôm nay
+            ketQua = from nv in ketQua
+                     join cc in _dbContext.ChamCongs
+                         on nv.id equals cc.idNhanVien
+                     where cc.NgayChamCong.Date == DateTime.Today.Date && cc.GioRa == null
+                     select nv;
+            return ketQua;
+        }
+
+        public IQueryable<NhanVien> LayNhanVienQuanLy(string idStaff, int idDepartment)
+        {
+            // Bảo vệ input: nếu idStaff không hợp lệ thì trả về IQueryable rỗng
+            if (string.IsNullOrWhiteSpace(idStaff))
+                return Enumerable.Empty<DAL.NhanVien>().AsQueryable();
+
+            // Tránh lỗi khi idStaff ngắn hơn 2 ký tự
+            var role = idStaff.Length >= 2 ? idStaff.Substring(0, 2) : idStaff;
+
+            // Lấy base query theo role
+            IQueryable<NhanVien> ketQua;
+            if (role == "NV")
+            {
+                // Role nhân viên: chỉ lấy chính họ
+                ketQua = _dbContext.NhanViens.Where(x => x.id == idStaff);
+            }
+            else if (role == "TP")
+            {
+                // Role trưởng phòng: lấy theo phòng ban
+                ketQua = _dbContext.NhanViens.Where(x => x.idPhongBan == idDepartment);
+            }
+            else
+            {
+                // Role Giám đốc: trả về tất cả nhân viên
+                ketQua = _dbContext.NhanViens;
+            }
+
+            // Xác định khoảng "hôm nay" để so sánh với cột NgayChamCong (an toàn hơn so sánh ngày bằng DbFunctions)
+            var today = DateTime.Today;
+            var tomorrow = today.AddDays(1);
+
+            // Lọc ra những nhân viên KHÔNG có bản ghi chấm công trong ngày hôm nay
+            // (tức là chưa chấm công vào hôm nay)
+            var notCheckedToday = ketQua
+                .Where(nv => !_dbContext.ChamCongs
+                    .Any(cc =>
+                        cc.idNhanVien == nv.id
+                        && cc.NgayChamCong >= today
+                        && cc.NgayChamCong < tomorrow
+                    ));
+
+            return notCheckedToday;
+        }
+
         public List<ImageStaff> GetStaffByRole(string idStaff, int idDepartment)
         {
             string role = idStaff.Substring(0, 2);
@@ -179,6 +274,97 @@ namespace DAL
             }
         }
 
+        //// Lấy danh sách nhân viên trong phòng mà trưởng phòng đang quản lý
+        //public DataTable ComboboxNhanVien()
+        //{
+        //    string sql = "SELECT id, TenNhanVien FROM NhanVien WHERE DaXoa = 0 ORDER BY TenNhanVien";
+        //    using (var cn = new SqlConnection(connectionString))
+        //    using (var da = new SqlDataAdapter(sql, cn))
+        //    {
+        //        var dt = new DataTable();
+        //        da.Fill(dt);
+        //        return dt;
+        //    }
+        //}
+
+        // Trả về số buổi nghỉ không có phép đã duyệt trong tháng (đếm)
+        private int CountMissingAttendances(string idNhanVien, int thang, int nam)
+        {
+            string sql = @"
+                SELECT COUNT(*) FROM ChamCong cc
+                WHERE cc.idNhanVien = @idNhanVien
+                  AND MONTH(cc.NgayChamCong) = @Thang
+                  AND YEAR(cc.NgayChamCong) = @Nam
+                  AND cc.GioVao IS NULL
+                  AND cc.GioRa IS NULL
+                  AND NOT EXISTS (
+                        SELECT 1 FROM NghiPhep np
+                        WHERE np.idNhanVien = cc.idNhanVien
+                          AND np.TrangThai = N'Đã duyệt'
+                          AND cc.NgayChamCong BETWEEN np.NgayBatDau AND np.NgayKetThuc
+                  );
+            ";
+            using (var cn = new SqlConnection(connectionString))
+            using (var cmd = new SqlCommand(sql, cn))
+            {
+                cmd.Parameters.AddWithValue("@idNhanVien", idNhanVien);
+                cmd.Parameters.AddWithValue("@Thang", thang);
+                cmd.Parameters.AddWithValue("@Nam", nam);
+                cn.Open();
+                return Convert.ToInt32(cmd.ExecuteScalar());
+            }
+        }
+
+        // Tính điểm chuyên cần: default 5 - misses*2, min 0
+        public int CalculateDiemChuyenCan(string idNhanVien, int thang, int nam)
+        {
+            try
+            {
+                int misses = CountMissingAttendances(idNhanVien, thang, nam);
+                int score = 5 - (misses * 2);
+                if (score < 0) score = 0;
+                if (score > 5) score = 5;
+                return score;
+            }
+            catch
+            {
+                return 5; // fallback
+            }
+        }
+
+        // Trả về danh sách nhân viên mà người hiện tại có quyền xem:
+        // Nếu người là giám đốc (idChucVu = 1) -> all; else nhân viên trong cùng phòng
+        public DataTable GetNhanVienTheoTruongPhong(string idNguoi)
+        {
+            string sql = @"
+                DECLARE @isGiamDoc BIT = 0;
+                SELECT @isGiamDoc = CASE WHEN idChucVu = 1 THEN 1 ELSE 0 END;
+                SELECT @isGiamDoc = @isGiamDoc FROM NhanVien WHERE id = @idNguoi;
+
+                IF (@isGiamDoc = 1)
+                BEGIN
+                    SELECT id, TenNhanVien, idChucVu, idPhongBan FROM NhanVien WHERE DaXoa = 0;
+                END
+                ELSE
+                BEGIN
+                    SELECT idPhongBan INTO #tmp FROM NhanVien WHERE id = @idNguoi;
+                    SELECT nv.id, nv.TenNhanVien, nv.idChucVu, nv.idPhongBan
+                    FROM NhanVien nv
+                    WHERE nv.DaXoa = 0 AND nv.idPhongBan = (SELECT TOP 1 idPhongBan FROM NhanVien WHERE id = @idNguoi);
+                END
+            ";
+            using (var cn = new SqlConnection(connectionString))
+            using (var cmd = new SqlCommand(sql, cn))
+            using (var da = new SqlDataAdapter(cmd))
+            {
+                cmd.Parameters.AddWithValue("@idNguoi", idNguoi);
+                var dt = new DataTable();
+                da.Fill(dt);
+                return dt;
+            }
+        }
+
+
         public DTONhanVien GetStaffById(string idStaff)
         {
             var result = _dbContext.NhanViens.FirstOrDefault(x => x.id == idStaff);
@@ -222,6 +408,31 @@ namespace DAL
                     throw new Exception("Lỗi khi lấy thông tin nhân viên theo ID: " + ex.Message);
                 }
                 return dt;
+            }
+        }
+
+        public int GetByIdPB(string id)
+        {
+            int idPhongBan = 0;
+            using (SqlConnection conn = new SqlConnection(connectionString))
+            {
+                string query = @"SELECT idPhongBan AS [Mã phòng ban]
+                                 FROM NhanVien
+                                 WHERE id = @id";
+                using (SqlCommand cmd = new SqlCommand(query, conn))
+                {
+                    cmd.Parameters.AddWithValue("@id", id);
+                    idPhongBan = (int)cmd.ExecuteScalar();
+                }
+                try
+                {
+                    conn.Open();
+                }
+                catch (SqlException ex)
+                {
+                    throw new Exception("Lỗi khi lấy thông tin nhân viên theo ID: " + ex.Message);
+                }
+                return idPhongBan;
             }
         }
 
@@ -326,8 +537,8 @@ namespace DAL
                 using (SqlConnection conn = new SqlConnection(connectionString))
                 {
                     conn.Open();
-                    string sql = @"INSERT INTO NhanVien (id, TenNhanVien, NgaySinh, GioiTinh, DiaChi, Que, Email, idChucVu, idPhongBan, DaXoa)
-                           VALUES (@id, @Ten, @Ngay, @GT, @DC, @Que, @Email, @idCV, @idPB, 0)";
+                    string sql = @"INSERT INTO NhanVien (id, TenNhanVien, NgaySinh, GioiTinh, DiaChi, Que, Email, idChucVu, idPhongBan, AnhDaiDien, DaXoa)
+                           VALUES (@id, @Ten, @Ngay, @GT, @DC, @Que, @Email, @idCV, @idPB, @AnhDaiDien, 0)";
                     SqlCommand cmd = new SqlCommand(sql, conn);
                     cmd.Parameters.AddWithValue("@id", nv.ID);
                     cmd.Parameters.AddWithValue("@Ten", nv.TenNhanVien);
@@ -338,6 +549,7 @@ namespace DAL
                     cmd.Parameters.AddWithValue("@Email", nv.Email);
                     cmd.Parameters.AddWithValue("@idCV", nv.IdChucVu);
                     cmd.Parameters.AddWithValue("@idPB", nv.IdPhongBan);
+                    cmd.Parameters.AddWithValue("@AnhDaiDien", nv.AnhDaiDien);
 
                     return cmd.ExecuteNonQuery() > 0;
                 }

@@ -91,7 +91,7 @@ namespace GUI
                 txtTrangThai.Text = dgvTPTuyenDung.Rows[e.RowIndex].Cells["TrangThai"].Value?.ToString();
                 rtGhiChu.Text = dgvTPTuyenDung.Rows[e.RowIndex].Cells["GhiChu"].Value?.ToString();
 
-                string[] arrType = { "Đang tuyển", "Ngừng tuyển", "Loại" };
+                string[] arrType = { "Đang tuyển", "Ngừng tuyển", "GD ngừng tuyển", "Loại" };
                 var tuyenDung = _dbContextTD.KtraDsTuyenDung().FirstOrDefault(p => p.id == _idSelected && arrType.Contains(p.trangThai)); //p.idNguoiTao == _idNhanVien && 
 
                 //if (_idNhanVien.Contains("GD"))
@@ -107,7 +107,7 @@ namespace GUI
                         EnableAllField(true);
                         btnXoaTuyenDung.Text = "Ngừng tuyển dụng";
 
-                        if (tuyenDung.trangThai.Equals("Ngừng tuyển", StringComparison.OrdinalIgnoreCase))
+                        if (tuyenDung.trangThai.Equals("Ngừng tuyển", StringComparison.OrdinalIgnoreCase) || tuyenDung.trangThai.Equals("GD ngừng tuyển", StringComparison.OrdinalIgnoreCase))
                         {
                             btnXoaTuyenDung.Enabled = false;
                         }
@@ -154,7 +154,6 @@ namespace GUI
             }
         }
 
-
         // button Load du lieu
         private void btnLoadDuLieu_Click(object sender, EventArgs e)
         {
@@ -182,8 +181,8 @@ namespace GUI
                 {
                     if (DisplayUserControlPanel.KiemTraDuLieuDauVao(error, grbTPTuyenDung) && KtraGhiChu())
                     {
-                        string trangThai = _idNhanVien.StartsWith("GD") ? "Đang tuyển" : "Chờ duyệt";
-                        string chucVu = _idNhanVien.StartsWith("GD") ? "giám đốc" : "trưởng phòng";
+                        string trangThai = _idNhanVien.Contains("GD") ? "Đang tuyển" : "Chờ duyệt";
+                        string chucVu = _idNhanVien.Contains("GD") ? "giám đốc" : "trưởng phòng";
 
                         if (tuyenDung)
                         {
@@ -285,7 +284,8 @@ namespace GUI
                             }
                             else
                             {
-                                if (_dbContextTD.KtraCapNhatTrangThaiTD(new DTOTuyenDung(_idSelected, "Ngừng tuyển", DateTime.Now)))
+                                var nguoiNgungTuyen = !_idNhanVien.Contains("GD") ? "Ngừng tuyển" : "GD ngừng tuyển";
+                                if (_dbContextTD.KtraCapNhatTrangThaiTD(new DTOTuyenDung(_idSelected, nguoiNgungTuyen, DateTime.Now)))
                                 {
                                     MessageBox.Show($"Đã ngừng tuyển dụng cho tiêu đề: {_dbContextTD.KtraTuyenDungQuaID(_idSelected).tieuDe}.", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
                                     CapNhatChung();
@@ -326,7 +326,7 @@ namespace GUI
                 else
                 {
                     txtSoLuong.Clear();
-                    error.SetError(txtSoLuong, "Số lượng tuyển dụng không được vượt quá 10 người !");
+                    //error.SetError(txtSoLuongDuyet, "Số lượng tuyển dụng không được vượt quá 10 người !");
                 }
             }
             catch (Exception ex)
@@ -379,7 +379,7 @@ namespace GUI
                 _idSelected = 0;
                 var anonymous = new object();
 
-                var tuyenDungs = _dbContextTD.KtraDsTuyenDung().Where(p =>  p.trangThai.Equals("Đang tuyển", StringComparison.OrdinalIgnoreCase)).ToList(); //p.idNguoiTao == _idNguoiTao &&
+                var tuyenDungs = _dbContextTD.KtraDsTuyenDung().Where(p => p.trangThai.Equals("Đang tuyển", StringComparison.OrdinalIgnoreCase)).ToList(); //p.idNguoiTao == _idNguoiTao &&
                 var idTuyenDung = tuyenDungs.Select(s => s.id).ToList();
                 var ungVien = _dbContextUV.LayDsUngvien().Where(p => idTuyenDung.Contains(p.idTuyenDung) && p.trangThai.Equals("Thử việc", StringComparison.OrdinalIgnoreCase)).ToList();
                 var soLuongTD = tuyenDungs.Select(s => s.soLuong).FirstOrDefault();
@@ -417,15 +417,16 @@ namespace GUI
                     ID = p.id,
                     IDNguoitao = p.idNguoiTao,
                     TieuDe = p.tieuDe,
-                    PhongBan = _dbContextPB.TimTenPhongBan(p.idPhongBan),
                     TrangThai = p.trangThai,
                     ChucVu = "Nhân viên",
-                    SoLuong = p.soLuong,
                     NguoiTao = _dbContextNV.KtraNhanVienQuaID(p.idNguoiTao).TenNhanVien,
                     GhiChu = p.ghiChu,
+                    SoLuong = p.soLuong,
                     NgayTao = DateTime.Parse(p.ngayTao.ToString()).ToString("dd/MM/yyyy HH:mm"),
+                    PhanHoi = p.ghiChuDuyet,
+                    SoLuongDuyet = p.soLuongDuyet,
 
-                }).ToList();
+                }).OrderByDescending(p => p.ID).ToList();
 
                 return anonymous;
             }
@@ -460,20 +461,25 @@ namespace GUI
                 dgvDsUngVienTuyen.Columns["ID"].Visible = false;
 
                 dgvTPTuyenDung.Columns["TieuDe"].HeaderText = "Tiêu đề";
-                dgvTPTuyenDung.Columns["PhongBan"].HeaderText = "Phòng ban";
-                dgvTPTuyenDung.Columns["ChucVu"].HeaderText = "Chức vụ";
+                dgvTPTuyenDung.Columns["ChucVu"].HeaderText = "Tuyển chức vụ";
                 dgvTPTuyenDung.Columns["NguoiTao"].HeaderText = "Người tạo";
                 dgvTPTuyenDung.Columns["TrangThai"].HeaderText = "Trạng thái";
                 dgvTPTuyenDung.Columns["SoLuong"].HeaderText = "Số lượng tuyển";
                 dgvTPTuyenDung.Columns["GhiChu"].HeaderText = "Yêu cầu";
                 dgvTPTuyenDung.Columns["NgayTao"].HeaderText = "Ngày tuyển dụng";
+                dgvTPTuyenDung.Columns["PhanHoi"].HeaderText = "Phản hồi";
+                dgvTPTuyenDung.Columns["SoLuongDuyet"].HeaderText = "Sô lượng duyệt";
 
                 dgvDsUngVienTuyen.Columns["TenUngVien"].HeaderText = "Họ tên";
                 dgvDsUngVienTuyen.Columns["TrangThai"].HeaderText = "Trạng thái";
                 dgvDsUngVienTuyen.Columns["NgayThuViec"].HeaderText = "Ngày thử việc";
 
+                dgvTPTuyenDung.Columns["SoLuong"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+                dgvTPTuyenDung.Columns["SoLuongDuyet"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+
                 dgvTPTuyenDung.Columns["TieuDe"].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
                 dgvTPTuyenDung.Columns["GhiChu"].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
+                dgvTPTuyenDung.Columns["PhanHoi"].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
 
                 dgvDsUngVienTuyen.Columns["NgayThuViec"].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
             }

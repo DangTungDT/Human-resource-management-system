@@ -417,7 +417,7 @@ namespace GUI
                 MessageBox.Show("Vui lòng nhập chức vụ!", "Thiếu thông tin", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
-            if (string.IsNullOrWhiteSpace(txtEmail.Text))
+            if (string.IsNullOrWhiteSpace(txtEmail.Text) && string.IsNullOrEmpty(selectedId))
             {
                 MessageBox.Show("Vui lòng nhập email!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;

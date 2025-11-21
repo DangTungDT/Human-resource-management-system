@@ -15,6 +15,7 @@ using System.IO;
 using Guna.UI2.WinForms;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement.ListView;
+using DocumentFormat.OpenXml.Office2010.Excel;
 namespace GUI
 {
     public partial class ucUngVien : UserControl
@@ -121,31 +122,15 @@ namespace GUI
 
         private void btnAdd_Click(object sender, EventArgs e)
         {
-            string gioiTinh = "";
-            int tuoi = DateTime.Now.Year - dtpDateOfBirth.Value.Year;
-            string[] arr = Path.GetFileName(_urlImage).Split('.');
-            string nameImg = Guid.NewGuid().ToString() + "." + arr[1];
-            string fileExtension = "jpg,jpeg,png,bmp,gif";
-            string[] arrFileExtension = fileExtension.Split(',');
-            string[] arrNameFile = nameImg.Split('.');
-            if (!arrFileExtension.Contains(arr[1]))
-            {
-                MessageBox.Show("File bạn chọn không đúng định dạng, vui lòng chọn file có đuôi \n .jpg .jpeg .png .bmp .gif", "Thông báo");
-                return;
-            }
-            if (dtpDateOfBirth.Value > DateTime.Today.AddYears(-tuoi))
-                tuoi--;
-            if(tuoi< 16)
-            {
-                MessageBox.Show("Tuổi của ứng viên không được dưới 16 tuổi!", "Thông báo");
-                return;
-            }
+            //Kiểm trả đường dẫn ảnh
             if (_urlImage == "")
             {
                 MessageBox.Show("Vui lòng chọn hình ảnh", "Thông báo");
                 return;
             }
-            
+
+            //Kiểm tra giới tính phải có dữ liệu
+            string gioiTinh = "";
             if (rdoFemale.Checked)
             {
                 gioiTinh = "nu";
@@ -154,6 +139,30 @@ namespace GUI
             {
                 gioiTinh = "nam";
             }
+
+            //Kiểm tra tuổi ứng viên phải >= 16
+            int tuoi = DateTime.Now.Year - dtpDateOfBirth.Value.Year;
+            if (dtpDateOfBirth.Value > DateTime.Today.AddYears(-tuoi))
+                tuoi--;
+            if (tuoi < 16)
+            {
+                MessageBox.Show("Tuổi của ứng viên không được dưới 16 tuổi!", "Thông báo");
+                return;
+            }
+
+            //Kiểm tra file ảnh phải đúng định dạng
+            string fileExtension = "jpg,jpeg,png,bmp,gif";
+            string[] arrFileExtension = fileExtension.Split(',');
+            string[] arr = Path.GetFileName(_urlImage).Split('.');
+            if (!arrFileExtension.Contains(arr[1]))
+            {
+                MessageBox.Show("File bạn chọn không đúng định dạng, vui lòng chọn file có đuôi \n .jpg .jpeg .png .bmp .gif", "Thông báo");
+                return;
+            }
+            
+            string nameImg = Guid.NewGuid().ToString() + "." + arr[1];
+            string[] arrNameFile = nameImg.Split('.');
+            
             DTOUngVien dto = new DTOUngVien()
             {
                 TenNhanVien = txtName.Text,
@@ -177,7 +186,9 @@ namespace GUI
                 string destPath = Path.Combine(folderPath, nameImg);
                 File.Copy(_urlImage, destPath);
                 MessageBox.Show("Thêm thành công!", "Thông báo");
-                LoadDgvUngVien("inDeleted and incomplete");
+
+                //Load ứng viên mới
+                LoadDgvUngVien("inDeleted");
                 CleanInput();
             }
             else if(_bllUngVien.Add(dto).ToLower() == "failed")
@@ -252,6 +263,8 @@ namespace GUI
                 NgayUngTuyen = dtpNgayUngTuyen.Value,
                 TrangThai = cbStatus.Text
             };
+
+            //Kiểm tra sự thay đổi của dữ liệu
             if (dto.TenNhanVien != _oldUngVien.TenNhanVien ||
                 dto.NgaySinh != _oldUngVien.NgaySinh ||
                 dto.DiaChi != _oldUngVien.DiaChi ||
@@ -264,6 +277,7 @@ namespace GUI
                 dto.NgayUngTuyen != _oldUngVien.NgayUngTuyen ||
                 dto.TrangThai != _oldUngVien.TrangThai)
             {
+                //Kiểm tra đường dẫn mới 
                 if (dto.DuongDanCV != _oldUngVien.DuongDanCV)
                 {
                     string fileExtension = "jpg,jpeg,png,bmp,gif";
@@ -280,9 +294,20 @@ namespace GUI
                     string des = Path.Combine(pathFolder, dto.DuongDanCV);
                     File.Copy(_urlImage, des);
                 }
+                //Nếu trạng thái mới là "thử việc" thì xóa mềm
+                if (dto.TrangThai.ToLower() == "Thử việc".ToLower()) dto.DaXoa = true;
+
+                //Cập nhật thông tin ứng viên
                 if (_bllUngVien.Update(dto))
                 {
                     MessageBox.Show("Cập nhật thành công!", "Thông báo", MessageBoxButtons.OK);
+                    if (dto.TrangThai.ToLower() == "Thử việc".ToLower())
+                    {
+                        //Trường hợp cập nhật trạng thái là thử việc
+                        FormThemHopDong newForm = new FormThemHopDong(dto);
+                        newForm.ShowDialog();
+                    }
+                    //Load ứng viên mới
                     LoadDgvUngVien("inDeleted");
                     CleanInput();
                 }
@@ -495,35 +520,10 @@ namespace GUI
             if(_oldUngVien.TrangThai == "Phỏng vấn")
             {
                 dto.TrangThai = "Thử việc";
-                DTOPhongBan phongBan = _bllPhongBan.FindPhongBanByIdChucVu(dto.IdChucVuUngTuyen);
-                string namePosition = _bllChucVu.FindNameById(dto.IdChucVuUngTuyen);
-                //Tạo nhân sự 
-                DTONhanVien newStaff = new DTONhanVien
-                {
-                    TenNhanVien = dto.TenNhanVien,
-                    NgaySinh = dto.NgaySinh,
-                    DiaChi = dto.DiaChi,
-                    Que = dto.Que,
-                    GioiTinh = dto.GioiTinh,
-                    Email = dto.Email,
-                    AnhDaiDien = dto.DuongDanCV,
-                    IdChucVu = dto.IdChucVuUngTuyen.ToString(),
-                    IdPhongBan = phongBan.Id.ToString()
-                };
-                if(!_bllNhanVien.AddNhanVien(newStaff, namePosition, phongBan.TenPhongBan))
-                {
-                    MessageBox.Show("Thêm nhân viên thất bại!", "Thông báo");
-                    //return;
-                }
-
-            }else if (_oldUngVien.TrangThai == "Thử việc")
-            {
-                dto.TrangThai = "Trúng tuyển";
-                dto.DaXoa = true;
             }
-            else if (_oldUngVien.TrangThai == "Trúng tuyển")
+            else if (_oldUngVien.TrangThai.ToLower() == "Thử việc".ToLower())
             {
-                MessageBox.Show("Ứng viên đã trúng tuyển, không thể duyệt nữa!", "Thông báo");
+                MessageBox.Show("Ứng viên đã thử việc, không thể duyệt nữa!", "Thông báo");
                 return;
             }
             else if (_oldUngVien.TrangThai == "Loại")
@@ -535,7 +535,16 @@ namespace GUI
             if (_bllUngVien.Update(dto))
             {
                 MessageBox.Show($"Duyệt thành công, ứng viên hiện đang ở trạng thái\n{dto.TrangThai}!", "Thông báo");
-                LoadDgvUngVien("inDeleted and incomplete");
+
+                //Kiểm tra trạng thái mới nếu là thử việc thì sẽ cho tạo hợp đồng
+                if(dto.TrangThai.ToLower() == "Thử việc".ToLower())
+                {
+                    FormThemHopDong newForm = new FormThemHopDong(dto);
+                    newForm.ShowDialog();
+                }
+
+                //Load ứng viên chưa xóa
+                LoadDgvUngVien("inDeleted");
                 CleanInput();
             }
             else
@@ -560,9 +569,9 @@ namespace GUI
                     MessageBox.Show("Ứng viên đã bị loại, không thể loại nữa!", "Thông báo");
                     return;
                 }
-                else if (_oldUngVien.TrangThai == "Trúng tuyển")
+                else if (_oldUngVien.TrangThai.ToLower() == "Thử việc".ToLower())
                 {
-                    MessageBox.Show("Ứng viên đã trúng tuyển, không thể loại!", "Thông báo");
+                    MessageBox.Show("Ứng viên đã ở trạng thái thử việc, không thể loại!", "Thông báo");
                     return;
                 }
                 DTOUngVien dto = new DTOUngVien()
@@ -585,7 +594,7 @@ namespace GUI
                 if (_bllUngVien.Update(dto))
                 {
                     MessageBox.Show($"Loại thành công!", "Thông báo");
-                    LoadDgvUngVien("inDeleted and incomplete");
+                    LoadDgvUngVien("inDeleted");
                     CleanInput();
                 }
                 else
@@ -655,6 +664,25 @@ namespace GUI
             }
         }
 
+        private void cbTuyenDung_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            //Thay đổi giá trị của chức vụ ứng tuyển dựa trên tuyển dụng
+            if (cbTuyenDung.SelectedValue != null)
+            {
+                int idTuyenDung;
+                bool isNumber = int.TryParse(cbTuyenDung.SelectedValue.ToString(), out idTuyenDung);
+
+                if (isNumber)
+                {
+                    var tuyenDungInfo = _bllTuyenDung.KtraTuyenDungQuaID(idTuyenDung);
+                    if (tuyenDungInfo != null)
+                    {
+                        cbChucVuUngTuyen.SelectedValue = tuyenDungInfo.idChucVu;
+                    }
+                }
+            }
+        }
+
         private void ucUngVien_Load(object sender, EventArgs e)
         {
             var position = _bllChucVu.GetPositionByIdStaff(_idNhanVien);
@@ -676,7 +704,8 @@ namespace GUI
             dtpNgayUngTuyen.Value = DateTime.Now;
 
 
-            LoadDgvUngVien("inDeleted and incomplete");
+            //Load ứng viên chưa bị xóa
+            LoadDgvUngVien("inDeleted");
 
         }
 
@@ -685,22 +714,27 @@ namespace GUI
             //Phân biệt load ứng viên (tất cả / bị loại / trúng tuyển / Xóa mềm)
             if(status == "pass")
             {
+                //Ứng viên thử việc 
                 dgvUngVien.DataSource = _bllUngVien.GetUngVienStatus(true);
             }
             else if(status == "isDeleted")
             {
+                //Ứng viên đã bị xóa
                 dgvUngVien.DataSource = _bllUngVien.GetUCIsDeleted(true, false);
             }
             else if (status == "inDeleted")
             {
+                //Ứng viên chưa xóa
                 dgvUngVien.DataSource = _bllUngVien.GetUCIsDeleted(false, false);
             }
             else if (status == "inDeleted and incomplete")
             {
+                //Ứng viên thử việc chưa xóa
                 dgvUngVien.DataSource = _bllUngVien.GetUCIsDeleted(false, true);
             }
             else if(status == "eliminat")
             {
+                //Ứng viên bị loại
                 dgvUngVien.DataSource = _bllUngVien.GetUngVienStatus(false);
             }
             else if(status == "find")

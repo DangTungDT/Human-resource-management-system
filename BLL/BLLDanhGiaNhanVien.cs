@@ -18,7 +18,10 @@ namespace BLL
             _dbContext = new DALDanhGiaNhanVien(stringConnection);
             dal = new DALDanhGiaNhanVien(stringConnection);
         }
-
+        public bool KiemTraDaDanhGiaThang(string idNhanVien, int thang, int nam)
+        {
+            return dal.KiemTraTonTaiDanhGiaThang(idNhanVien, thang, nam);
+        }
         // Danh sach danh gia nhan vien
         public List<DTODanhGiaNhanVien> KtraDsDanhGiaNhanVien()
         {
@@ -29,8 +32,15 @@ namespace BLL
             }
             return new List<DTODanhGiaNhanVien>();
         }
+        public DataTable GetAll(int thang = 0, int nam = 0, int? pb = 0) => dal.GetAll(thang, nam, pb);
+        public DataTable GetAllPB(string idDangNhap,int thang,int nam,string searchTen = null,int? pb = null,int? chucVu = null)
+        {
+            return dal.GetAllPB(idDangNhap, thang, nam, searchTen, pb, chucVu);
+        }
 
-        public DataTable GetAll() => dal.GetAll();
+        public int Insert(DTODanhGiaNhanVien dg) => dal.Insert(dg);
+
+        public bool Update(DTODanhGiaNhanVien dg) => dal.Update(dg);
 
         public void Save(DTODanhGiaNhanVien dg, bool isNew)
         {

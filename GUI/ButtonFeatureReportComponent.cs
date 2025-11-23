@@ -40,20 +40,24 @@ namespace GUI
 
         private void btnKyLuat_Click(object sender, EventArgs e)
         {
-            BaoCaoHopDong uc = new BaoCaoHopDong(_conn, _idNhanVien, _tpReport);
-            DisplayUserControlPanel.ChildUserControl(uc, _tpReport);
+            frmBaoCaoHopDong frm = new frmBaoCaoHopDong(_conn);
+            frm.ShowDialog();
+            //BaoCaoHopDong uc = new BaoCaoHopDong(_conn, _idNhanVien, _tpReport);
+            //DisplayUserControlPanel.ChildUserControl(uc, _tpReport);
         }
 
         private void guna2TileButton4_Click(object sender, EventArgs e)
         {
-            BaoCaoKhenThuong uc = new BaoCaoKhenThuong(_conn, _idNhanVien, _tpReport);
-            DisplayUserControlPanel.ChildUserControl(uc, _tpReport);
+            frmKhenThuongNhanVien frm = new frmKhenThuongNhanVien(_conn);
+            frm.ShowDialog();
+            //BaoCaoKhenThuong uc = new BaoCaoKhenThuong(_conn, _idNhanVien, _tpReport);
+            //DisplayUserControlPanel.ChildUserControl(uc, _tpReport);
         }
 
         private void guna2TileButton1_Click(object sender, EventArgs e)
         {
             frmDSLuongNhanVien frm = new frmDSLuongNhanVien(_conn);
-            frm.Show();
+            frm.ShowDialog();
             //UCReportDanhSachLuongPBan uc = new UCReportDanhSachLuongPBan(_idNhanVien, _conn);
             //DisplayUserControlPanel.ChildUserControl(uc, _tpReport);
         }

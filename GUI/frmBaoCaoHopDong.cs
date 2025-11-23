@@ -79,7 +79,7 @@ namespace GUI
             reportViewer1.Reset();
             reportViewer1.LocalReport.ReportEmbeddedResource = "GUI.rptHopDongLaoDong.rdlc";
 
-            // Tạo ReportDataSource
+            // Tao ReportDataSource
             ReportDataSource rds = new ReportDataSource("DataSet1", dt);
             reportViewer1.LocalReport.DataSources.Clear();
             reportViewer1.LocalReport.DataSources.Add(rds);
@@ -106,7 +106,8 @@ namespace GUI
         {
             _idPhongBan = cmbPhongBan.SelectedValue.ToString();
             cmbLoaiHopDong.SelectedIndex = -1;
-            cmbNhanVienPB.SelectedIndex = -1;
+            cmbNhanVienPB.DataSource = new List<NhanVien>();
+
         }
 
         private void cmbNhanVienPB_SelectionChangeCommitted(object sender, EventArgs e)
@@ -124,7 +125,8 @@ namespace GUI
                                                                     && p.hd.idNhanVien == p.nv.id
                                                         ).Select(p => p.hd).ToList();
 
-            if ((int)cmbLoaiHopDong.SelectedValue == 1)
+                
+            if ((int)cmbLoaiHopDong.SelectedValue == 2)
             {
                 dsHopDongNV = dsHopDongNV.Where(p => p.LoaiHopDong.Equals("Hợp đồng thử việc", StringComparison.OrdinalIgnoreCase)).ToList();
             }

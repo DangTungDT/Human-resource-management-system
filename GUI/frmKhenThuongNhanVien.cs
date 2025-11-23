@@ -1,19 +1,11 @@
 ﻿using BLL;
-using CrystalDecisions.ReportAppServer.DataDefModel;
 using DAL;
-using DocumentFormat.OpenXml.Office2013.Drawing.Chart;
-using DocumentFormat.OpenXml.Vml.Spreadsheet;
-using DocumentFormat.OpenXml.Wordprocessing;
 using Microsoft.Reporting.WinForms;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
 using System.Data.SqlClient;
-using System.Drawing;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace GUI
@@ -42,14 +34,10 @@ namespace GUI
 
         private void frmKhenThuongNhanVien_Load(object sender, EventArgs e)
         {
-            cmbMoHinh.Items.Add("Cá nhân");
-            //cmbMoHinh.Items.Add("Tập thể");
+            DsPhongBan();
 
-            var dsPhongBan = _dbContextPB.KtraDsPhongBan();
-            cmbPhongBan.DataSource = dsPhongBan;
-            cmbPhongBan.ValueMember = "id";
-            cmbPhongBan.DisplayMember = "TenPhongBan";
-            cmbPhongBan.SelectedIndex = -1;
+            cmbMoHinh.Items.Add("Cá nhân");
+            cmbMoHinh.Items.Add("Tập thể");
 
             var dsNV_TP = _dbContextNV_TP.KtraDsNhanVien_ThuongPhat();
             cmbNam.DataSource = dsNV_TP.Where(p => p.thangApDung != null).Select(p => p.thangApDung.Value.Year).Distinct().ToList();
@@ -57,20 +45,32 @@ namespace GUI
         }
         private void cmbMoHinh_SelectionChangeCommitted(object sender, EventArgs e)
         {
+            var dsPhongBan = new List<PhongBan>();
+
             _isSelectModel = false;
             if (cmbMoHinh.SelectedItem.ToString() == "Cá nhân")
             {
                 _isSelectModel = true;
                 cmbNhanVienPB.Enabled = true;
-                cmbPhongBan.SelectedIndex = -1;
-
-                cmbNhanVienPB.DataSource = new List<NhanVien>();
+                cmbNhanVienPB.DataSource = dsPhongBan;
             }
             else
             {
                 cmbNhanVienPB.Enabled = false;
-                cmbNhanVienPB.SelectedIndex = -1;
+                cmbNhanVienPB.DataSource = dsPhongBan;
             }
+
+            DsPhongBan();
+        }
+
+        // Load ds phongBan
+        public void DsPhongBan()
+        {
+            var dsPhongBan = _dbContextPB.KtraDsPhongBan();
+            cmbPhongBan.DataSource = dsPhongBan;
+            cmbPhongBan.ValueMember = "id";
+            cmbPhongBan.DisplayMember = "TenPhongBan";
+            cmbPhongBan.SelectedIndex = -1;
         }
 
         private void cmbPhongBan_SelectionChangeCommitted(object sender, EventArgs e)
@@ -108,7 +108,6 @@ namespace GUI
             cmbNhanVienPB.DisplayMember = "TenNhanVien";
             cmbNhanVienPB.SelectedIndex = -1;
         }
-
         private void cmbNhanVienPB_SelectionChangeCommitted(object sender, EventArgs e)
         {
             _idNhanVien = cmbNhanVienPB.SelectedValue.ToString();
@@ -122,19 +121,19 @@ namespace GUI
 
         private void btnTaoBaoCao_Click(object sender, EventArgs e)
         {
+            DataTable dt = new DataTable();
+
+            if (string.IsNullOrEmpty(cmbMoHinh.Text)) return;
+
             if (cmbNhanVienPB.SelectedValue != null && cmbNhanVienPB.SelectedValue.ToString() == "")
             {
                 _idNhanVien = txtTimNV.Text.Trim();
             }
 
-            if (cmbPhongBan.SelectedValue == null) return;
-
-            if (string.IsNullOrEmpty(_idNhanVien)) return;
-
-
-
+            int idPhongBan = 0;
             int? phongBan = null;
-            if (int.TryParse(cmbPhongBan.SelectedValue.ToString(), out int idPhongBan) && idPhongBan > 0)
+
+            if (cmbPhongBan.SelectedValue != null && int.TryParse(cmbPhongBan.SelectedValue.ToString(), out idPhongBan) && idPhongBan > 0)
             {
                 phongBan = idPhongBan;
             }
@@ -145,29 +144,35 @@ namespace GUI
             var dsNhanVien = _dbContextNV.KtraDsNhanVien();
             var dsThuongPhat = _dbContextTP.CheckListThuongPhat();
 
-            var nhanVien = _dbContextNV_TP.KtraDsNhanVien_ThuongPhat()
-                                        .Join(dsThuongPhat, nv_tp => nv_tp.idThuongPhat, tp => tp.id, (nv_tp, tp) => new { nv_tp, tp })
-                                        .Join(dsNhanVien, p => p.nv_tp.idNhanVien, nv => nv.id, (p, nv) => new { p.nv_tp, p.tp, nv })
-                                        .Where(p => p.nv.id == p.nv_tp.idNhanVien
-                                                    && p.tp.id == p.nv_tp.idThuongPhat
-                                                    && p.nv.idPhongBan == idPhongBan
-                                                    && p.tp.loai.Equals("Thưởng", StringComparison.OrdinalIgnoreCase)
-                                                    && thang > 0 && nam > 0 ? p.nv_tp.thangApDung.Value.Date.Month == thang && p.nv_tp.thangApDung.Value.Date.Year == nam : false)
-
-                                        .Select(p => new NhanVien { id = p.nv.id, TenNhanVien = p.nv.TenNhanVien })
-                                        .FirstOrDefault(p => p.id == _idNhanVien || p.TenNhanVien == _idNhanVien);
-
-            if (nhanVien == null)
+            string reportView = "GUI.rptBaoCaoKhenThuongTatCaNV.rdlc";
+            var nhanVien = new NhanVien();
+            if (cmbMoHinh.SelectedItem != null)
             {
-                MessageBox.Show("Không tìm thấy nhân viên phù hợp !", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                return;
+                if (cmbMoHinh.SelectedItem.ToString() == "Cá nhân")
+                {
+                    if (string.IsNullOrEmpty(_idNhanVien)) return;
+
+                    nhanVien = DsNhanVienTheoLoai(dsNhanVien, dsThuongPhat, idPhongBan, thang, nam).FirstOrDefault(p => p.id == _idNhanVien || p.TenNhanVien == _idNhanVien);
+
+                    if (nhanVien == null)
+                    {
+                        MessageBox.Show("Không tìm thấy nhân viên phù hợp !", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        return;
+                    }
+
+                    reportView = "GUI.rptBaoCaoKhenThuongCaNhan.rdlc";
+                    dt = GetDataFromSP(thang, nam, nhanVien.id, idPhongBan);
+                }
+                else if (phongBan != null)
+                {
+                    dt = GetDataFromSP(thang, nam, null, phongBan);
+                    reportView = "GUI.rptBaoCaoKhenThuongTapThe.rdlc";
+                }
+                else dt = GetDataFromSP(thang, nam, null, null);
             }
 
-            DataTable dt = GetDataFromSP(nhanVien.id);
-
             reportViewer1.Reset();
-            reportViewer1.LocalReport.ReportEmbeddedResource = "GUI.rptBaoCaoKhenThuongCaNhan.rdlc";
-
+            reportViewer1.LocalReport.ReportEmbeddedResource = reportView;
 
             ReportDataSource rds = new ReportDataSource("DataSet1", dt);
             reportViewer1.LocalReport.DataSources.Clear();
@@ -176,7 +181,20 @@ namespace GUI
             reportViewer1.RefreshReport();
         }
 
-        private DataTable GetDataFromSP(string idNhanVien = null)
+        public List<NhanVien> DsNhanVienTheoLoai(List<NhanVien> dsNhanVien, List<ThuongPhat> dsThuongPhat, int idPhongBan, int thang, int nam)
+        {
+            return _dbContextNV_TP.KtraDsNhanVien_ThuongPhat()
+                                        .Join(dsThuongPhat, nv_tp => nv_tp.idThuongPhat, tp => tp.id, (nv_tp, tp) => new { nv_tp, tp })
+                                        .Join(dsNhanVien, p => p.nv_tp.idNhanVien, nv => nv.id, (p, nv) => new { p.nv_tp, p.tp, nv })
+                                        .Where(p => p.nv.id == p.nv_tp.idNhanVien
+                                                    && p.tp.id == p.nv_tp.idThuongPhat
+                                                    && p.nv.idPhongBan == idPhongBan
+                                                    && p.tp.loai.Equals("Thưởng", StringComparison.OrdinalIgnoreCase)
+                                                    && thang > 0 && nam > 0 ? p.nv_tp.thangApDung.Value.Date.Month == thang && p.nv_tp.thangApDung.Value.Date.Year == nam : false)
+
+                                        .Select(p => new NhanVien { id = p.nv.id, TenNhanVien = p.nv.TenNhanVien }).ToList();
+        }
+        private DataTable GetDataFromSP(int thang, int nam, string idNhanVien = null, int? idPhongBan = null)
         {
             DataTable dt = new DataTable();
             using (SqlConnection conn = new SqlConnection(_con))
@@ -184,6 +202,9 @@ namespace GUI
             {
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.Parameters.AddWithValue("@IdNhanVien", idNhanVien);
+                cmd.Parameters.AddWithValue("@IdPhongBan", idPhongBan);
+                cmd.Parameters.AddWithValue("@Thang", thang);
+                cmd.Parameters.AddWithValue("@Nam", nam);
 
                 SqlDataAdapter da = new SqlDataAdapter(cmd);
                 da.Fill(dt);
@@ -193,7 +214,14 @@ namespace GUI
 
         private void cmbThang_SelectionChangeCommitted(object sender, EventArgs e)
         {
+            cmbPhongBan.DataSource = new List<PhongBan>();
+            cmbNhanVienPB.DataSource = new List<NhanVien>();
+            DsPhongBan();
+        }
 
+        private void cmbNam_SelectionChangeCommitted(object sender, EventArgs e)
+        {
+            cmbThang.DataSource = new List<int>();
         }
     }
 }

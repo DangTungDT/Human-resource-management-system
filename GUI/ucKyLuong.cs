@@ -111,7 +111,6 @@ namespace GUI
             {
                 MessageBox.Show("Lỗi: " + ex.Message);
             }
-
             finally
             {
                 _isChecked = true;

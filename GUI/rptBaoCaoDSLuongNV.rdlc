@@ -227,18 +227,6 @@
               <TextRun>
                 <Value />
                 <Style>
-                  <FontStyle>Italic</FontStyle>
-                  <FontFamily>times New Roman</FontFamily>
-                </Style>
-              </TextRun>
-            </TextRuns>
-            <Style />
-          </Paragraph>
-          <Paragraph>
-            <TextRuns>
-              <TextRun>
-                <Value>QUYẾT ĐỊNH</Value>
-                <Style>
                   <FontStyle>Normal</FontStyle>
                   <FontFamily>times New Roman</FontFamily>
                   <FontSize>12pt</FontSize>
@@ -246,9 +234,7 @@
                 </Style>
               </TextRun>
             </TextRuns>
-            <Style>
-              <TextAlign>Center</TextAlign>
-            </Style>
+            <Style />
           </Paragraph>
           <Paragraph>
             <TextRuns>
@@ -268,29 +254,11 @@
               <TextAlign>Left</TextAlign>
             </Style>
           </Paragraph>
-          <Paragraph>
-            <TextRuns>
-              <TextRun>
-                <Value />
-                <Style>
-                  <FontStyle>Normal</FontStyle>
-                  <FontFamily>Times New Roman</FontFamily>
-                  <FontSize>12pt</FontSize>
-                  <FontWeight>Normal</FontWeight>
-                  <TextDecoration>None</TextDecoration>
-                  <Color>#000000</Color>
-                </Style>
-              </TextRun>
-            </TextRuns>
-            <Style>
-              <TextAlign>Left</TextAlign>
-            </Style>
-          </Paragraph>
         </Paragraphs>
         <rd:DefaultName>Textbox2</rd:DefaultName>
-        <Top>2.2375in</Top>
-        <Left>0.28334in</Left>
-        <Height>1.59528in</Height>
+        <Top>1.9875in</Top>
+        <Left>0.28333in</Left>
+        <Height>1.52236in</Height>
         <Width>5.8in</Width>
         <ZIndex>1</ZIndex>
         <Style>
@@ -542,7 +510,6 @@
                         <PaddingBottom>2pt</PaddingBottom>
                       </Style>
                     </Textbox>
-                    <rd:Selected>true</rd:Selected>
                   </CellContents>
                 </TablixCell>
                 <TablixCell>
@@ -592,7 +559,6 @@
                         <PaddingBottom>2pt</PaddingBottom>
                       </Style>
                     </Textbox>
-                    <rd:Selected>true</rd:Selected>
                   </CellContents>
                 </TablixCell>
                 <TablixCell>
@@ -628,7 +594,6 @@
                         <PaddingBottom>2pt</PaddingBottom>
                       </Style>
                     </Textbox>
-                    <rd:Selected>true</rd:Selected>
                   </CellContents>
                 </TablixCell>
                 <TablixCell>
@@ -664,7 +629,6 @@
                         <PaddingBottom>2pt</PaddingBottom>
                       </Style>
                     </Textbox>
-                    <rd:Selected>true</rd:Selected>
                   </CellContents>
                 </TablixCell>
                 <TablixCell>
@@ -700,7 +664,6 @@
                         <PaddingBottom>2pt</PaddingBottom>
                       </Style>
                     </Textbox>
-                    <rd:Selected>true</rd:Selected>
                   </CellContents>
                 </TablixCell>
               </TablixCells>
@@ -789,7 +752,7 @@
                               <Value>=Fields!luongTruocKhauTru.Value</Value>
                               <Style>
                                 <FontFamily>times New Roman</FontFamily>
-                                <Format>0;(0)</Format>
+                                <Format>n0</Format>
                               </Style>
                             </TextRun>
                           </TextRuns>
@@ -824,7 +787,7 @@
                               <Value>=Fields!ThucNhan.Value</Value>
                               <Style>
                                 <FontFamily>times New Roman</FontFamily>
-                                <Format>0;(0)</Format>
+                                <Format>n0</Format>
                               </Style>
                             </TextRun>
                           </TextRuns>
@@ -880,6 +843,7 @@
                         <PaddingBottom>2pt</PaddingBottom>
                       </Style>
                     </Textbox>
+                    <rd:Selected>true</rd:Selected>
                   </CellContents>
                 </TablixCell>
               </TablixCells>
@@ -906,7 +870,7 @@
           </TablixMembers>
         </TablixRowHierarchy>
         <DataSetName>DataSet1</DataSetName>
-        <Top>3.90222in</Top>
+        <Top>3.65222in</Top>
         <Left>0.28334in</Left>
         <Height>0.5in</Height>
         <Width>5.79999in</Width>
@@ -1153,7 +1117,7 @@
           </Paragraph>
         </Paragraphs>
         <rd:DefaultName>Textbox27</rd:DefaultName>
-        <Top>4.61333in</Top>
+        <Top>4.23833in</Top>
         <Left>0.28334in</Left>
         <Height>2.35611in</Height>
         <Width>5.8in</Width>
@@ -1210,7 +1174,7 @@
           </Paragraph>
         </Paragraphs>
         <rd:DefaultName>Textbox12</rd:DefaultName>
-        <Top>7.16389in</Top>
+        <Top>6.66389in</Top>
         <Left>3.81111in</Left>
         <Height>0.84168in</Height>
         <Width>2.27222in</Width>
@@ -1226,10 +1190,10 @@
         </Style>
       </Textbox>
     </ReportItems>
-    <Height>8.11944in</Height>
+    <Height>7.50557in</Height>
     <Style />
   </Body>
-  <Width>6.43833in</Width>
+  <Width>6.40708in</Width>
   <Page>
     <PageHeader>
       <Height>0.475in</Height>

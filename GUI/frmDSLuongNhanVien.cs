@@ -98,6 +98,7 @@ namespace GUI
             return dt;
         }
 
+        // Gui mail phieu luong cho nhan vien
         public async Task SendSalaryEmail(string emailTo, string tenNhanVien,
                               decimal luongCoBan, decimal phuCap, double soNgayCong,
                               decimal thuong, decimal phat, decimal khoanTruBH, decimal thueTNCN, decimal luongThucLanh)
@@ -227,46 +228,48 @@ namespace GUI
 
         private async void btnGuiLuongNV_Click(object sender, EventArgs e)
         {
-            btnGuiLuongNV.Enabled = false;
             try
             {
+                // tinh BH nhan vien
+                decimal thueBHYT = 0.08m;
+                decimal thueBHXH = 0.03m;
+                decimal thueBHTN = 0.01m;
+
+                int nam = DateTime.Now.Date.Year;
+                int thang = DateTime.Now.Date.Month;
+
+                var dsKyLuong = _dbContextKL.KtraDsKyLuong();
+                var dsKhauTru = _dbContextKT.KtraDsKhauTru();
+                var dsChamCong = _dbContextCC.LayDsChamCong();
+                var dsLuong = _dbContextCTL.KtraDsChiTietLuong();
+                var dsHopDong = _dbContextHD.KtraDsHopDongLaoDong();
+                var dsKTNV = _dbContextKTNV.KtraDsNhanVien_KhauTru();
+
+                var dsNhanVien = _dbContextNV.KtraDsNhanVien()
+                                            .Join(dsKTNV, p => p.id, ktnv => ktnv.idNhanVien, (nv, ktnv) => new { nv, ktnv })
+                                            .Join(dsKhauTru, p => p.ktnv.idKhauTru, kt => kt.id, (p, kt) => new { p.nv, p.ktnv, kt })
+                                            .Join(dsLuong, p => p.nv.id, ctl => ctl.idNhanVien, (p, ctl) => new { p.nv, p.kt, p.ktnv, ctl })
+                                            .Join(dsChamCong, p => p.nv.id, cc => cc.idNhanVien, (p, cc) => new { p.kt, p.ktnv, p.nv, p.ctl, cc, })
+                                            .Join(dsHopDong, p => p.nv.id, hd => hd.idNhanVien, (p, hd) => new { p.kt, p.ktnv, p.nv, p.ctl, p.cc, hd })
+                                            .Join(dsKyLuong, p => p.ctl.idKyLuong, kl => kl.id, (p, kl) => new { p.kt, p.ktnv, p.nv, p.ctl, p.cc, p.hd, kl })
+                                            .Where(p => p.kl.ngayKetThuc.Value.Date.Month == DateTime.Now.Date.Month && p.kl.ngayKetThuc.Value.Date.Year == DateTime.Now.Date.Year)
+                                            .GroupBy(p => p.nv.id).Select(p => p.First()).ToList();
+
+                int demNV = dsNhanVien.Select(p => p.nv).ToList().Count;
+                if (MessageBox.Show($"Bạn có muốn gửi phiếu lương cho {demNV} nhân viên qua email không ?", "Xác nhận", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.No)
+                {
+                    return;
+                }
+
+                Dictionary<string, double> ngayCongNhanVien = NgayCongNhanVien(dsChamCong);
+                int tongNV = dsNhanVien.Count;
+                int soNVGuiThanhCong = 0;
+
+                btnGuiLuongNV.Enabled = false;
+                btnGuiLuongNV.Text = "Đang gửi phiếu lương ...";
+
                 await Task.Run(async () =>
                 {
-                    // tinh BH nhan vien
-                    decimal thueBHYT = 0.08m;
-                    decimal thueBHXH = 0.03m;
-                    decimal thueBHTN = 0.01m;
-
-                    int nam = DateTime.Now.Date.Year;
-                    int thang = DateTime.Now.Date.Month;
-
-                    var dsKyLuong = _dbContextKL.KtraDsKyLuong();
-                    var dsKhauTru = _dbContextKT.KtraDsKhauTru();
-                    var dsChamCong = _dbContextCC.LayDsChamCong();
-                    var dsLuong = _dbContextCTL.KtraDsChiTietLuong();
-                    var dsHopDong = _dbContextHD.KtraDsHopDongLaoDong();
-                    var dsKTNV = _dbContextKTNV.KtraDsNhanVien_KhauTru();
-
-                    var dsNhanVien = _dbContextNV.KtraDsNhanVien()
-                                                .Join(dsKTNV, p => p.id, ktnv => ktnv.idNhanVien, (nv, ktnv) => new { nv, ktnv })
-                                                .Join(dsKhauTru, p => p.ktnv.idKhauTru, kt => kt.id, (p, kt) => new { p.nv, p.ktnv, kt })
-                                                .Join(dsLuong, p => p.nv.id, ctl => ctl.idNhanVien, (p, ctl) => new { p.nv, p.kt, p.ktnv, ctl })
-                                                .Join(dsChamCong, p => p.nv.id, cc => cc.idNhanVien, (p, cc) => new { p.kt, p.ktnv, p.nv, p.ctl, cc, })
-                                                .Join(dsHopDong, p => p.nv.id, hd => hd.idNhanVien, (p, hd) => new { p.kt, p.ktnv, p.nv, p.ctl, p.cc, hd })
-                                                .Join(dsKyLuong, p => p.ctl.idKyLuong, kl => kl.id, (p, kl) => new { p.kt, p.ktnv, p.nv, p.ctl, p.cc, p.hd, kl })
-                                                .Where(p => p.kl.ngayKetThuc.Value.Date.Month == DateTime.Now.Date.Month && p.kl.ngayKetThuc.Value.Date.Year == DateTime.Now.Date.Year)
-                                                .GroupBy(p => p.nv.id).Select(p => p.First()).ToList();
-
-                    int demNV = dsNhanVien.Select(p => p.nv).ToList().Count;
-                    if (MessageBox.Show($"Bạn có chắc chắn muốn gửi phiếu lương cho {demNV} nhân viên qua email không ?", "Xác nhận", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.No)
-                    {
-                        return;
-                    }
-
-                    Dictionary<string, double> ngayCongNhanVien = NgayCongNhanVien(dsChamCong);
-                    int tongNV = dsNhanVien.Count;
-                    int soNVGuiThanhCong = 0;
-
                     foreach (var p in dsNhanVien)
                     {
                         int soNgayLamViecTrongThang = TinhSoNgayLamViecTrongThang(nam, thang);
@@ -291,13 +294,14 @@ namespace GUI
                         mailDaGui[p.nv.id] = true;
                         soNVGuiThanhCong++;
                     };
-
-                    if (tongNV == soNVGuiThanhCong)
-                    {
-                        MessageBox.Show($"Đã gửi phiếu lương cho tất cả nhân viên !", "Hoàn tất", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    }
-                    else MessageBox.Show($"Đã gửi phiếu lương cho nhân viên !", "Hoàn tất", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 });
+
+                if (tongNV == soNVGuiThanhCong)
+                {
+                    btnGuiLuongNV.Enabled = true;
+                    btnGuiLuongNV.Text = "Gửi mail lương cho NV";
+                    MessageBox.Show($"Đã gửi phiếu lương tháng {DateTime.Now.Month} cho tất cả nhân viên !", "Hoàn tất", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
             }
             catch (Exception ex)
             {
@@ -305,7 +309,7 @@ namespace GUI
             }
             finally
             {
-                btnGuiLuongNV.Enabled = true;
+
             }
         }
 

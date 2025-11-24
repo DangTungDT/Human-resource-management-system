@@ -1,6 +1,8 @@
 ﻿using DTO;
 using System;
 using System.Collections.Generic;
+using System.Data;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -9,9 +11,14 @@ namespace DAL
 {
     public class DALTuyenDung
     {
+        private readonly string connectionString;
         public readonly PersonnelManagementDataContextDataContext _dbContext;
 
-        public DALTuyenDung(string conn) => _dbContext = new PersonnelManagementDataContextDataContext(conn);
+        public DALTuyenDung(string conn)
+        {
+            _dbContext = new PersonnelManagementDataContextDataContext(conn);
+            connectionString = conn;
+        }
 
         // Danh sach Tuyen Dung
         public List<TuyenDung> DsTuyenDung()
@@ -72,7 +79,7 @@ namespace DAL
                     tuyenDung.soLuong = DTO.SoLuong;
                     tuyenDung.ghiChu = DTO.GhiChu;
 
-                    _dbContext.SubmitChanges();
+                    _dbContext.SubmitChanges(); 
 
                     return true;
                 }
@@ -147,6 +154,25 @@ namespace DAL
 
             }
             catch { return false; }
+        }
+
+        public DataTable BaoCaoTuyenDungTheoQuy(string quy, int nam, string phongBan, string viTri)
+        {
+            using (SqlConnection conn = new SqlConnection(connectionString))
+            {
+                SqlCommand cmd = new SqlCommand("sp_BaoCaoTuyenDungTheoQuy", conn);
+                cmd.CommandType = CommandType.StoredProcedure;
+
+                cmd.Parameters.AddWithValue("@Quy", (object)quy ?? DBNull.Value);
+                cmd.Parameters.AddWithValue("@Nam", nam);
+                cmd.Parameters.AddWithValue("@PhongBan", (object)phongBan ?? DBNull.Value);
+                cmd.Parameters.AddWithValue("@ViTri", (object)viTri ?? DBNull.Value);
+
+                SqlDataAdapter da = new SqlDataAdapter(cmd);
+                DataTable dt = new DataTable();
+                da.Fill(dt);
+                return dt;
+            }
         }
     }
 }

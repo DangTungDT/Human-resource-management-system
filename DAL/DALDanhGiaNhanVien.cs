@@ -84,6 +84,27 @@ namespace DAL
             }
         }
 
+        // Thêm hàm này vào class BLLDanhGiaNhanVien
+        public bool KiemTraTonTaiDanhGiaThang(string idNhanVien, int thang, int nam)
+        {
+            string sql = @"
+        SELECT COUNT(*) FROM DanhGiaNhanVien 
+        WHERE idNhanVien = @idNV 
+          AND MONTH(ngayTao) = @thang 
+          AND YEAR(ngayTao) = @nam";
+
+            using (SqlConnection conn = new SqlConnection(connectionString))
+            using (SqlCommand cmd = new SqlCommand(sql, conn))
+            {
+                cmd.Parameters.AddWithValue("@idNV", idNhanVien);
+                cmd.Parameters.AddWithValue("@thang", thang);
+                cmd.Parameters.AddWithValue("@nam", nam);
+                conn.Open();
+                return (int)cmd.ExecuteScalar() > 0;
+            }
+        }
+        
+
         public DataTable GetAllPB(string idDangNhap, int thang, int nam, string searchTen = null, int? pb = null, int? chucVu = null)
         {
             string spName = "sp_GetDanhGiaNhanVien";
@@ -135,16 +156,16 @@ namespace DAL
         public bool Update(DTODanhGiaNhanVien dg)
         {
             string sql = @"
-                UPDATE DanhGiaNhanVien
-                SET DiemSo = @DiemSo,
-                    DiemChuyenCan = @DiemChuyenCan,
-                    DiemNangLuc = @DiemNangLuc,
-                    NhanXet = @NhanXet,
-                    ngayTao = @NgayTao,
-                    idNhanVien = @IDNhanVien,
-                    idNguoiDanhGia = @IDNguoiDanhGia
-                WHERE id = @ID;
-            ";
+                            UPDATE DanhGiaNhanVien SET 
+                                DiemSo = @DiemSo,
+                                DiemChuyenCan = @DiemChuyenCan,
+                                DiemNangLuc = @DiemNangLuc,
+                                NhanXet = @NhanXet,
+                                ngayTao = @NgayTao,
+                                idNguoiDanhGia = @idNguoiDanhGia
+                            WHERE idNhanVien = @idNhanVien 
+                              AND MONTH(ngayTao) = MONTH(@NgayTao) 
+                              AND YEAR(ngayTao) = YEAR(@NgayTao)";
             using (var cn = new SqlConnection(  connectionString    ))
             using (var cmd = new SqlCommand(sql, cn))
             {

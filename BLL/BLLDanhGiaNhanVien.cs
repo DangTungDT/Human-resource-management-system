@@ -45,6 +45,10 @@ namespace BLL
             else dal.Update(dg);
         }
 
+        public bool KiemTraDaDanhGiaThang(string idNhanVien, int thang, int nam)
+        {
+            return dal.KiemTraTonTaiDanhGiaThang(idNhanVien, thang, nam);
+        }
         public void Delete(int id) => dal.Delete(id);
 
         // Lấy danh sách đánh giá của 1 nhân viên theo tháng

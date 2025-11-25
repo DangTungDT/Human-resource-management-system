@@ -1013,7 +1013,7 @@ GO
 --	@PhongBan = null,
 --    @ViTri = null;
 
-
+---Stored Procedure siêu mạnh – lấy danh sách đánh giá
 CREATE PROCEDURE [dbo].[sp_GetDanhGiaNhanVien]
     @IdDangNhap VARCHAR(20),
     @Thang INT,
@@ -1093,12 +1093,12 @@ BEGIN
 END
 
 GO
-
+---Thêm danh mục phạt vào bảng ThuongPhat (chạy 1 lần)
 INSERT INTO ThuongPhat (tienThuongPhat, loai, lyDo, idNguoiTao) VALUES
 (2000000, N'Thưởng', N'Thưởng nhân viên xuất sắc đạt đánh giá TỐT 2 tháng liên tiếp', 'GDGD0001'),
 (0, N'Phạt', N'Cảnh cáo bằng văn bản do đánh giá TỆ 2 tháng liên tiếp', 'GDGD0001')
 GO
-
+---Stored Procedure siêu mạnh – Tự động phạt khi điểm tệ và thưởng khi => trung bình liên tiếp 2 tháng
 CREATE PROCEDURE sp_TuDongThuongPhatKyLuat
     @Thang INT,
     @Nam INT,
@@ -1154,6 +1154,90 @@ BEGIN
         (SELECT COUNT(*) FROM NhanVien_ThuongPhat WHERE idThuongPhat = @idKyLuat AND MONTH(thangApDung)=@Thang AND YEAR(thangApDung)=@Nam) AS SoNguoiKyLuat;
 END
 GO
+
+-- Thêm mục phạt "Nghỉ không phép quá 3 ngày"
+INSERT INTO ThuongPhat (tienThuongPhat, loai, lyDo, idNguoiTao)
+VALUES (0, N'Phạt', N'Cảnh cáo do nghỉ không phép quá 3 ngày trong tháng', 'GDGD0001');
+
+go
+---Stored Procedure siêu mạnh – Tự động phạt nghỉ không phép > 3 ngày
+CREATE OR ALTER PROCEDURE sp_TuDongPhat_NghiKhongPhep_Qua3Ngay
+    @Thang INT,
+    @Nam INT,
+    @idNguoiLap VARCHAR(10) = 'GDGD0001'
+AS
+BEGIN
+    SET NOCOUNT ON;
+
+    -- Lấy id mục phạt nghỉ không phép
+    DECLARE @idPhat INT = (SELECT TOP 1 id FROM ThuongPhat WHERE lyDo LIKE N'%nghỉ không phép quá 3 ngày%');
+
+    IF @idPhat IS NULL
+    BEGIN
+        RAISERROR(N'Chưa có danh mục phạt nghỉ không phép trong bảng ThuongPhat!', 16, 1);
+        RETURN;
+    END
+
+    DECLARE @NgayDauThang DATE = DATEFROMPARTS(@Nam, @Thang, 1);
+    DECLARE @NgayCuoiThang DATE = EOMONTH(@NgayDauThang);
+
+    -- Xóa phạt cũ của tháng này trước khi tạo mới (tránh trùng khi chạy lại)
+    DELETE FROM NhanVien_ThuongPhat
+    WHERE idThuongPhat = @idPhat
+      AND MONTH(thangApDung) = @Thang AND YEAR(thangApDung) = @Nam;
+
+    -- CTE tính số ngày nghỉ không phép (không chấm công + không có phép duyệt)
+    ;WITH NgayLamViec AS (
+        SELECT DATEADD(DAY, number, @NgayDauThang) AS Ngay
+        FROM master..spt_values
+        WHERE type = 'P'
+          AND DATEADD(DAY, number, @NgayDauThang) <= @NgayCuoiThang
+          AND DATENAME(WEEKDAY, DATEADD(DAY, number, @NgayDauThang)) NOT IN ('Saturday', 'Sunday')
+    ),
+    NgayNghiKhongPhep AS (
+        SELECT 
+            nv.id AS idNhanVien,
+            COUNT(*) AS SoNgayNghiKhongPhep
+        FROM NhanVien nv
+        CROSS JOIN NgayLamViec nlv
+        LEFT JOIN ChamCong cc ON cc.idNhanVien = nv.id AND CAST(cc.NgayChamCong AS DATE) = nlv.Ngay
+        LEFT JOIN NghiPhep np ON np.idNhanVien = nv.id 
+                              AND nlv.Ngay BETWEEN np.NgayBatDau AND np.NgayKetThuc
+                              AND np.TrangThai = N'Đã duyệt'
+        WHERE nv.DaXoa = 0
+          AND (cc.id IS NULL OR cc.GioVao IS NULL) -- Không chấm công
+          AND np.id IS NULL -- Không có phép được duyệt
+        GROUP BY nv.id
+        HAVING COUNT(*) > 3  -- Nghỉ quá 3 ngày
+    )
+
+    -- Tạo phạt tự động
+    INSERT INTO NhanVien_ThuongPhat (idNhanVien, idThuongPhat, thangApDung)
+    SELECT 
+        idNhanVien,
+        @idPhat,
+        @NgayDauThang
+    FROM NgayNghiKhongPhep;
+
+    -- Trả về số người bị phạt
+    SELECT COUNT(*) AS SoNguoiBiPhat
+    FROM NgayNghiKhongPhep;
+END
+GO
+
+-- Bước 1: Thêm 2 cột tính toán (năm và tháng của ngayTao)
+ALTER TABLE DanhGiaNhanVien
+ADD NamDanhGia AS YEAR(ngayTao) PERSISTED;
+
+ALTER TABLE DanhGiaNhanVien
+ADD ThangDanhGia AS MONTH(ngayTao) PERSISTED;
+GO
+
+-- Bước 2: Tạo chỉ mục UNIQUE trên 3 cột: idNhanVien + Nam + Thang
+CREATE UNIQUE INDEX UK_DanhGiaNhanVien_Thang 
+ON DanhGiaNhanVien (idNhanVien, NamDanhGia, ThangDanhGia);
+GO
+
 --USE master;
 --ALTER DATABASE PersonnelManagement SET SINGLE_USER WITH ROLLBACK IMMEDIATE;
 --DROP DATABASE PersonnelManagement;

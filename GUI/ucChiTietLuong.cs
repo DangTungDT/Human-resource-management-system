@@ -491,7 +491,7 @@ namespace GUI
                         {
                             if (_dbContextCTL.KtraDuLieuChiTietLuongNV(idNhanVien) == null)
                             {
-                                var themThanhCong = _dbContextCTL.KtraThemChiTietLuong(new DTOChiTietLuong(0, ngayNhanLuong, luongTruocKT, luongSauKT, tongKhauTru, tongPhuCap, tongTienThuong, tongTienPhat, "Đang giải quyết", rtGhiChu?.Text ?? null, idNhanVien, idKyLuong, false));
+                                var themThanhCong = _dbContextCTL.KtraThemChiTietLuong(new DTOChiTietLuong(0, ngayNhanLuong, luongTruocKT, luongSauKT, tongKhauTru, tongPhuCap, tongTienThuong, tongTienPhat, "Đang giải quyết", rtGhiChu?.Text ?? null, idNhanVien, idKyLuong, true));
                                 if (themThanhCong)
                                 {
                                     dsDaThemThanhCong.Add(idNhanVien);

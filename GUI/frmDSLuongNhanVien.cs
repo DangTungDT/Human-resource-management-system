@@ -246,16 +246,32 @@ namespace GUI
                 var dsKTNV = _dbContextKTNV.KtraDsNhanVien_KhauTru();
 
                 var dsNhanVien = _dbContextNV.KtraDsNhanVien()
-                                            .Join(dsKTNV, p => p.id, ktnv => ktnv.idNhanVien, (nv, ktnv) => new { nv, ktnv })
-                                            .Join(dsKhauTru, p => p.ktnv.idKhauTru, kt => kt.id, (p, kt) => new { p.nv, p.ktnv, kt })
-                                            .Join(dsLuong, p => p.nv.id, ctl => ctl.idNhanVien, (p, ctl) => new { p.nv, p.kt, p.ktnv, ctl })
-                                            .Join(dsChamCong, p => p.nv.id, cc => cc.idNhanVien, (p, cc) => new { p.kt, p.ktnv, p.nv, p.ctl, cc, })
-                                            .Join(dsHopDong, p => p.nv.id, hd => hd.idNhanVien, (p, hd) => new { p.kt, p.ktnv, p.nv, p.ctl, p.cc, hd })
-                                            .Join(dsKyLuong, p => p.ctl.idKyLuong, kl => kl.id, (p, kl) => new { p.kt, p.ktnv, p.nv, p.ctl, p.cc, p.hd, kl })
-                                            .Where(p => p.kl.ngayKetThuc.Value.Date.Month == DateTime.Now.Date.Month && p.kl.ngayKetThuc.Value.Date.Year == DateTime.Now.Date.Year)
+                                            .Join(dsLuong, nv => nv.id, ctl => ctl.idNhanVien, (nv, ctl) => new { nv, ctl })
+                                            .Join(dsChamCong, p => p.nv.id, cc => cc.idNhanVien, (p, cc) => new { p.nv, p.ctl, cc })
+                                            .Join(dsHopDong, p => p.nv.id, hd => hd.idNhanVien, (p, hd) => new { p.nv, p.ctl, p.cc, hd })
+                                            .Join(dsKyLuong, p => p.ctl.idKyLuong, kl => kl.id, (p, kl) => new { p.nv, p.ctl, p.cc, p.hd, kl })
+                                            .Where(p => p.kl.ngayKetThuc.Value.Date.Month == DateTime.Now.Date.Month && p.kl.ngayKetThuc.Value.Date.Year == DateTime.Now.Date.Year && p.ctl.capNhatLuong)
                                             .GroupBy(p => p.nv.id).Select(p => p.First()).ToList();
 
+                //var dsNhanVien = _dbContextNV.KtraDsNhanVien()
+
+                //                            .Join(dsKTNV, p => p.id, ktnv => ktnv.idNhanVien, (nv, ktnv) => new { nv, ktnv })
+                //                            .Join(dsKhauTru, p => p.ktnv.idKhauTru, kt => kt.id, (p, kt) => new { p.nv, p.ktnv, kt })
+                //                            .Join(dsLuong, p => p.nv.id, ctl => ctl.idNhanVien, (p, ctl) => new { p.nv, p.kt, p.ktnv, ctl })
+                //                            .Join(dsChamCong, p => p.nv.id, cc => cc.idNhanVien, (p, cc) => new { p.kt, p.ktnv, p.nv, p.ctl, cc, })
+                //                            .Join(dsHopDong, p => p.nv.id, hd => hd.idNhanVien, (p, hd) => new { p.kt, p.ktnv, p.nv, p.ctl, p.cc, hd })
+                //                            .Join(dsKyLuong, p => p.ctl.idKyLuong, kl => kl.id, (p, kl) => new { p.kt, p.ktnv, p.nv, p.ctl, p.cc, p.hd, kl })
+                //                            .Where(p => p.kl.ngayKetThuc.Value.Date.Month == DateTime.Now.Date.Month && p.kl.ngayKetThuc.Value.Date.Year == DateTime.Now.Date.Year && p.ctl.capNhatLuong)
+                //                            .GroupBy(p => p.nv.id).Select(p => p.First()).ToList();
+
+
                 int demNV = dsNhanVien.Select(p => p.nv).ToList().Count;
+                if (demNV == 0)
+                {
+                    MessageBox.Show($"Chưa có nhân viên nào được chấm lương !", "Xác nhận", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                    return;
+                }
+
                 if (MessageBox.Show($"Bạn có muốn gửi phiếu lương cho {demNV} nhân viên qua email không ?", "Xác nhận", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.No)
                 {
                     return;
@@ -306,11 +322,7 @@ namespace GUI
             catch (Exception ex)
             {
                 MessageBox.Show("Lỗi: " + ex.Message);
-            }
-            finally
-            {
-
-            }
+            }           
         }
 
         // tinh thue thu nhap ca nhan theo luy tien

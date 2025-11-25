@@ -105,12 +105,23 @@
           <Paragraph>
             <TextRuns>
               <TextRun>
-                <Value>- Căn cứ kết quả đánh giá thi đua, khen thưởng của Công ty năm </Value>
+                <Value>- Căn cứ kết quả đánh giá thi đua, khen thưởng của Công ty </Value>
                 <Style>
                   <FontStyle>Italic</FontStyle>
                   <FontFamily>Times New Roman</FontFamily>
                   <FontSize>11pt</FontSize>
                   <FontWeight>Normal</FontWeight>
+                  <TextDecoration>None</TextDecoration>
+                  <Color>#000000</Color>
+                </Style>
+              </TextRun>
+              <TextRun>
+                <Value>năm </Value>
+                <Style>
+                  <FontStyle>Italic</FontStyle>
+                  <FontFamily>Times New Roman</FontFamily>
+                  <FontSize>11pt</FontSize>
+                  <FontWeight>Bold</FontWeight>
                   <TextDecoration>None</TextDecoration>
                   <Color>#000000</Color>
                 </Style>
@@ -122,7 +133,7 @@
                   <FontStyle>Italic</FontStyle>
                   <FontFamily>Times New Roman</FontFamily>
                   <FontSize>11pt</FontSize>
-                  <FontWeight>Normal</FontWeight>
+                  <FontWeight>Bold</FontWeight>
                   <TextDecoration>None</TextDecoration>
                   <Color>#000000</Color>
                 </Style>
@@ -162,12 +173,23 @@
           <Paragraph>
             <TextRuns>
               <TextRun>
-                <Value>- Căn cứ vào kết quả chấm công, tổng hợp lương và phê duyệt của Ban Giám đốc, Phòng Nhân sự thông báo danh sách nhân viên được chi trả lương tháng </Value>
+                <Value>- Căn cứ vào kết quả chấm công, tổng hợp lương và phê duyệt của Ban Giám đốc, Phòng Nhân sự thông báo danh sách nhân viên được chi trả lương </Value>
                 <Style>
                   <FontStyle>Italic</FontStyle>
                   <FontFamily>Times New Roman</FontFamily>
                   <FontSize>11pt</FontSize>
                   <FontWeight>Normal</FontWeight>
+                  <TextDecoration>None</TextDecoration>
+                  <Color>#000000</Color>
+                </Style>
+              </TextRun>
+              <TextRun>
+                <Value>tháng </Value>
+                <Style>
+                  <FontStyle>Italic</FontStyle>
+                  <FontFamily>Times New Roman</FontFamily>
+                  <FontSize>11pt</FontSize>
+                  <FontWeight>Bold</FontWeight>
                   <TextDecoration>None</TextDecoration>
                   <Color>#000000</Color>
                 </Style>
@@ -179,7 +201,7 @@
                   <FontStyle>Italic</FontStyle>
                   <FontFamily>Times New Roman</FontFamily>
                   <FontSize>11pt</FontSize>
-                  <FontWeight>Normal</FontWeight>
+                  <FontWeight>Bold</FontWeight>
                   <TextDecoration>None</TextDecoration>
                   <Color>#000000</Color>
                 </Style>
@@ -205,18 +227,6 @@
               <TextRun>
                 <Value />
                 <Style>
-                  <FontStyle>Italic</FontStyle>
-                  <FontFamily>times New Roman</FontFamily>
-                </Style>
-              </TextRun>
-            </TextRuns>
-            <Style />
-          </Paragraph>
-          <Paragraph>
-            <TextRuns>
-              <TextRun>
-                <Value>QUYẾT ĐỊNH</Value>
-                <Style>
                   <FontStyle>Normal</FontStyle>
                   <FontFamily>times New Roman</FontFamily>
                   <FontSize>12pt</FontSize>
@@ -224,9 +234,7 @@
                 </Style>
               </TextRun>
             </TextRuns>
-            <Style>
-              <TextAlign>Center</TextAlign>
-            </Style>
+            <Style />
           </Paragraph>
           <Paragraph>
             <TextRuns>
@@ -246,29 +254,11 @@
               <TextAlign>Left</TextAlign>
             </Style>
           </Paragraph>
-          <Paragraph>
-            <TextRuns>
-              <TextRun>
-                <Value />
-                <Style>
-                  <FontStyle>Normal</FontStyle>
-                  <FontFamily>Times New Roman</FontFamily>
-                  <FontSize>12pt</FontSize>
-                  <FontWeight>Normal</FontWeight>
-                  <TextDecoration>None</TextDecoration>
-                  <Color>#000000</Color>
-                </Style>
-              </TextRun>
-            </TextRuns>
-            <Style>
-              <TextAlign>Left</TextAlign>
-            </Style>
-          </Paragraph>
         </Paragraphs>
         <rd:DefaultName>Textbox2</rd:DefaultName>
-        <Top>2.2375in</Top>
-        <Left>0.28334in</Left>
-        <Height>1.59528in</Height>
+        <Top>1.9875in</Top>
+        <Left>0.28333in</Left>
+        <Height>1.52236in</Height>
         <Width>5.8in</Width>
         <ZIndex>1</ZIndex>
         <Style>
@@ -497,7 +487,10 @@
                           <TextRuns>
                             <TextRun>
                               <Value>Nhân viên</Value>
-                              <Style />
+                              <Style>
+                                <FontFamily>times New Roman</FontFamily>
+                                <FontWeight>Bold</FontWeight>
+                              </Style>
                             </TextRun>
                           </TextRuns>
                           <Style>
@@ -529,7 +522,10 @@
                           <TextRuns>
                             <TextRun>
                               <Value>Chức vụ</Value>
-                              <Style />
+                              <Style>
+                                <FontFamily>times New Roman</FontFamily>
+                                <FontWeight>Bold</FontWeight>
+                              </Style>
                             </TextRun>
                           </TextRuns>
                           <Style>
@@ -540,7 +536,10 @@
                           <TextRuns>
                             <TextRun>
                               <Value />
-                              <Style />
+                              <Style>
+                                <FontFamily>times New Roman</FontFamily>
+                                <FontWeight>Bold</FontWeight>
+                              </Style>
                             </TextRun>
                           </TextRuns>
                           <Style>
@@ -572,7 +571,10 @@
                           <TextRuns>
                             <TextRun>
                               <Value>Lương cơ bản</Value>
-                              <Style />
+                              <Style>
+                                <FontFamily>times New Roman</FontFamily>
+                                <FontWeight>Bold</FontWeight>
+                              </Style>
                             </TextRun>
                           </TextRuns>
                           <Style>
@@ -604,7 +606,10 @@
                           <TextRuns>
                             <TextRun>
                               <Value>Lương thực lãnh</Value>
-                              <Style />
+                              <Style>
+                                <FontFamily>times New Roman</FontFamily>
+                                <FontWeight>Bold</FontWeight>
+                              </Style>
                             </TextRun>
                           </TextRuns>
                           <Style>
@@ -636,7 +641,10 @@
                           <TextRuns>
                             <TextRun>
                               <Value>Ngày nhận</Value>
-                              <Style />
+                              <Style>
+                                <FontFamily>times New Roman</FontFamily>
+                                <FontWeight>Bold</FontWeight>
+                              </Style>
                             </TextRun>
                           </TextRuns>
                           <Style>
@@ -673,7 +681,9 @@
                           <TextRuns>
                             <TextRun>
                               <Value>=Fields!TenNhanVien.Value</Value>
-                              <Style />
+                              <Style>
+                                <FontFamily>times New Roman</FontFamily>
+                              </Style>
                             </TextRun>
                           </TextRuns>
                           <Style>
@@ -706,6 +716,7 @@
                             <TextRun>
                               <Value>=Fields!TenChucVu.Value</Value>
                               <Style>
+                                <FontFamily>times New Roman</FontFamily>
                                 <Format>d</Format>
                               </Style>
                             </TextRun>
@@ -740,7 +751,8 @@
                             <TextRun>
                               <Value>=Fields!luongTruocKhauTru.Value</Value>
                               <Style>
-                                <Format>0;(0)</Format>
+                                <FontFamily>times New Roman</FontFamily>
+                                <Format>n0</Format>
                               </Style>
                             </TextRun>
                           </TextRuns>
@@ -774,7 +786,8 @@
                             <TextRun>
                               <Value>=Fields!ThucNhan.Value</Value>
                               <Style>
-                                <Format>0;(0)</Format>
+                                <FontFamily>times New Roman</FontFamily>
+                                <Format>n0</Format>
                               </Style>
                             </TextRun>
                           </TextRuns>
@@ -808,6 +821,7 @@
                             <TextRun>
                               <Value>=Fields!ngayChiTra.Value</Value>
                               <Style>
+                                <FontFamily>times New Roman</FontFamily>
                                 <Format>d</Format>
                               </Style>
                             </TextRun>
@@ -829,6 +843,7 @@
                         <PaddingBottom>2pt</PaddingBottom>
                       </Style>
                     </Textbox>
+                    <rd:Selected>true</rd:Selected>
                   </CellContents>
                 </TablixCell>
               </TablixCells>
@@ -855,10 +870,10 @@
           </TablixMembers>
         </TablixRowHierarchy>
         <DataSetName>DataSet1</DataSetName>
-        <Top>3.90222in</Top>
+        <Top>3.65222in</Top>
         <Left>0.28334in</Left>
         <Height>0.5in</Height>
-        <Width>5.8in</Width>
+        <Width>5.79999in</Width>
         <ZIndex>4</ZIndex>
         <Style>
           <Border>
@@ -1102,7 +1117,7 @@
           </Paragraph>
         </Paragraphs>
         <rd:DefaultName>Textbox27</rd:DefaultName>
-        <Top>4.61333in</Top>
+        <Top>4.23833in</Top>
         <Left>0.28334in</Left>
         <Height>2.35611in</Height>
         <Width>5.8in</Width>
@@ -1159,7 +1174,7 @@
           </Paragraph>
         </Paragraphs>
         <rd:DefaultName>Textbox12</rd:DefaultName>
-        <Top>7.16389in</Top>
+        <Top>6.66389in</Top>
         <Left>3.81111in</Left>
         <Height>0.84168in</Height>
         <Width>2.27222in</Width>
@@ -1175,10 +1190,10 @@
         </Style>
       </Textbox>
     </ReportItems>
-    <Height>8.11944in</Height>
+    <Height>7.50557in</Height>
     <Style />
   </Body>
-  <Width>6.43833in</Width>
+  <Width>6.40708in</Width>
   <Page>
     <PageHeader>
       <Height>0.475in</Height>

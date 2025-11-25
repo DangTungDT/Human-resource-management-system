@@ -296,7 +296,7 @@ namespace GUI
             //DisplayUserControlPanel.ChildUserControl(uc, _panel);
 
             frmBaoCaoHopDong frm = new frmBaoCaoHopDong(_connectionString);
-            frm.ShowDialog(this);
+            frm.Show();
         }
     }
 }

@@ -16,7 +16,6 @@ namespace GUI
         public readonly UCDanhGiaHieuSuat _hieusuat;
         public readonly ucChiTietLuong _luong;
         public readonly UCTuyenDung_TruongPhong _td;
-        public readonly UCBaoCaoHopDong _bc;
 
         public string conn = "Data Source=LAPTOP-PNFFHRG1\\MSSQLSERVER01;Initial Catalog=PersonnelManagement;Integrated Security=True;Encrypt=False";
 
@@ -28,7 +27,6 @@ namespace GUI
             _hieusuat = new UCDanhGiaHieuSuat(idNhanvien, conn);
             _luong = new ucChiTietLuong(idNhanvien, conn);
             _td = new UCTuyenDung_TruongPhong(idNhanvien, conn);
-            _bc = new UCBaoCaoHopDong(conn);
         }
         private void DisplayInterface(UserControl uc)
         {
@@ -40,6 +38,6 @@ namespace GUI
             uc.Show();
         }
 
-        private void TestGiaoDien_Load(object sender, EventArgs e) => DisplayInterface(_bc);
+        private void TestGiaoDien_Load(object sender, EventArgs e) => DisplayInterface(_td);
     }
 }

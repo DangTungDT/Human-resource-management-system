@@ -60,8 +60,8 @@
     <Compile Include="BLLPhuCap.cs" />
     <Compile Include="BLLTaiKhoan.cs" />
     <Compile Include="BLLThuongPhat.cs" />
-    <Compile Include="BLLUngVien.cs" />
     <Compile Include="BLLTuyenDung.cs" />
+    <Compile Include="BLLUngVien.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

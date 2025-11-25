@@ -179,6 +179,27 @@
           <Paragraph>
             <TextRuns>
               <TextRun>
+                <Value />
+                <Style>
+                  <FontStyle>Italic</FontStyle>
+                  <FontFamily>Times New Roman</FontFamily>
+                  <FontSize>12pt</FontSize>
+                  <FontWeight>Normal</FontWeight>
+                  <Format>d</Format>
+                  <TextDecoration>None</TextDecoration>
+                  <Color>#000000</Color>
+                </Style>
+              </TextRun>
+            </TextRuns>
+            <LeftIndent>0.5in</LeftIndent>
+            <HangingIndent>-18pt</HangingIndent>
+            <Style>
+              <TextAlign>Left</TextAlign>
+            </Style>
+          </Paragraph>
+          <Paragraph>
+            <TextRuns>
+              <TextRun>
                 <Label>Now</Label>
                 <Value>="Hôm nay, ngày " &amp; Format(Today(), "dd") &amp; " tháng " &amp; Format(Today(), "MM") &amp; " năm " &amp; Format(Today(), "yyyy") &amp; ", tại Công ty TNHH 3 thành viên, chúng tôi gồm:"</Value>
                 <Style>
@@ -585,7 +606,19 @@ Email	:</Value>
           <Paragraph>
             <TextRuns>
               <TextRun>
-                <Value>- Công việc phải làm: </Value>
+                <Value>- Công việc: </Value>
+                <Style>
+                  <FontStyle>Normal</FontStyle>
+                  <FontFamily>Times New Roman</FontFamily>
+                  <FontSize>12pt</FontSize>
+                  <FontWeight>Normal</FontWeight>
+                  <TextDecoration>None</TextDecoration>
+                  <Color>#000000</Color>
+                </Style>
+              </TextRun>
+              <TextRun>
+                <Label>yourJob</Label>
+                <Value>=First(Fields!TenChucVu.Value, "DataSet1")</Value>
                 <Style>
                   <FontStyle>Normal</FontStyle>
                   <FontFamily>Times New Roman</FontFamily>
@@ -633,7 +666,7 @@ Email	:</Value>
                 </Style>
               </TextRun>
               <TextRun>
-                <Label>typeHD</Label>
+                <Label>typeContract</Label>
                 <Value>=First(Fields!LoaiHopDong.Value, "DataSet1")</Value>
                 <Style>
                   <FontStyle>Normal</FontStyle>
@@ -1667,7 +1700,7 @@ Email	:</Value>
           </Paragraph>
         </Paragraphs>
         <rd:DefaultName>Textbox12</rd:DefaultName>
-        <Top>20.94832in</Top>
+        <Top>20.80665in</Top>
         <Left>0.38264in</Left>
         <Height>1.275in</Height>
         <Width>3.34167in</Width>
@@ -1724,7 +1757,7 @@ Email	:</Value>
           </Paragraph>
         </Paragraphs>
         <rd:DefaultName>Textbox12</rd:DefaultName>
-        <Top>20.94832in</Top>
+        <Top>20.80665in</Top>
         <Left>3.79375in</Left>
         <Height>1.27501in</Height>
         <Width>2.27222in</Width>
@@ -1740,7 +1773,7 @@ Email	:</Value>
         </Style>
       </Textbox>
     </ReportItems>
-    <Height>22.22333in</Height>
+    <Height>22.08166in</Height>
     <Style>
       <Border>
         <Style>None</Style>

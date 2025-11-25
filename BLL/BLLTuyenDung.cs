@@ -236,11 +236,10 @@ namespace BLL
                 throw new Exception("Lỗi tìm id: " + ex.Message);
             }
         }
-
         public DataTable GetBaoCaoTuyenDungTheoQuy(string quy, int nam, string idPhongBan, string viTri)
         {
             return _dbContext.BaoCaoTuyenDungTheoQuy(quy, nam, idPhongBan, viTri);
-            
+
         }
     }
 }

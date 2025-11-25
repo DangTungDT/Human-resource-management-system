@@ -80,7 +80,7 @@ namespace DAL
                     tuyenDung.soLuong = DTO.SoLuong;
                     tuyenDung.ghiChu = DTO.GhiChu;
 
-                    _dbContext.SubmitChanges();
+                    _dbContext.SubmitChanges(); 
 
                     return true;
                 }
@@ -175,7 +175,5 @@ namespace DAL
                 return dt;
             }
         }
-
-
     }
 }

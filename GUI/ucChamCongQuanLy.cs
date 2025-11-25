@@ -1,4 +1,4 @@
-using BLL;
+﻿using BLL;
 using DAL;
 using DTO;
 using Guna.UI2.WinForms;
@@ -127,13 +127,8 @@ namespace GUI
             }
 
             //Lấy đường dẫn folder chứa hình ảnh nhân viên
-            string imageFolder = Path.Combine(AppContext.BaseDirectory, "image");
+            string imageFolder = Path.Combine(Application.StartupPath, @"..\..\..\Image");
             imageFolder = Path.GetFullPath(imageFolder);
-            if (imageFolder.Contains("bin"))
-            {
-                //Directory.GetParent(AppContext.BaseDirectory).Parent.Parent.Parent.FullName;
-                imageFolder = Path.Combine(Directory.GetParent(AppContext.BaseDirectory).Parent.Parent.FullName, "image");
-            }
             if (!Directory.Exists(imageFolder))
             {
                 MessageBox.Show("Không tìm thấy thư mục Image!");

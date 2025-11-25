@@ -1,4 +1,4 @@
-﻿using BLL;
+using BLL;
 using DTO;
 using Guna.UI2.WinForms;
 using System;
@@ -222,7 +222,12 @@ namespace GUI
             if (string.IsNullOrEmpty(imagePath))
                 return null;
 
-            string folderPath = Path.Combine(Application.StartupPath, "Image");
+            string folderPath = Path.Combine(Application.StartupPath, "image");
+            if (folderPath.Contains("bin"))
+            {
+                //Directory.GetParent(AppContext.BaseDirectory).Parent.Parent.Parent.FullName;
+                folderPath = Path.Combine(Directory.GetParent(AppContext.BaseDirectory).Parent.Parent.FullName, "image");
+            }
 
             // ✅ Tạo thư mục nếu chưa có
             if (!Directory.Exists(folderPath))
@@ -234,12 +239,7 @@ namespace GUI
             string destPath = Path.Combine(folderPath, newFileName);
             _imageName = newFileName;
 
-            string folder = Directory.GetParent(Application.StartupPath).Parent.Parent.FullName;
-            folderPath = Path.Combine(folder, "Image");
             destPath = Path.Combine(folderPath, newFileName);
-            // ✅ Nếu đã có ảnh cũ thì xóa trước khi copy ảnh mới
-            if (File.Exists(destPath))
-                File.Delete(destPath);
 
             // ✅ Sao chép ảnh vào thư mục phần mềm
             File.Copy(imagePath, destPath, true);
@@ -367,8 +367,13 @@ namespace GUI
             }
             if (!string.IsNullOrEmpty(nv.AnhDaiDien))
             {
-                string urlFolderImage = $"\\Image\\{nv.AnhDaiDien}";
+                string urlFolderImage = Path.Combine(AppContext.BaseDirectory, "image", nv.AnhDaiDien);
                 string fullPath = Path.Combine(Application.StartupPath, urlFolderImage);
+                if (fullPath.Contains("bin"))
+                {
+                    //Directory.GetParent(AppContext.BaseDirectory).Parent.Parent.Parent.FullName;
+                    fullPath = Path.Combine(Directory.GetParent(AppContext.BaseDirectory).Parent.Parent.FullName, "image", nv.AnhDaiDien);
+                }
                 if (File.Exists(fullPath))
                 {
                     using (var stream = new FileStream(fullPath, FileMode.Open, FileAccess.Read))

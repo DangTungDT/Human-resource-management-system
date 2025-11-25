@@ -1,10 +1,13 @@
-﻿using Guna.UI2.WinForms;
+using BLL;
+using DTO;
+using Guna.UI2.WinForms;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Data.SqlClient;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -12,217 +15,260 @@ using System.Windows.Forms;
 
 namespace GUI
 {
-    public partial class BaoCaoKhenThuong : UserControl
+    public partial class XemThongTinCaNhan : UserControl
     {
-        private Guna2ComboBox cbPhongBan;
-        private Guna2DateTimePicker dtFrom, dtTo;
-        private Guna2Button btnSearch, btnExcel, btnPDF, btnXuatReport;
-        private Guna2DataGridView dgv;
+        private string connectionString;
+        private string idNhanVien;
+
+        // ======= Các control giao diện =======
+        private Label lblName, lblDob, lblGender, lblAddress, lblQue, lblEmail, lblChucVu, lblPhongBan;
+        private Guna2CirclePictureBox picAvatar;
+        private Guna2Button btnUpdate;
         private Panel _panel;
+        private BLLNhanVien bllNhanVien;
 
-        private readonly string _idNhanVien, _connectionString;
-
-        public BaoCaoKhenThuong(string conn, string idNhanVien, Panel panel)
+        public XemThongTinCaNhan(string idNV, Panel panel, string conn)
         {
-            _connectionString = conn;
-            _idNhanVien = idNhanVien;
-            _panel = panel;
-
+            connectionString = conn;
+            idNhanVien = idNV;
+            bllNhanVien = new BLLNhanVien(conn);
             InitializeComponent();
             BuildUI();
-            LoadPhongBan();
+            _panel = panel;
+            // 🔹 Gọi lại load mỗi khi control được hiển thị
+            this.Load += (s, e) => LoadThongTinNhanVien();
 
         }
 
         private void BuildUI()
         {
             this.Dock = DockStyle.Fill;
-            this.BackColor = Color.FromArgb(245, 246, 248);
+            this.BackColor = Color.FromArgb(245, 246, 248); // nền xám nhẹ
 
+            // ===== TIÊU ĐỀ =====
             Label lblTitle = new Label()
             {
-                Text = "BÁO CÁO KHEN THƯỞNG",
-                Font = new Font("Segoe UI", 14, FontStyle.Bold),
-                ForeColor = Color.DarkBlue,
+                Text = "THÔNG TIN CÁ NHÂN",
+                Font = new Font("Segoe UI", 15, FontStyle.Bold),
+                ForeColor = Color.FromArgb(40, 60, 120),
                 Dock = DockStyle.Top,
                 Height = 50,
                 TextAlign = ContentAlignment.MiddleCenter
             };
 
-            cbPhongBan = new Guna2ComboBox() { Width = 200, DropDownStyle = ComboBoxStyle.DropDownList };
-            dtFrom = new Guna2DateTimePicker()
+            // ===== AVATAR =====
+            picAvatar = new Guna2CirclePictureBox()
             {
-                Width = 150,
-                Format = DateTimePickerFormat.Custom,
-                CustomFormat = "dd/MM/yyyy",
-                ShowCheckBox = true,
-                Checked = false
-            };
-            dtTo = new Guna2DateTimePicker()
-            {
-                Width = 150,
-                Format = DateTimePickerFormat.Custom,
-                CustomFormat = "dd/MM/yyyy",
-                ShowCheckBox = true,
-                Checked = false
+                Size = new Size(200, 150),
+                Image = Properties.Resources.user, // ảnh mặc định
+                SizeMode = PictureBoxSizeMode.Zoom, //ảnh sẽ phóng/thu đều, không méo.
+                //BorderThickness = 3,
+                //BorderColor = Color.SteelBlue,
+                Anchor = AnchorStyles.Top,
+                Margin = new Padding(0)
             };
 
-            btnSearch = new Guna2Button()
+            // ===== PANEL BÊN TRÁI (AVATAR) =====
+            Panel panelLeft = new Panel()   //vùng bên trái của giao diện, chứa avatar.
             {
-                Text = "🔍 Tìm kiếm",
-                Width = 120,
-                BorderRadius = 6,
-                FillColor = Color.SteelBlue,
-                ForeColor = Color.White
+                Dock = DockStyle.Left,  //nằm ở bên trái toàn bộ form.
+                Width = 350,
+                BackColor = Color.White,
+                Padding = new Padding(10)
             };
-            btnSearch.Click += BtnSearch_Click;
+            panelLeft.Controls.Add(picAvatar);
+            picAvatar.Location = new Point((panelLeft.Width - picAvatar.Width) / 2, 40); // căn giữa theo chiều ngang
 
-            btnExcel = new Guna2Button()
+            // ===== BẢNG THÔNG TIN =====
+            TableLayoutPanel tblInfo = new TableLayoutPanel()
             {
-                Text = "📄 Xuất Excel",
-                Width = 120,
-                BorderRadius = 6,
-                FillColor = Color.SeaGreen,
-                ForeColor = Color.White
-            };
-
-            btnPDF = new Guna2Button()
-            {
-                Text = "🖨️ Xuất PDF",
-                Width = 120,
-                BorderRadius = 6,
-                FillColor = Color.IndianRed,
-                ForeColor = Color.White
-            };
-
-            btnXuatReport = new Guna2Button()
-            {
-                Text = "📃 Xem báo cáo",
-                Width = 140,
-                BorderRadius = 6,
-                FillColor = Color.Orange,
-                ForeColor = Color.White
-            };
-            btnXuatReport.Click += BtnXuatReport_Click;
-
-            FlowLayoutPanel filterPanel = new FlowLayoutPanel()
-            {
-                Dock = DockStyle.Top,
-                Padding = new Padding(10),
+                Dock = DockStyle.Fill,
+                ColumnCount = 2,    //2 cột → 1 cho nhãn, 1 cho giá trị.
+                RowCount = 9,
+                Padding = new Padding(40, 30, 40, 30),
+                BackColor = Color.White,
                 AutoSize = true
             };
-            filterPanel.Controls.AddRange(new Control[] { cbPhongBan, dtFrom, dtTo, btnSearch, btnExcel, btnPDF, btnXuatReport });
 
-            dgv = new Guna2DataGridView()
+            //Cột 1 chiếm 15%, cột 2 chiếm 65% (phần còn lại là padding).
+            tblInfo.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 40));
+            tblInfo.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 60));
+
+            // label tiêu đề (cột trái) có biểu tượng emoji + text.
+            Label MakeLabel(string text, string emoji) => new Label()
+            {
+                Text = $"{emoji}  {text}",
+                Font = new Font("Segoe UI", 11, FontStyle.Bold),
+                ForeColor = Color.FromArgb(40, 60, 120),
+                Dock = DockStyle.Fill,
+                TextAlign = ContentAlignment.MiddleLeft,
+                Padding = new Padding(0),
+                Margin = new Padding(30, 15, 15, 15)
+            };
+
+            //Label hiển thị giá trị (cột phải), ví dụ: “Nguyễn Văn A”, “01/01/1990”,
+            Label MakeValueLabel() => new Label()
+            {
+                Font = new Font("Segoe UI", 11, FontStyle.Regular),
+                ForeColor = Color.Black,
+                Dock = DockStyle.Fill,
+                TextAlign = ContentAlignment.MiddleLeft,
+                Padding = new Padding(0),
+                Margin = new Padding(15)
+            };
+
+            //khới tạo để gán giá trị
+            lblName = MakeValueLabel();
+            lblDob = MakeValueLabel();
+            lblGender = MakeValueLabel();
+            lblAddress = MakeValueLabel();
+            lblQue = MakeValueLabel();
+            lblEmail = MakeValueLabel();
+            lblChucVu = MakeValueLabel();
+            lblPhongBan = MakeValueLabel();
+
+            tblInfo.Controls.Add(MakeLabel("Họ và tên:", "👤"), 0, 0);
+            tblInfo.Controls.Add(lblName, 1, 0);
+
+            tblInfo.Controls.Add(MakeLabel("Ngày sinh:", "📅"), 0, 1);
+            tblInfo.Controls.Add(lblDob, 1, 1);
+
+            tblInfo.Controls.Add(MakeLabel("Giới tính:", "⚧"), 0, 2);
+            tblInfo.Controls.Add(lblGender, 1, 2);
+
+            tblInfo.Controls.Add(MakeLabel("Địa chỉ:", "🏠"), 0, 3);
+            tblInfo.Controls.Add(lblAddress, 1, 3);
+
+            tblInfo.Controls.Add(MakeLabel("Quê quán:", "🌾"), 0, 4);
+            tblInfo.Controls.Add(lblQue, 1, 4);
+
+            tblInfo.Controls.Add(MakeLabel("Email:", "✉️"), 0, 5);
+            tblInfo.Controls.Add(lblEmail, 1, 5);
+
+            tblInfo.Controls.Add(MakeLabel("Chức vụ:", "💼"), 0, 6);
+            tblInfo.Controls.Add(lblChucVu, 1, 6);
+
+            tblInfo.Controls.Add(MakeLabel("Phòng ban:", "🏢"), 0, 7);
+            tblInfo.Controls.Add(lblPhongBan, 1, 7);
+
+            // ===== NÚT CẬP NHẬT =====
+            btnUpdate = new Guna2Button()
+            {
+                Text = "✏️ Cập nhật thông tin",
+                BorderRadius = 8,
+                FillColor = Color.SteelBlue,
+                Font = new Font("Segoe UI", 11, FontStyle.Bold),
+                ForeColor = Color.White,
+                Width = 220,
+                Height = 45,
+                Anchor = AnchorStyles.None,
+                Cursor = Cursors.Hand,
+                Margin = new Padding(0, 15, 0, 15)
+            };
+
+            // Hiệu ứng hover
+            btnUpdate.HoverState.FillColor = Color.MediumSeaGreen;
+            btnUpdate.HoverState.ForeColor = Color.White;
+            btnUpdate.Click += BtnUpdate_Click;
+
+            Panel panelButton = new Panel()
+            {
+                Dock = DockStyle.Top,
+                Height = 80,
+                BackColor = Color.FromArgb(245, 246, 248)
+            };
+            panelButton.Controls.Add(btnUpdate);
+            btnUpdate.Location = new Point((panelButton.Width - btnUpdate.Width) / 2, 20);  //căn nút cập nhật ra giữa form.
+            panelButton.Resize += (s, e) =>
+            {
+                btnUpdate.Location = new Point((panelButton.Width - btnUpdate.Width) / 2, 20);  // dù thay đổi kích thước nút luôn giữa
+            };
+
+            // ===== LAYOUT TỔNG =====
+            TableLayoutPanel mainLayout = new TableLayoutPanel()
             {
                 Dock = DockStyle.Fill,
-                AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill,
-                RowTemplate = { Height = 35 },
-                SelectionMode = DataGridViewSelectionMode.FullRowSelect,
-                ReadOnly = true,
-                AllowUserToAddRows = false
+                ColumnCount = 2,
+                RowCount = 2
             };
+            mainLayout.RowStyles.Add(new RowStyle(SizeType.Percent, 80));
+            mainLayout.RowStyles.Add(new RowStyle(SizeType.Absolute, 100));
+            mainLayout.Controls.Add(panelLeft, 0, 0);
+            mainLayout.Controls.Add(tblInfo, 1, 0);
+            mainLayout.Controls.Add(panelButton, 0, 1);
+            mainLayout.SetColumnSpan(panelButton, 2);
 
-            dgv.CellDoubleClick += (s, e) =>
-            {
-                if (e.RowIndex >= 0)
-                    BtnXuatReport_Click(s, e);
-            };
-
-            TableLayoutPanel layout = new TableLayoutPanel()
-            {
-                Dock = DockStyle.Fill,
-                RowCount = 2,
-                ColumnCount = 1
-            };
-            layout.RowStyles.Add(new RowStyle(SizeType.AutoSize));
-            layout.RowStyles.Add(new RowStyle(SizeType.Percent, 100));
-            layout.Controls.Add(filterPanel, 0, 0);
-            layout.Controls.Add(dgv, 0, 1);
-
-            this.Controls.Add(layout);
+            // ===== THÊM VÀO CONTROL CHÍNH =====
+            this.Controls.Add(mainLayout);
             this.Controls.Add(lblTitle);
         }
 
-        private void LoadPhongBan()
+        // ===============================
+        // 🔹 Nút “Cập nhật thông tin”
+        // ===============================
+        private void BtnUpdate_Click(object sender, EventArgs e)
         {
-            using (SqlConnection conn = new SqlConnection(_connectionString))
-            {
-                SqlDataAdapter da = new SqlDataAdapter("SELECT id, TenPhongBan FROM PhongBan", conn);
-                DataTable dt = new DataTable();
-                da.Fill(dt);
-                cbPhongBan.DataSource = dt;
-                cbPhongBan.DisplayMember = "TenPhongBan";
-                cbPhongBan.ValueMember = "id";
-                cbPhongBan.SelectedIndex = -1;
-            }
+            CapNhatThongTinRieng capNhatPage = new CapNhatThongTinRieng(idNhanVien, _panel, connectionString);
+            DisplayUserControlPanel.ChildUserControl(capNhatPage, _panel);
         }
 
-        private void LoadKhenThuong()
+        // ===============================
+        // 🔹 Load dữ liệu nhân viên
+        // ===============================
+        private void LoadThongTinNhanVien()
         {
-            using (SqlConnection conn = new SqlConnection(_connectionString))
+            DTONhanVien nv = bllNhanVien.LayThongTin(idNhanVien);
+            if (nv != null)
             {
-                conn.Open();
-                StringBuilder query = new StringBuilder(@"
-                    SELECT 
-                        tp.id AS [Mã KT],
-                        nv.TenNhanVien AS [Tên nhân viên],
-                        pb.TenPhongBan AS [Phòng ban],
-                        tp.lyDo AS [Lý do],
-                        tp.tienThuongPhat AS [Tiền thưởng],
-                        nv_tp.thangApDung AS [Tháng áp dụng],
-                        tp.idNguoiTao AS [Người tạo]
-                    FROM ThuongPhat tp
-                    JOIN NhanVien_ThuongPhat nv_tp ON tp.id = nv_tp.idThuongPhat
-                    JOIN NhanVien nv ON nv_tp.idNhanVien = nv.id
-                    JOIN PhongBan pb ON nv.idPhongBan = pb.id
-                    WHERE tp.loai LIKE N'Thưởng'
-                ");
+                lblName.Text = nv.TenNhanVien;
+                lblDob.Text = nv.NgaySinh.ToString("dd/MM/yyyy");
+                lblGender.Text = nv.GioiTinh;
+                lblAddress.Text = nv.DiaChi;
+                lblQue.Text = nv.Que;
+                lblEmail.Text = nv.Email;
+                lblChucVu.Text = nv.TenChucVu;
+                lblPhongBan.Text = nv.TenPhongBan;
 
-                SqlCommand cmd = new SqlCommand();
-                cmd.Connection = conn;
-
-                if (cbPhongBan.SelectedValue != null && cbPhongBan.SelectedIndex >= 0)
+                // 🖼️ Hiển thị ảnh đại diện (nếu có)
+                if (!string.IsNullOrEmpty(nv.AnhDaiDien))
                 {
-                    query.Append(" AND nv.idPhongBan = @pb");
-                    cmd.Parameters.AddWithValue("@pb", cbPhongBan.SelectedValue);
+                    string fullPath = Path.Combine(AppContext.BaseDirectory, "image", nv.AnhDaiDien);
+                    if (fullPath.Contains("bin"))
+                    {
+                        //Directory.GetParent(AppContext.BaseDirectory).Parent.Parent.Parent.FullName;
+                        fullPath = Path.Combine(Directory.GetParent(AppContext.BaseDirectory).Parent.Parent.FullName, "image", nv.AnhDaiDien);
+                    }
+                    if (File.Exists(fullPath))
+                    {
+                        using (var stream = new FileStream(fullPath, FileMode.Open, FileAccess.Read))
+                        {
+                            picAvatar.Image = Image.FromStream(stream);
+                        }
+                    }
+                    else
+                    {
+                        picAvatar.Image = Properties.Resources.user; // ảnh mặc định
+                    }
                 }
-
-                if (dtFrom.Checked || dtTo.Checked)
+                else
                 {
-                    query.Append(" AND ISNULL(CONVERT(date, nv_tp.thangApDung, 103), GETDATE()) BETWEEN @from AND @to");
-                    cmd.Parameters.AddWithValue("@from", dtFrom.Checked ? dtFrom.Value.Date : new DateTime(1900, 1, 1));
-                    cmd.Parameters.AddWithValue("@to", dtTo.Checked ? dtTo.Value.Date : DateTime.MaxValue);
+                    picAvatar.Image = Properties.Resources.user;
                 }
-
-                cmd.CommandText = query.ToString();
-                SqlDataAdapter da = new SqlDataAdapter(cmd);
-                DataTable dt = new DataTable();
-                da.Fill(dt);
-                dgv.DataSource = dt;
-
-                if (dt.Rows.Count == 0)
-                    MessageBox.Show("Không có dữ liệu khen thưởng phù hợp!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
-        }
-
-        private void BtnSearch_Click(object sender, EventArgs e)
-        {
-            LoadKhenThuong();
-        }
-
-        private void BtnXuatReport_Click(object sender, EventArgs e)
-        {
-            if (dgv.SelectedRows.Count == 0)
+            else
             {
-                MessageBox.Show("Vui lòng chọn bản ghi để xuất báo cáo!", "Thông báo");
-                return;
+                MessageBox.Show("Không tìm thấy thông tin nhân viên!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
+        }
 
-            string maKT = dgv.SelectedRows[0].Cells[0].Value.ToString();
-
-            frmKhenThuongNhanVien frm = new frmKhenThuongNhanVien(_connectionString);
-            frm.ShowDialog();
+        // 🟢 Ghi đè sự kiện OnVisibleChanged
+        protected override void OnVisibleChanged(EventArgs e)
+        {
+            base.OnVisibleChanged(e);
+            if (this.Visible)
+            {
+                LoadThongTinNhanVien(); // tự động load lại khi hiển thị
+            }
         }
     }
 }

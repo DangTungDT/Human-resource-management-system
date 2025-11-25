@@ -22,10 +22,21 @@ namespace BLL
             _tkBus = new BLLTaiKhoan(conn);
         }
 
+        public IQueryable<NhanVien> LayNhanVienChamCongVe(string idStaff, int idDepartment)
+        {
+            return _dal.LayNhanVienChamCongVe(idStaff, idDepartment);
+        }
+
+        public IQueryable<NhanVien> LayNhanVienQuanLy(string idStaff, int idDepartment)
+        {
+            return _dal.LayNhanVienQuanLy(idStaff, idDepartment);
+        }
+
+
         public List<ImageStaff> GetStaffByRole(string idStaff, int idDepartment)
         {
             //Phòng ban không tồn tại
-            if(idDepartment <1)
+            if (idDepartment < 1)
             {
                 return null;
             }
@@ -40,9 +51,9 @@ namespace BLL
 
         public DTONhanVien GetStaffById(string idStaff)
         {
-            if(idStaff != null)
+            if (idStaff != null)
             {
-                if(!string.IsNullOrEmpty(idStaff))
+                if (!string.IsNullOrEmpty(idStaff))
                 {
                     return _dal.GetStaffById(idStaff);
                 }
@@ -87,6 +98,12 @@ namespace BLL
             _dal.UpdateNhanVien(nv);
         }
 
+        public string CreateIdStaff(string tenChucVu, string tenPhongBan)
+        {
+            if(tenChucVu != null && tenPhongBan != null) return _dal.SinhMaNhanVien(tenChucVu, tenPhongBan);
+            return "";
+        }
+
         public bool AddNhanVien(DTONhanVien nv, string tenChucVu, string TenPhongBan)
         {
             nv.ID = _dal.SinhMaNhanVien(tenChucVu, TenPhongBan);
@@ -115,12 +132,12 @@ namespace BLL
         {
             try
             {
-                if (id == null)
+                if (id != null)
                 {
-                    throw new Exception("Không có dữ liệu nào trong d/s nhân viên qua id được truyền !");
+                    return _dal.LayNhanVienQuaID(id);
                 }
 
-                return _dal.LayNhanVienQuaID(id);
+                return null;
             }
             catch (Exception)
             {
@@ -133,13 +150,12 @@ namespace BLL
         public List<NhanVien> KtraDsNhanVien()
         {
             try
-            {
+            {   
                 if (_dal.LayDsNhanVien().Any())
                 {
                     return _dal.LayDsNhanVien();
                 }
-                else throw new Exception("Không có dữ liệu nào trong d/s nhân viên !");
-
+                else return null;
             }
             catch (Exception ex)
             {
@@ -149,7 +165,7 @@ namespace BLL
 
         public List<ImageStaff> GetStaffByNameEmailCheckin(string name, string email, bool checkin, int idDepartment, string idStaff)
         {
-            if(name == null || email == null)
+            if (name == null || email == null)
             {
                 return null;
             }

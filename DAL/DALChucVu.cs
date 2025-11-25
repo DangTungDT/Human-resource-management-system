@@ -21,9 +21,17 @@ namespace DAL
             _dbContext = new PersonnelManagementDataContextDataContext(conn);
         }
 
-        public string FindNameById(int id)
+        public DTOChucVu FindNameById(int id)
         {
-            return _dbContext.ChucVus.Where(x => x.id == id).FirstOrDefault().TenChucVu;
+            return _dbContext.ChucVus.Where(x => x.id == id).Select(x=> new DTOChucVu()
+            {
+                Id = id,
+                TenChucVu = x.TenChucVu,
+                LuongCoBan = x.luongCoBan,
+                TyLeHoaHong = decimal.Parse(x.tyLeHoaHong.ToString()),
+                MoTa = x.moTa,
+                IdPhongBan = x.idPhongBan
+            }).FirstOrDefault();
         }
         public IQueryable GetPositionByDepartment(int departmentId) => _dbContext.ChucVus.Where(x => x.idPhongBan == departmentId);
 

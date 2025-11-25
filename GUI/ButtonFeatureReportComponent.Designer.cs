@@ -81,7 +81,7 @@
             this.btnChiTietLuong.Name = "btnChiTietLuong";
             this.btnChiTietLuong.Size = new System.Drawing.Size(180, 64);
             this.btnChiTietLuong.TabIndex = 3;
-            this.btnChiTietLuong.Text = "Chấm công";
+            this.btnChiTietLuong.Text = "Chấm công cá nhân";
             this.btnChiTietLuong.TextFormatNoPrefix = true;
             this.btnChiTietLuong.Click += new System.EventHandler(this.btnChiTietLuong_Click);
             // 

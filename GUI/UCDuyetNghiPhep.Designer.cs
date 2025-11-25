@@ -131,6 +131,7 @@
             // 
             // rtGhiChu
             // 
+            this.rtGhiChu.Enabled = false;
             this.rtGhiChu.Font = new System.Drawing.Font("Times New Roman", 10.5F, System.Drawing.FontStyle.Bold);
             this.rtGhiChu.Location = new System.Drawing.Point(563, 298);
             this.rtGhiChu.Name = "rtGhiChu";

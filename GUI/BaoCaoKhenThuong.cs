@@ -18,18 +18,20 @@ namespace GUI
         private Guna2DateTimePicker dtFrom, dtTo;
         private Guna2Button btnSearch, btnExcel, btnPDF, btnXuatReport;
         private Guna2DataGridView dgv;
+        private Panel _panel;
 
         private readonly string _idNhanVien, _connectionString;
 
-        public BaoCaoKhenThuong(string conn, string idNhanVien)
+        public BaoCaoKhenThuong(string conn, string idNhanVien, Panel panel)
         {
             _connectionString = conn;
             _idNhanVien = idNhanVien;
+            _panel = panel;
+
             InitializeComponent();
             BuildUI();
             LoadPhongBan();
 
-            LoadKhenThuong();
         }
 
         private void BuildUI()
@@ -218,7 +220,8 @@ namespace GUI
             }
 
             string maKT = dgv.SelectedRows[0].Cells[0].Value.ToString();
-            FrmReportKhenThuong frm = new FrmReportKhenThuong(maKT);
+
+            frmKhenThuongNhanVien frm = new frmKhenThuongNhanVien(_connectionString);
             frm.ShowDialog();
         }
     }

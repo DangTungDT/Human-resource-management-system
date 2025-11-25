@@ -262,7 +262,7 @@
             this.btnFindUngVienPass.Size = new System.Drawing.Size(231, 30);
             this.btnFindUngVienPass.TabIndex = 32;
             this.btnFindUngVienPass.TabStop = false;
-            this.btnFindUngVienPass.Text = "Xem trúng tuyển";
+            this.btnFindUngVienPass.Text = "Xem thử việc";
             this.btnFindUngVienPass.Click += new System.EventHandler(this.btnFindUngVienPass_Click);
             // 
             // btnFindUVLoai
@@ -814,7 +814,6 @@
             "Đang xét duyệt",
             "Phỏng vấn",
             "Thử việc",
-            "Trúng tuyển",
             "Loại"});
             this.cbStatus.Location = new System.Drawing.Point(775, 375);
             this.cbStatus.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
@@ -838,6 +837,7 @@
             this.cbTuyenDung.Name = "cbTuyenDung";
             this.cbTuyenDung.Size = new System.Drawing.Size(325, 36);
             this.cbTuyenDung.TabIndex = 4;
+            this.cbTuyenDung.SelectedIndexChanged += new System.EventHandler(this.cbTuyenDung_SelectedIndexChanged);
             // 
             // cbChucVuUngTuyen
             // 

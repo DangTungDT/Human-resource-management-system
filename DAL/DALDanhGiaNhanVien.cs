@@ -22,6 +22,25 @@ namespace DAL
             _dbContext = new PersonnelManagementDataContextDataContext(stringConnection);
         }
 
+
+        public bool KiemTraTonTaiDanhGiaThang(string idNhanVien, int thang, int nam)
+        {
+            string sql = @"
+                        SELECT COUNT(*) FROM DanhGiaNhanVien 
+                        WHERE idNhanVien = @idNV 
+                          AND MONTH(ngayTao) = @thang 
+                          AND YEAR(ngayTao) = @nam";
+
+            using (SqlConnection conn = new SqlConnection(connectionString))
+            using (SqlCommand cmd = new SqlCommand(sql, conn))
+            {
+                cmd.Parameters.AddWithValue("@idNV", idNhanVien);
+                cmd.Parameters.AddWithValue("@thang", thang);
+                cmd.Parameters.AddWithValue("@nam", nam);
+                conn.Open();
+                return (int)cmd.ExecuteScalar() > 0;
+            }
+        }
         public IQueryable<DTODanhGiaNhanVien> DanhSachDanhGiaNV() => _dbContext.DanhGiaNhanViens.Select(p => new DTODanhGiaNhanVien
         {
             ID = p.id,
@@ -33,74 +52,146 @@ namespace DAL
         });
 
         // === Lấy danh sách đánh giá ===
-        public DataTable GetAll()
+        // Lấy tất cả đánh giá kèm thông tin nhân viên. Nếu thang>0 thì tính DiemChuyenCan theo tháng đó.
+        public DataTable GetAll(int thang = 0, int nam = 0, int? pb =0)
         {
-            using (SqlConnection conn = new SqlConnection(connectionString))
+            // Subquery tính số lần missing (không chấm công và không có phép đã duyệt) trong tháng
+            string sql = @"
+                SELECT dg.id AS ID,
+                       dg.idNhanVien AS IDNhanVien,
+                       nv.TenNhanVien AS TenNhanVien,
+                       -- DiemChuyenCan sẽ lấy từ bảng (nếu null thì 5) OR tính động
+                       ISNULL(dg.DiemChuyenCan, 5) AS DiemChuyenCanStored,
+                       ISNULL(dg.DiemNangLuc, 5) AS DiemNangLucStored,
+                       dg.DiemSo,
+                       dg.NhanXet,
+                       dg.ngayTao AS NgayTao,
+                       dg.idNguoiDanhGia AS IDNguoiDanhGia,
+                       ISNULL(m.Misses, 0) AS Misses
+                FROM DanhGiaNhanVien dg
+                LEFT JOIN NhanVien nv ON nv.id = dg.idNhanVien
+                LEFT JOIN (
+                    SELECT cc.idNhanVien, COUNT(*) AS Misses
+                    FROM ChamCong cc
+                    WHERE MONTH(cc.NgayChamCong) = @Thang
+                      AND YEAR(cc.NgayChamCong) = @Nam
+                      AND cc.GioVao IS NULL
+                      AND cc.GioRa IS NULL
+                      AND NOT EXISTS (
+                            SELECT 1 FROM NghiPhep np
+                            WHERE np.idNhanVien = cc.idNhanVien
+                              AND np.TrangThai = N'Đã duyệt'
+                              AND cc.NgayChamCong BETWEEN np.NgayBatDau AND np.NgayKetThuc
+                      )
+                    GROUP BY cc.idNhanVien
+                ) m ON m.idNhanVien = dg.idNhanVien
+                ORDER BY nv.TenNhanVien;
+            ";
+
+            using (var cn = new SqlConnection(connectionString))
+            using (var cmd = new SqlCommand(sql, cn))
+            using (var da = new SqlDataAdapter(cmd))
             {
-                string query = @"
-                    SELECT dg.id AS [Mã đánh giá],
-                           nv.TenNhanVien AS [Nhân viên],
-                           dg.ngayTao AS [Ngày đánh giá],
-                           dg.DiemSo AS [Điểm số],
-                           dg.NhanXet AS [Nhận xét]
-                    FROM DanhGiaNhanVien dg
-                    JOIN NhanVien nv ON dg.idNhanVien = nv.id";
-                SqlDataAdapter da = new SqlDataAdapter(query, conn);
-                DataTable dt = new DataTable();
+                // Nếu không pass tháng/năm thì set 0 -> subquery không có tháng hợp lệ.
+                // Thay vì bẻ code SQL dài, ta yêu cầu caller truyền tháng/năm hợp lý.
+                cmd.Parameters.AddWithValue("@Thang", thang);
+                cmd.Parameters.AddWithValue("@Nam", nam);
+
+                var dt = new DataTable();
                 da.Fill(dt);
                 return dt;
             }
         }
 
-        // === Thêm mới ===
-        public void Insert(DTODanhGiaNhanVien dg)
+        public DataTable GetAllPB(string idDangNhap, int thang, int nam, string searchTen = null, int? pb = null, int? chucVu = null)
         {
-            using (SqlConnection conn = new SqlConnection(connectionString))
+            string spName = "sp_GetDanhGiaNhanVien";
+            using (var cn = new SqlConnection(connectionString))
+            using (var cmd = new SqlCommand(spName, cn))
             {
-                conn.Open();
-                string query = @"
-                    INSERT INTO DanhGiaNhanVien (DiemSo, NhanXet, ngayTao, idNhanVien, idNguoiDanhGia)
-                    VALUES (@diem, @nhanxet, @ngay, @idnv, @idng)";
-                SqlCommand cmd = new SqlCommand(query, conn);
-                cmd.Parameters.AddWithValue("@diem", dg.DiemSo);
-                cmd.Parameters.AddWithValue("@nhanxet", dg.NhanXet);
-                cmd.Parameters.AddWithValue("@ngay", dg.NgayTao);
-                cmd.Parameters.AddWithValue("@idnv", dg.IDNhanVien);
-                cmd.Parameters.AddWithValue("@idng", dg.IDNguoiDanhGia);
-                cmd.ExecuteNonQuery();
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@IdDangNhap", idDangNhap);
+                cmd.Parameters.AddWithValue("@Thang", thang);
+                cmd.Parameters.AddWithValue("@Nam", nam);
+                cmd.Parameters.AddWithValue("@SearchTen", (object)searchTen ?? DBNull.Value);
+                cmd.Parameters.AddWithValue("@SearchPhongBan", (object)pb ?? DBNull.Value);
+                cmd.Parameters.AddWithValue("@SearchChucVu", (object)chucVu ?? DBNull.Value);
+
+                var da = new SqlDataAdapter(cmd);
+                var dt = new DataTable();
+                da.Fill(dt);
+                return dt;
             }
         }
 
-        // === Cập nhật ===
-        public void Update(DTODanhGiaNhanVien dg)
+
+
+
+        public int Insert(DTODanhGiaNhanVien dg)
         {
-            using (SqlConnection conn = new SqlConnection(connectionString))
+            string sql = @"
+                INSERT INTO DanhGiaNhanVien (DiemSo, DiemChuyenCan, DiemNangLuc, NhanXet, ngayTao, idNhanVien, idNguoiDanhGia)
+                VALUES (@DiemSo, @DiemChuyenCan, @DiemNangLuc, @NhanXet, @NgayTao, @IDNhanVien, @IDNguoiDanhGia);
+                SELECT SCOPE_IDENTITY();
+            ";
+            using (var cn = new SqlConnection(connectionString  ))
+            using (var cmd = new SqlCommand(sql, cn))
             {
-                conn.Open();
-                string query = @"
-                    UPDATE DanhGiaNhanVien
-                    SET DiemSo=@diem, NhanXet=@nhanxet, ngayTao=@ngay, idNhanVien=@idnv, idNguoiDanhGia=@idng
-                    WHERE id=@id";
-                SqlCommand cmd = new SqlCommand(query, conn);
-                cmd.Parameters.AddWithValue("@id", dg.ID);
-                cmd.Parameters.AddWithValue("@diem", dg.DiemSo);
-                cmd.Parameters.AddWithValue("@nhanxet", dg.NhanXet);
-                cmd.Parameters.AddWithValue("@ngay", dg.NgayTao);
-                cmd.Parameters.AddWithValue("@idnv", dg.IDNhanVien);
-                cmd.Parameters.AddWithValue("@idng", dg.IDNguoiDanhGia);
-                cmd.ExecuteNonQuery();
+                cmd.Parameters.AddWithValue("@DiemSo", dg.DiemSo);
+                cmd.Parameters.AddWithValue("@DiemChuyenCan", dg.DiemChuyenCan);
+                cmd.Parameters.AddWithValue("@DiemNangLuc", dg.DiemNangLuc);
+                cmd.Parameters.AddWithValue("@NhanXet", (object)dg.NhanXet ?? DBNull.Value);
+                cmd.Parameters.AddWithValue("@NgayTao", dg.NgayTao);
+                cmd.Parameters.AddWithValue("@IDNhanVien", dg.IDNhanVien);
+                cmd.Parameters.AddWithValue("@IDNguoiDanhGia", dg.IDNguoiDanhGia);
+
+                cn.Open();
+                var res = cmd.ExecuteScalar();
+                return Convert.ToInt32(res);
             }
         }
 
-        // === Xóa ===
-        public void Delete(int id)
+        public bool Update(DTODanhGiaNhanVien dg)
         {
-            using (SqlConnection conn = new SqlConnection(connectionString))
+            string sql = @"
+                UPDATE DanhGiaNhanVien
+                SET DiemSo = @DiemSo,
+                    DiemChuyenCan = @DiemChuyenCan,
+                    DiemNangLuc = @DiemNangLuc,
+                    NhanXet = @NhanXet,
+                    ngayTao = @NgayTao,
+                    idNhanVien = @IDNhanVien,
+                    idNguoiDanhGia = @IDNguoiDanhGia
+                WHERE id = @ID;
+            ";
+            using (var cn = new SqlConnection(  connectionString    ))
+            using (var cmd = new SqlCommand(sql, cn))
             {
-                conn.Open();
-                SqlCommand cmd = new SqlCommand("DELETE FROM DanhGiaNhanVien WHERE id=@id", conn);
-                cmd.Parameters.AddWithValue("@id", id);
-                cmd.ExecuteNonQuery();
+                cmd.Parameters.AddWithValue("@DiemSo", dg.DiemSo);
+                cmd.Parameters.AddWithValue("@DiemChuyenCan", dg.DiemChuyenCan);
+                cmd.Parameters.AddWithValue("@DiemNangLuc", dg.DiemNangLuc);
+                cmd.Parameters.AddWithValue("@NhanXet", (object)dg.NhanXet ?? DBNull.Value);
+                cmd.Parameters.AddWithValue("@NgayTao", dg.NgayTao);
+                cmd.Parameters.AddWithValue("@IDNhanVien", dg.IDNhanVien);
+                cmd.Parameters.AddWithValue("@IDNguoiDanhGia", dg.IDNguoiDanhGia);
+                cmd.Parameters.AddWithValue("@ID", dg.ID);
+
+                cn.Open();
+                int aff = cmd.ExecuteNonQuery();
+                return aff > 0;
+            }
+        }
+
+        public bool Delete(int id)
+        {
+            string sql = "DELETE FROM DanhGiaNhanVien WHERE id = @ID";
+            using (var cn = new SqlConnection(connectionString))
+            using (var cmd = new SqlCommand(sql, cn))
+            {
+                cmd.Parameters.AddWithValue("@ID", id);
+                cn.Open();
+                int aff = cmd.ExecuteNonQuery();
+                return aff > 0;
             }
         }
 

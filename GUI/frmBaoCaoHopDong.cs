@@ -25,14 +25,18 @@ namespace GUI
 
         private readonly BLLPhongBan _dbContextPB;
         private readonly BLLNhanVien _dbContextNV;
+        private readonly BLLChucVu _dbContextCV;
+        private readonly BLLChiTietLuong _dbContextCTL;
         private readonly BLLHopDongLaoDong _dbContextHD;
         public frmBaoCaoHopDong(string conn)
         {
             InitializeComponent();
 
             _con = conn;
+            _dbContextCV = new BLLChucVu(conn);
             _dbContextPB = new BLLPhongBan(conn);
             _dbContextNV = new BLLNhanVien(conn);
+            _dbContextCTL = new BLLChiTietLuong(conn);
             _dbContextHD = new BLLHopDongLaoDong(conn);
         }
 
@@ -44,7 +48,7 @@ namespace GUI
             cmbPhongBan.DisplayMember = "TenPhongBan";
             cmbPhongBan.SelectedIndex = -1;
 
-            var dsHopDong = _dbContextHD.KtraDsHopDongLaoDong().GroupBy(p => p.LoaiHopDong).Select(p => new HopDongLaoDong
+            var dsHopDong = _dbContextHD.KtraDsHopDongLaoDong().GroupBy(p => p.LoaiHopDong).Distinct().Select(p => new HopDongLaoDong
             {
                 id = p.First().id,
                 LoaiHopDong = p.Key
@@ -119,16 +123,23 @@ namespace GUI
         {
             if (string.IsNullOrEmpty(_idPhongBan)) return;
 
-            var dsNhanVien = _dbContextNV.KtraDsNhanVien().ToList();
+            var dsNhanVien = _dbContextNV.KtraDsNhanVien();
+            var dsChucVu = _dbContextCV.LayDsChucVu();
+            var dsChiTietLuong = _dbContextCTL.KtraDsChiTietLuong();
+
             var dsHopDongNV = _dbContextHD.KtraDsHopDongLaoDong().Join(dsNhanVien, hd => hd.idNhanVien, nv => nv.id, (hd, nv) => new { nv, hd })
-                                                        .Where(p => p.nv.idPhongBan == Convert.ToInt32(_idPhongBan)
-                                                                    && p.hd.idNhanVien == p.nv.id
-                                                        ).Select(p => p.hd).ToList();
+                                                                .Where(p => p.hd.idNhanVien == p.nv.id
+                                                                            && p.nv.idPhongBan == Convert.ToInt32(_idPhongBan)
+                                                                            && dsChucVu.Select(s => s.id).Contains(p.nv.idChucVu)
+                                                                            && dsChiTietLuong.Select(s => s.idNhanVien).Contains(p.nv.id)
+
+                                                                ).Select(p => p.hd).ToList();
+
 
                 
             if ((int)cmbLoaiHopDong.SelectedValue == 2)
             {
-                dsHopDongNV = dsHopDongNV.Where(p => p.LoaiHopDong.Equals("Hợp đồng thử việc", StringComparison.OrdinalIgnoreCase)).ToList();
+                dsHopDongNV = dsHopDongNV.Where(p => p.LoaiHopDong.Equals("hợp đồng thử việc", StringComparison.OrdinalIgnoreCase)).ToList();
             }
             else dsHopDongNV = dsHopDongNV.Where(p => p.LoaiHopDong.Equals("hợp đồng nhân viên chính thức", StringComparison.OrdinalIgnoreCase)).ToList();
 

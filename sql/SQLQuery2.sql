@@ -1,0 +1,1 @@
+		select * from ChiTietLuong where idNhanVien = 'NVNS000029'

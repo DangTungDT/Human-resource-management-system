@@ -66,8 +66,15 @@ namespace GUI
             // 2) Load Report (.rpt) và gán DataTable làm DataSource
             var reportPath = Path.Combine(Directory.GetParent(Application.StartupPath).Parent.FullName, "report", "crpChamCong.rpt");
             var rpt = new ReportDocument();
-            rpt.Load(reportPath);
-
+            try
+            {
+                rpt.Load(reportPath);
+            }
+            catch
+            {
+                reportPath = Path.Combine(Path.Combine(Directory.GetParent(AppContext.BaseDirectory).Parent.Parent.FullName, "Reports"), "rptChamCongCaNhan.rpt");
+                rpt.Load(reportPath);
+            }
             rpt.SetDataSource(dt);
 
             // 3) Gán report cho CrystalReportViewer và làm mới hiển thị

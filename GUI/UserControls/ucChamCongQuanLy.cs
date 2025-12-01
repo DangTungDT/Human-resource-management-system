@@ -15,6 +15,7 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement.ListView;
+using GUI.Properties;
 
 namespace GUI
 {
@@ -27,6 +28,7 @@ namespace GUI
         private BLLChamCong _bllChamCong;
         private bool _checkedIn, _checkedOut = false;
         string _conn = "";
+        private bool flagLoadImage = true;
 
         //Cham cong = hinh anh
         public ucChamCongQuanLy(string idEmployee, int idDepartment, string conn)
@@ -129,14 +131,18 @@ namespace GUI
             //Lấy đường dẫn folder chứa hình ảnh nhân viên
             string imageFolder = Path.Combine(AppContext.BaseDirectory, "image");
             imageFolder = Path.GetFullPath(imageFolder);
-            if (imageFolder.Contains("bin"))
-            {
-                //Directory.GetParent(AppContext.BaseDirectory).Parent.Parent.Parent.FullName;
-                imageFolder = Path.Combine(Directory.GetParent(AppContext.BaseDirectory).Parent.Parent.FullName, "image");
-            }
+
+            //Trường hợp chạy ở local
             if (!Directory.Exists(imageFolder))
             {
-                MessageBox.Show("Không tìm thấy thư mục Image!");
+                imageFolder = Path.Combine(Path.Combine(Directory.GetParent(AppContext.BaseDirectory).Parent.Parent.FullName, "Resources"), "Images");
+            }
+
+
+            if (!Directory.Exists(imageFolder))
+            {
+                MessageBox.Show("Tải ảnh thất bại!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                flagLoadImage = false;
                 return;
             }
 
@@ -156,16 +162,25 @@ namespace GUI
                 {
                     if (index < listStaff.Count)
                     {
-                        var staff = listStaff[index];
+                        try
+                        {
+                            var staff = listStaff[index];
 
-                        row[c] = Image.FromFile($"{imageFolder}\\{staff.ImageName}");
+                            row[c] = Image.FromFile($"{imageFolder}\\{staff.ImageName}");
 
-                        _arrIdSelected[r, c] = staff.Id;
+                            _arrIdSelected[r, c] = staff.Id;
+                        }
+                        catch (FileNotFoundException ex)
+                        {
+                            row[c] = Resources.user;
+                        }
+                        
                     }
                     else
                     {
                         row[c] = null;
                     }
+                    
 
                     index++;
                 }
@@ -187,6 +202,10 @@ namespace GUI
 
         private void dgvEmployeeAttendance_CellClick(object sender, DataGridViewCellEventArgs e)
         {
+            if (!flagLoadImage)
+            {
+                return;
+            }
             // Lấy vị trí dòng và cột
             int row = e.RowIndex;
             int col = e.ColumnIndex;

@@ -98,6 +98,12 @@ namespace GUI
 
                 if (!File.Exists(reportPath))
                 {
+                    //Chạy ở local
+                    reportPath = Path.Combine(Path.Combine(Directory.GetParent(AppContext.BaseDirectory).Parent.Parent.FullName, "Reports"), "rptDanhSachNhanVien.rpt");
+                }
+
+                if (!File.Exists(reportPath))
+                {
                     MessageBox.Show("Không tìm thấy file Crystal Report:\n" + reportPath, "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return;
                 }

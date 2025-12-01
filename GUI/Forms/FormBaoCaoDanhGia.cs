@@ -23,6 +23,12 @@ namespace GUI
 
                 // Đường dẫn file rpt
                 string reportPath = Path.Combine(Application.StartupPath, "rptDanhGiaNhanVien.rpt");
+
+                if (!File.Exists(reportPath))
+                {
+                    //Chạy ở local
+                    reportPath = Path.Combine(Path.Combine(Directory.GetParent(AppContext.BaseDirectory).Parent.Parent.FullName, "Reports"), "rptDanhGiaNhanVien.rpt");
+                }
                 if (!File.Exists(reportPath))
                 {
                     MessageBox.Show("Không tìm thấy file báo cáo: " + reportPath);

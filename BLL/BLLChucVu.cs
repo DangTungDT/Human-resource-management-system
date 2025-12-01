@@ -1,4 +1,5 @@
 ﻿using DAL;
+using DAL.DataContext;
 using DTO;
 using System;
 using System.Collections.Generic;
@@ -14,46 +15,46 @@ namespace BLL
 {
     public class BLLChucVu
     {
-        private readonly DALChucVu dal;
+        private readonly DALChucVu _chucVuDAL;
 
         public BLLChucVu(string conn)
         {
-            dal = new DALChucVu(conn);
+            _chucVuDAL = new DALChucVu(conn);
         }
 
         //Tìm 1 value dự trên id ChucVu
-        public DTOChucVu FindNameById(int id) => dal.FindNameById(id);
+        public DTOChucVu FindNameById(int id) => _chucVuDAL.FindNameById(id);
         public ChucVu GetPositionByIdStaff(string idStaff)
         {
             if (string.IsNullOrEmpty(idStaff)) return null;
-            return dal.GetPositionByIdStaff(idStaff);
+            return _chucVuDAL.GetPositionByIdStaff(idStaff);
         }
 
         //
         public bool CheckPosition(string namePosition, int departmentId)
         {
             if (string.IsNullOrEmpty(namePosition) || departmentId < 1) return false;
-            return dal.CheckPosition(namePosition, departmentId);
+            return _chucVuDAL.CheckPosition(namePosition, departmentId);
         }
 
-        public DataTable GetAll(string keyword = "") => dal.GetAll(keyword);
+        public DataTable GetAll(string keyword = "") => _chucVuDAL.GetAll(keyword);
 
-        public IQueryable GetPositionByDepartment(int id) => dal.GetPositionByDepartment(id);
-        public DataTable GetDepartments() => dal.GetDepartments();
+        public IQueryable GetPositionByDepartment(int id) => _chucVuDAL.GetPositionByDepartment(id);
+        public DataTable GetDepartments() => _chucVuDAL.GetDepartments();
 
         public bool Insert(DTOChucVu cv)
         {
             if (!KiemTraHopLe(cv)) return false;
-            return dal.Insert(cv);
+            return _chucVuDAL.Insert(cv);
         }
 
         public bool Update(DTOChucVu cv)
         {
             if (!KiemTraHopLe(cv)) return false;
-            return dal.Update(cv);
+            return _chucVuDAL.Update(cv);
         }
 
-        public void Delete(int id) => dal.Delete(id);
+        public void Delete(int id) => _chucVuDAL.Delete(id);
 
         public static bool KiemTraHopLe(DTOChucVu chucVu)
         {
@@ -74,11 +75,11 @@ namespace BLL
         {
             try
             {
-                if (!dal.LayDsChucVu().Any())
+                if (!_chucVuDAL.LayDsChucVu().Any())
                 {
                     throw new Exception("Không có dữ liệu nào trong d/s chức vụ !");
                 }
-                else return dal.LayDsChucVu();
+                else return _chucVuDAL.LayDsChucVu();
 
             }
             catch (Exception ex)
@@ -91,7 +92,7 @@ namespace BLL
         {
             try
             {
-                var tenChucVu = dal.LayTenChucVu(id);
+                var tenChucVu = _chucVuDAL.LayTenChucVu(id);
 
                 if (!string.IsNullOrEmpty(tenChucVu))
                 {

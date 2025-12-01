@@ -1,4 +1,5 @@
 ﻿using DAL;
+using DAL.DataContext;
 using DTO;
 using System;
 using System.Collections.Generic;
@@ -9,20 +10,19 @@ namespace BLL
 {
     public class BLLNhanVien_ThuongPhat
     {
-        private readonly DALNhanVien_ThuongPhat dal;
-        public readonly DALNhanVien_ThuongPhat _dbContext;
+        public readonly DALNhanVien_ThuongPhat _nhanVienThuongPhatDAL;
 
         public BLLNhanVien_ThuongPhat(string conn)
         {
-            dal = new DALNhanVien_ThuongPhat(conn);
-            _dbContext = new DALNhanVien_ThuongPhat(conn);
+            _nhanVienThuongPhatDAL = new DALNhanVien_ThuongPhat(conn);
+            _nhanVienThuongPhatDAL = new DALNhanVien_ThuongPhat(conn);
         }
 
         #region === Lấy dữ liệu ===
 
         public List<NhanVien_ThuongPhat> KtraDsNhanVien_ThuongPhat()
         {
-            var list = _dbContext.DsNhanVien_ThuongPhat().ToList();
+            var list = _nhanVienThuongPhatDAL.DsNhanVien_ThuongPhat().ToList();
             if (list.Any() && list != null)
             {
                 try
@@ -40,7 +40,7 @@ namespace BLL
         {
             try
             {
-                var list = dal.DsNhanVien_ThuongPhat();
+                var list = _nhanVienThuongPhatDAL.DsNhanVien_ThuongPhat();
                 return list?.ToList() ?? new List<NhanVien_ThuongPhat>();
             }
             catch (Exception ex)
@@ -53,7 +53,7 @@ namespace BLL
         {
             try
             {
-                return dal.GetAll(loai, idPhongBan);
+                return _nhanVienThuongPhatDAL.GetAll(loai, idPhongBan);
             }
             catch (Exception ex)
             {
@@ -65,7 +65,7 @@ namespace BLL
         {
             try
             {
-                return dal.GetNhanVienByThuongPhatId(thuongPhatId);
+                return _nhanVienThuongPhatDAL.GetNhanVienByThuongPhatId(thuongPhatId);
             }
             catch (Exception ex)
             {
@@ -77,7 +77,7 @@ namespace BLL
         {
             try
             {
-                return dal.GetAllLyDo(loai);
+                return _nhanVienThuongPhatDAL.GetAllLyDo(loai);
             }
             catch (Exception ex)
             {
@@ -94,25 +94,25 @@ namespace BLL
 
             try
             {
-                int idThuongPhat = dal.CheckLyDoExists(loai, lyDo);
+                int idThuongPhat = _nhanVienThuongPhatDAL.CheckLyDoExists(loai, lyDo);
 
                 // Nếu chưa có lý do => thêm mới
                 if (idThuongPhat == 0)
                 {
-                    idThuongPhat = dal.InsertLyDo(loai, lyDo, tien, idNguoiTao);
+                    idThuongPhat = _nhanVienThuongPhatDAL.InsertLyDo(loai, lyDo, tien, idNguoiTao);
                 }
                 else
                 {
                     // Nếu có rồi thì cập nhật lại số tiền cho đúng
-                    dal.UpdateThuongPhat(idThuongPhat, lyDo, tien);
+                    _nhanVienThuongPhatDAL.UpdateThuongPhat(idThuongPhat, lyDo, tien);
                 }
 
                 // Loại bỏ trùng nhân viên
-                var oldNhanViens = dal.GetNhanVienByThuongPhatId(idThuongPhat);
+                var oldNhanViens = _nhanVienThuongPhatDAL.GetNhanVienByThuongPhatId(idThuongPhat);
                 var toAdd = idNhanViens.Except(oldNhanViens).ToList();
 
                 if (toAdd.Any())
-                    dal.InsertNhanVienThuongPhat_Multi(idThuongPhat, toAdd, ngayApDung);
+                    _nhanVienThuongPhatDAL.InsertNhanVienThuongPhat_Multi(idThuongPhat, toAdd, ngayApDung);
             }
             catch (Exception ex)
             {
@@ -129,39 +129,39 @@ namespace BLL
 
             try
             {
-                var oldLyDo = dal.GetLyDoById(idThuongPhat);
+                var oldLyDo = _nhanVienThuongPhatDAL.GetLyDoById(idThuongPhat);
 
                 // Nếu đổi lý do thì tạo nhóm mới
                 if (!string.Equals(oldLyDo, lyDo, StringComparison.OrdinalIgnoreCase))
                 {
-                    int existingId = dal.CheckLyDoExists(loai, lyDo);
+                    int existingId = _nhanVienThuongPhatDAL.CheckLyDoExists(loai, lyDo);
                     int newId = existingId;
 
                     if (existingId == 0)
-                        newId = dal.InsertLyDo(loai, lyDo, soTien, "GD00000001");
+                        newId = _nhanVienThuongPhatDAL.InsertLyDo(loai, lyDo, soTien, "GD00000001");
                     else
-                        dal.UpdateThuongPhat(existingId, lyDo, soTien);
+                        _nhanVienThuongPhatDAL.UpdateThuongPhat(existingId, lyDo, soTien);
 
-                    dal.InsertNhanVienThuongPhat_Multi(newId, newNhanViens, ngayApDung);
-                    dal.DeleteThuongPhat(idThuongPhat); // Xóa nhóm cũ
+                    _nhanVienThuongPhatDAL.InsertNhanVienThuongPhat_Multi(newId, newNhanViens, ngayApDung);
+                    _nhanVienThuongPhatDAL.DeleteThuongPhat(idThuongPhat); // Xóa nhóm cũ
                     return;
                 }
 
                 // Không đổi lý do => chỉ cập nhật nhân viên
-                dal.UpdateThuongPhat(idThuongPhat, lyDo, soTien);
+                _nhanVienThuongPhatDAL.UpdateThuongPhat(idThuongPhat, lyDo, soTien);
 
-                var oldNhanViens = dal.GetNhanVienByThuongPhatId(idThuongPhat);
+                var oldNhanViens = _nhanVienThuongPhatDAL.GetNhanVienByThuongPhatId(idThuongPhat);
                 var toAdd = newNhanViens.Except(oldNhanViens).ToList();
                 var toRemove = oldNhanViens.Except(newNhanViens).ToList();
 
                 if (toRemove.Any())
                 {
                     foreach (var nv in toRemove)
-                        dal.DeleteNhanVienInThuongPhat(idThuongPhat, nv);
+                        _nhanVienThuongPhatDAL.DeleteNhanVienInThuongPhat(idThuongPhat, nv);
                 }
 
                 if (toAdd.Any())
-                    dal.InsertNhanVienThuongPhat_Multi(idThuongPhat, toAdd, ngayApDung);
+                    _nhanVienThuongPhatDAL.InsertNhanVienThuongPhat_Multi(idThuongPhat, toAdd, ngayApDung);
             }
             catch (Exception ex)
             {
@@ -175,7 +175,7 @@ namespace BLL
         {
             try
             {
-                dal.DeleteThuongPhat(id);
+                _nhanVienThuongPhatDAL.DeleteThuongPhat(id);
             }
             catch (Exception ex)
             {
@@ -186,7 +186,7 @@ namespace BLL
 
         public void XoaNhieuNhanVien_ThuongPhat(List<int> ids)
         {
-            dal.XoaNhieuNhanVien_ThuongPhat(ids);
+            _nhanVienThuongPhatDAL.XoaNhieuNhanVien_ThuongPhat(ids);
         }
     }
 }

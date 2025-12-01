@@ -1,4 +1,5 @@
 ﻿using DAL;
+using DAL.DataContext;
 using DTO;
 using System;
 using System.Collections.Generic;
@@ -14,48 +15,48 @@ namespace BLL
 {
     public class BLLTaiKhoan
     {
-        private readonly DALTaiKhoan _dalTK;
-        private readonly DALNhanVien _dalNV;
+        private readonly DALTaiKhoan _taiKhoanDAL;
+        private readonly DALNhanVien _nhanVienDAL;
 
         public BLLTaiKhoan(string conn)
         {
-            _dalNV = new DALNhanVien(conn);
-            _dalTK = new DALTaiKhoan(conn);
+            _nhanVienDAL = new DALNhanVien(conn);
+            _taiKhoanDAL = new DALTaiKhoan(conn);
         }
 
-        public DataTable GetAllAccounts() => _dalTK.GetAll();
+        public DataTable GetAllAccounts() => _taiKhoanDAL.GetAll();
 
         public void SaveAccount(DTOTaiKhoan tk, bool isNew)
         {
             tk.MatKhau = HashPassword(tk.MatKhau);
             if (isNew)
-                _dalTK.Insert(tk);
+                _taiKhoanDAL.Insert(tk);
             else
-                _dalTK.Update(tk);
+                _taiKhoanDAL.Update(tk);
         }
 
-        public void DeleteAccount(int id) => _dalTK.Delete(id);
+        public void DeleteAccount(int id) => _taiKhoanDAL.Delete(id);
 
         public void CreateDefaultAccount(string idNV, string tenNhanVien, string tenChucVu)
         {
-            _dalTK.CreateDefaultAccount(idNV, tenNhanVien, tenChucVu);
+            _taiKhoanDAL.CreateDefaultAccount(idNV, tenNhanVien, tenChucVu);
         }
 
         public bool ValidateLogin(string taiKhoan, string matKhau)
         {
-            DataTable dt = _dalTK.GetByTaiKhoan(taiKhoan);
+            DataTable dt = _taiKhoanDAL.GetByTaiKhoan(taiKhoan);
             string hashedPassword = HashPassword(matKhau);
             return dt.Rows.Count > 0 && dt.Rows[0].Field<string>("Mật khẩu") == hashedPassword;
         }
 
-        public DataTable GetByTaiKhoan(string taiKhoan) => _dalTK.GetByTaiKhoan(taiKhoan);
+        public DataTable GetByTaiKhoan(string taiKhoan) => _taiKhoanDAL.GetByTaiKhoan(taiKhoan);
 
-        public DataTable GetById(string id) => _dalTK.GetById(id);
+        public DataTable GetById(string id) => _taiKhoanDAL.GetById(id);
 
         public bool UpdateMatKhau(int id, string matKhauMoi)
         {
             matKhauMoi = HashPassword(matKhauMoi); // Mã hóa mật khẩu mới
-            _dalTK.UpdateMatKhau(id, matKhauMoi);
+            _taiKhoanDAL.UpdateMatKhau(id, matKhauMoi);
             return true; // Giả định thành công, có thể kiểm tra thêm
         }
 
@@ -73,10 +74,10 @@ namespace BLL
         {
             try
             {
-                var taiKhoan = _dalTK.DsTaiKhoan().FirstOrDefault(p => p.taiKhoan1 == userName && p.matKhau == password);
+                var taiKhoan = _taiKhoanDAL.DsTaiKhoan().FirstOrDefault(p => p.taiKhoan1 == userName && p.matKhau == password);
                 if (taiKhoan != null)
                 {
-                    return _dalNV.LayNhanVienQuaID(taiKhoan.idNhanVien);
+                    return _nhanVienDAL.LayNhanVienQuaID(taiKhoan.idNhanVien);
                 }
 
                 return null;
@@ -88,21 +89,21 @@ namespace BLL
         }
 
         // ds tai khoan
-        public List<TaiKhoan> DsTaiKhoan() => _dalTK.DsTaiKhoan();
+        public List<TaiKhoan> DsTaiKhoan() => _taiKhoanDAL.DsTaiKhoan();
 
         public bool KiemTraMatKhauCu(string idNhanVien, string matKhau)
         {
-            return _dalTK.KiemTraMatKhauCu(idNhanVien, matKhau);
+            return _taiKhoanDAL.KiemTraMatKhauCu(idNhanVien, matKhau);
         }
 
         public bool DoiMatKhau(string idNhanVien, string matKhauMoi)
         {
-            return _dalTK.DoiMatKhau(idNhanVien, matKhauMoi);
+            return _taiKhoanDAL.DoiMatKhau(idNhanVien, matKhauMoi);
         }
 
         public bool IsUsernameExists(string username, int? excludeId = null)
         {
-            return _dalTK.IsUsernameExists(username, excludeId);
+            return _taiKhoanDAL.IsUsernameExists(username, excludeId);
         }
     }
 }

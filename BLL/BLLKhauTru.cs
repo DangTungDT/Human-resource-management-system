@@ -1,4 +1,5 @@
 ﻿using DAL;
+using DAL.DataContext;
 using DTO;
 using System;
 using System.Collections.Generic;
@@ -11,20 +12,20 @@ namespace BLL
 {
     public class BLLKhauTru
     {
-        public readonly DALKhauTru _dbContext;
+        public readonly DALKhauTru _khauTrucDAL;
 
-        public BLLKhauTru(string conn) => _dbContext = new DALKhauTru(conn);
+        public BLLKhauTru(string conn) => _khauTrucDAL = new DALKhauTru(conn);
 
         // Ktra ds Khau Tru
         public List<KhauTru> KtraDsKhauTru()
         {
             try
             {
-                if (!_dbContext.DsKhauTru().Any())
+                if (!_khauTrucDAL.DsKhauTru().Any())
                 {
                     throw new Exception("Không có dữ liệu d/s khấu trừ !");
                 }
-                else return _dbContext.DsKhauTru();
+                else return _khauTrucDAL.DsKhauTru();
 
             }
             catch (Exception ex)
@@ -38,11 +39,11 @@ namespace BLL
         {
             try
             {
-                var ktraKT = _dbContext.TimKhauTruQuaID(DTO.ID);
+                var ktraKT = _khauTrucDAL.TimKhauTruQuaID(DTO.ID);
 
                 if (ktraKT != null)
                 {
-                    var KtraThemKT = _dbContext.ThemKhauTru(DTO);
+                    var KtraThemKT = _khauTrucDAL.ThemKhauTru(DTO);
                     if (KtraThemKT)
                     {
                         return true;
@@ -63,11 +64,11 @@ namespace BLL
         {
             try
             {
-                var ktraKT = _dbContext.TimKhauTruQuaID(DTO.ID);
+                var ktraKT = _khauTrucDAL.TimKhauTruQuaID(DTO.ID);
 
                 if (ktraKT != null)
                 {
-                    var KtraThemKT = _dbContext.CapNhatKhauTru(DTO);
+                    var KtraThemKT = _khauTrucDAL.CapNhatKhauTru(DTO);
                     if (KtraThemKT)
                     {
                         return true;
@@ -88,12 +89,12 @@ namespace BLL
         {
             try
             {
-                var ktraNP = _dbContext.TimKhauTruQuaID(DTO.ID);
+                var ktraNP = _khauTrucDAL.TimKhauTruQuaID(DTO.ID);
 
                 if (ktraNP != null)
                 {
 
-                    var KtraThemKT = _dbContext.XoaKhauTru(DTO);
+                    var KtraThemKT = _khauTrucDAL.XoaKhauTru(DTO);
                     if (KtraThemKT)
                     {
                         return true;
@@ -117,7 +118,7 @@ namespace BLL
                 if (id > 0)
                 {
 
-                    var ktraID = _dbContext.TimKhauTruQuaID(id);
+                    var ktraID = _khauTrucDAL.TimKhauTruQuaID(id);
                     if (ktraID != null)
                     {
                         return true;

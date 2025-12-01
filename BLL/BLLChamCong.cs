@@ -4,27 +4,28 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using DAL;
+using DAL.DataContext;
 using DTO;
 
 namespace BLL
 {
     public class BLLChamCong
     {
-        DALChamCong dal;
+        DALChamCong _chamCongDAL;
 
         public BLLChamCong(string conn)
         {
-            dal = new DALChamCong(conn);
+            _chamCongDAL = new DALChamCong(conn);
         }
 
-        public IQueryable GetAll() => dal.GetAll();
+        public IQueryable GetAll() => _chamCongDAL.GetAll();
 
 
         public IQueryable GetChamCongByIdNhanVien(string idNhanVien)
         {
             if (!string.IsNullOrEmpty(idNhanVien))
             {
-                return dal.GetChamCongByIdNhanVien(idNhanVien);
+                return _chamCongDAL.GetChamCongByIdNhanVien(idNhanVien);
             }
             return null;
         }
@@ -34,7 +35,7 @@ namespace BLL
             {
                 return false;
             }
-            return dal.UpdateGioRa(dto.IdNhanVien, dto.NgayChamCong, dto.GioRa);
+            return _chamCongDAL.UpdateGioRa(dto.IdNhanVien, dto.NgayChamCong, dto.GioRa);
         }
         public bool Update(DTOChamCong dto)
         {
@@ -42,7 +43,7 @@ namespace BLL
             {
                 return false;
             }
-            return dal.Update(dto);
+            return _chamCongDAL.Update(dto);
         }
         public bool Delete(int id)
         {
@@ -50,7 +51,7 @@ namespace BLL
             {
                 return false;
             }
-            return dal.Delete(id);
+            return _chamCongDAL.Delete(id);
         }
         public string Add(DTOChamCong dto)
         {
@@ -58,7 +59,7 @@ namespace BLL
                 dto.GioVao > DateTime.Now.TimeOfDay ||
                 !string.IsNullOrEmpty(dto.IdNhanVien))
             {
-                return dal.Add(dto);
+                return _chamCongDAL.Add(dto);
             }
             return "invalid data";
         }
@@ -69,7 +70,7 @@ namespace BLL
             {
                 return false;
             }
-            return dal.CheckAttendance(arrIdStaff);
+            return _chamCongDAL.CheckAttendance(arrIdStaff);
         }
 
         public bool CheckAttendanceOut(string[,] arrIdStaff)
@@ -78,17 +79,17 @@ namespace BLL
             {
                 return false;
             }
-            return dal.CheckAttendanceOut(arrIdStaff);
+            return _chamCongDAL.CheckAttendanceOut(arrIdStaff);
         }
 
-        public List<ChamCong> LayDsChamCong() => dal.dsChamCong();
+        public List<ChamCong> LayDsChamCong() => _chamCongDAL.dsChamCong();
         public bool CheckAttendanceOutArr(List<string> arrIdStaff)
         {
             if (arrIdStaff == null)
             {
                 return false;
             }
-            return dal.CheckAttendanceOutArr(arrIdStaff);
+            return _chamCongDAL.CheckAttendanceOutArr(arrIdStaff);
         }
     }
 }

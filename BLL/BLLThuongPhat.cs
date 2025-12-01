@@ -1,4 +1,5 @@
 ﻿using DAL;
+using DAL.DataContext;
 using DTO;
 using System;
 using System.Collections.Generic;
@@ -11,18 +12,17 @@ namespace BLL
 {
     public class BLLThuongPhat
     {
-        public readonly DALThuongPhat _dbContext;
-        private readonly DALThuongPhat dal;
+        private readonly DALThuongPhat _thuongPhatDAL;
         public BLLThuongPhat(string stringConnection)
         {
-            _dbContext = new DALThuongPhat(stringConnection);
-            dal = new DALThuongPhat(stringConnection);
+            _thuongPhatDAL = new DALThuongPhat(stringConnection);
+            _thuongPhatDAL = new DALThuongPhat(stringConnection);
         }
 
         // Danh sach thuong phat
         public List<ThuongPhat> CheckListThuongPhat()
         {
-            var list = _dbContext.DanhSachThuongPhat().ToList();
+            var list = _thuongPhatDAL.DanhSachThuongPhat().ToList();
             if (list.Any() && list != null)
             {
                 try
@@ -40,7 +40,7 @@ namespace BLL
         // Danh sach nhan vien     
         public List<DTONhanVien> CheckListNhanVien()
         {
-            var list = _dbContext.DanhSachNhanVien().ToList();
+            var list = _thuongPhatDAL.DanhSachNhanVien().ToList();
             if (list.Any() && list != null)
             {
                 try
@@ -57,12 +57,12 @@ namespace BLL
 
         public DataTable GetAll()
         {
-            return _dbContext.GetAll();
+            return _thuongPhatDAL.GetAll();
         }
 
 
-        public int Insert(string loai, string lyDo, decimal soTien, string nguoiTao) => dal.Insert(loai, lyDo, soTien, nguoiTao);
-        public void Update(int id, string loai, string lyDo, decimal soTien) => dal.Update(id,loai, lyDo, soTien);
-        public void Delete(int id) => dal.Delete(id);
+        public int Insert(string loai, string lyDo, decimal soTien, string nguoiTao) => _thuongPhatDAL.Insert(loai, lyDo, soTien, nguoiTao);
+        public void Update(int id, string loai, string lyDo, decimal soTien) => _thuongPhatDAL.Update(id,loai, lyDo, soTien);
+        public void Delete(int id) => _thuongPhatDAL.Delete(id);
     }
 }

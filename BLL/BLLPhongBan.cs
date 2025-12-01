@@ -1,4 +1,5 @@
 ﻿using DAL;
+using DAL.DataContext;
 using DTO;
 using System;
 using System.Collections.Generic;
@@ -12,29 +13,29 @@ namespace BLL
 {
     public class BLLPhongBan
     {
-        private readonly DALPhongBan dal;
+        private readonly DALPhongBan _phongBanDAL;
 
         public BLLPhongBan(string conn)
         {
-            dal = new DALPhongBan(conn);
+            _phongBanDAL = new DALPhongBan(conn);
         }
 
 
         public DTOPhongBan GetDepartmentByID(int id)
         {
             if (id < 1) return null;
-            return dal.GetDepartmentByID(id);
+            return _phongBanDAL.GetDepartmentByID(id);
         }
         public DTOPhongBan FindPhongBanByIdChucVu(int id)
         {
             if(id < 1) return null;
-            return dal.FindPhongBanByIdChucVu(id);
+            return _phongBanDAL.FindPhongBanByIdChucVu(id);
         }
         public List<PhongBan> KtraDsPhongBan()
         {
             try
             {
-                var dsPhongBan = dal.LayDsPhongBan();
+                var dsPhongBan = _phongBanDAL.LayDsPhongBan();
                 if (dsPhongBan.Any() && dsPhongBan.Count > 0)
                 {
                     return dsPhongBan;
@@ -49,11 +50,11 @@ namespace BLL
             }
         }
 
-        public DataTable GetAllPhongBan() => dal.GetAllPhongBan();
+        public DataTable GetAllPhongBan() => _phongBanDAL.GetAllPhongBan();
 
         public DataTable ComboboxPhongBan()
         {
-            return dal.ComBoBoxPhongBan();
+            return _phongBanDAL.ComBoBoxPhongBan();
         }
 
         public string SavePhongBan(DTOPhongBan pb, bool isNew)
@@ -70,10 +71,10 @@ namespace BLL
             {
                 return "Mô tả không được dài quá 255 ký tự";
             }
-            return isNew ? dal.InsertPhongBan(pb) : dal.UpdatePhongBan(pb);
+            return isNew ? _phongBanDAL.InsertPhongBan(pb) : _phongBanDAL.UpdatePhongBan(pb);
         }
 
-        public string DeletePhongBan(int id) => dal.DeletePhongBan(id);
+        public string DeletePhongBan(int id) => _phongBanDAL.DeletePhongBan(id);
 
         public string KtraPhongBan(int id)
         {
@@ -81,7 +82,7 @@ namespace BLL
             {
                 if (id > 0)
                 {
-                    var ktraTenPB = dal.LayTenPhongBan(id);
+                    var ktraTenPB = _phongBanDAL.LayTenPhongBan(id);
                     if (ktraTenPB != null && !string.IsNullOrEmpty(ktraTenPB))
                     {
                         return ktraTenPB;
@@ -101,7 +102,7 @@ namespace BLL
         {
             try
             {
-                var tenPhongBan = dal.LayTenPhongBan(id);
+                var tenPhongBan = _phongBanDAL.LayTenPhongBan(id);
 
                 if (!string.IsNullOrEmpty(tenPhongBan))
                 {

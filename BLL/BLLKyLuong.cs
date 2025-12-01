@@ -1,4 +1,5 @@
 ﻿using DAL;
+using DAL.DataContext;
 using DTO;
 using System;
 using System.Collections.Generic;
@@ -11,20 +12,20 @@ namespace BLL
 {
     public class BLLKyLuong
     {
-        public readonly DALKyLuong _dbContext;
+        public readonly DALKyLuong _kyLuongDAL;
 
-        public BLLKyLuong(string conn) => _dbContext = new DALKyLuong(conn);
+        public BLLKyLuong(string conn) => _kyLuongDAL = new DALKyLuong(conn);
 
         // Ktra ds Ky Luong
         public List<KyLuong> KtraDsKyLuong()
         {
             try
             {
-                if (!_dbContext.DsKyLuong().Any())
+                if (!_kyLuongDAL.DsKyLuong().Any())
                 {
                     throw new Exception("Không có dữ liệu d/s kỳ lương !");
                 }
-                else return _dbContext.DsKyLuong();
+                else return _kyLuongDAL.DsKyLuong();
 
             }
             catch (Exception ex)
@@ -38,11 +39,11 @@ namespace BLL
         {
             try
             {
-                var ktraKL = _dbContext.TimKyLuongQuaID(DTO.ID);
+                var ktraKL = _kyLuongDAL.TimKyLuongQuaID(DTO.ID);
 
                 if (ktraKL == null)
                 {
-                    var KtraThemKL = _dbContext.ThemKyLuong(DTO);
+                    var KtraThemKL = _kyLuongDAL.ThemKyLuong(DTO);
                     if (KtraThemKL)
                     {
                         return true;
@@ -63,11 +64,11 @@ namespace BLL
         {
             try
             {
-                var ktraKL = _dbContext.TimKyLuongQuaID(DTO.ID);
+                var ktraKL = _kyLuongDAL.TimKyLuongQuaID(DTO.ID);
 
                 if (ktraKL != null)
                 {
-                    var KtraThemKL = _dbContext.CapNhatKyLuong(DTO);
+                    var KtraThemKL = _kyLuongDAL.CapNhatKyLuong(DTO);
                     if (KtraThemKL)
                     {
                         return true;
@@ -88,11 +89,11 @@ namespace BLL
         {
             try
             {
-                var ktraNL = _dbContext.TimKyLuongQuaID(DTO.ID);
+                var ktraNL = _kyLuongDAL.TimKyLuongQuaID(DTO.ID);
 
                 if (ktraNL != null)
                 {
-                    var KtraThemKL = _dbContext.XoakyLuong(DTO);
+                    var KtraThemKL = _kyLuongDAL.XoakyLuong(DTO);
                     if (KtraThemKL)
                     {
                         return true;
@@ -115,7 +116,7 @@ namespace BLL
             {
                 if (id > 0)
                 {
-                    var kyLuong = _dbContext.TimKyLuongQuaID(id);
+                    var kyLuong = _kyLuongDAL.TimKyLuongQuaID(id);
                     if (kyLuong != null)
                     {
                         return kyLuong;

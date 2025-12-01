@@ -1,4 +1,5 @@
 ﻿using DAL;
+using DAL.DataContext;
 using DTO;
 using System;
 using System.Collections.Generic;
@@ -13,31 +14,31 @@ namespace BLL
 {
     public class BLLUngVien
     {
-        private DALUngVien dal;
+        private DALUngVien _ungVienDAL;
 
         public BLLUngVien(string conn)
         {
-            dal = new DALUngVien(conn);
+            _ungVienDAL = new DALUngVien(conn);
         }
 
         public bool TuChoiUngVienConLai(int idTuyenDung)
         {
             if (idTuyenDung < 1) return false;
-            return dal.TuChoiUngVienConLai(idTuyenDung);
+            return _ungVienDAL.TuChoiUngVienConLai(idTuyenDung);
         }
         public List<DTOUngVien> GetUngVienstatusThuViec(int idTuyenDung)
         {
             if(idTuyenDung < 1) return null;
-            return dal.GetUngVienstatusThuViec(idTuyenDung);
+            return _ungVienDAL.GetUngVienstatusThuViec(idTuyenDung);
         }
         public bool UpdateIsDelete(int id)
         {
             if(id < 1) return false;
-            return dal.UpdateIsDelete(id);
+            return _ungVienDAL.UpdateIsDelete(id);
         }
-        public IQueryable GetUCIsDeleted(bool isDeleted, bool inComplete) => dal.GetUCIsDeleted(isDeleted, inComplete);
+        public IQueryable GetUCIsDeleted(bool isDeleted, bool inComplete) => _ungVienDAL.GetUCIsDeleted(isDeleted, inComplete);
 
-        public IQueryable GetAll() => dal.GetAll();
+        public IQueryable GetAll() => _ungVienDAL.GetAll();
 
         public IQueryable GetFind(string status, string name, int idChucVu)
         {
@@ -47,42 +48,42 @@ namespace BLL
                 return GetAll();
             }
 
-            return dal.GetFind(status, name, idChucVu);
+            return _ungVienDAL.GetFind(status, name, idChucVu);
 
         }
 
-        public IQueryable GetUngVienStatus(bool flag) => dal.GetUngVienStatus(flag);
+        public IQueryable GetUngVienStatus(bool flag) => _ungVienDAL.GetUngVienStatus(flag);
 
         public IQueryable GetUngTuyenByChucVu(int idChucVu)
         {
-            if (idChucVu > 0) return dal.GetUngTuyenByChucVu(idChucVu);
+            if (idChucVu > 0) return _ungVienDAL.GetUngTuyenByChucVu(idChucVu);
             return null;
         }
 
         public IQueryable GetUngTuyenByTuyenDung(int idTuyenDung)
         {
-            if (idTuyenDung > 0) return dal.GetUngTuyenByTuyenDung(idTuyenDung);
+            if (idTuyenDung > 0) return _ungVienDAL.GetUngTuyenByTuyenDung(idTuyenDung);
             return null;
         }
 
         public bool Update(DTOUngVien dto)
         {
             if (IsValid(dto) == "Isvalid data")
-                return dal.Update(dto);
+                return _ungVienDAL.Update(dto);
             return false;
         }
 
         public bool Delete(int id)
         {
             if (id > 0)
-                return dal.Delete(id);
+                return _ungVienDAL.Delete(id);
             return false;
         }
 
         public string Add(DTOUngVien dto)
         {
             string result = IsValid(dto);
-            if (result == "Isvalid data") return dal.Add(dto);
+            if (result == "Isvalid data") return _ungVienDAL.Add(dto);
 
             return result;
         }
@@ -106,7 +107,7 @@ namespace BLL
             return "Isvalid data";
         }
 
-        public List<UngVien> LayDsUngvien() => dal.LayDsUngvien();
+        public List<UngVien> LayDsUngvien() => _ungVienDAL.LayDsUngvien();
     }
 
 }

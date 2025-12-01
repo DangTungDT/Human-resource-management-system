@@ -1,4 +1,5 @@
 ﻿using DAL;
+using DAL.DataContext;
 using DTO;
 using System;
 using System.Collections.Generic;
@@ -11,13 +12,12 @@ namespace BLL
 {
     public class BLLPhuCap
     {
-        public readonly DALPhuCap _dbContext;
-       private readonly DALPhuCap dal;
+        private readonly DALPhuCap _phuCapDAL;
 
         public BLLPhuCap(string stringConnection)
         {
-            dal = new DALPhuCap(stringConnection);
-            _dbContext = new DALPhuCap(stringConnection);
+            _phuCapDAL = new DALPhuCap(stringConnection);
+            _phuCapDAL = new DALPhuCap(stringConnection);
         }
 
         // Danh sach phu cap
@@ -25,7 +25,7 @@ namespace BLL
         {
             try
             {
-                var list = _dbContext.DsPhuCap().ToList();
+                var list = _phuCapDAL.DsPhuCap().ToList();
 
                 if (list.Any() && list != null)
                 {
@@ -43,11 +43,11 @@ namespace BLL
 
        
 
-        public DataTable GetAll() => dal.GetAll();
+        public DataTable GetAll() => _phuCapDAL.GetAll();
 
         public int InsertPhuCapMoi(string lyDoPhuCap, decimal soTien)
         {
-            int idpc = dal.InsertPhuCapMoi( lyDoPhuCap, soTien);
+            int idpc = _phuCapDAL.InsertPhuCapMoi( lyDoPhuCap, soTien);
             return idpc; 
         }
 
@@ -57,7 +57,7 @@ namespace BLL
                 return false;
             if (pc.SoTien <= 0)
                 return false;
-            return dal.Insert(pc);
+            return _phuCapDAL.Insert(pc);
         }
 
         public bool Update(int id, DTOPhuCap pc)
@@ -66,12 +66,12 @@ namespace BLL
                 return false;
             if (pc.SoTien <= 0)
                 return false;
-            return dal.Update(id, pc);
+            return _phuCapDAL.Update(id, pc);
         }
 
-        public bool Delete(int id) => dal.Delete(id);
+        public bool Delete(int id) => _phuCapDAL.Delete(id);
 
-        public DataTable Search(string keyword) => dal.Search(keyword);
+        public DataTable Search(string keyword) => _phuCapDAL.Search(keyword);
     }
 
 }

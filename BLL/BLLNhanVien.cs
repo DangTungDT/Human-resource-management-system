@@ -1,4 +1,5 @@
 ﻿using DAL;
+using DAL.DataContext;
 using DTO;
 using System;
 using System.Collections.Generic;
@@ -12,23 +13,23 @@ namespace BLL
 {
     public class BLLNhanVien
     {
-        public readonly DALNhanVien _dal;
-        public readonly BLLTaiKhoan _tkBus;
+        public readonly DALNhanVien _nhanVienDAL;
+        public readonly BLLTaiKhoan _taiKhoanBLL;
 
         public BLLNhanVien(string conn)
         {
-            _dal = new DALNhanVien(conn);
-            _tkBus = new BLLTaiKhoan(conn);
+            _nhanVienDAL = new DALNhanVien(conn);
+            _taiKhoanBLL = new BLLTaiKhoan(conn);
         }
 
         public IQueryable<NhanVien> LayNhanVienChamCongVe(string idStaff, int idDepartment)
         {
-            return _dal.LayNhanVienChamCongVe(idStaff, idDepartment);
+            return _nhanVienDAL.LayNhanVienChamCongVe(idStaff, idDepartment);
         }
 
         public IQueryable<NhanVien> LayNhanVienQuanLy(string idStaff, int idDepartment)
         {
-            return _dal.LayNhanVienQuanLy(idStaff, idDepartment);
+            return _nhanVienDAL.LayNhanVienQuanLy(idStaff, idDepartment);
         }
 
 
@@ -40,12 +41,12 @@ namespace BLL
                 return null;
             }
 
-            return _dal.GetStaffByRole(idStaff, idDepartment);
+            return _nhanVienDAL.GetStaffByRole(idStaff, idDepartment);
 
         }
         public DataTable GetDanhSachNhanVien(bool showHidden)
         {
-            return _dal.GetAll(showHidden);
+            return _nhanVienDAL.GetAll(showHidden);
         }
 
         public DTONhanVien GetStaffById(string idStaff)
@@ -54,7 +55,7 @@ namespace BLL
             {
                 if (!string.IsNullOrEmpty(idStaff))
                 {
-                    return _dal.GetStaffById(idStaff);
+                    return _nhanVienDAL.GetStaffById(idStaff);
                 }
             }
             return null;
@@ -62,22 +63,22 @@ namespace BLL
 
         public DataTable GetById(string id)
         {
-            return _dal.GetById(id);
+            return _nhanVienDAL.GetById(id);
         }
 
         public DataTable ComboboxNhanVien()
         {
-            return _dal.LoadNhanVien();
+            return _nhanVienDAL.LoadNhanVien();
         }
 
         public DataTable ComboboxNhanVien(int? idPhongBan = null)
         {
-            return _dal.ComboboxNhanVien(idPhongBan);
+            return _nhanVienDAL.ComboboxNhanVien(idPhongBan);
         }
 
         public DTONhanVien LayThongTin(string idNV)
         {
-            return _dal.LayThongTin(idNV);
+            return _nhanVienDAL.LayThongTin(idNV);
         }
 
         public void CapNhatThongTin(DTONhanVien nv)
@@ -85,37 +86,37 @@ namespace BLL
             if (string.IsNullOrWhiteSpace(nv.TenNhanVien))
                 throw new Exception("Tên nhân viên không được để trống!");
 
-            _dal.UpdateNhanVien(nv);
+            _nhanVienDAL.UpdateNhanVien(nv);
         }
 
         public string CreateIdStaff(string tenChucVu, string tenPhongBan)
         {
-            if(tenChucVu != null && tenPhongBan != null) return _dal.SinhMaNhanVien(tenChucVu, tenPhongBan);
+            if(tenChucVu != null && tenPhongBan != null) return _nhanVienDAL.SinhMaNhanVien(tenChucVu, tenPhongBan);
             return "";
         }
 
         public bool AddNhanVien(DTONhanVien nv, string tenChucVu, string TenPhongBan)
         {
-            nv.ID = _dal.SinhMaNhanVien(tenChucVu, TenPhongBan);
-            bool added = _dal.Insert(nv);
+            nv.ID = _nhanVienDAL.SinhMaNhanVien(tenChucVu, TenPhongBan);
+            bool added = _nhanVienDAL.Insert(nv);
             if (added)
-                _tkBus.CreateDefaultAccount(nv.ID, nv.TenNhanVien, tenChucVu);
+                _taiKhoanBLL.CreateDefaultAccount(nv.ID, nv.TenNhanVien, tenChucVu);
             return added;
         }
 
         public bool UpdateNhanVien(DTONhanVien nv)
         {
-            return _dal.Update(nv);
+            return _nhanVienDAL.Update(nv);
         }
 
         public void AnNhanVien(string id)
         {
-            _dal.AnNhanVien(id);
+            _nhanVienDAL.AnNhanVien(id);
         }
 
         public void KhoiPhucNhanVien(string id)
         {
-            _dal.KhoiPhucNhanVien(id);
+            _nhanVienDAL.KhoiPhucNhanVien(id);
         }
 
         public NhanVien KtraNhanVienQuaID(string id)
@@ -124,7 +125,7 @@ namespace BLL
             {
                 if (id != null)
                 {
-                    return _dal.LayNhanVienQuaID(id);
+                    return _nhanVienDAL.LayNhanVienQuaID(id);
                 }
 
                 return null;
@@ -141,9 +142,9 @@ namespace BLL
         {
             try
             {   
-                if (_dal.LayDsNhanVien().Any())
+                if (_nhanVienDAL.LayDsNhanVien().Any())
                 {
-                    return _dal.LayDsNhanVien();
+                    return _nhanVienDAL.LayDsNhanVien();
                 }
                 else return null;
             }
@@ -159,12 +160,12 @@ namespace BLL
             {
                 return null;
             }
-            return _dal.GetStaffByNameEmailCheckin(name, email, checkin, idDepartment, idStaff);
+            return _nhanVienDAL.GetStaffByNameEmailCheckin(name, email, checkin, idDepartment, idStaff);
         }
         //kiểm tra email
         public bool KiemTraEmailTonTai(string email)
         {
-            return _dal.KiemTraEmailTonTai(email);
+            return _nhanVienDAL.KiemTraEmailTonTai(email);
         }
     }
 }

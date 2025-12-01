@@ -1,4 +1,5 @@
 ﻿using DAL;
+using DAL.DataContext;
 using DTO;
 using System;
 using System.Collections.Generic;
@@ -12,13 +13,12 @@ namespace BLL
 {
     public class BLLNhanVien_PhuCap
     {
-        public readonly DALNhanVien_PhuCap _dbContext;
-        private readonly DALNhanVien_PhuCap dal;
+        private readonly DALNhanVien_PhuCap _NhanVienPhuCapDAL;
 
         public BLLNhanVien_PhuCap(string conn)
         {
-            _dbContext = new DALNhanVien_PhuCap(conn);
-            dal = new DALNhanVien_PhuCap(conn);
+            _NhanVienPhuCapDAL = new DALNhanVien_PhuCap(conn);
+            _NhanVienPhuCapDAL = new DALNhanVien_PhuCap(conn);
         }
 
         // Lấy danh sách chi tiết
@@ -26,7 +26,7 @@ namespace BLL
         {
             try
             {
-                return dal.GetNhanVien_PhuCap_WithDetails(idPhongBan);
+                return _NhanVienPhuCapDAL.GetNhanVien_PhuCap_WithDetails(idPhongBan);
             }
             catch (Exception ex)
             {
@@ -39,11 +39,11 @@ namespace BLL
         {
             try
             {
-                if (!_dbContext.DsNhanVien_PhuCap().Any())
+                if (!_NhanVienPhuCapDAL.DsNhanVien_PhuCap().Any())
                 {
                     throw new Exception("Không có dữ liệu d/s bảng trung gian nhân viên, phụ cấp !");
                 }
-                else return _dbContext.DsNhanVien_PhuCap();
+                else return _NhanVienPhuCapDAL.DsNhanVien_PhuCap();
             }
             catch (Exception ex)
             {
@@ -56,11 +56,11 @@ namespace BLL
         {
             try
             {
-                var ktraNV_PC = _dbContext.TimNhanVien_PhuCapQuaID(DTO.IDNhanVien, DTO.IDPhuCap);
+                var ktraNV_PC = _NhanVienPhuCapDAL.TimNhanVien_PhuCapQuaID(DTO.IDNhanVien, DTO.IDPhuCap);
 
                 if (ktraNV_PC != null)
                 {
-                    var KtraThemKV_PC = _dbContext.ThemNhanVien_PhuCap(DTO);
+                    var KtraThemKV_PC = _NhanVienPhuCapDAL.ThemNhanVien_PhuCap(DTO);
                     if (KtraThemKV_PC)
                     {
                         return true;
@@ -81,11 +81,11 @@ namespace BLL
         {
             try
             {
-                var ktraNV_PC = _dbContext.TimNhanVien_PhuCapQuaID(DTO.IDNhanVien, DTO.IDPhuCap);
+                var ktraNV_PC = _NhanVienPhuCapDAL.TimNhanVien_PhuCapQuaID(DTO.IDNhanVien, DTO.IDPhuCap);
 
                 if (ktraNV_PC != null)
                 {
-                    var KtraThemNV_PC = _dbContext.CapNhatNhanVien_PhuCap(DTO);
+                    var KtraThemNV_PC = _NhanVienPhuCapDAL.CapNhatNhanVien_PhuCap(DTO);
                     if (KtraThemNV_PC)
                     {
                         return true;
@@ -106,11 +106,11 @@ namespace BLL
         {
             try
             {
-                var ktraNV_PC = _dbContext.TimNhanVien_PhuCapQuaID(DTO.IDNhanVien, DTO.IDPhuCap);
+                var ktraNV_PC = _NhanVienPhuCapDAL.TimNhanVien_PhuCapQuaID(DTO.IDNhanVien, DTO.IDPhuCap);
 
                 if (ktraNV_PC != null)
                 {
-                    var KtraThemNV_PC = _dbContext.XoaNhanVien_PhuCap(DTO);
+                    var KtraThemNV_PC = _NhanVienPhuCapDAL.XoaNhanVien_PhuCap(DTO);
                     if (KtraThemNV_PC)
                     {
                         return true;
@@ -133,7 +133,7 @@ namespace BLL
             {
                 if (!string.IsNullOrEmpty(idNhanVien) && idPhuCap > 0)
                 {
-                    var ktraID = _dbContext.TimNhanVien_PhuCapQuaID(idNhanVien, idPhuCap);
+                    var ktraID = _NhanVienPhuCapDAL.TimNhanVien_PhuCapQuaID(idNhanVien, idPhuCap);
                     if (ktraID != null)
                     {
                         return true;
@@ -154,10 +154,10 @@ namespace BLL
             if (string.IsNullOrWhiteSpace(dto.IDNhanVien) || dto.IDPhuCap <= 0)
                 return false;
 
-            if (dal.Exists(dto.IDNhanVien, dto.IDPhuCap))
+            if (_NhanVienPhuCapDAL.Exists(dto.IDNhanVien, dto.IDPhuCap))
                 return false; // Đã tồn tại
 
-            return dal.ThemNhanVien_PhuCap1(dto);
+            return _NhanVienPhuCapDAL.ThemNhanVien_PhuCap1(dto);
         }
 
         // Cập nhật trạng thái
@@ -166,10 +166,10 @@ namespace BLL
             if (string.IsNullOrWhiteSpace(dto.IDNhanVien) || dto.IDPhuCap <= 0)
                 return false;
 
-            if (!dal.Exists(dto.IDNhanVien, dto.IDPhuCap))
+            if (!_NhanVienPhuCapDAL.Exists(dto.IDNhanVien, dto.IDPhuCap))
                 return false;
 
-            return dal.CapNhatNhanVien_PhuCap1(dto);
+            return _NhanVienPhuCapDAL.CapNhatNhanVien_PhuCap1(dto);
         }
 
         // Xóa
@@ -178,7 +178,7 @@ namespace BLL
             if (string.IsNullOrWhiteSpace(dto.IDNhanVien) || dto.IDPhuCap <= 0)
                 return false;
 
-            return dal.XoaNhanVien_PhuCap1(dto);
+            return _NhanVienPhuCapDAL.XoaNhanVien_PhuCap1(dto);
         }
 
 

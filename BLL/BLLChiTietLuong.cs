@@ -1,4 +1,5 @@
 ﻿using DAL;
+using DAL.DataContext;
 using DTO;
 using System;
 using System.CodeDom;
@@ -13,20 +14,20 @@ namespace BLL
 {
     public class BLLChiTietLuong
     {
-        public readonly DALChiTietLuong _dbContext;
+        public readonly DALChiTietLuong _chiTietLuongDAL;
 
-        public BLLChiTietLuong(string conn) => _dbContext = new DALChiTietLuong(conn);
+        public BLLChiTietLuong(string conn) => _chiTietLuongDAL = new DALChiTietLuong(conn);
 
         // Ktra ds Chi Tiet Luong
         public List<ChiTietLuong> KtraDsChiTietLuong()
         {
             try
             {
-                if (!_dbContext.DsChiTietLuong().Any())
+                if (!_chiTietLuongDAL.DsChiTietLuong().Any())
                 {
                     throw new Exception("Không có dữ liệu d/s chi tiết lương !");
                 }
-                else return _dbContext.DsChiTietLuong();
+                else return _chiTietLuongDAL.DsChiTietLuong();
             }
             catch (Exception ex)
             {
@@ -41,7 +42,7 @@ namespace BLL
             {
                 if (!string.IsNullOrEmpty(id))
                 {
-                    var nhanVien = _dbContext.TimChiTietLuongQuaIDNhanVien(id);
+                    var nhanVien = _chiTietLuongDAL.TimChiTietLuongQuaIDNhanVien(id);
                     if (nhanVien != null)
                     {
                         var dataChiTietLuong = KtraDsChiTietLuong().FirstOrDefault(p => p.idNhanVien == nhanVien.idNhanVien && p.ngayNhanLuong.Year == DateTime.Now.Year && p.ngayNhanLuong.Month == DateTime.Now.Month + 1);
@@ -67,11 +68,11 @@ namespace BLL
         {
             try
             {
-                var ktraCTL = _dbContext.TimChiTietLuongQuaID(DTO.ID);
+                var ktraCTL = _chiTietLuongDAL.TimChiTietLuongQuaID(DTO.ID);
 
                 if (ktraCTL == null)
                 {
-                    var KtraThemCTL = _dbContext.ThemChiTietLuong(DTO);
+                    var KtraThemCTL = _chiTietLuongDAL.ThemChiTietLuong(DTO);
                     if (KtraThemCTL)
                     {
                         return true;
@@ -92,11 +93,11 @@ namespace BLL
         {
             try
             {
-                var ktraCTL = _dbContext.TimChiTietLuongQuaID(DTO.ID);
+                var ktraCTL = _chiTietLuongDAL.TimChiTietLuongQuaID(DTO.ID);
 
                 if (ktraCTL != null)
                 {
-                    var KtraThemCTL = _dbContext.CapNhatChiTietLuong(DTO);
+                    var KtraThemCTL = _chiTietLuongDAL.CapNhatChiTietLuong(DTO);
                     if (KtraThemCTL)
                     {
                         return true;
@@ -117,11 +118,11 @@ namespace BLL
         {
             try
             {
-                var ktraCTL = _dbContext.TimChiTietLuongQuaID(DTO.ID);
+                var ktraCTL = _chiTietLuongDAL.TimChiTietLuongQuaID(DTO.ID);
 
                 if (ktraCTL != null)
                 {
-                    var KtraThemCTL = _dbContext.CapNhatChiTietLuongGhiChu(DTO);
+                    var KtraThemCTL = _chiTietLuongDAL.CapNhatChiTietLuongGhiChu(DTO);
                     if (KtraThemCTL)
                     {
                         return true;
@@ -142,11 +143,11 @@ namespace BLL
         {
             try
             {
-                var ktraCTL = _dbContext.TimChiTietLuongQuaID(DTO.id);
+                var ktraCTL = _chiTietLuongDAL.TimChiTietLuongQuaID(DTO.id);
 
                 if (ktraCTL != null)
                 {
-                    var KtraThemCTL = _dbContext.XoaChiTietLuong(DTO);
+                    var KtraThemCTL = _chiTietLuongDAL.XoaChiTietLuong(DTO);
                     if (KtraThemCTL)
                     {
                         return true;
@@ -169,7 +170,7 @@ namespace BLL
             {
                 if (id > 0)
                 {
-                    var ktraID = _dbContext.TimChiTietLuongQuaID(id);
+                    var ktraID = _chiTietLuongDAL.TimChiTietLuongQuaID(id);
                     if (ktraID != null)
                     {
                         return true;
@@ -191,7 +192,7 @@ namespace BLL
             {
                 if (id > 0)
                 {
-                    var ktraID = _dbContext.TimChiTietLuongQuaIDKyLuong(id);
+                    var ktraID = _chiTietLuongDAL.TimChiTietLuongQuaIDKyLuong(id);
                     if (ktraID != null)
                     {
                         return true;

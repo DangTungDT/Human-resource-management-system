@@ -11,30 +11,30 @@ namespace BLL
 {
     public class BLLKyLuat
     {
-        private readonly DALKyLuat dal;
+        private readonly DALKyLuat _kyLuatDAL;
 
         public BLLKyLuat(string conn)
         {
-            dal = new DALKyLuat(conn);
+            _kyLuatDAL = new DALKyLuat(conn);
         }
 
         public DataTable GetAll(string idPhongBan = "")
         {
-            return dal.GetAll(idPhongBan);
+            return _kyLuatDAL.GetAll(idPhongBan);
         }
-        public DataTable GetDepartments() => dal.GetDepartments();
+        public DataTable GetDepartments() => _kyLuatDAL.GetDepartments();
 
         public void Save(DTOKyLuat kl, bool isNew)
         {
             if (isNew)
-                dal.Insert(kl);
+                _kyLuatDAL.Insert(kl);
             else
-                dal.Update(kl);
+                _kyLuatDAL.Update(kl);
         }
 
         public void Delete(int id)
         {
-            dal.Delete(id);
+            _kyLuatDAL.Delete(id);
         }
     }
 }

@@ -45,32 +45,32 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DALChamCong.cs" />
-    <Compile Include="DALChiTietLuong.cs" />
-    <Compile Include="DALChucVu.cs" />
-    <Compile Include="DALDanhGiaNhanVien.cs" />
-    <Compile Include="DALHopDongLaoDong.cs" />
-    <Compile Include="DALNghiPhep.cs" />
-    <Compile Include="DALKhauTru.cs" />
-    <Compile Include="DALKhenThuong.cs" />
-    <Compile Include="DALKyLuat.cs" />
-    <Compile Include="DALKyLuong.cs" />
-    <Compile Include="DALNghiPhep.cs" />
-    <Compile Include="DALNhanVien.cs" />
-    <Compile Include="DALNhanVien_KhauTru.cs" />
-    <Compile Include="DALNhanVien_PhuCap.cs" />
-    <Compile Include="DALNhanVien_ThuongPhat.cs" />
-    <Compile Include="DALPhongBan.cs" />
-    <Compile Include="DALPhuCap.cs" />
-    <Compile Include="DALTaiKhoan.cs" />
-    <Compile Include="DALThuongPhat.cs" />
-    <Compile Include="DALUngVien.cs" />
-    <Compile Include="DALTuyenDung.cs" />
-    <Compile Include="PersonnelManagementDataContextDataContext.designer.cs">
+    <Compile Include="Connection\ConnectionDB.cs" />
+    <Compile Include="DataContext\PersonnelManagement.designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>PersonnelManagementDataContextDataContext.dbml</DependentUpon>
+      <DependentUpon>PersonnelManagement.dbml</DependentUpon>
     </Compile>
+    <Compile Include="Repository\DALChamCong.cs" />
+    <Compile Include="Repository\DALChiTietLuong.cs" />
+    <Compile Include="Repository\DALChucVu.cs" />
+    <Compile Include="Repository\DALDanhGiaNhanVien.cs" />
+    <Compile Include="Repository\DALHopDongLaoDong.cs" />
+    <Compile Include="Repository\DALKhauTru.cs" />
+    <Compile Include="Repository\DALKhenThuong.cs" />
+    <Compile Include="Repository\DALKyLuat.cs" />
+    <Compile Include="Repository\DALKyLuong.cs" />
+    <Compile Include="Repository\DALNghiPhep.cs" />
+    <Compile Include="Repository\DALNhanVien.cs" />
+    <Compile Include="Repository\DALNhanVien_KhauTru.cs" />
+    <Compile Include="Repository\DALNhanVien_PhuCap.cs" />
+    <Compile Include="Repository\DALNhanVien_ThuongPhat.cs" />
+    <Compile Include="Repository\DALPhongBan.cs" />
+    <Compile Include="Repository\DALPhuCap.cs" />
+    <Compile Include="Repository\DALTaiKhoan.cs" />
+    <Compile Include="Repository\DALThuongPhat.cs" />
+    <Compile Include="Repository\DALUngVien.cs" />
+    <Compile Include="Repository\DALTuyenDung.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Settings.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -86,13 +86,13 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
-    <None Include="PersonnelManagementDataContextDataContext.dbml">
+    <None Include="DataContext\PersonnelManagement.dbml">
       <Generator>MSLinqToSQLGenerator</Generator>
-      <LastGenOutput>PersonnelManagementDataContextDataContext.designer.cs</LastGenOutput>
+      <LastGenOutput>PersonnelManagement.designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
     </None>
-    <None Include="PersonnelManagementDataContextDataContext.dbml.layout">
-      <DependentUpon>PersonnelManagementDataContextDataContext.dbml</DependentUpon>
+    <None Include="DataContext\PersonnelManagement.dbml.layout">
+      <DependentUpon>PersonnelManagement.dbml</DependentUpon>
     </None>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -102,5 +102,6 @@
   <ItemGroup>
     <Service Include="{3259AA49-8AA1-44D3-9025-A0B520596A8C}" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

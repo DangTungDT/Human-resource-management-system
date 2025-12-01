@@ -11,29 +11,29 @@ namespace BLL
 {
     public class BLLKhenThuong
     {
-        private readonly DALKhenThuong dal;
+        private readonly DALKhenThuong _khenThuongDAL;
 
         public BLLKhenThuong(string conn)
         {
-            dal = new DALKhenThuong(conn);
+            _khenThuongDAL = new DALKhenThuong(conn);
         }
 
         public DataTable GetAll(string idPhongBan = "")
         {
-            return dal.GetAll(idPhongBan);
+            return _khenThuongDAL.GetAll(idPhongBan);
         }
 
         public void Save(DTOKhenThuong kt, bool isNew)
         {
             if (isNew)
-                dal.Insert(kt);
+                _khenThuongDAL.Insert(kt);
             else
-                dal.Update(kt);
+                _khenThuongDAL.Update(kt);
         }
 
         public void Delete(int id)
         {
-            dal.Delete(id);
+            _khenThuongDAL.Delete(id);
         }
     }
 }

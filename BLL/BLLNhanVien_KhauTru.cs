@@ -1,4 +1,5 @@
 ﻿using DAL;
+using DAL.DataContext;
 using DTO;
 using System;
 using System.Collections.Generic;
@@ -12,18 +13,18 @@ namespace BLL
 {
     public class BLLNhanVien_KhauTru
     {
-        public readonly DALNhanVien_KhauTru _dbContext;
+        public readonly DALNhanVien_KhauTru _NhanVienKhauTrucDAL;
 
         public BLLNhanVien_KhauTru(string stringConnection)
         {
             dal = new DALNhanVien_KhauTru(stringConnection);
-            _dbContext = new DALNhanVien_KhauTru(stringConnection);
+            _NhanVienKhauTrucDAL = new DALNhanVien_KhauTru(stringConnection);
         }
 
         // Danh sach nhan vien_khau tru
         public List<NhanVien_KhauTru> KtraDsNhanVien_KhauTru()
         {
-            var list = _dbContext.DsNhanVien_KhauTru().ToList();
+            var list = _NhanVienKhauTrucDAL.DsNhanVien_KhauTru().ToList();
             if (list.Any() && list != null)
             {
                 try

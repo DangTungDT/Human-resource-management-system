@@ -1,4 +1,5 @@
 ﻿using DAL;
+using DAL.DataContext;
 using DTO;
 using System;
 using System.Collections.Generic;
@@ -14,20 +15,20 @@ namespace BLL
 {
     public class BLLNghiPhep
     {
-        public DALNghiPhep _dbContext;
+        public DALNghiPhep _nghiPhepDAL;
 
-        public BLLNghiPhep(string conn) => _dbContext = new DALNghiPhep(conn);
+        public BLLNghiPhep(string conn) => _nghiPhepDAL = new DALNghiPhep(conn);
 
         // Ktra ds Nghi Phep
         public List<NghiPhep> LayDsNghiPhep()
         {
             try
             {
-                if (!_dbContext.LayDsNghiPhep().Any())
+                if (!_nghiPhepDAL.LayDsNghiPhep().Any())
                 {
                     return new List<NghiPhep>();
                 }
-                else return _dbContext.LayDsNghiPhep();
+                else return _nghiPhepDAL.LayDsNghiPhep();
 
             }
             catch (Exception ex)
@@ -41,10 +42,10 @@ namespace BLL
         {
             try
             {
-                var ktraNV = _dbContext.KiemTraIDNhanVien(DTO.IDNhanVien);
+                var ktraNV = _nghiPhepDAL.KiemTraIDNhanVien(DTO.IDNhanVien);
                 if (ktraNV)
                 {
-                    var KtraThemNP = _dbContext.ThemNghiPhep(DTO);
+                    var KtraThemNP = _nghiPhepDAL.ThemNghiPhep(DTO);
                     if (KtraThemNP)
                     {
                         return true;
@@ -65,14 +66,14 @@ namespace BLL
         {
             try
             {
-                var ktraNP = _dbContext.KiemTraIDNghiPhep(DTO.ID);
-                var ktraNV = _dbContext.KiemTraIDNhanVien(DTO.IDNhanVien);
+                var ktraNP = _nghiPhepDAL.KiemTraIDNghiPhep(DTO.ID);
+                var ktraNV = _nghiPhepDAL.KiemTraIDNhanVien(DTO.IDNhanVien);
 
                 if (ktraNV)
                 {
                     if (ktraNP)
                     {
-                        var KtraThemNP = _dbContext.CapNhatNghiPhep(DTO);
+                        var KtraThemNP = _nghiPhepDAL.CapNhatNghiPhep(DTO);
                         if (KtraThemNP)
                         {
                             return true;
@@ -96,14 +97,14 @@ namespace BLL
         {
             try
             {
-                var ktraNP = _dbContext.KiemTraIDNghiPhep(DTO.ID);
-                var ktraNV = _dbContext.KiemTraIDNhanVien(DTO.IDNhanVien);
+                var ktraNP = _nghiPhepDAL.KiemTraIDNghiPhep(DTO.ID);
+                var ktraNV = _nghiPhepDAL.KiemTraIDNhanVien(DTO.IDNhanVien);
 
                 if (ktraNV)
                 {
                     if (ktraNP)
                     {
-                        var KtraThemNP = _dbContext.CapNhatTrangThaiNghiPhep(DTO);
+                        var KtraThemNP = _nghiPhepDAL.CapNhatTrangThaiNghiPhep(DTO);
                         if (KtraThemNP)
                         {
                             return true;
@@ -127,10 +128,10 @@ namespace BLL
         {
             try
             {
-                var dsNVNghiPhep = _dbContext.LayDsNghiPhep().Where(p => p.NgayBatDau.Date > DateTime.Now.Date && p.TrangThai == "Đang yêu cầu").ToList();
+                var dsNVNghiPhep = _nghiPhepDAL.LayDsNghiPhep().Where(p => p.NgayBatDau.Date > DateTime.Now.Date && p.TrangThai == "Đang yêu cầu").ToList();
                 if (dsNVNghiPhep.Any())
                 {
-                    var KtraThemNP = _dbContext.CapNhatTrangThaiNghiPhepChoNhieuNV();
+                    var KtraThemNP = _nghiPhepDAL.CapNhatTrangThaiNghiPhepChoNhieuNV();
                     if (KtraThemNP)
                     {
                         return true;
@@ -150,14 +151,14 @@ namespace BLL
         {
             try
             {
-                var ktraNP = _dbContext.KiemTraIDNghiPhep(DTO.ID);
-                var ktraNV = _dbContext.KiemTraIDNhanVien(DTO.IDNhanVien);
+                var ktraNP = _nghiPhepDAL.KiemTraIDNghiPhep(DTO.ID);
+                var ktraNV = _nghiPhepDAL.KiemTraIDNhanVien(DTO.IDNhanVien);
 
                 if (ktraNV)
                 {
                     if (ktraNP)
                     {
-                        var KtraThemNP = _dbContext.XoaNghiPhep(DTO);
+                        var KtraThemNP = _nghiPhepDAL.XoaNghiPhep(DTO);
                         if (KtraThemNP)
                         {
                             return true;
@@ -178,7 +179,7 @@ namespace BLL
 
         public List<DTONghiPhep> LayDanhSachNghiPhepQuaID(string idNhanVien)
         {
-            return _dbContext.LayDanhSachNghiPhep(idNhanVien);
+            return _nghiPhepDAL.LayDanhSachNghiPhep(idNhanVien);
         }
 
         // Ktra nghi phep qua trang thai dang yeu cau
@@ -188,7 +189,7 @@ namespace BLL
             {
                 if (id > 0)
                 {
-                    var nghiPhep = _dbContext.LayNghiPhepDangYeuCau(id);
+                    var nghiPhep = _nghiPhepDAL.LayNghiPhepDangYeuCau(id);
                     if (nghiPhep != null)
                     {
                         return nghiPhep;
@@ -211,7 +212,7 @@ namespace BLL
             {
                 if (id > 0)
                 {
-                    var nghiPhep = _dbContext.LayNghiPhepQuaID(id);
+                    var nghiPhep = _nghiPhepDAL.LayNghiPhepQuaID(id);
                     if (nghiPhep != null)
                     {
                         return nghiPhep;
@@ -234,7 +235,7 @@ namespace BLL
             {
                 if (!string.IsNullOrEmpty(reason))
                 {
-                    var checkReason = _dbContext.TimLyDoNghiTonTai(reason);
+                    var checkReason = _nghiPhepDAL.TimLyDoNghiTonTai(reason);
                     if (checkReason)
                     {
                         return true;
@@ -257,7 +258,7 @@ namespace BLL
             {
                 if (id > 0)
                 {
-                    var checkReason = _dbContext.TrangThaiDonNP(id);
+                    var checkReason = _nghiPhepDAL.TrangThaiDonNP(id);
                     if (checkReason)
                     {
                         return true;
@@ -278,7 +279,7 @@ namespace BLL
         {
             try
             {
-                var checkStatus = _dbContext.TimDonChuaDuyetTrongThang(maNV, thang, nam);
+                var checkStatus = _nghiPhepDAL.TimDonChuaDuyetTrongThang(maNV, thang, nam);
                 if (checkStatus)
                 {
                     return true;
@@ -296,7 +297,7 @@ namespace BLL
         {
             try
             {
-                var nghiPhep = _dbContext.TimDonNghiPhepChuaDuyet(maNV);
+                var nghiPhep = _nghiPhepDAL.TimDonNghiPhepChuaDuyet(maNV);
                 if (nghiPhep != null)
                 {
                     return nghiPhep;
@@ -314,7 +315,7 @@ namespace BLL
         {
             try
             {
-                return _dbContext.TinhSoLuongNgayNghiCoPhep(maNV, batDau, ketThuc, loai);
+                return _nghiPhepDAL.TinhSoLuongNgayNghiCoPhep(maNV, batDau, ketThuc, loai);
             }
             catch (Exception ex)
             {

@@ -47,39 +47,32 @@
     <Reference Include="ClosedXML.Parser, Version=1.0.0.0, Culture=neutral, PublicKeyToken=1d5f7376574c51ec, processorArchitecture=MSIL">
       <HintPath>packages\ClosedXML.Parser.2.0.0\lib\netstandard2.0\ClosedXML.Parser.dll</HintPath>
     </Reference>
-    <Reference Include="CrystalDecisions.CrystalReports.Engine, Version=13.0.4000.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL">
-      <HintPath>packages\CrystalReports.Engine.13.0.4003\lib\net40\CrystalDecisions.CrystalReports.Engine.dll</HintPath>
+    <Reference Include="CrystalDecisions.CrystalReports.Engine">
+      <HintPath>c:\program files (x86)\sap businessobjects\crystal reports for .net framework 4.0\common\sap businessobjects enterprise xi 4.0\win64_x64\dotnet\CrystalDecisions.CrystalReports.Engine.dll</HintPath>
     </Reference>
-    <Reference Include="CrystalDecisions.ReportAppServer.ClientDoc, Version=13.0.4000.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL">
-      <HintPath>packages\CrystalReports.ReportAppServer.ClientDoc.13.0.4003\lib\net40\CrystalDecisions.ReportAppServer.ClientDoc.dll</HintPath>
-      <EmbedInteropTypes>True</EmbedInteropTypes>
+    <Reference Include="CrystalDecisions.ReportAppServer.ClientDoc">
+      <HintPath>c:\program files (x86)\sap businessobjects\crystal reports for .net framework 4.0\common\sap businessobjects enterprise xi 4.0\win64_x64\dotnet\CrystalDecisions.ReportAppServer.ClientDoc.dll</HintPath>
     </Reference>
-    <Reference Include="CrystalDecisions.ReportAppServer.CommLayer, Version=13.0.4000.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL">
-      <HintPath>packages\CrystalReports.ReportAppServer.CommLayer.13.0.4003\lib\net40\CrystalDecisions.ReportAppServer.CommLayer.dll</HintPath>
-      <EmbedInteropTypes>True</EmbedInteropTypes>
+    <Reference Include="CrystalDecisions.ReportAppServer.CommLayer">
+      <HintPath>c:\program files (x86)\sap businessobjects\crystal reports for .net framework 4.0\common\sap businessobjects enterprise xi 4.0\win64_x64\dotnet\CrystalDecisions.ReportAppServer.CommLayer.dll</HintPath>
     </Reference>
-    <Reference Include="CrystalDecisions.ReportAppServer.CommonControls, Version=13.0.4000.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL">
-      <HintPath>packages\CrystalReports.ReportAppServer.CommonControls.13.0.4003\lib\net40\CrystalDecisions.ReportAppServer.CommonControls.dll</HintPath>
-      <EmbedInteropTypes>True</EmbedInteropTypes>
+    <Reference Include="CrystalDecisions.ReportAppServer.CommonControls">
+      <HintPath>c:\program files (x86)\sap businessobjects\crystal reports for .net framework 4.0\common\sap businessobjects enterprise xi 4.0\win64_x64\dotnet\CrystalDecisions.ReportAppServer.CommonControls.dll</HintPath>
     </Reference>
-    <Reference Include="CrystalDecisions.ReportAppServer.CommonObjectModel, Version=13.0.4000.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL">
-      <HintPath>packages\CrystalReports.ReportAppServer.CommonObjectModel.13.0.4003\lib\net40\CrystalDecisions.ReportAppServer.CommonObjectModel.dll</HintPath>
-      <EmbedInteropTypes>True</EmbedInteropTypes>
+    <Reference Include="CrystalDecisions.ReportAppServer.CommonObjectModel">
+      <HintPath>c:\program files (x86)\sap businessobjects\crystal reports for .net framework 4.0\common\sap businessobjects enterprise xi 4.0\win64_x64\dotnet\CrystalDecisions.ReportAppServer.CommonObjectModel.dll</HintPath>
     </Reference>
-    <Reference Include="CrystalDecisions.ReportAppServer.Controllers, Version=13.0.4000.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL">
-      <HintPath>packages\CrystalReports.ReportAppServer.Controllers.13.0.4003\lib\net40\CrystalDecisions.ReportAppServer.Controllers.dll</HintPath>
-      <EmbedInteropTypes>True</EmbedInteropTypes>
+    <Reference Include="CrystalDecisions.ReportAppServer.Controllers">
+      <HintPath>c:\program files (x86)\sap businessobjects\crystal reports for .net framework 4.0\common\sap businessobjects enterprise xi 4.0\win64_x64\dotnet\CrystalDecisions.ReportAppServer.Controllers.dll</HintPath>
     </Reference>
-    <Reference Include="CrystalDecisions.ReportAppServer.CubeDefModel, Version=13.0.4000.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL">
-      <HintPath>packages\CrystalReports.ReportAppServer.CubeDefModel.13.0.4003\lib\net40\CrystalDecisions.ReportAppServer.CubeDefModel.dll</HintPath>
-      <EmbedInteropTypes>True</EmbedInteropTypes>
+    <Reference Include="CrystalDecisions.ReportAppServer.CubeDefModel">
+      <HintPath>c:\program files (x86)\sap businessobjects\crystal reports for .net framework 4.0\common\sap businessobjects enterprise xi 4.0\win64_x64\dotnet\CrystalDecisions.ReportAppServer.CubeDefModel.dll</HintPath>
     </Reference>
-    <Reference Include="CrystalDecisions.ReportAppServer.DataDefModel, Version=13.0.4000.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL">
-      <HintPath>packages\CrystalReports.ReportAppServer.DataDefModel.13.0.4003\lib\net40\CrystalDecisions.ReportAppServer.DataDefModel.dll</HintPath>
-      <EmbedInteropTypes>True</EmbedInteropTypes>
+    <Reference Include="CrystalDecisions.ReportAppServer.DataDefModel">
+      <HintPath>c:\program files (x86)\sap businessobjects\crystal reports for .net framework 4.0\common\sap businessobjects enterprise xi 4.0\win64_x64\dotnet\CrystalDecisions.ReportAppServer.DataDefModel.dll</HintPath>
     </Reference>
-    <Reference Include="CrystalDecisions.ReportAppServer.DataSetConversion, Version=13.0.4000.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL">
-      <HintPath>packages\CrystalReports.ReportAppServer.DataSetConversion.13.0.4003\lib\net40\CrystalDecisions.ReportAppServer.DataSetConversion.dll</HintPath>
+    <Reference Include="CrystalDecisions.ReportAppServer.DataSetConversion">
+      <HintPath>c:\program files (x86)\sap businessobjects\crystal reports for .net framework 4.0\common\sap businessobjects enterprise xi 4.0\win64_x64\dotnet\CrystalDecisions.ReportAppServer.DataSetConversion.dll</HintPath>
     </Reference>
     <Reference Include="CrystalDecisions.ReportAppServer.ObjectFactory, Version=13.0.4000.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL">
       <HintPath>packages\CrystalReports.ReportAppServer.ObjectFactory.13.0.4003\lib\net40\CrystalDecisions.ReportAppServer.ObjectFactory.dll</HintPath>
@@ -89,22 +82,20 @@
       <HintPath>packages\CrystalReports.ReportAppServer.Prompting.13.0.4003\lib\net40\CrystalDecisions.ReportAppServer.Prompting.dll</HintPath>
       <EmbedInteropTypes>True</EmbedInteropTypes>
     </Reference>
-    <Reference Include="CrystalDecisions.ReportAppServer.ReportDefModel, Version=13.0.4000.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL">
-      <HintPath>packages\CrystalReports.ReportAppServer.ReportDefModel.13.0.4003\lib\net40\CrystalDecisions.ReportAppServer.ReportDefModel.dll</HintPath>
-      <EmbedInteropTypes>True</EmbedInteropTypes>
+    <Reference Include="CrystalDecisions.ReportAppServer.ReportDefModel">
+      <HintPath>c:\program files (x86)\sap businessobjects\crystal reports for .net framework 4.0\common\sap businessobjects enterprise xi 4.0\win64_x64\dotnet\CrystalDecisions.ReportAppServer.ReportDefModel.dll</HintPath>
     </Reference>
-    <Reference Include="CrystalDecisions.ReportAppServer.XmlSerialize, Version=13.0.4000.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL">
-      <HintPath>packages\CrystalReports.ReportAppServer.XmlSerialize.13.0.4003\lib\net40\CrystalDecisions.ReportAppServer.XmlSerialize.dll</HintPath>
-      <EmbedInteropTypes>True</EmbedInteropTypes>
+    <Reference Include="CrystalDecisions.ReportAppServer.XmlSerialize">
+      <HintPath>c:\program files (x86)\sap businessobjects\crystal reports for .net framework 4.0\common\sap businessobjects enterprise xi 4.0\win64_x64\dotnet\CrystalDecisions.ReportAppServer.XmlSerialize.dll</HintPath>
     </Reference>
-    <Reference Include="CrystalDecisions.ReportSource, Version=13.0.4000.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL">
-      <HintPath>packages\CrystalReports.ReportSource.13.0.4003\lib\net40\CrystalDecisions.ReportSource.dll</HintPath>
+    <Reference Include="CrystalDecisions.ReportSource">
+      <HintPath>c:\program files (x86)\sap businessobjects\crystal reports for .net framework 4.0\common\sap businessobjects enterprise xi 4.0\win64_x64\dotnet\CrystalDecisions.ReportSource.dll</HintPath>
     </Reference>
-    <Reference Include="CrystalDecisions.Shared, Version=13.0.4000.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL">
-      <HintPath>packages\CrystalReports.Shared.13.0.4003\lib\net40\CrystalDecisions.Shared.dll</HintPath>
+    <Reference Include="CrystalDecisions.Shared">
+      <HintPath>c:\program files (x86)\sap businessobjects\crystal reports for .net framework 4.0\common\sap businessobjects enterprise xi 4.0\win64_x64\dotnet\CrystalDecisions.Shared.dll</HintPath>
     </Reference>
-    <Reference Include="CrystalDecisions.Windows.Forms, Version=13.0.4000.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL">
-      <HintPath>packages\CrystalReports.Windows.Forms.13.0.4003\lib\net40\CrystalDecisions.Windows.Forms.dll</HintPath>
+    <Reference Include="CrystalDecisions.Windows.Forms">
+      <HintPath>c:\program files (x86)\sap businessobjects\crystal reports for .net framework 4.0\common\sap businessobjects enterprise xi 4.0\win64_x64\dotnet\CrystalDecisions.Windows.Forms.dll</HintPath>
     </Reference>
     <Reference Include="DevExpress.Data.Desktop.v21.2, Version=21.2.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
     <Reference Include="DevExpress.Data.v21.2, Version=21.2.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
@@ -164,7 +155,9 @@
     <Reference Include="SixLabors.Fonts, Version=1.0.0.0, Culture=neutral, PublicKeyToken=d998eea7b14cab13, processorArchitecture=MSIL">
       <HintPath>packages\SixLabors.Fonts.1.0.0\lib\netstandard2.0\SixLabors.Fonts.dll</HintPath>
     </Reference>
-    <Reference Include="System" />
+    <Reference Include="System">
+      <HintPath>C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.8\System.dll</HintPath>
+    </Reference>
     <Reference Include="System.Buffers, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>packages\System.Buffers.4.5.1\lib\net461\System.Buffers.dll</HintPath>
     </Reference>
@@ -202,604 +195,588 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ButtonFeatureCRUDComponent.cs">
+    <Compile Include="UserControls\ButtonFeatureCRUDComponent.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="ButtonFeatureCRUDComponent.Designer.cs">
+    <Compile Include="UserControls\ButtonFeatureCRUDComponent.Designer.cs">
       <DependentUpon>ButtonFeatureCRUDComponent.cs</DependentUpon>
     </Compile>
-    <Compile Include="ButtonFeatureSystemComponent.cs">
+    <Compile Include="UserControls\ButtonFeatureSystemComponent.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="ButtonFeatureSystemComponent.Designer.cs">
+    <Compile Include="UserControls\ButtonFeatureSystemComponent.Designer.cs">
       <DependentUpon>ButtonFeatureSystemComponent.cs</DependentUpon>
     </Compile>
-    <Compile Include="ButtonFeatureHomeComponent.cs">
+    <Compile Include="UserControls\ButtonFeatureHomeComponent.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="ButtonFeatureHomeComponent.Designer.cs">
+    <Compile Include="UserControls\ButtonFeatureHomeComponent.Designer.cs">
       <DependentUpon>ButtonFeatureHomeComponent.cs</DependentUpon>
     </Compile>
-    <Compile Include="ButtonFeatureReportComponent.cs">
+    <Compile Include="UserControls\ButtonFeatureReportComponent.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="ButtonFeatureReportComponent.Designer.cs">
+    <Compile Include="UserControls\ButtonFeatureReportComponent.Designer.cs">
       <DependentUpon>ButtonFeatureReportComponent.cs</DependentUpon>
     </Compile>
-    <Compile Include="ButtonFeatureViewComponent.cs">
+    <Compile Include="UserControls\ButtonFeatureViewComponent.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="ButtonFeatureViewComponent.Designer.cs">
+    <Compile Include="UserControls\ButtonFeatureViewComponent.Designer.cs">
       <DependentUpon>ButtonFeatureViewComponent.cs</DependentUpon>
     </Compile>
-    <Compile Include="DoiMatKhau.cs">
+    <Compile Include="Forms\DoiMatKhau.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="DoiMatKhau.Designer.cs">
+    <Compile Include="Forms\DoiMatKhau.Designer.cs">
       <DependentUpon>DoiMatKhau.cs</DependentUpon>
     </Compile>
     <Compile Include="DisplayUserControlPanel.cs" />
-    <Compile Include="DoiMatKhauRieng.cs">
+    <Compile Include="UserControls\DoiMatKhauRieng.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="DoiMatKhauRieng.Designer.cs">
+    <Compile Include="UserControls\DoiMatKhauRieng.Designer.cs">
       <DependentUpon>DoiMatKhauRieng.cs</DependentUpon>
     </Compile>
-    <Compile Include="FormBaoCaoChamCong.cs">
+    <Compile Include="Forms\FormBaoCaoChamCong.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="FormBaoCaoChamCong.Designer.cs">
+    <Compile Include="Forms\FormBaoCaoChamCong.Designer.cs">
       <DependentUpon>FormBaoCaoChamCong.cs</DependentUpon>
     </Compile>
-    <Compile Include="FormBaoCaoDanhGia.cs">
+    <Compile Include="Forms\FormBaoCaoDanhGia.cs">
       <SubType>Form</SubType>
     </Compile>
-
-    <Compile Include="FormBaoCaoDanhGia.Designer.cs">
+    <Compile Include="Forms\FormBaoCaoDanhGia.Designer.cs">
       <DependentUpon>FormBaoCaoDanhGia.cs</DependentUpon>
     </Compile>
-    <Compile Include="FormBaoCaoNhanVien.cs">
+    <Compile Include="Forms\FormBaoCaoNhanVien.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="FormBaoCaoNhanVien.Designer.cs">
+    <Compile Include="Forms\FormBaoCaoNhanVien.Designer.cs">
       <DependentUpon>FormBaoCaoNhanVien.cs</DependentUpon>
     </Compile>
-    <Compile Include="FormChamCong.cs">
+    <Compile Include="Forms\FormChamCong.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="FormChamCong.Designer.cs">
+    <Compile Include="Forms\FormChamCong.Designer.cs">
       <DependentUpon>FormChamCong.cs</DependentUpon>
     </Compile>
-    <Compile Include="FormTest.cs">
+    <Compile Include="Forms\FormTest.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="FormTest.Designer.cs">
+    <Compile Include="Forms\FormTest.Designer.cs">
       <DependentUpon>FormTest.cs</DependentUpon>
     </Compile>
-    <Compile Include="frmBaoCaoHopDong.cs">
+    <Compile Include="Forms\frmBaoCaoHopDong.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="frmBaoCaoHopDong.Designer.cs">
+    <Compile Include="Forms\frmBaoCaoHopDong.Designer.cs">
       <DependentUpon>frmBaoCaoHopDong.cs</DependentUpon>
     </Compile>
-    <Compile Include="frmDSLuongNhanVien.cs">
+    <Compile Include="Forms\frmDSLuongNhanVien.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="frmDSLuongNhanVien.Designer.cs">
+    <Compile Include="Forms\frmDSLuongNhanVien.Designer.cs">
       <DependentUpon>frmDSLuongNhanVien.cs</DependentUpon>
     </Compile>
-    <Compile Include="frmKhenThuongNhanVien.cs">
+    <Compile Include="Forms\frmKhenThuongNhanVien.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="frmKhenThuongNhanVien.Designer.cs">
+    <Compile Include="Forms\frmKhenThuongNhanVien.Designer.cs">
       <DependentUpon>frmKhenThuongNhanVien.cs</DependentUpon>
-	</Compile>
-    <Compile Include="FormThemHopDong.cs">
+    </Compile>
+    <Compile Include="Forms\FormThemHopDong.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="FormThemHopDong.Designer.cs">
+    <Compile Include="Forms\FormThemHopDong.Designer.cs">
       <DependentUpon>FormThemHopDong.cs</DependentUpon>
     </Compile>
-    <Compile Include="FrmXemDanhGiaChiTietNV.cs">
+    <Compile Include="Forms\FrmXemDanhGiaChiTietNV.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="FrmXemDanhGiaChiTietNV.Designer.cs">
+    <Compile Include="Forms\FrmXemDanhGiaChiTietNV.Designer.cs">
       <DependentUpon>FrmXemDanhGiaChiTietNV.cs</DependentUpon>
-    </Compile>
-    <Compile Include="PersonnelManagementDataSet.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>PersonnelManagementDataSet.xsd</DependentUpon>
-    </Compile>
-    <Compile Include="PersonnelManagementDataSet1.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>PersonnelManagementDataSet1.xsd</DependentUpon>
-    </Compile>
-    <Compile Include="PersonnelManagementDataSet2.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>PersonnelManagementDataSet2.xsd</DependentUpon>
     </Compile>
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <Compile Include="QuenMatKhau.cs">
+    <Compile Include="Forms\QuenMatKhau.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="QuenMatKhau.Designer.cs">
+    <Compile Include="Forms\QuenMatKhau.Designer.cs">
       <DependentUpon>QuenMatKhau.cs</DependentUpon>
     </Compile>
-    <Compile Include="report\crpChamCong.cs">
+    <Compile Include="Reports\crpChamCong.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>crpChamCong.rpt</DependentUpon>
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="RPBaoCaoKyLuat.cs">
+    <Compile Include="Reports\RPBaoCaoKyLuat.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>RPBaoCaoKyLuat.rpt</DependentUpon>
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="RPBaoCaoLuong.cs">
+    <Compile Include="Reports\RPBaoCaoLuong.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>RPBaoCaoLuong.rpt</DependentUpon>
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="rptDanhGiaNhanVien.cs">
+    <Compile Include="Reports\rptDanhGiaNhanVien.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>rptDanhGiaNhanVien.rpt</DependentUpon>
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="rptDanhSachNhanVien.cs">
+    <Compile Include="Reports\rptDanhSachNhanVien.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>rptDanhSachNhanVien.rpt</DependentUpon>
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="TaoKhauTru.cs">
+    <Compile Include="UserControls\TaoKhauTru.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="TaoKhauTru.Designer.cs">
+    <Compile Include="UserControls\TaoKhauTru.Designer.cs">
       <DependentUpon>TaoKhauTru.cs</DependentUpon>
     </Compile>
-    <Compile Include="TaoNhanVien_KhauTru.cs">
+    <Compile Include="UserControls\TaoNhanVien_KhauTru.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="TaoNhanVien_KhauTru.Designer.cs">
+    <Compile Include="UserControls\TaoNhanVien_KhauTru.Designer.cs">
       <DependentUpon>TaoNhanVien_KhauTru.cs</DependentUpon>
     </Compile>
-    <Compile Include="TaoNhanVien_PhuCap.cs">
+    <Compile Include="UserControls\TaoNhanVien_PhuCap.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="TaoNhanVien_PhuCap.Designer.cs">
+    <Compile Include="UserControls\TaoNhanVien_PhuCap.Designer.cs">
       <DependentUpon>TaoNhanVien_PhuCap.cs</DependentUpon>
     </Compile>
-    <Compile Include="TaoPhuCap.cs">
+    <Compile Include="UserControls\TaoPhuCap.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="TaoPhuCap.Designer.cs">
+    <Compile Include="UserControls\TaoPhuCap.Designer.cs">
       <DependentUpon>TaoPhuCap.cs</DependentUpon>
     </Compile>
-    <Compile Include="TaoThuongPhat.cs">
+    <Compile Include="UserControls\TaoThuongPhat.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="TaoThuongPhat.Designer.cs">
+    <Compile Include="UserControls\TaoThuongPhat.Designer.cs">
       <DependentUpon>TaoThuongPhat.cs</DependentUpon>
     </Compile>
-    <Compile Include="TestGiaoDien.cs">
+    <Compile Include="Forms\TestGiaoDien.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="TestGiaoDien.Designer.cs">
+    <Compile Include="Forms\TestGiaoDien.Designer.cs">
       <DependentUpon>TestGiaoDien.cs</DependentUpon>
     </Compile>
-    <Compile Include="ThongKeDanhGia.cs">
+    <Compile Include="UserControls\ThongKeDanhGia.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="ThongKeDanhGia.Designer.cs">
+    <Compile Include="UserControls\ThongKeDanhGia.Designer.cs">
       <DependentUpon>ThongKeDanhGia.cs</DependentUpon>
     </Compile>
-    <Compile Include="ThongKeTuyenDung.cs">
+    <Compile Include="UserControls\ThongKeTuyenDung.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="ThongKeTuyenDung.Designer.cs">
+    <Compile Include="UserControls\ThongKeTuyenDung.Designer.cs">
       <DependentUpon>ThongKeTuyenDung.cs</DependentUpon>
     </Compile>
-    <Compile Include="UCCapNhatMatkhau.cs">
+    <Compile Include="UserControls\UCCapNhatMatkhau.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="UCCapNhatMatkhau.Designer.cs">
+    <Compile Include="UserControls\UCCapNhatMatkhau.Designer.cs">
       <DependentUpon>UCCapNhatMatkhau.cs</DependentUpon>
     </Compile>
-    <Compile Include="UCChiTietluongCaNhan.cs">
+    <Compile Include="UserControls\UCChiTietluongCaNhan.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="UCChiTietluongCaNhan.Designer.cs">
+    <Compile Include="UserControls\UCChiTietluongCaNhan.Designer.cs">
       <DependentUpon>UCChiTietluongCaNhan.cs</DependentUpon>
     </Compile>
-    <Compile Include="ucChucVu.cs">
+    <Compile Include="UserControls\ucChucVu.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="ucChucVu.Designer.cs">
+    <Compile Include="UserControls\ucChucVu.Designer.cs">
       <DependentUpon>ucChucVu.cs</DependentUpon>
     </Compile>
-    <Compile Include="UCDoiMatKhau.cs">
+    <Compile Include="UserControls\UCDoiMatKhau.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="UCDoiMatKhau.Designer.cs">
+    <Compile Include="UserControls\UCDoiMatKhau.Designer.cs">
       <DependentUpon>UCDoiMatKhau.cs</DependentUpon>
     </Compile>
-    <Compile Include="UCDuyetNghiPhep.cs">
+    <Compile Include="UserControls\UCDuyetNghiPhep.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="UCDuyetNghiPhep.Designer.cs">
+    <Compile Include="UserControls\UCDuyetNghiPhep.Designer.cs">
       <DependentUpon>UCDuyetNghiPhep.cs</DependentUpon>
     </Compile>
-    <Compile Include="BaoCaoHopDong.cs">
+    <Compile Include="UserControls\BaoCaoHopDong.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="BaoCaoHopDong.Designer.cs">
+    <Compile Include="UserControls\BaoCaoHopDong.Designer.cs">
       <DependentUpon>BaoCaoHopDong.cs</DependentUpon>
     </Compile>
-    <Compile Include="BaoCaoKhenThuong.cs">
+    <Compile Include="UserControls\BaoCaoKhenThuong.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="BaoCaoKhenThuong.Designer.cs">
+    <Compile Include="UserControls\BaoCaoKhenThuong.Designer.cs">
       <DependentUpon>BaoCaoKhenThuong.cs</DependentUpon>
     </Compile>
-    <Compile Include="CapNhatThongTinRieng.cs">
+    <Compile Include="UserControls\CapNhatThongTinRieng.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="CapNhatThongTinRieng.Designer.cs">
+    <Compile Include="UserControls\CapNhatThongTinRieng.Designer.cs">
       <DependentUpon>CapNhatThongTinRieng.cs</DependentUpon>
     </Compile>
-    <Compile Include="CapNhatThongTinNV.cs">
+    <Compile Include="UserControls\CapNhatThongTinNV.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="CapNhatThongTinNV.Designer.cs">
+    <Compile Include="UserControls\CapNhatThongTinNV.Designer.cs">
       <DependentUpon>CapNhatThongTinNV.cs</DependentUpon>
     </Compile>
-    <Compile Include="CRUDChucVu.cs">
+    <Compile Include="UserControls\CRUDChucVu.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="CRUDChucVu.Designer.cs">
+    <Compile Include="UserControls\CRUDChucVu.Designer.cs">
       <DependentUpon>CRUDChucVu.cs</DependentUpon>
     </Compile>
-    <Compile Include="CRUDPhongban.cs">
+    <Compile Include="UserControls\CRUDPhongban.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="CRUDPhongban.Designer.cs">
+    <Compile Include="UserControls\CRUDPhongban.Designer.cs">
       <DependentUpon>CRUDPhongban.cs</DependentUpon>
     </Compile>
-    <Compile Include="CRUDTaiKhoan.cs">
+    <Compile Include="UserControls\CRUDTaiKhoan.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="CRUDTaiKhoan.Designer.cs">
+    <Compile Include="UserControls\CRUDTaiKhoan.Designer.cs">
       <DependentUpon>CRUDTaiKhoan.cs</DependentUpon>
     </Compile>
-    <Compile Include="CrystalReportKhenThuong.cs">
+    <Compile Include="Reports\CrystalReportKhenThuong.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>CrystalReportKhenThuong.rpt</DependentUpon>
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="FrmReportHopDong.cs">
+    <Compile Include="Forms\FrmReportHopDong.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="FrmReportHopDong.Designer.cs">
+    <Compile Include="Forms\FrmReportHopDong.Designer.cs">
       <DependentUpon>FrmReportHopDong.cs</DependentUpon>
     </Compile>
-    <Compile Include="FrmReportKhenThuong.cs">
+    <Compile Include="Forms\FrmReportKhenThuong.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="FrmReportKhenThuong.Designer.cs">
+    <Compile Include="Forms\FrmReportKhenThuong.Designer.cs">
       <DependentUpon>FrmReportKhenThuong.cs</DependentUpon>
     </Compile>
     <Compile Include="EmployeTemp.cs" />
-    <Compile Include="FormBaoCaoChamCongCaNhan.cs">
+    <Compile Include="Forms\FormBaoCaoChamCongCaNhan.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="FormBaoCaoChamCongCaNhan.Designer.cs">
+    <Compile Include="Forms\FormBaoCaoChamCongCaNhan.Designer.cs">
       <DependentUpon>FormBaoCaoChamCongCaNhan.cs</DependentUpon>
     </Compile>
-    <Compile Include="FormBaoCaoTuyenDung.cs">
+    <Compile Include="Forms\FormBaoCaoTuyenDung.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="FormBaoCaoTuyenDung.Designer.cs">
+    <Compile Include="Forms\FormBaoCaoTuyenDung.Designer.cs">
       <DependentUpon>FormBaoCaoTuyenDung.cs</DependentUpon>
     </Compile>
-    <Compile Include="FormLogin.cs">
+    <Compile Include="Forms\FormLogin.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="FormLogin.Designer.cs">
+    <Compile Include="Forms\FormLogin.Designer.cs">
       <DependentUpon>FormLogin.cs</DependentUpon>
     </Compile>
-    <Compile Include="Main.cs">
+    <Compile Include="Forms\Main.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Main.Designer.cs">
+    <Compile Include="Forms\Main.Designer.cs">
       <DependentUpon>Main.cs</DependentUpon>
     </Compile>
-    <Compile Include="UCDuyetTuyenDung.cs">
+    <Compile Include="UserControls\UCDuyetTuyenDung.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="UCDuyetTuyenDung.Designer.cs">
+    <Compile Include="UserControls\UCDuyetTuyenDung.Designer.cs">
       <DependentUpon>UCDuyetTuyenDung.cs</DependentUpon>
     </Compile>
-    <Compile Include="UCHopDong.cs">
+    <Compile Include="UserControls\UCHopDong.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="UCHopDong.Designer.cs">
+    <Compile Include="UserControls\UCHopDong.Designer.cs">
       <DependentUpon>UCHopDong.cs</DependentUpon>
     </Compile>
-    <Compile Include="UCNghiPhep.cs">
+    <Compile Include="UserControls\UCNghiPhep.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="UCNghiPhep.Designer.cs">
+    <Compile Include="UserControls\UCNghiPhep.Designer.cs">
       <DependentUpon>UCNghiPhep.cs</DependentUpon>
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="UCDanhGiaHieuSuat.cs">
+    <Compile Include="UserControls\UCDanhGiaHieuSuat.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="UCDanhGiaHieuSuat.Designer.cs">
+    <Compile Include="UserControls\UCDanhGiaHieuSuat.Designer.cs">
       <DependentUpon>UCDanhGiaHieuSuat.cs</DependentUpon>
     </Compile>
-    <Compile Include="ucPhongBan.cs">
+    <Compile Include="UserControls\ucPhongBan.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="ucPhongBan.Designer.cs">
+    <Compile Include="UserControls\ucPhongBan.Designer.cs">
       <DependentUpon>ucPhongBan.cs</DependentUpon>
     </Compile>
-    <Compile Include="UCReportDanhSachKyLuat.cs">
+    <Compile Include="UserControls\UCReportDanhSachKyLuat.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="UCReportDanhSachKyLuat.Designer.cs">
+    <Compile Include="UserControls\UCReportDanhSachKyLuat.Designer.cs">
       <DependentUpon>UCReportDanhSachKyLuat.cs</DependentUpon>
     </Compile>
-    <Compile Include="UCReportDanhSachLuongPBan.cs">
+    <Compile Include="UserControls\UCReportDanhSachLuongPBan.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="UCReportDanhSachLuongPBan.Designer.cs">
+    <Compile Include="UserControls\UCReportDanhSachLuongPBan.Designer.cs">
       <DependentUpon>UCReportDanhSachLuongPBan.cs</DependentUpon>
     </Compile>
-    <Compile Include="UCTuyenDung_TruongPhong.cs">
+    <Compile Include="UserControls\UCTuyenDung_TruongPhong.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="UCTuyenDung_TruongPhong.Designer.cs">
+    <Compile Include="UserControls\UCTuyenDung_TruongPhong.Designer.cs">
       <DependentUpon>UCTuyenDung_TruongPhong.cs</DependentUpon>
     </Compile>
-    <Compile Include="UCXemKyLuat.cs">
+    <Compile Include="UserControls\UCXemKyLuat.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="UCXemKyLuat.Designer.cs">
+    <Compile Include="UserControls\UCXemKyLuat.Designer.cs">
       <DependentUpon>UCXemKyLuat.cs</DependentUpon>
     </Compile>
-    <EmbeddedResource Include="ButtonFeatureCRUDComponent.resx">
+    <EmbeddedResource Include="UserControls\ButtonFeatureCRUDComponent.resx">
       <DependentUpon>ButtonFeatureCRUDComponent.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="ButtonFeatureSystemComponent.resx">
+    <EmbeddedResource Include="UserControls\ButtonFeatureSystemComponent.resx">
       <DependentUpon>ButtonFeatureSystemComponent.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="ButtonFeatureHomeComponent.resx">
+    <EmbeddedResource Include="UserControls\ButtonFeatureHomeComponent.resx">
       <DependentUpon>ButtonFeatureHomeComponent.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="ButtonFeatureReportComponent.resx">
+    <EmbeddedResource Include="UserControls\ButtonFeatureReportComponent.resx">
       <DependentUpon>ButtonFeatureReportComponent.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="ButtonFeatureViewComponent.resx">
+    <EmbeddedResource Include="UserControls\ButtonFeatureViewComponent.resx">
       <DependentUpon>ButtonFeatureViewComponent.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="FormBaoCaoChamCong.resx">
+    <EmbeddedResource Include="Forms\FormBaoCaoChamCong.resx">
       <DependentUpon>FormBaoCaoChamCong.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="FormBaoCaoDanhGia.resx">
+    <EmbeddedResource Include="Forms\FormBaoCaoDanhGia.resx">
       <DependentUpon>FormBaoCaoDanhGia.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="FormBaoCaoNhanVien.resx">
+    <EmbeddedResource Include="Forms\FormBaoCaoNhanVien.resx">
       <DependentUpon>FormBaoCaoNhanVien.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="FormChamCong.resx">
+    <EmbeddedResource Include="Forms\FormChamCong.resx">
       <DependentUpon>FormChamCong.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="FormTest.resx">
+    <EmbeddedResource Include="Forms\FormTest.resx">
       <DependentUpon>FormTest.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="frmBaoCaoHopDong.resx">
+    <EmbeddedResource Include="Forms\frmBaoCaoHopDong.resx">
       <DependentUpon>frmBaoCaoHopDong.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="frmDSLuongNhanVien.resx">
+    <EmbeddedResource Include="Forms\frmDSLuongNhanVien.resx">
       <DependentUpon>frmDSLuongNhanVien.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="frmKhenThuongNhanVien.resx">
+    <EmbeddedResource Include="Forms\frmKhenThuongNhanVien.resx">
       <DependentUpon>frmKhenThuongNhanVien.cs</DependentUpon>
-	</EmbeddedResource>
-    <EmbeddedResource Include="FormThemHopDong.resx">
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\FormThemHopDong.resx">
       <DependentUpon>FormThemHopDong.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="FrmXemDanhGiaChiTietNV.resx">
+    <EmbeddedResource Include="Forms\FrmXemDanhGiaChiTietNV.resx">
       <DependentUpon>FrmXemDanhGiaChiTietNV.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="report\crpChamCong.rpt">
+    <EmbeddedResource Include="Reports\crpChamCong.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>crpChamCong.cs</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Include="RPBaoCaoKyLuat.rpt">
+    <EmbeddedResource Include="Reports\RPBaoCaoKyLuat.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>RPBaoCaoKyLuat.cs</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Include="RPBaoCaoLuong.rpt">
+    <EmbeddedResource Include="Reports\RPBaoCaoLuong.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>RPBaoCaoLuong.cs</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Include="rptBaoCaoDSLuongNV.rdlc" />
-    <EmbeddedResource Include="rptBaoCaoKhenThuongCaNhan.rdlc" />
-    <EmbeddedResource Include="rptBaoCaoKhenThuongTapThe.rdlc" />
-    <EmbeddedResource Include="rptBaoCaoKhenThuongTatCaNV.rdlc" />
-    <EmbeddedResource Include="rptDanhGiaNhanVien.rpt">
+    <EmbeddedResource Include="Reports\rptBaoCaoDSLuongNV.rdlc" />
+    <EmbeddedResource Include="Reports\rptBaoCaoKhenThuongCaNhan.rdlc" />
+    <EmbeddedResource Include="Reports\rptBaoCaoKhenThuongTapThe.rdlc" />
+    <EmbeddedResource Include="Reports\rptBaoCaoKhenThuongTatCaNV.rdlc" />
+    <EmbeddedResource Include="Reports\rptDanhGiaNhanVien.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>rptDanhGiaNhanVien.cs</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Include="rptDanhSachNhanVien.rpt">
+    <EmbeddedResource Include="Reports\rptDanhSachNhanVien.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>rptDanhSachNhanVien.cs</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Include="rptHopDongLaoDong.rdlc" />
-    <EmbeddedResource Include="TaoKyLuat.resx">
+    <EmbeddedResource Include="Reports\rptHopDongLaoDong.rdlc" />
+    <EmbeddedResource Include="UserControls\TaoKyLuat.resx">
       <DependentUpon>TaoKyLuat.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="TestGiaoDien.resx">
+    <EmbeddedResource Include="Forms\TestGiaoDien.resx">
       <DependentUpon>TestGiaoDien.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="UCCapNhatMatkhau.resx">
+    <EmbeddedResource Include="UserControls\UCCapNhatMatkhau.resx">
       <DependentUpon>UCCapNhatMatkhau.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="UCChiTietluongCaNhan.resx">
+    <EmbeddedResource Include="UserControls\UCChiTietluongCaNhan.resx">
       <DependentUpon>UCChiTietluongCaNhan.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="ucChucVu.resx">
+    <EmbeddedResource Include="UserControls\ucChucVu.resx">
       <DependentUpon>ucChucVu.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="UCDoiMatKhau.resx">
+    <EmbeddedResource Include="UserControls\UCDoiMatKhau.resx">
       <DependentUpon>UCDoiMatKhau.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="UCDuyetNghiPhep.resx">
+    <EmbeddedResource Include="UserControls\UCDuyetNghiPhep.resx">
       <DependentUpon>UCDuyetNghiPhep.cs</DependentUpon>
     </EmbeddedResource>
-    <Compile Include="TaoDanhGiaHieuSuat.cs">
+    <Compile Include="UserControls\TaoDanhGiaHieuSuat.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="TaoDanhGiaHieuSuat.Designer.cs">
+    <Compile Include="UserControls\TaoDanhGiaHieuSuat.Designer.cs">
       <DependentUpon>TaoDanhGiaHieuSuat.cs</DependentUpon>
     </Compile>
-    <Compile Include="TaoKhenThuong.cs">
+    <Compile Include="UserControls\TaoKhenThuong.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="TaoKhenThuong.Designer.cs">
+    <Compile Include="UserControls\TaoKhenThuong.Designer.cs">
       <DependentUpon>TaoKhenThuong.cs</DependentUpon>
     </Compile>
-    <Compile Include="TaoKyLuat.cs">
+    <Compile Include="UserControls\TaoKyLuat.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="TaoKyLuat.Designer.cs">
+    <Compile Include="UserControls\TaoKyLuat.Designer.cs">
       <DependentUpon>TaoKyLuat.cs</DependentUpon>
     </Compile>
-    <Compile Include="XemNghiPhep.cs">
+    <Compile Include="UserControls\XemNghiPhep.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="XemNghiPhep.Designer.cs">
+    <Compile Include="UserControls\XemNghiPhep.Designer.cs">
       <DependentUpon>XemNghiPhep.cs</DependentUpon>
     </Compile>
-    <Compile Include="XemThongTinCaNhan.cs">
+    <Compile Include="UserControls\XemThongTinCaNhan.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="XemThongTinCaNhan.Designer.cs">
+    <Compile Include="UserControls\XemThongTinCaNhan.Designer.cs">
       <DependentUpon>XemThongTinCaNhan.cs</DependentUpon>
     </Compile>
-    <EmbeddedResource Include="BaoCaoHopDong.resx">
+    <EmbeddedResource Include="UserControls\BaoCaoHopDong.resx">
       <DependentUpon>BaoCaoHopDong.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="CapNhatThongTinRieng.resx">
+    <EmbeddedResource Include="UserControls\CapNhatThongTinRieng.resx">
       <DependentUpon>CapNhatThongTinRieng.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="CapNhatThongTinNV.resx">
+    <EmbeddedResource Include="UserControls\CapNhatThongTinNV.resx">
       <DependentUpon>CapNhatThongTinNV.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="CrystalReportKhenThuong.rpt">
+    <EmbeddedResource Include="Reports\CrystalReportKhenThuong.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>CrystalReportKhenThuong.cs</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Include="FrmReportHopDong.resx">
+    <EmbeddedResource Include="Forms\FrmReportHopDong.resx">
       <DependentUpon>FrmReportHopDong.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="FrmReportKhenThuong.resx">
+    <EmbeddedResource Include="Forms\FrmReportKhenThuong.resx">
       <DependentUpon>FrmReportKhenThuong.cs</DependentUpon>
     </EmbeddedResource>
-    <Compile Include="rptChamCongCaNhan.cs">
+    <Compile Include="Reports\rptChamCongCaNhan.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>rptChamCongCaNhan.rpt</DependentUpon>
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="rptTuyenDung.cs">
+    <Compile Include="Reports\rptTuyenDung.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>rptTuyenDung.rpt</DependentUpon>
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="ucChamCongQuanLy.cs">
+    <Compile Include="UserControls\ucChamCongQuanLy.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="ucChamCongQuanLy.Designer.cs">
+    <Compile Include="UserControls\ucChamCongQuanLy.Designer.cs">
       <DependentUpon>ucChamCongQuanLy.cs</DependentUpon>
     </Compile>
-    <Compile Include="ucChiTietLuong.cs">
+    <Compile Include="UserControls\ucChiTietLuong.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="ucChiTietLuong.Designer.cs">
+    <Compile Include="UserControls\ucChiTietLuong.Designer.cs">
       <DependentUpon>ucChiTietLuong.cs</DependentUpon>
     </Compile>
-    <Compile Include="ucDuyenTuyenDung.cs">
+    <Compile Include="UserControls\ucDuyenTuyenDung.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="ucDuyenTuyenDung.Designer.cs">
+    <Compile Include="UserControls\ucDuyenTuyenDung.Designer.cs">
       <DependentUpon>ucDuyenTuyenDung.cs</DependentUpon>
     </Compile>
-    <Compile Include="ucKyLuong.cs">
+    <Compile Include="UserControls\ucKyLuong.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="ucKyLuong.Designer.cs">
+    <Compile Include="UserControls\ucKyLuong.Designer.cs">
       <DependentUpon>ucKyLuong.cs</DependentUpon>
     </Compile>
-    <Compile Include="ucTaoTuyenDung.cs">
+    <Compile Include="UserControls\ucTaoTuyenDung.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="ucTaoTuyenDung.Designer.cs">
+    <Compile Include="UserControls\ucTaoTuyenDung.Designer.cs">
       <DependentUpon>ucTaoTuyenDung.cs</DependentUpon>
     </Compile>
-    <Compile Include="ucUngVien.cs">
+    <Compile Include="UserControls\ucUngVien.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="ucUngVien.Designer.cs">
+    <Compile Include="UserControls\ucUngVien.Designer.cs">
       <DependentUpon>ucUngVien.cs</DependentUpon>
     </Compile>
-    <Compile Include="ucXemChamCong.cs">
+    <Compile Include="UserControls\ucXemChamCong.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="ucXemChamCong.Designer.cs">
+    <Compile Include="UserControls\ucXemChamCong.Designer.cs">
       <DependentUpon>ucXemChamCong.cs</DependentUpon>
     </Compile>
-    <Compile Include="ucXemTuyenDung.cs">
+    <Compile Include="UserControls\ucXemTuyenDung.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="ucXemTuyenDung.Designer.cs">
+    <Compile Include="UserControls\ucXemTuyenDung.Designer.cs">
       <DependentUpon>ucXemTuyenDung.cs</DependentUpon>
     </Compile>
-    <EmbeddedResource Include="FormBaoCaoChamCongCaNhan.resx">
+    <EmbeddedResource Include="Forms\FormBaoCaoChamCongCaNhan.resx">
       <DependentUpon>FormBaoCaoChamCongCaNhan.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="FormBaoCaoTuyenDung.resx">
+    <EmbeddedResource Include="Forms\FormBaoCaoTuyenDung.resx">
       <DependentUpon>FormBaoCaoTuyenDung.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="FormLogin.resx">
+    <EmbeddedResource Include="Forms\FormLogin.resx">
       <DependentUpon>FormLogin.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Main.resx">
+    <EmbeddedResource Include="Forms\Main.resx">
       <DependentUpon>Main.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="UCDuyetTuyenDung.resx">
+    <EmbeddedResource Include="UserControls\UCDuyetTuyenDung.resx">
       <DependentUpon>UCDuyetTuyenDung.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="UCHopDong.resx">
+    <EmbeddedResource Include="UserControls\UCHopDong.resx">
       <DependentUpon>UCHopDong.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="UCNghiPhep.resx">
+    <EmbeddedResource Include="UserControls\UCNghiPhep.resx">
       <DependentUpon>UCNghiPhep.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
@@ -807,96 +784,63 @@
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="UCDanhGiaHieuSuat.resx">
+    <EmbeddedResource Include="UserControls\UCDanhGiaHieuSuat.resx">
       <DependentUpon>UCDanhGiaHieuSuat.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="ucPhongBan.resx">
+    <EmbeddedResource Include="UserControls\ucPhongBan.resx">
       <DependentUpon>ucPhongBan.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="UCReportDanhSachKyLuat.resx">
+    <EmbeddedResource Include="UserControls\UCReportDanhSachKyLuat.resx">
       <DependentUpon>UCReportDanhSachKyLuat.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="UCReportDanhSachLuongPBan.resx">
+    <EmbeddedResource Include="UserControls\UCReportDanhSachLuongPBan.resx">
       <DependentUpon>UCReportDanhSachLuongPBan.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="UCTuyenDung_TruongPhong.resx">
+    <EmbeddedResource Include="UserControls\UCTuyenDung_TruongPhong.resx">
       <DependentUpon>UCTuyenDung_TruongPhong.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="UCXemKyLuat.resx">
+    <EmbeddedResource Include="UserControls\UCXemKyLuat.resx">
       <DependentUpon>UCXemKyLuat.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="TaoDanhGiaHieuSuat.resx">
+    <EmbeddedResource Include="UserControls\TaoDanhGiaHieuSuat.resx">
       <DependentUpon>TaoDanhGiaHieuSuat.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="rptChamCongCaNhan.rpt">
+    <EmbeddedResource Include="Reports\rptChamCongCaNhan.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>rptChamCongCaNhan.cs</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Include="rptTuyenDung.rpt">
+    <EmbeddedResource Include="Reports\rptTuyenDung.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>rptTuyenDung.cs</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Include="ucChamCongQuanLy.resx">
+    <EmbeddedResource Include="UserControls\ucChamCongQuanLy.resx">
       <DependentUpon>ucChamCongQuanLy.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="ucChiTietLuong.resx">
+    <EmbeddedResource Include="UserControls\ucChiTietLuong.resx">
       <DependentUpon>ucChiTietLuong.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="ucDuyenTuyenDung.resx">
+    <EmbeddedResource Include="UserControls\ucDuyenTuyenDung.resx">
       <DependentUpon>ucDuyenTuyenDung.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="ucKyLuong.resx">
+    <EmbeddedResource Include="UserControls\ucKyLuong.resx">
       <DependentUpon>ucKyLuong.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="ucTaoTuyenDung.resx">
+    <EmbeddedResource Include="UserControls\ucTaoTuyenDung.resx">
       <DependentUpon>ucTaoTuyenDung.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="ucUngVien.resx">
+    <EmbeddedResource Include="UserControls\ucUngVien.resx">
       <DependentUpon>ucUngVien.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="ucXemChamCong.resx">
+    <EmbeddedResource Include="UserControls\ucXemChamCong.resx">
       <DependentUpon>ucXemChamCong.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="ucXemTuyenDung.resx">
+    <EmbeddedResource Include="UserControls\ucXemTuyenDung.resx">
       <DependentUpon>ucXemTuyenDung.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="XemNghiPhep.resx">
+    <EmbeddedResource Include="UserControls\XemNghiPhep.resx">
       <DependentUpon>XemNghiPhep.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="packages.config" />
-    <None Include="PersonnelManagementDataSet.xsc">
-      <DependentUpon>PersonnelManagementDataSet.xsd</DependentUpon>
-    </None>
-    <None Include="PersonnelManagementDataSet.xsd">
-      <Generator>MSDataSetGenerator</Generator>
-      <LastGenOutput>PersonnelManagementDataSet.Designer.cs</LastGenOutput>
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="PersonnelManagementDataSet.xss">
-      <DependentUpon>PersonnelManagementDataSet.xsd</DependentUpon>
-    </None>
-    <None Include="PersonnelManagementDataSet1.xsc">
-      <DependentUpon>PersonnelManagementDataSet1.xsd</DependentUpon>
-    </None>
-    <None Include="PersonnelManagementDataSet1.xsd">
-      <Generator>MSDataSetGenerator</Generator>
-      <LastGenOutput>PersonnelManagementDataSet1.Designer.cs</LastGenOutput>
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="PersonnelManagementDataSet1.xss">
-      <DependentUpon>PersonnelManagementDataSet1.xsd</DependentUpon>
-    </None>
-    <None Include="PersonnelManagementDataSet2.xsc">
-      <DependentUpon>PersonnelManagementDataSet2.xsd</DependentUpon>
-    </None>
-    <None Include="PersonnelManagementDataSet2.xsd">
-      <Generator>MSDataSetGenerator</Generator>
-      <LastGenOutput>PersonnelManagementDataSet2.Designer.cs</LastGenOutput>
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="PersonnelManagementDataSet2.xss">
-      <DependentUpon>PersonnelManagementDataSet2.xsd</DependentUpon>
-    </None>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -925,56 +869,110 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <None Include="image\paper.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="image\key.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="image\contract.png" />
-    <Content Include="image\Discipline.png" />
-    <Content Include="image\Permission.png" />
-    <Content Include="image\resume.png" />
-    <Content Include="image\salary.png" />
-    <Content Include="image\user.png" />
-    <None Include="Resources\check.png" />
-    <None Include="Resources\check %281%29.png" />
-    <None Include="Resources\padlock.png" />
-    <None Include="Resources\key1.png" />
-    <None Include="Resources\locked.png" />
-    <None Include="Resources\key.png" />
-    <None Include="Resources\search.png" />
-    <None Include="Resources\magnifying-glass.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\delete.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\trash.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\reset.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\arrow.png" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Resources\user.png" />
+    <None Include="Resources\salary.png" />
+    <None Include="Resources\resume.png" />
+    <None Include="Resources\Permission.png" />
+    <None Include="Resources\paper.png" />
+    <None Include="Resources\key.png" />
+    <None Include="Resources\contract.png" />
+    <None Include="Resources\Discipline.png" />
+    <Content Include="Resources\Icons\check.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Icons\check %281%29.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Icons\padlock.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Icons\key1.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Icons\locked.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Icons\key.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Icons\search.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Icons\magnifying-glass.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Resources\Icons\delete.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Resources\Icons\trash.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Resources\Icons\reset.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Resources\Icons\arrow.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Resources\Icons\user.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <Service Include="{C0C07587-41A7-46C8-8FBD-3F9C8EBE2DDC}" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\calendar.png" />
+    <Content Include="Resources\Icons\calendar.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\eye.png" />
+    <Content Include="Resources\Icons\eye.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\eyebrow.png" />
+    <Content Include="Resources\Icons\eyebrow.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <Service Include="{C0C07587-41A7-46C8-8FBD-3F9C8EBE2DDC}" />
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <Content Include="Resources\Images\1.png" />
+    <Content Include="Resources\Images\1ef9f1ba-3626-4f99-b838-03a733db4cf3.png" />
+    <Content Include="Resources\Images\32207ada-87f4-4af6-919d-3633f222935f.png" />
+    <Content Include="Resources\Images\36f4ce68-556b-4507-a85b-b5884559b164.png" />
+    <Content Include="Resources\Images\4bacd5a7-d14e-4163-94e5-ffd1de399652.png" />
+    <Content Include="Resources\Images\842990b8-a02a-4b3c-8797-41e791998245.png" />
+    <Content Include="Resources\Images\88657711-582a-4627-bef3-3237e65644ac.png" />
+    <Content Include="Resources\Images\ad5a396b-ffcb-4c5a-8e84-ccaa4a219f41.jpg" />
+    <Content Include="Resources\Images\add30ebf-e396-4cfe-808d-df5257e4c4fa.png" />
+    <Content Include="Resources\Images\bbc60bce-1663-4b58-adb3-d781ed5553bc.png" />
+    <Content Include="Resources\Images\c998fd38-5433-43b6-be48-910ad4099f76.jpg" />
+    <Content Include="Resources\Images\c9edd2b9-f3be-412f-ac81-92f62c98047e.jpg" />
+    <Content Include="Resources\Images\d4702eaf-caa0-4f6f-ae85-507433baee3c.png" />
+    <Content Include="Resources\Images\ef1a02b4-ae80-4af8-a285-82fe3c8b9145.png" />
+    <Content Include="Resources\Images\f4bfd92c-9d8c-40a0-9f26-2e43e5054587.png" />
+    <Content Include="Resources\Images\fceba866-22b2-4846-83fe-bd9983444167.png" />
+    <Content Include="Resources\Images\GDGD0001.jpg" />
+    <Content Include="Resources\Images\GDGD0001.png" />
+    <Content Include="Resources\Images\ngan.png" />
+    <Content Include="Resources\Images\TPCNTT0001.jpg" />
+    <Content Include="Resources\Images\tuan.png" />
+    <Content Include="Resources\Images\tung.png" />
+    <Content Include="Resources\Images\WIN_20251106_14_32_21_Pro.jpg" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

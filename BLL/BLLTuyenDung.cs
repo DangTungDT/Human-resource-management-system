@@ -1,4 +1,5 @@
 ﻿using DAL;
+using DAL.DataContext;
 using DTO;
 using System;
 using System.Collections.Generic;
@@ -13,14 +14,14 @@ namespace BLL
 {
     public class BLLTuyenDung
     {
-        public readonly DALTuyenDung _dbContext;
+        public readonly DALTuyenDung _tuyenDungDAL;
 
-        public BLLTuyenDung(string conn) => _dbContext = new DALTuyenDung(conn);
+        public BLLTuyenDung(string conn) => _tuyenDungDAL = new DALTuyenDung(conn);
 
         // Ktra ds Tuyen Dung
         public List<TuyenDung> KtraDsTuyenDung()
         {
-            return _dbContext.DsTuyenDung();
+            return _tuyenDungDAL.DsTuyenDung();
         }
 
         // Ktra them Tuyen Dung
@@ -28,7 +29,7 @@ namespace BLL
         {
             try
             {
-                var KtraThemKD = _dbContext.ThemTuyenDung(DTO);
+                var KtraThemKD = _tuyenDungDAL.ThemTuyenDung(DTO);
                 if (KtraThemKD)
                 {
                     return true;
@@ -46,11 +47,11 @@ namespace BLL
         {
             try
             {
-                var ktraTD = _dbContext.TimTuyenDungQuaID(DTO.ID);
+                var ktraTD = _tuyenDungDAL.TimTuyenDungQuaID(DTO.ID);
 
                 if (ktraTD != null)
                 {
-                    var KtraThemKD = _dbContext.CapNhatTuyenDung(DTO);
+                    var KtraThemKD = _tuyenDungDAL.CapNhatTuyenDung(DTO);
                     if (KtraThemKD)
                     {
                         return true;
@@ -71,11 +72,11 @@ namespace BLL
         {
             try
             {
-                var ktraTD = _dbContext.TimTuyenDungQuaID(DTO.ID);
+                var ktraTD = _tuyenDungDAL.TimTuyenDungQuaID(DTO.ID);
 
                 if (ktraTD != null)
                 {
-                    var KtraThemKD = _dbContext.CapNhatTrangThai(DTO);
+                    var KtraThemKD = _tuyenDungDAL.CapNhatTrangThai(DTO);
                     if (KtraThemKD)
                     {
                         return true;
@@ -96,11 +97,11 @@ namespace BLL
         {
             try
             {
-                var ktraTD = _dbContext.TimTuyenDungQuaID(DTO.ID);
+                var ktraTD = _tuyenDungDAL.TimTuyenDungQuaID(DTO.ID);
 
                 if (ktraTD != null)
                 {
-                    var KtraThemKD = _dbContext.CapNhatDuyetTuyenDung(DTO);
+                    var KtraThemKD = _tuyenDungDAL.CapNhatDuyetTuyenDung(DTO);
                     if (KtraThemKD)
                     {
                         return true;
@@ -121,12 +122,12 @@ namespace BLL
         {
             try
             {
-                var ktraTD = _dbContext.TimTuyenDungQuaID(DTO.ID);
+                var ktraTD = _tuyenDungDAL.TimTuyenDungQuaID(DTO.ID);
 
                 if (ktraTD != null)
                 {
 
-                    var KtraThemTD = _dbContext.XoaTuyenDung(DTO);
+                    var KtraThemTD = _tuyenDungDAL.XoaTuyenDung(DTO);
                     if (KtraThemTD)
                     {
                         return true;
@@ -149,7 +150,7 @@ namespace BLL
             {
                 if (id > 0)
                 {
-                    var tuyenDung = _dbContext.TimTuyenDungQuaID(id);
+                    var tuyenDung = _tuyenDungDAL.TimTuyenDungQuaID(id);
 
                     if (tuyenDung != null)
                     {
@@ -172,7 +173,7 @@ namespace BLL
             {
                 if (!string.IsNullOrEmpty(id))
                 {
-                    var tuyenDung = _dbContext.TimTuyenDungQuaIDNV(id);
+                    var tuyenDung = _tuyenDungDAL.TimTuyenDungQuaIDNV(id);
 
                     if (tuyenDung == null)
                     {
@@ -196,7 +197,7 @@ namespace BLL
             {
                 if (!string.IsNullOrEmpty(id))
                 {
-                    var tuyenDung = _dbContext.TimTuyenDungQuaTrangThai(id);
+                    var tuyenDung = _tuyenDungDAL.TimTuyenDungQuaTrangThai(id);
 
                     if (tuyenDung != null)
                     {
@@ -220,7 +221,7 @@ namespace BLL
             {
                 if (!string.IsNullOrEmpty(id))
                 {
-                    var tuyenDung = _dbContext.TimTuyenDungQuaIDNV(id);
+                    var tuyenDung = _tuyenDungDAL.TimTuyenDungQuaIDNV(id);
 
                     if (tuyenDung == null)
                     {
@@ -238,7 +239,7 @@ namespace BLL
         }
         public DataTable GetBaoCaoTuyenDungTheoQuy(string quy, int nam, string idPhongBan, string viTri)
         {
-            return _dbContext.BaoCaoTuyenDungTheoQuy(quy, nam, idPhongBan, viTri);
+            return _tuyenDungDAL.BaoCaoTuyenDungTheoQuy(quy, nam, idPhongBan, viTri);
 
         }
     }

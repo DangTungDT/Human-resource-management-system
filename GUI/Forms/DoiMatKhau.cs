@@ -48,7 +48,7 @@ namespace GUI
             };
 
             btnLuu.Click += BtnLuu_Click;
-
+            btnLuu.Cursor = Cursors.Hand;
             this.Controls.Add(lblMatKhauMoi);
             this.Controls.Add(txtMatKhauMoi);
             this.Controls.Add(btnLuu);

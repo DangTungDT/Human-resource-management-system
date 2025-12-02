@@ -58,13 +58,14 @@
             // 
             this.btnDuyet.BorderRadius = 5;
             this.btnDuyet.BorderThickness = 1;
+            this.btnDuyet.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btnDuyet.DisabledState.BorderColor = System.Drawing.Color.DarkGray;
             this.btnDuyet.DisabledState.CustomBorderColor = System.Drawing.Color.DarkGray;
             this.btnDuyet.DisabledState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(169)))), ((int)(((byte)(169)))), ((int)(((byte)(169)))));
             this.btnDuyet.DisabledState.FillColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(169)))), ((int)(((byte)(169)))), ((int)(((byte)(169)))));
             this.btnDuyet.DisabledState.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(141)))), ((int)(((byte)(141)))), ((int)(((byte)(141)))));
-            this.btnDuyet.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
-            this.btnDuyet.FillColor2 = System.Drawing.Color.Silver;
+            this.btnDuyet.FillColor = System.Drawing.Color.LightGray;
+            this.btnDuyet.FillColor2 = System.Drawing.Color.LightGray;
             this.btnDuyet.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.btnDuyet.ForeColor = System.Drawing.Color.Black;
             this.btnDuyet.HoverState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(192)))), ((int)(((byte)(128)))));
@@ -83,13 +84,14 @@
             // 
             this.btnKhongDuyet.BorderRadius = 5;
             this.btnKhongDuyet.BorderThickness = 1;
+            this.btnKhongDuyet.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btnKhongDuyet.DisabledState.BorderColor = System.Drawing.Color.DarkGray;
             this.btnKhongDuyet.DisabledState.CustomBorderColor = System.Drawing.Color.DarkGray;
             this.btnKhongDuyet.DisabledState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(169)))), ((int)(((byte)(169)))), ((int)(((byte)(169)))));
             this.btnKhongDuyet.DisabledState.FillColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(169)))), ((int)(((byte)(169)))), ((int)(((byte)(169)))));
             this.btnKhongDuyet.DisabledState.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(141)))), ((int)(((byte)(141)))), ((int)(((byte)(141)))));
-            this.btnKhongDuyet.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
-            this.btnKhongDuyet.FillColor2 = System.Drawing.Color.Silver;
+            this.btnKhongDuyet.FillColor = System.Drawing.Color.LightGray;
+            this.btnKhongDuyet.FillColor2 = System.Drawing.Color.LightGray;
             this.btnKhongDuyet.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.btnKhongDuyet.ForeColor = System.Drawing.Color.Black;
             this.btnKhongDuyet.HoverState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(0)))));
@@ -348,13 +350,14 @@
             // 
             this.btnLoad.BorderRadius = 5;
             this.btnLoad.BorderThickness = 1;
+            this.btnLoad.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btnLoad.DisabledState.BorderColor = System.Drawing.Color.DarkGray;
             this.btnLoad.DisabledState.CustomBorderColor = System.Drawing.Color.DarkGray;
             this.btnLoad.DisabledState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(169)))), ((int)(((byte)(169)))), ((int)(((byte)(169)))));
             this.btnLoad.DisabledState.FillColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(169)))), ((int)(((byte)(169)))), ((int)(((byte)(169)))));
             this.btnLoad.DisabledState.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(141)))), ((int)(((byte)(141)))), ((int)(((byte)(141)))));
-            this.btnLoad.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
-            this.btnLoad.FillColor2 = System.Drawing.Color.Silver;
+            this.btnLoad.FillColor = System.Drawing.Color.LightGray;
+            this.btnLoad.FillColor2 = System.Drawing.Color.LightGray;
             this.btnLoad.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.btnLoad.ForeColor = System.Drawing.Color.Black;
             this.btnLoad.HoverState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(0)))));

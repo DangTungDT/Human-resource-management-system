@@ -147,6 +147,7 @@
             // 
             this.btnFilter.BorderRadius = 10;
             this.btnFilter.BorderThickness = 1;
+            this.btnFilter.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btnFilter.FillColor = System.Drawing.Color.LightGray;
             this.btnFilter.Font = new System.Drawing.Font("Times New Roman", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnFilter.ForeColor = System.Drawing.Color.Black;
@@ -161,6 +162,7 @@
             // 
             this.btnShowAll.BorderRadius = 10;
             this.btnShowAll.BorderThickness = 1;
+            this.btnShowAll.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btnShowAll.FillColor = System.Drawing.Color.LightGray;
             this.btnShowAll.Font = new System.Drawing.Font("Times New Roman", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnShowAll.ForeColor = System.Drawing.Color.Black;
@@ -190,6 +192,7 @@
             // 
             this.btnCreate.BorderRadius = 10;
             this.btnCreate.BorderThickness = 1;
+            this.btnCreate.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btnCreate.FillColor = System.Drawing.Color.LightGray;
             this.btnCreate.Font = new System.Drawing.Font("Times New Roman", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnCreate.ForeColor = System.Drawing.Color.Black;
@@ -204,6 +207,7 @@
             // 
             this.btnEdit.BorderRadius = 10;
             this.btnEdit.BorderThickness = 1;
+            this.btnEdit.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btnEdit.FillColor = System.Drawing.Color.LightGray;
             this.btnEdit.Font = new System.Drawing.Font("Times New Roman", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnEdit.ForeColor = System.Drawing.Color.Black;
@@ -218,6 +222,7 @@
             // 
             this.btnDelete.BorderRadius = 10;
             this.btnDelete.BorderThickness = 1;
+            this.btnDelete.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btnDelete.FillColor = System.Drawing.Color.LightGray;
             this.btnDelete.Font = new System.Drawing.Font("Times New Roman", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnDelete.ForeColor = System.Drawing.Color.Black;
@@ -521,6 +526,7 @@
             // 
             this.btnSelectImage.BorderRadius = 10;
             this.btnSelectImage.BorderThickness = 1;
+            this.btnSelectImage.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btnSelectImage.FillColor = System.Drawing.Color.LightGray;
             this.btnSelectImage.Font = new System.Drawing.Font("Times New Roman", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnSelectImage.ForeColor = System.Drawing.Color.Black;

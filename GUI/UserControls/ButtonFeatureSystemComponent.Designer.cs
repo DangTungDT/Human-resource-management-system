@@ -51,6 +51,7 @@
             // 
             this.btnDoiMatKhau.BorderRadius = 5;
             this.btnDoiMatKhau.BorderThickness = 1;
+            this.btnDoiMatKhau.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btnDoiMatKhau.DisabledState.BorderColor = System.Drawing.Color.DarkGray;
             this.btnDoiMatKhau.DisabledState.CustomBorderColor = System.Drawing.Color.DarkGray;
             this.btnDoiMatKhau.DisabledState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(169)))), ((int)(((byte)(169)))), ((int)(((byte)(169)))));
@@ -76,6 +77,7 @@
             // 
             this.btnDangXuat.BorderRadius = 5;
             this.btnDangXuat.BorderThickness = 1;
+            this.btnDangXuat.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btnDangXuat.DisabledState.BorderColor = System.Drawing.Color.DarkGray;
             this.btnDangXuat.DisabledState.CustomBorderColor = System.Drawing.Color.DarkGray;
             this.btnDangXuat.DisabledState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(169)))), ((int)(((byte)(169)))), ((int)(((byte)(169)))));
@@ -101,6 +103,7 @@
             // 
             this.btnThoat.BorderRadius = 5;
             this.btnThoat.BorderThickness = 1;
+            this.btnThoat.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btnThoat.DisabledState.BorderColor = System.Drawing.Color.DarkGray;
             this.btnThoat.DisabledState.CustomBorderColor = System.Drawing.Color.DarkGray;
             this.btnThoat.DisabledState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(169)))), ((int)(((byte)(169)))), ((int)(((byte)(169)))));

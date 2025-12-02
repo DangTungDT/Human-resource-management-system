@@ -42,8 +42,11 @@
             // 
             // btnXemBaoCao
             // 
+            this.btnXemBaoCao.BorderRadius = 7;
+            this.btnXemBaoCao.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnXemBaoCao.FillColor = System.Drawing.Color.LightGray;
             this.btnXemBaoCao.Font = new System.Drawing.Font("Segoe UI", 9F);
-            this.btnXemBaoCao.ForeColor = System.Drawing.Color.White;
+            this.btnXemBaoCao.ForeColor = System.Drawing.Color.Black;
             this.btnXemBaoCao.Location = new System.Drawing.Point(397, 30);
             this.btnXemBaoCao.Name = "btnXemBaoCao";
             this.btnXemBaoCao.Size = new System.Drawing.Size(225, 35);

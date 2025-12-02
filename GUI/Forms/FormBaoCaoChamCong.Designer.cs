@@ -153,6 +153,7 @@ namespace GUI
             // 
             this.btnIn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btnIn.BorderRadius = 7;
+            this.btnIn.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btnIn.DisabledState.BorderColor = System.Drawing.Color.DarkGray;
             this.btnIn.DisabledState.CustomBorderColor = System.Drawing.Color.DarkGray;
             this.btnIn.DisabledState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(169)))), ((int)(((byte)(169)))), ((int)(((byte)(169)))));
@@ -181,8 +182,8 @@ namespace GUI
             // 
             // crpChamCong1
             // 
-            this.crpChamCong1.FileName = "rassdk://C:\\Users\\Dang Thanh Tung\\AppData\\Local\\Temp\\temp_a7b47487-bf88-4600-a6dd" +
-    "-5214984e55c2.rpt";
+            this.crpChamCong1.FileName = "rassdk://C:\\Users\\Dang Thanh Tung\\AppData\\Local\\Temp\\temp_1b0b5dce-b3cf-45b9-8002" +
+    "-adea2ae7fc3e.rpt";
             // 
             // FormBaoCaoChamCong
             // 

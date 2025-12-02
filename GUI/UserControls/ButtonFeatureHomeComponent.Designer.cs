@@ -57,6 +57,7 @@
             // 
             this.btnNghiPhep.BorderRadius = 5;
             this.btnNghiPhep.BorderThickness = 1;
+            this.btnNghiPhep.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btnNghiPhep.DisabledState.BorderColor = System.Drawing.Color.DarkGray;
             this.btnNghiPhep.DisabledState.CustomBorderColor = System.Drawing.Color.DarkGray;
             this.btnNghiPhep.DisabledState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(169)))), ((int)(((byte)(169)))), ((int)(((byte)(169)))));
@@ -82,6 +83,7 @@
             // 
             this.guna2TileButton1.BorderRadius = 5;
             this.guna2TileButton1.BorderThickness = 1;
+            this.guna2TileButton1.Cursor = System.Windows.Forms.Cursors.Hand;
             this.guna2TileButton1.DisabledState.BorderColor = System.Drawing.Color.DarkGray;
             this.guna2TileButton1.DisabledState.CustomBorderColor = System.Drawing.Color.DarkGray;
             this.guna2TileButton1.DisabledState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(169)))), ((int)(((byte)(169)))), ((int)(((byte)(169)))));
@@ -108,6 +110,7 @@
             // 
             this.guna2TileButton5.BorderRadius = 5;
             this.guna2TileButton5.BorderThickness = 1;
+            this.guna2TileButton5.Cursor = System.Windows.Forms.Cursors.Hand;
             this.guna2TileButton5.DisabledState.BorderColor = System.Drawing.Color.DarkGray;
             this.guna2TileButton5.DisabledState.CustomBorderColor = System.Drawing.Color.DarkGray;
             this.guna2TileButton5.DisabledState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(169)))), ((int)(((byte)(169)))), ((int)(((byte)(169)))));
@@ -134,6 +137,7 @@
             // 
             this.guna2TileButton6.BorderRadius = 5;
             this.guna2TileButton6.BorderThickness = 1;
+            this.guna2TileButton6.Cursor = System.Windows.Forms.Cursors.Hand;
             this.guna2TileButton6.DisabledState.BorderColor = System.Drawing.Color.DarkGray;
             this.guna2TileButton6.DisabledState.CustomBorderColor = System.Drawing.Color.DarkGray;
             this.guna2TileButton6.DisabledState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(169)))), ((int)(((byte)(169)))), ((int)(((byte)(169)))));
@@ -159,6 +163,7 @@
             // 
             this.guna2TileButton7.BorderRadius = 5;
             this.guna2TileButton7.BorderThickness = 1;
+            this.guna2TileButton7.Cursor = System.Windows.Forms.Cursors.Hand;
             this.guna2TileButton7.DisabledState.BorderColor = System.Drawing.Color.DarkGray;
             this.guna2TileButton7.DisabledState.CustomBorderColor = System.Drawing.Color.DarkGray;
             this.guna2TileButton7.DisabledState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(169)))), ((int)(((byte)(169)))), ((int)(((byte)(169)))));
@@ -184,6 +189,7 @@
             // 
             this.btnDuyetNghiPhep.BorderRadius = 5;
             this.btnDuyetNghiPhep.BorderThickness = 1;
+            this.btnDuyetNghiPhep.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btnDuyetNghiPhep.DisabledState.BorderColor = System.Drawing.Color.DarkGray;
             this.btnDuyetNghiPhep.DisabledState.CustomBorderColor = System.Drawing.Color.DarkGray;
             this.btnDuyetNghiPhep.DisabledState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(169)))), ((int)(((byte)(169)))), ((int)(((byte)(169)))));

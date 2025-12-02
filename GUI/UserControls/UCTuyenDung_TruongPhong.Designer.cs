@@ -76,6 +76,7 @@
             // 
             this.btnThemTD.BorderRadius = 8;
             this.btnThemTD.BorderThickness = 1;
+            this.btnThemTD.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btnThemTD.DisabledState.BorderColor = System.Drawing.Color.DarkGray;
             this.btnThemTD.DisabledState.CustomBorderColor = System.Drawing.Color.DarkGray;
             this.btnThemTD.DisabledState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(169)))), ((int)(((byte)(169)))), ((int)(((byte)(169)))));
@@ -98,6 +99,7 @@
             // 
             this.btnXoaTuyenDung.BorderRadius = 8;
             this.btnXoaTuyenDung.BorderThickness = 1;
+            this.btnXoaTuyenDung.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btnXoaTuyenDung.DisabledState.BorderColor = System.Drawing.Color.DarkGray;
             this.btnXoaTuyenDung.DisabledState.CustomBorderColor = System.Drawing.Color.DarkGray;
             this.btnXoaTuyenDung.DisabledState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(169)))), ((int)(((byte)(169)))), ((int)(((byte)(169)))));
@@ -175,6 +177,7 @@
             // 
             this.btnCapNhatTD.BorderRadius = 8;
             this.btnCapNhatTD.BorderThickness = 1;
+            this.btnCapNhatTD.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btnCapNhatTD.DisabledState.BorderColor = System.Drawing.Color.DarkGray;
             this.btnCapNhatTD.DisabledState.CustomBorderColor = System.Drawing.Color.DarkGray;
             this.btnCapNhatTD.DisabledState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(169)))), ((int)(((byte)(169)))), ((int)(((byte)(169)))));
@@ -216,6 +219,7 @@
             // 
             this.btnLoadDuLieu.BorderRadius = 8;
             this.btnLoadDuLieu.BorderThickness = 1;
+            this.btnLoadDuLieu.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btnLoadDuLieu.DisabledState.BorderColor = System.Drawing.Color.DarkGray;
             this.btnLoadDuLieu.DisabledState.CustomBorderColor = System.Drawing.Color.DarkGray;
             this.btnLoadDuLieu.DisabledState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(169)))), ((int)(((byte)(169)))), ((int)(((byte)(169)))));

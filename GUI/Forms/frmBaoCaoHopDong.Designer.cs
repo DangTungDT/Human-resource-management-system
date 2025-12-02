@@ -60,6 +60,7 @@
             // 
             this.btnTaoBaoCao.BorderRadius = 8;
             this.btnTaoBaoCao.BorderThickness = 1;
+            this.btnTaoBaoCao.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btnTaoBaoCao.DisabledState.BorderColor = System.Drawing.Color.DarkGray;
             this.btnTaoBaoCao.DisabledState.CustomBorderColor = System.Drawing.Color.DarkGray;
             this.btnTaoBaoCao.DisabledState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(169)))), ((int)(((byte)(169)))), ((int)(((byte)(169)))));

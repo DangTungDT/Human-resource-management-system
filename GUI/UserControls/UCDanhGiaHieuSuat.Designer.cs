@@ -78,6 +78,7 @@
             // 
             this.btnLoadDuLieu.BorderRadius = 5;
             this.btnLoadDuLieu.BorderThickness = 1;
+            this.btnLoadDuLieu.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btnLoadDuLieu.DisabledState.BorderColor = System.Drawing.Color.DarkGray;
             this.btnLoadDuLieu.DisabledState.CustomBorderColor = System.Drawing.Color.DarkGray;
             this.btnLoadDuLieu.DisabledState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(169)))), ((int)(((byte)(169)))), ((int)(((byte)(169)))));
@@ -108,7 +109,7 @@
             this.flowLayoutPanel1.Controls.Add(this.btnLoadDuLieu);
             this.flowLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Left;
             this.flowLayoutPanel1.Location = new System.Drawing.Point(11, 10);
-            this.flowLayoutPanel1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.flowLayoutPanel1.Margin = new System.Windows.Forms.Padding(4);
             this.flowLayoutPanel1.Name = "flowLayoutPanel1";
             this.flowLayoutPanel1.Padding = new System.Windows.Forms.Padding(20, 25, 3, 25);
             this.flowLayoutPanel1.Size = new System.Drawing.Size(368, 1000);
@@ -128,9 +129,9 @@
             this.groupBox1.Controls.Add(this.txtMucTieu);
             this.groupBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(163)));
             this.groupBox1.Location = new System.Drawing.Point(24, 29);
-            this.groupBox1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.groupBox1.Margin = new System.Windows.Forms.Padding(4);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.groupBox1.Padding = new System.Windows.Forms.Padding(4);
             this.groupBox1.Size = new System.Drawing.Size(331, 277);
             this.groupBox1.TabIndex = 56;
             this.groupBox1.TabStop = false;
@@ -365,7 +366,7 @@
             this.pnlNghiPhep.Controls.Add(this.grbDanhGiaHS);
             this.pnlNghiPhep.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pnlNghiPhep.Location = new System.Drawing.Point(379, 10);
-            this.pnlNghiPhep.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.pnlNghiPhep.Margin = new System.Windows.Forms.Padding(4);
             this.pnlNghiPhep.Name = "pnlNghiPhep";
             this.pnlNghiPhep.Padding = new System.Windows.Forms.Padding(13, 12, 13, 12);
             this.pnlNghiPhep.Size = new System.Drawing.Size(1602, 1000);
@@ -395,7 +396,7 @@
             this.grbDanhGiaHS.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold);
             this.grbDanhGiaHS.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(125)))), ((int)(((byte)(137)))), ((int)(((byte)(149)))));
             this.grbDanhGiaHS.Location = new System.Drawing.Point(13, 12);
-            this.grbDanhGiaHS.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.grbDanhGiaHS.Margin = new System.Windows.Forms.Padding(4);
             this.grbDanhGiaHS.Name = "grbDanhGiaHS";
             this.grbDanhGiaHS.Padding = new System.Windows.Forms.Padding(13, 12, 13, 12);
             this.grbDanhGiaHS.Size = new System.Drawing.Size(1576, 976);
@@ -428,7 +429,7 @@
             this.dgvDSHieuSuatNV.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.dgvDSHieuSuatNV.GridColor = System.Drawing.Color.FromArgb(((int)(((byte)(231)))), ((int)(((byte)(229)))), ((int)(((byte)(255)))));
             this.dgvDSHieuSuatNV.Location = new System.Drawing.Point(13, 617);
-            this.dgvDSHieuSuatNV.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.dgvDSHieuSuatNV.Margin = new System.Windows.Forms.Padding(4);
             this.dgvDSHieuSuatNV.MultiSelect = false;
             this.dgvDSHieuSuatNV.Name = "dgvDSHieuSuatNV";
             this.dgvDSHieuSuatNV.RowHeadersVisible = false;
@@ -459,12 +460,12 @@
             this.dgvDSHieuSuatNV.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvDSHieuSuatNV_CellClick);
             this.dgvDSHieuSuatNV.DoubleClick += new System.EventHandler(this.dgvDSHieuSuatNV_DoubleClick);
             // 
-            // lblIDNP
+            // lblIDNV
             // 
             this.lblIDNV.BackColor = System.Drawing.SystemColors.ButtonHighlight;
             this.lblIDNV.Location = new System.Drawing.Point(17, 62);
             this.lblIDNV.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.lblIDNV.Name = "lblIDNP";
+            this.lblIDNV.Name = "lblIDNV";
             this.lblIDNV.Size = new System.Drawing.Size(133, 28);
             this.lblIDNV.TabIndex = 47;
             this.lblIDNV.Visible = false;

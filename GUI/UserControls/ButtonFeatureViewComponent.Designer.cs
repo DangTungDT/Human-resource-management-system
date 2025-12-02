@@ -60,6 +60,7 @@
             this.btnChiTietLuong.BackColor = System.Drawing.Color.Transparent;
             this.btnChiTietLuong.BorderRadius = 5;
             this.btnChiTietLuong.BorderThickness = 1;
+            this.btnChiTietLuong.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btnChiTietLuong.DisabledState.BorderColor = System.Drawing.Color.DarkGray;
             this.btnChiTietLuong.DisabledState.CustomBorderColor = System.Drawing.Color.DarkGray;
             this.btnChiTietLuong.DisabledState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(169)))), ((int)(((byte)(169)))), ((int)(((byte)(169)))));
@@ -86,6 +87,7 @@
             this.btnDanhGia.BackColor = System.Drawing.Color.Transparent;
             this.btnDanhGia.BorderRadius = 5;
             this.btnDanhGia.BorderThickness = 1;
+            this.btnDanhGia.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btnDanhGia.DisabledState.BorderColor = System.Drawing.Color.DarkGray;
             this.btnDanhGia.DisabledState.CustomBorderColor = System.Drawing.Color.DarkGray;
             this.btnDanhGia.DisabledState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(169)))), ((int)(((byte)(169)))), ((int)(((byte)(169)))));
@@ -112,6 +114,7 @@
             this.btnKyLuat.BackColor = System.Drawing.Color.Transparent;
             this.btnKyLuat.BorderRadius = 5;
             this.btnKyLuat.BorderThickness = 1;
+            this.btnKyLuat.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btnKyLuat.DisabledState.BorderColor = System.Drawing.Color.DarkGray;
             this.btnKyLuat.DisabledState.CustomBorderColor = System.Drawing.Color.DarkGray;
             this.btnKyLuat.DisabledState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(169)))), ((int)(((byte)(169)))), ((int)(((byte)(169)))));
@@ -137,6 +140,7 @@
             // 
             this.btnThongTinCaNhan.BorderRadius = 5;
             this.btnThongTinCaNhan.BorderThickness = 1;
+            this.btnThongTinCaNhan.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btnThongTinCaNhan.DisabledState.BorderColor = System.Drawing.Color.DarkGray;
             this.btnThongTinCaNhan.DisabledState.CustomBorderColor = System.Drawing.Color.DarkGray;
             this.btnThongTinCaNhan.DisabledState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(169)))), ((int)(((byte)(169)))), ((int)(((byte)(169)))));
@@ -162,6 +166,7 @@
             // 
             this.btnNghiPhepCaNhan.BorderRadius = 5;
             this.btnNghiPhepCaNhan.BorderThickness = 1;
+            this.btnNghiPhepCaNhan.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btnNghiPhepCaNhan.DisabledState.BorderColor = System.Drawing.Color.DarkGray;
             this.btnNghiPhepCaNhan.DisabledState.CustomBorderColor = System.Drawing.Color.DarkGray;
             this.btnNghiPhepCaNhan.DisabledState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(169)))), ((int)(((byte)(169)))), ((int)(((byte)(169)))));
@@ -188,6 +193,7 @@
             // 
             this.btnChamCong.BorderRadius = 5;
             this.btnChamCong.BorderThickness = 1;
+            this.btnChamCong.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btnChamCong.DisabledState.BorderColor = System.Drawing.Color.DarkGray;
             this.btnChamCong.DisabledState.CustomBorderColor = System.Drawing.Color.DarkGray;
             this.btnChamCong.DisabledState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(169)))), ((int)(((byte)(169)))), ((int)(((byte)(169)))));
@@ -213,6 +219,7 @@
             // 
             this.guna2TileButton3.BorderRadius = 5;
             this.guna2TileButton3.BorderThickness = 1;
+            this.guna2TileButton3.Cursor = System.Windows.Forms.Cursors.Hand;
             this.guna2TileButton3.DisabledState.BorderColor = System.Drawing.Color.DarkGray;
             this.guna2TileButton3.DisabledState.CustomBorderColor = System.Drawing.Color.DarkGray;
             this.guna2TileButton3.DisabledState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(169)))), ((int)(((byte)(169)))), ((int)(((byte)(169)))));

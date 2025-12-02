@@ -284,6 +284,7 @@
             // 
             this.btnKhongDuyet.BorderRadius = 5;
             this.btnKhongDuyet.BorderThickness = 1;
+            this.btnKhongDuyet.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btnKhongDuyet.DisabledState.BorderColor = System.Drawing.Color.DarkGray;
             this.btnKhongDuyet.DisabledState.CustomBorderColor = System.Drawing.Color.DarkGray;
             this.btnKhongDuyet.DisabledState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(169)))), ((int)(((byte)(169)))), ((int)(((byte)(169)))));
@@ -307,6 +308,7 @@
             // 
             this.btnDuyet.BorderRadius = 5;
             this.btnDuyet.BorderThickness = 1;
+            this.btnDuyet.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btnDuyet.DisabledState.BorderColor = System.Drawing.Color.DarkGray;
             this.btnDuyet.DisabledState.CustomBorderColor = System.Drawing.Color.DarkGray;
             this.btnDuyet.DisabledState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(169)))), ((int)(((byte)(169)))), ((int)(((byte)(169)))));
@@ -332,6 +334,7 @@
             // 
             this.btnLoad.BorderRadius = 5;
             this.btnLoad.BorderThickness = 1;
+            this.btnLoad.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btnLoad.DisabledState.BorderColor = System.Drawing.Color.DarkGray;
             this.btnLoad.DisabledState.CustomBorderColor = System.Drawing.Color.DarkGray;
             this.btnLoad.DisabledState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(169)))), ((int)(((byte)(169)))), ((int)(((byte)(169)))));

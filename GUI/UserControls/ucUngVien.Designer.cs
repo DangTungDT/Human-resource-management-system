@@ -249,6 +249,7 @@
             // 
             this.btnFindUngVienPass.BorderRadius = 10;
             this.btnFindUngVienPass.BorderThickness = 1;
+            this.btnFindUngVienPass.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btnFindUngVienPass.DisabledState.BorderColor = System.Drawing.Color.DarkGray;
             this.btnFindUngVienPass.DisabledState.CustomBorderColor = System.Drawing.Color.DarkGray;
             this.btnFindUngVienPass.DisabledState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(169)))), ((int)(((byte)(169)))), ((int)(((byte)(169)))));
@@ -269,6 +270,7 @@
             // 
             this.btnFindUVLoai.BorderRadius = 10;
             this.btnFindUVLoai.BorderThickness = 1;
+            this.btnFindUVLoai.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btnFindUVLoai.DisabledState.BorderColor = System.Drawing.Color.DarkGray;
             this.btnFindUVLoai.DisabledState.CustomBorderColor = System.Drawing.Color.DarkGray;
             this.btnFindUVLoai.DisabledState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(169)))), ((int)(((byte)(169)))), ((int)(((byte)(169)))));
@@ -289,6 +291,7 @@
             // 
             this.btnResetDGV.BorderRadius = 10;
             this.btnResetDGV.BorderThickness = 1;
+            this.btnResetDGV.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btnResetDGV.DisabledState.BorderColor = System.Drawing.Color.DarkGray;
             this.btnResetDGV.DisabledState.CustomBorderColor = System.Drawing.Color.DarkGray;
             this.btnResetDGV.DisabledState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(169)))), ((int)(((byte)(169)))), ((int)(((byte)(169)))));
@@ -309,6 +312,7 @@
             // 
             this.btnFind.BorderRadius = 10;
             this.btnFind.BorderThickness = 1;
+            this.btnFind.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btnFind.DisabledState.BorderColor = System.Drawing.Color.DarkGray;
             this.btnFind.DisabledState.CustomBorderColor = System.Drawing.Color.DarkGray;
             this.btnFind.DisabledState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(169)))), ((int)(((byte)(169)))), ((int)(((byte)(169)))));
@@ -344,6 +348,7 @@
             // 
             this.btnApprove.BorderRadius = 10;
             this.btnApprove.BorderThickness = 1;
+            this.btnApprove.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btnApprove.DisabledState.BorderColor = System.Drawing.Color.DarkGray;
             this.btnApprove.DisabledState.CustomBorderColor = System.Drawing.Color.DarkGray;
             this.btnApprove.DisabledState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(169)))), ((int)(((byte)(169)))), ((int)(((byte)(169)))));
@@ -364,6 +369,7 @@
             // 
             this.btnEliminat.BorderRadius = 10;
             this.btnEliminat.BorderThickness = 1;
+            this.btnEliminat.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btnEliminat.DisabledState.BorderColor = System.Drawing.Color.DarkGray;
             this.btnEliminat.DisabledState.CustomBorderColor = System.Drawing.Color.DarkGray;
             this.btnEliminat.DisabledState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(169)))), ((int)(((byte)(169)))), ((int)(((byte)(169)))));
@@ -400,6 +406,7 @@
             // 
             this.btnAdd.BorderRadius = 10;
             this.btnAdd.BorderThickness = 1;
+            this.btnAdd.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btnAdd.DisabledState.BorderColor = System.Drawing.Color.DarkGray;
             this.btnAdd.DisabledState.CustomBorderColor = System.Drawing.Color.DarkGray;
             this.btnAdd.DisabledState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(169)))), ((int)(((byte)(169)))), ((int)(((byte)(169)))));
@@ -420,6 +427,7 @@
             // 
             this.btnUpdate.BorderRadius = 10;
             this.btnUpdate.BorderThickness = 1;
+            this.btnUpdate.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btnUpdate.DisabledState.BorderColor = System.Drawing.Color.DarkGray;
             this.btnUpdate.DisabledState.CustomBorderColor = System.Drawing.Color.DarkGray;
             this.btnUpdate.DisabledState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(169)))), ((int)(((byte)(169)))), ((int)(((byte)(169)))));
@@ -440,6 +448,7 @@
             // 
             this.btnDelete.BorderRadius = 10;
             this.btnDelete.BorderThickness = 1;
+            this.btnDelete.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btnDelete.DisabledState.BorderColor = System.Drawing.Color.DarkGray;
             this.btnDelete.DisabledState.CustomBorderColor = System.Drawing.Color.DarkGray;
             this.btnDelete.DisabledState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(169)))), ((int)(((byte)(169)))), ((int)(((byte)(169)))));
@@ -704,6 +713,7 @@
             // 
             this.btnSelectImage.BorderRadius = 10;
             this.btnSelectImage.BorderThickness = 1;
+            this.btnSelectImage.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btnSelectImage.DisabledState.BorderColor = System.Drawing.Color.DarkGray;
             this.btnSelectImage.DisabledState.CustomBorderColor = System.Drawing.Color.DarkGray;
             this.btnSelectImage.DisabledState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(169)))), ((int)(((byte)(169)))), ((int)(((byte)(169)))));

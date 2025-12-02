@@ -28,10 +28,17 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle9 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
             this.grbNhanVien = new Guna.UI2.WinForms.Guna2GroupBox();
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.label12 = new System.Windows.Forms.Label();
+            this.label4 = new System.Windows.Forms.Label();
+            this.cmbPhanLoaiDiem = new Guna.UI2.WinForms.Guna2ComboBox();
+            this.cmbThang = new Guna.UI2.WinForms.Guna2ComboBox();
+            this.label8 = new System.Windows.Forms.Label();
+            this.cmbNam = new Guna.UI2.WinForms.Guna2ComboBox();
             this.rtNhanXet = new System.Windows.Forms.RichTextBox();
             this.txtNgayTao = new Guna.UI2.WinForms.Guna2TextBox();
             this.txtDiemSo = new Guna.UI2.WinForms.Guna2TextBox();
@@ -39,16 +46,9 @@
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.dgvDSDanhGiaNV = new Guna.UI2.WinForms.Guna2DataGridView();
-            this.cmbNam = new Guna.UI2.WinForms.Guna2ComboBox();
-            this.label8 = new System.Windows.Forms.Label();
-            this.cmbThang = new Guna.UI2.WinForms.Guna2ComboBox();
-            this.cmbPhanLoaiDiem = new Guna.UI2.WinForms.Guna2ComboBox();
-            this.label4 = new System.Windows.Forms.Label();
-            this.label12 = new System.Windows.Forms.Label();
-            this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.grbNhanVien.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dgvDSDanhGiaNV)).BeginInit();
             this.groupBox1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvDSDanhGiaNV)).BeginInit();
             this.SuspendLayout();
             // 
             // grbNhanVien
@@ -74,6 +74,117 @@
             this.grbNhanVien.TabIndex = 34;
             this.grbNhanVien.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.grbNhanVien.TextTransform = Guna.UI2.WinForms.Enums.TextTransform.UpperCase;
+            // 
+            // groupBox1
+            // 
+            this.groupBox1.Controls.Add(this.label12);
+            this.groupBox1.Controls.Add(this.label4);
+            this.groupBox1.Controls.Add(this.cmbPhanLoaiDiem);
+            this.groupBox1.Controls.Add(this.cmbThang);
+            this.groupBox1.Controls.Add(this.label8);
+            this.groupBox1.Controls.Add(this.cmbNam);
+            this.groupBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(163)));
+            this.groupBox1.Location = new System.Drawing.Point(865, 81);
+            this.groupBox1.Margin = new System.Windows.Forms.Padding(4);
+            this.groupBox1.Name = "groupBox1";
+            this.groupBox1.Padding = new System.Windows.Forms.Padding(4);
+            this.groupBox1.Size = new System.Drawing.Size(360, 281);
+            this.groupBox1.TabIndex = 58;
+            this.groupBox1.TabStop = false;
+            this.groupBox1.Text = "Lọc dữ liệu:";
+            // 
+            // label12
+            // 
+            this.label12.BackColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.label12.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(163)));
+            this.label12.Location = new System.Drawing.Point(188, 55);
+            this.label12.Margin = new System.Windows.Forms.Padding(4, 25, 4, 0);
+            this.label12.Name = "label12";
+            this.label12.Size = new System.Drawing.Size(157, 28);
+            this.label12.TabIndex = 65;
+            this.label12.Text = "Tháng";
+            this.label12.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // label4
+            // 
+            this.label4.BackColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(163)));
+            this.label4.Location = new System.Drawing.Point(10, 55);
+            this.label4.Margin = new System.Windows.Forms.Padding(4, 25, 4, 0);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(152, 28);
+            this.label4.TabIndex = 58;
+            this.label4.Text = "Năm";
+            this.label4.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // cmbPhanLoaiDiem
+            // 
+            this.cmbPhanLoaiDiem.BackColor = System.Drawing.Color.Transparent;
+            this.cmbPhanLoaiDiem.BorderRadius = 10;
+            this.cmbPhanLoaiDiem.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed;
+            this.cmbPhanLoaiDiem.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cmbPhanLoaiDiem.FocusedColor = System.Drawing.Color.FromArgb(((int)(((byte)(94)))), ((int)(((byte)(148)))), ((int)(((byte)(255)))));
+            this.cmbPhanLoaiDiem.FocusedState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(94)))), ((int)(((byte)(148)))), ((int)(((byte)(255)))));
+            this.cmbPhanLoaiDiem.Font = new System.Drawing.Font("Segoe UI", 10F);
+            this.cmbPhanLoaiDiem.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(68)))), ((int)(((byte)(88)))), ((int)(((byte)(112)))));
+            this.cmbPhanLoaiDiem.ItemHeight = 30;
+            this.cmbPhanLoaiDiem.Location = new System.Drawing.Point(184, 171);
+            this.cmbPhanLoaiDiem.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.cmbPhanLoaiDiem.Name = "cmbPhanLoaiDiem";
+            this.cmbPhanLoaiDiem.Size = new System.Drawing.Size(161, 36);
+            this.cmbPhanLoaiDiem.TabIndex = 64;
+            this.cmbPhanLoaiDiem.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.cmbPhanLoaiDiem.SelectionChangeCommitted += new System.EventHandler(this.cmbPhanLoaiDiem_SelectionChangeCommitted);
+            // 
+            // cmbThang
+            // 
+            this.cmbThang.BackColor = System.Drawing.Color.Transparent;
+            this.cmbThang.BorderRadius = 10;
+            this.cmbThang.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed;
+            this.cmbThang.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cmbThang.FocusedColor = System.Drawing.Color.FromArgb(((int)(((byte)(94)))), ((int)(((byte)(148)))), ((int)(((byte)(255)))));
+            this.cmbThang.FocusedState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(94)))), ((int)(((byte)(148)))), ((int)(((byte)(255)))));
+            this.cmbThang.Font = new System.Drawing.Font("Segoe UI", 10F);
+            this.cmbThang.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(68)))), ((int)(((byte)(88)))), ((int)(((byte)(112)))));
+            this.cmbThang.ItemHeight = 30;
+            this.cmbThang.Location = new System.Drawing.Point(185, 104);
+            this.cmbThang.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.cmbThang.Name = "cmbThang";
+            this.cmbThang.Size = new System.Drawing.Size(161, 36);
+            this.cmbThang.TabIndex = 64;
+            this.cmbThang.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.cmbThang.SelectionChangeCommitted += new System.EventHandler(this.cmbThang_SelectionChangeCommitted);
+            // 
+            // label8
+            // 
+            this.label8.BackColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.label8.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(163)));
+            this.label8.Location = new System.Drawing.Point(10, 173);
+            this.label8.Margin = new System.Windows.Forms.Padding(7, 12, 4, 0);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(151, 36);
+            this.label8.TabIndex = 57;
+            this.label8.Text = "Phân loại điểm:";
+            this.label8.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // cmbNam
+            // 
+            this.cmbNam.BackColor = System.Drawing.Color.Transparent;
+            this.cmbNam.BorderRadius = 10;
+            this.cmbNam.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed;
+            this.cmbNam.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cmbNam.FocusedColor = System.Drawing.Color.FromArgb(((int)(((byte)(94)))), ((int)(((byte)(148)))), ((int)(((byte)(255)))));
+            this.cmbNam.FocusedState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(94)))), ((int)(((byte)(148)))), ((int)(((byte)(255)))));
+            this.cmbNam.Font = new System.Drawing.Font("Segoe UI", 10F);
+            this.cmbNam.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(68)))), ((int)(((byte)(88)))), ((int)(((byte)(112)))));
+            this.cmbNam.ItemHeight = 30;
+            this.cmbNam.Location = new System.Drawing.Point(8, 104);
+            this.cmbNam.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.cmbNam.Name = "cmbNam";
+            this.cmbNam.Size = new System.Drawing.Size(154, 36);
+            this.cmbNam.TabIndex = 56;
+            this.cmbNam.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.cmbNam.SelectionChangeCommitted += new System.EventHandler(this.cmbNam_SelectionChangeCommitted);
             // 
             // rtNhanXet
             // 
@@ -168,27 +279,27 @@
             // 
             // dgvDSDanhGiaNV
             // 
-            dataGridViewCellStyle7.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle7.BackColor = System.Drawing.Color.White;
-            this.dgvDSDanhGiaNV.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle7;
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle1.BackColor = System.Drawing.Color.White;
+            this.dgvDSDanhGiaNV.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
             this.dgvDSDanhGiaNV.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells;
-            dataGridViewCellStyle8.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle8.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(88)))), ((int)(((byte)(255)))));
-            dataGridViewCellStyle8.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold);
-            dataGridViewCellStyle8.ForeColor = System.Drawing.Color.White;
-            dataGridViewCellStyle8.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle8.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle8.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dgvDSDanhGiaNV.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle8;
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(88)))), ((int)(((byte)(255)))));
+            dataGridViewCellStyle2.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold);
+            dataGridViewCellStyle2.ForeColor = System.Drawing.Color.White;
+            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dgvDSDanhGiaNV.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle2;
             this.dgvDSDanhGiaNV.ColumnHeadersHeight = 35;
-            dataGridViewCellStyle9.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle9.BackColor = System.Drawing.Color.White;
-            dataGridViewCellStyle9.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold);
-            dataGridViewCellStyle9.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(125)))), ((int)(((byte)(137)))), ((int)(((byte)(149)))));
-            dataGridViewCellStyle9.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(231)))), ((int)(((byte)(229)))), ((int)(((byte)(255)))));
-            dataGridViewCellStyle9.SelectionForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(71)))), ((int)(((byte)(69)))), ((int)(((byte)(94)))));
-            dataGridViewCellStyle9.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dgvDSDanhGiaNV.DefaultCellStyle = dataGridViewCellStyle9;
+            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle3.BackColor = System.Drawing.Color.White;
+            dataGridViewCellStyle3.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold);
+            dataGridViewCellStyle3.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(125)))), ((int)(((byte)(137)))), ((int)(((byte)(149)))));
+            dataGridViewCellStyle3.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(231)))), ((int)(((byte)(229)))), ((int)(((byte)(255)))));
+            dataGridViewCellStyle3.SelectionForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(71)))), ((int)(((byte)(69)))), ((int)(((byte)(94)))));
+            dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dgvDSDanhGiaNV.DefaultCellStyle = dataGridViewCellStyle3;
             this.dgvDSDanhGiaNV.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.dgvDSDanhGiaNV.GridColor = System.Drawing.Color.FromArgb(((int)(((byte)(231)))), ((int)(((byte)(229)))), ((int)(((byte)(255)))));
             this.dgvDSDanhGiaNV.Location = new System.Drawing.Point(20, 392);
@@ -222,117 +333,6 @@
             this.dgvDSDanhGiaNV.ThemeStyle.RowsStyle.SelectionForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(71)))), ((int)(((byte)(69)))), ((int)(((byte)(94)))));
             this.dgvDSDanhGiaNV.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvDSDanhGiaNV_CellClick);
             // 
-            // cmbNam
-            // 
-            this.cmbNam.BackColor = System.Drawing.Color.Transparent;
-            this.cmbNam.BorderRadius = 10;
-            this.cmbNam.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed;
-            this.cmbNam.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cmbNam.FocusedColor = System.Drawing.Color.FromArgb(((int)(((byte)(94)))), ((int)(((byte)(148)))), ((int)(((byte)(255)))));
-            this.cmbNam.FocusedState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(94)))), ((int)(((byte)(148)))), ((int)(((byte)(255)))));
-            this.cmbNam.Font = new System.Drawing.Font("Segoe UI", 10F);
-            this.cmbNam.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(68)))), ((int)(((byte)(88)))), ((int)(((byte)(112)))));
-            this.cmbNam.ItemHeight = 30;
-            this.cmbNam.Location = new System.Drawing.Point(8, 104);
-            this.cmbNam.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.cmbNam.Name = "cmbNam";
-            this.cmbNam.Size = new System.Drawing.Size(154, 36);
-            this.cmbNam.TabIndex = 56;
-            this.cmbNam.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.cmbNam.SelectionChangeCommitted += new System.EventHandler(this.cmbNam_SelectionChangeCommitted);
-            // 
-            // label8
-            // 
-            this.label8.BackColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.label8.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(163)));
-            this.label8.Location = new System.Drawing.Point(10, 173);
-            this.label8.Margin = new System.Windows.Forms.Padding(7, 12, 4, 0);
-            this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(151, 36);
-            this.label8.TabIndex = 57;
-            this.label8.Text = "Phân loại điểm:";
-            this.label8.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // cmbThang
-            // 
-            this.cmbThang.BackColor = System.Drawing.Color.Transparent;
-            this.cmbThang.BorderRadius = 10;
-            this.cmbThang.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed;
-            this.cmbThang.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cmbThang.FocusedColor = System.Drawing.Color.FromArgb(((int)(((byte)(94)))), ((int)(((byte)(148)))), ((int)(((byte)(255)))));
-            this.cmbThang.FocusedState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(94)))), ((int)(((byte)(148)))), ((int)(((byte)(255)))));
-            this.cmbThang.Font = new System.Drawing.Font("Segoe UI", 10F);
-            this.cmbThang.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(68)))), ((int)(((byte)(88)))), ((int)(((byte)(112)))));
-            this.cmbThang.ItemHeight = 30;
-            this.cmbThang.Location = new System.Drawing.Point(185, 104);
-            this.cmbThang.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.cmbThang.Name = "cmbThang";
-            this.cmbThang.Size = new System.Drawing.Size(161, 36);
-            this.cmbThang.TabIndex = 64;
-            this.cmbThang.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.cmbThang.SelectionChangeCommitted += new System.EventHandler(this.cmbThang_SelectionChangeCommitted);
-            // 
-            // cmbPhanLoaiDiem
-            // 
-            this.cmbPhanLoaiDiem.BackColor = System.Drawing.Color.Transparent;
-            this.cmbPhanLoaiDiem.BorderRadius = 10;
-            this.cmbPhanLoaiDiem.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed;
-            this.cmbPhanLoaiDiem.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cmbPhanLoaiDiem.FocusedColor = System.Drawing.Color.FromArgb(((int)(((byte)(94)))), ((int)(((byte)(148)))), ((int)(((byte)(255)))));
-            this.cmbPhanLoaiDiem.FocusedState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(94)))), ((int)(((byte)(148)))), ((int)(((byte)(255)))));
-            this.cmbPhanLoaiDiem.Font = new System.Drawing.Font("Segoe UI", 10F);
-            this.cmbPhanLoaiDiem.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(68)))), ((int)(((byte)(88)))), ((int)(((byte)(112)))));
-            this.cmbPhanLoaiDiem.ItemHeight = 30;
-            this.cmbPhanLoaiDiem.Location = new System.Drawing.Point(184, 171);
-            this.cmbPhanLoaiDiem.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.cmbPhanLoaiDiem.Name = "cmbPhanLoaiDiem";
-            this.cmbPhanLoaiDiem.Size = new System.Drawing.Size(161, 36);
-            this.cmbPhanLoaiDiem.TabIndex = 64;
-            this.cmbPhanLoaiDiem.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.cmbPhanLoaiDiem.SelectionChangeCommitted += new System.EventHandler(this.cmbPhanLoaiDiem_SelectionChangeCommitted);
-            // 
-            // label4
-            // 
-            this.label4.BackColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(163)));
-            this.label4.Location = new System.Drawing.Point(10, 55);
-            this.label4.Margin = new System.Windows.Forms.Padding(4, 25, 4, 0);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(152, 28);
-            this.label4.TabIndex = 58;
-            this.label4.Text = "Năm";
-            this.label4.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // label12
-            // 
-            this.label12.BackColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.label12.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(163)));
-            this.label12.Location = new System.Drawing.Point(188, 55);
-            this.label12.Margin = new System.Windows.Forms.Padding(4, 25, 4, 0);
-            this.label12.Name = "label12";
-            this.label12.Size = new System.Drawing.Size(157, 28);
-            this.label12.TabIndex = 65;
-            this.label12.Text = "Tháng";
-            this.label12.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // groupBox1
-            // 
-            this.groupBox1.Controls.Add(this.label12);
-            this.groupBox1.Controls.Add(this.label4);
-            this.groupBox1.Controls.Add(this.cmbPhanLoaiDiem);
-            this.groupBox1.Controls.Add(this.cmbThang);
-            this.groupBox1.Controls.Add(this.label8);
-            this.groupBox1.Controls.Add(this.cmbNam);
-            this.groupBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(163)));
-            this.groupBox1.Location = new System.Drawing.Point(865, 81);
-            this.groupBox1.Margin = new System.Windows.Forms.Padding(4);
-            this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Padding = new System.Windows.Forms.Padding(4);
-            this.groupBox1.Size = new System.Drawing.Size(360, 281);
-            this.groupBox1.TabIndex = 58;
-            this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "Lọc dữ liệu:";
-            // 
             // FrmXemDanhGiaChiTietNV
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -350,8 +350,8 @@
             this.Text = "FrmXemDanhGiaChiTietNV";
             this.Load += new System.EventHandler(this.FrmXemDanhGiaChiTietNV_Load);
             this.grbNhanVien.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.dgvDSDanhGiaNV)).EndInit();
             this.groupBox1.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.dgvDSDanhGiaNV)).EndInit();
             this.ResumeLayout(false);
 
         }

@@ -81,6 +81,7 @@
             this.btnChamCongRaTatCa.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.btnChamCongRaTatCa.BorderRadius = 7;
+            this.btnChamCongRaTatCa.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btnChamCongRaTatCa.DisabledState.BorderColor = System.Drawing.Color.DarkGray;
             this.btnChamCongRaTatCa.DisabledState.CustomBorderColor = System.Drawing.Color.DarkGray;
             this.btnChamCongRaTatCa.DisabledState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(169)))), ((int)(((byte)(169)))), ((int)(((byte)(169)))));
@@ -100,6 +101,7 @@
             this.btnChamCongVaoTatCa.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.btnChamCongVaoTatCa.BorderRadius = 7;
+            this.btnChamCongVaoTatCa.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btnChamCongVaoTatCa.DisabledState.BorderColor = System.Drawing.Color.DarkGray;
             this.btnChamCongVaoTatCa.DisabledState.CustomBorderColor = System.Drawing.Color.DarkGray;
             this.btnChamCongVaoTatCa.DisabledState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(169)))), ((int)(((byte)(169)))), ((int)(((byte)(169)))));
@@ -152,6 +154,7 @@
             this.btnFilterEmployees.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.btnFilterEmployees.BorderRadius = 7;
+            this.btnFilterEmployees.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btnFilterEmployees.DisabledState.BorderColor = System.Drawing.Color.DarkGray;
             this.btnFilterEmployees.DisabledState.CustomBorderColor = System.Drawing.Color.DarkGray;
             this.btnFilterEmployees.DisabledState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(169)))), ((int)(((byte)(169)))), ((int)(((byte)(169)))));

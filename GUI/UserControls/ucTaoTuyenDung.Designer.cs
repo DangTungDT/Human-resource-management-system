@@ -504,10 +504,11 @@
             this.txtTrangThai.TabIndex = 34;
             this.txtTrangThai.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
-            // btnXoaTuyenDung
+            // btnXoaLuong
             // 
             this.btnXoaLuong.BorderRadius = 8;
             this.btnXoaLuong.BorderThickness = 1;
+            this.btnXoaLuong.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btnXoaLuong.DisabledState.BorderColor = System.Drawing.Color.DarkGray;
             this.btnXoaLuong.DisabledState.CustomBorderColor = System.Drawing.Color.DarkGray;
             this.btnXoaLuong.DisabledState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(169)))), ((int)(((byte)(169)))), ((int)(((byte)(169)))));
@@ -520,7 +521,7 @@
             this.btnXoaLuong.HoverState.CustomBorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(128)))));
             this.btnXoaLuong.Location = new System.Drawing.Point(23, 618);
             this.btnXoaLuong.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.btnXoaLuong.Name = "btnXoaTuyenDung";
+            this.btnXoaLuong.Name = "btnXoaLuong";
             this.btnXoaLuong.Size = new System.Drawing.Size(356, 56);
             this.btnXoaLuong.TabIndex = 44;
             this.btnXoaLuong.Text = "Xóa lương";
@@ -563,6 +564,7 @@
             // 
             this.btnThemLuong.BorderRadius = 8;
             this.btnThemLuong.BorderThickness = 1;
+            this.btnThemLuong.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btnThemLuong.DisabledState.BorderColor = System.Drawing.Color.DarkGray;
             this.btnThemLuong.DisabledState.CustomBorderColor = System.Drawing.Color.DarkGray;
             this.btnThemLuong.DisabledState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(169)))), ((int)(((byte)(169)))), ((int)(((byte)(169)))));
@@ -723,6 +725,7 @@
             // 
             this.btnCapNhat.BorderRadius = 8;
             this.btnCapNhat.BorderThickness = 1;
+            this.btnCapNhat.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btnCapNhat.DisabledState.BorderColor = System.Drawing.Color.DarkGray;
             this.btnCapNhat.DisabledState.CustomBorderColor = System.Drawing.Color.DarkGray;
             this.btnCapNhat.DisabledState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(169)))), ((int)(((byte)(169)))), ((int)(((byte)(169)))));
@@ -744,6 +747,7 @@
             // 
             this.btnChot.BorderRadius = 8;
             this.btnChot.BorderThickness = 1;
+            this.btnChot.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btnChot.DisabledState.BorderColor = System.Drawing.Color.DarkGray;
             this.btnChot.DisabledState.CustomBorderColor = System.Drawing.Color.DarkGray;
             this.btnChot.DisabledState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(169)))), ((int)(((byte)(169)))), ((int)(((byte)(169)))));
@@ -790,6 +794,7 @@
             // 
             this.btnLoadDuLieu.BorderRadius = 8;
             this.btnLoadDuLieu.BorderThickness = 1;
+            this.btnLoadDuLieu.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btnLoadDuLieu.DisabledState.BorderColor = System.Drawing.Color.DarkGray;
             this.btnLoadDuLieu.DisabledState.CustomBorderColor = System.Drawing.Color.DarkGray;
             this.btnLoadDuLieu.DisabledState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(169)))), ((int)(((byte)(169)))), ((int)(((byte)(169)))));

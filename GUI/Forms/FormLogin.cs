@@ -23,8 +23,7 @@ namespace GUI
     {
         private readonly BLLTaiKhoan _dbContextTK;
         private readonly string _conn = ConnectionDB.TakeConnectionString();
-        //private readonly string _conn = "Data Source=LAPTOP-PNFFHRG1\\MSSQLSERVER01;Initial Catalog=PersonnelManagement;Integrated Security=True;Encrypt=False";
-
+        
         public FormLogin()
         {
             InitializeComponent();
@@ -74,10 +73,8 @@ namespace GUI
 
         private void lblQuenMatKhau_Click(object sender, EventArgs e)
         {
-            QuenMatKhau formQuenMatKhau = new QuenMatKhau(ConnectionDB.TakeConnectionString());
-            formQuenMatKhau.Show();
-
-            // Đóng form đăng nhập hiện tại
+            QuenMatKhau formQuenMatKhau = new QuenMatKhau(_conn);
+            formQuenMatKhau.ShowDialog();
             this.Hide();
         }
 

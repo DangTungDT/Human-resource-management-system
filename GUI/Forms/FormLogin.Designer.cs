@@ -35,8 +35,8 @@
             this.label1 = new System.Windows.Forms.Label();
             this.txtPassword = new Guna.UI2.WinForms.Guna2TextBox();
             this.btnDangNhap = new Guna.UI2.WinForms.Guna2GradientButton();
-            this.lblQuenMatKhau = new Guna.UI2.WinForms.Guna2HtmlLabel();
             this.errorProvider1 = new System.Windows.Forms.ErrorProvider(this.components);
+            this.btnQuenMatKhau = new Guna.UI2.WinForms.Guna2Button();
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -125,6 +125,7 @@
             // 
             this.btnDangNhap.BorderRadius = 5;
             this.btnDangNhap.BorderThickness = 1;
+            this.btnDangNhap.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btnDangNhap.DisabledState.BorderColor = System.Drawing.Color.DarkGray;
             this.btnDangNhap.DisabledState.CustomBorderColor = System.Drawing.Color.DarkGray;
             this.btnDangNhap.DisabledState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(169)))), ((int)(((byte)(169)))), ((int)(((byte)(169)))));
@@ -142,36 +143,44 @@
             this.btnDangNhap.Text = "Đăng nhập";
             this.btnDangNhap.Click += new System.EventHandler(this.btnDangNhap_Click);
             // 
-            // lblQuenMatKhau
-            // 
-            this.lblQuenMatKhau.AutoSize = false;
-            this.lblQuenMatKhau.BackColor = System.Drawing.Color.Transparent;
-            this.lblQuenMatKhau.Font = new System.Drawing.Font("Times New Roman", 10.2F, System.Drawing.FontStyle.Underline, System.Drawing.GraphicsUnit.Point, ((byte)(163)));
-            this.lblQuenMatKhau.Location = new System.Drawing.Point(400, 290);
-            this.lblQuenMatKhau.Name = "lblQuenMatKhau";
-            this.lblQuenMatKhau.Size = new System.Drawing.Size(154, 25);
-            this.lblQuenMatKhau.TabIndex = 59;
-            this.lblQuenMatKhau.Text = "Quên mật khẩu";
-            this.lblQuenMatKhau.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft;
-            this.lblQuenMatKhau.Click += new System.EventHandler(this.lblQuenMatKhau_Click);
-            // 
             // errorProvider1
             // 
             this.errorProvider1.ContainerControl = this;
             this.errorProvider1.RightToLeftChanged += new System.EventHandler(this.FormLogin_Load);
+            // 
+            // btnQuenMatKhau
+            // 
+            this.btnQuenMatKhau.BackColor = System.Drawing.Color.Transparent;
+            this.btnQuenMatKhau.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnQuenMatKhau.DisabledState.BorderColor = System.Drawing.Color.DarkGray;
+            this.btnQuenMatKhau.DisabledState.CustomBorderColor = System.Drawing.Color.DarkGray;
+            this.btnQuenMatKhau.DisabledState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(169)))), ((int)(((byte)(169)))), ((int)(((byte)(169)))));
+            this.btnQuenMatKhau.DisabledState.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(141)))), ((int)(((byte)(141)))), ((int)(((byte)(141)))));
+            this.btnQuenMatKhau.FillColor = System.Drawing.Color.Transparent;
+            this.btnQuenMatKhau.FocusedColor = System.Drawing.Color.Transparent;
+            this.btnQuenMatKhau.Font = new System.Drawing.Font("Times New Roman", 10.2F, System.Drawing.FontStyle.Underline, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnQuenMatKhau.ForeColor = System.Drawing.Color.Black;
+            this.btnQuenMatKhau.HoverState.FillColor = System.Drawing.Color.Transparent;
+            this.btnQuenMatKhau.HoverState.ForeColor = System.Drawing.Color.Black;
+            this.btnQuenMatKhau.Location = new System.Drawing.Point(389, 281);
+            this.btnQuenMatKhau.Name = "btnQuenMatKhau";
+            this.btnQuenMatKhau.Size = new System.Drawing.Size(165, 31);
+            this.btnQuenMatKhau.TabIndex = 60;
+            this.btnQuenMatKhau.Text = "Quên mật khẩu";
+            this.btnQuenMatKhau.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             // 
             // FormLogin
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(625, 450);
-            this.Controls.Add(this.lblQuenMatKhau);
             this.Controls.Add(this.btnDangNhap);
             this.Controls.Add(this.txtPassword);
             this.Controls.Add(this.txtUsername);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.label2);
+            this.Controls.Add(this.btnQuenMatKhau);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.KeyPreview = true;
             this.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
@@ -195,7 +204,7 @@
         private System.Windows.Forms.Label label1;
         private Guna.UI2.WinForms.Guna2TextBox txtPassword;
         private Guna.UI2.WinForms.Guna2GradientButton btnDangNhap;
-        private Guna.UI2.WinForms.Guna2HtmlLabel lblQuenMatKhau;
         private System.Windows.Forms.ErrorProvider errorProvider1;
+        private Guna.UI2.WinForms.Guna2Button btnQuenMatKhau;
     }
 }

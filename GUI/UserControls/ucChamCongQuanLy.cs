@@ -180,8 +180,6 @@ namespace GUI
                     {
                         row[c] = null;
                     }
-                    
-
                     index++;
                 }
 

@@ -51,7 +51,7 @@
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.MaximizeBox = false;
             this.Name = "FormBaoCaoChamCongCaNhan";
-            this.Text = "Báo cáo";
+            this.Text = "Báo cáo chấm công cá nhân";
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             this.Load += new System.EventHandler(this.FormBaoCaoChamCongCaNhan_Load);
             this.ResumeLayout(false);

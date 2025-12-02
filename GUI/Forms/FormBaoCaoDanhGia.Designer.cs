@@ -49,7 +49,7 @@
             this.ClientSize = new System.Drawing.Size(800, 450);
             this.Controls.Add(this.crystalReportViewer1);
             this.Name = "FormBaoCaoDanhGia";
-            this.Text = "FormBaoCaoDanhGia";
+            this.Text = "Báo cao đánh giá";
             this.ResumeLayout(false);
 
         }

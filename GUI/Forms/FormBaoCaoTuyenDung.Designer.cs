@@ -30,7 +30,7 @@ namespace GUI
         private void InitializeComponent()
         {
             this.crystalReportViewer1 = new CrystalDecisions.Windows.Forms.CrystalReportViewer();
-            this.rptTuyenDung1 = new rptTuyenDung();
+            this.rptTuyenDung1 = new GUI.Reports.rptTuyenDung();
             this.SuspendLayout();
             // 
             // crystalReportViewer1
@@ -45,6 +45,11 @@ namespace GUI
             this.crystalReportViewer1.Size = new System.Drawing.Size(800, 450);
             this.crystalReportViewer1.TabIndex = 0;
             // 
+            // rptTuyenDung1
+            // 
+            this.rptTuyenDung1.FileName = "rassdk://C:\\Users\\Dang Thanh Tung\\AppData\\Local\\Temp\\temp_16c1dbe9-4789-4f2a-a899" +
+    "-1ce0e0369180.rpt";
+            // 
             // FormBaoCaoTuyenDung
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -54,7 +59,7 @@ namespace GUI
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.MaximizeBox = false;
             this.Name = "FormBaoCaoTuyenDung";
-            this.Text = "Báo cáo";
+            this.Text = "Báo cáo tuyển dụng";
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             this.ResumeLayout(false);
 

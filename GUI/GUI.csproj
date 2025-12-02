@@ -558,6 +558,9 @@
     <Compile Include="UserControls\UCXemKyLuat.Designer.cs">
       <DependentUpon>UCXemKyLuat.cs</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="Forms\DoiMatKhau.resx">
+      <DependentUpon>DoiMatKhau.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="UserControls\ButtonFeatureCRUDComponent.resx">
       <DependentUpon>ButtonFeatureCRUDComponent.cs</DependentUpon>
     </EmbeddedResource>

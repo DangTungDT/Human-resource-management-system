@@ -14,6 +14,7 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Windows.Input;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement.StartPanel;
 
 namespace GUI
@@ -36,6 +37,11 @@ namespace GUI
         }
 
         private void btnDangNhap_Click(object sender, EventArgs e)
+        {
+            Login();
+        }
+
+        private void Login()
         {
             if (DisplayUserControlPanel.KiemTraDuLieuDauVao(errorProvider1, this))
             {
@@ -64,7 +70,6 @@ namespace GUI
                 }
                 else MessageBox.Show("Tài khản nhân viên không tồn tại !");
             }
-
         }
 
         private void lblQuenMatKhau_Click(object sender, EventArgs e)
@@ -85,6 +90,27 @@ namespace GUI
                 return;
             }
 
+        }
+
+        private void FormLogin_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if(e.KeyChar.Equals(Key.Enter))
+            {
+                MessageBox.Show("");
+            }
+        }
+
+        private void FormLogin_KeyDown(object sender, System.Windows.Forms.KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                Login();
+            }
+        }
+
+        private void txtPassword_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            
         }
     }
 }
